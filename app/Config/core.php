@@ -177,6 +177,7 @@
  * Note: The final cache file name will then be `prefix_cachefilename`.
  */
 	//Configure::write('Cache.viewPrefix', 'prefix');
+	
 
 /**
  * Session configuration.
@@ -216,7 +217,8 @@
  *
  */
 	Configure::write('Session', array(
-		'defaults' => 'php'
+		'defaults' => 'php',
+    'cookie' => 'lbox',
 	));
 
 /**
