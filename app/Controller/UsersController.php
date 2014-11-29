@@ -73,6 +73,9 @@ class UsersController extends AppController {
 
 
     public function login() {
+
+        $this->layout = 'login';
+
         if($this->Auth->loggedIn()){
             return $this->redirect($this->Auth->redirect());
         }   
