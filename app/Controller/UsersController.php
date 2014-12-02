@@ -78,12 +78,12 @@ class UsersController extends AppController {
 
         if($this->Auth->loggedIn()){
             return $this->redirect($this->Auth->redirect());
-        }   
+        }
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirect());
                 }
-            $this->Session->setFlash(__('Invalid username or password, try again'));
+            $this->Session->setFlash(__('Invalid username or password, try again'), 'metrobox_flash_login');
             }
         }
 

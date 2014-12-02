@@ -10,32 +10,43 @@
     </fieldset>
 </div> -->
 
+<?php
+	$inputFormOptions = array(
+				'div' => array(
+					'class' => 'form-group'
+					),
+				'label' => array(
+					'class' => 'control-label visible-ie8 visible-ie9',
+					),
+				/* input */
+				'class' => 'form-control form-control-solid placeholder-no-fix'
+			)
+?>
+
 <div class="content">
 	<!-- BEGIN LOGIN FORM -->
-	<?php echo $this->Form->create('User'); ?>
+	<?php echo $this->Form->create('User', array('inputDefaults' => $inputFormOptions,'class' => 'login-form')); ?>
 		<h3 class="form-title"><?= __("Sign In");?></h3>
+
+		<!-- BEGIN ERROR MESSAGE-->
+
+		<?= $this->Session->flash()?>
+
 		<div class="alert alert-danger display-hide">
 			<button class="close" data-close="alert"></button>
 			<span>
 			<?= __("Enter any username and password.");?> </span>
 		</div>
-
-		<div class="form-group">
-			<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
-			<label class="control-label visible-ie8 visible-ie9"><?= __("Email");?></label>
-			<input class="form-control form-control-solid placeholder-no-fix" type="text" autocomplete="off" placeholder="<?= __("Email");?>" name="data[User][email]"/>
-		</div>
-		<div class="form-group">
-			<label class="control-label visible-ie8 visible-ie9"><?= __("Password");?></label>
-			<input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="<?= __("Password");?>" name="data[User][password]"/>
-		</div>
-
-		<!-- BEGIN ERROR MESSAGE-->
-		<?php echo($this->Session->flash()); ?>
 		<!-- END ERROR MESSAGE-->
 
+
+			<?= $this->Form->input('email', array('placeholder' => __('Email')));?>
+			<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
+
+
+
 		<div class="form-actions">
-			<button type="submit" class="btn btn-success uppercase"><?= __("Login");?></button>
+			<?= $this->Form->button(__('Login'), array('class' => 'btn btn-success uppercase'));?>
 			<label class="rememberme check">
 			<input type="checkbox" name="remember" value="1"/><?= __("Remember");?> </label>
 			<a href="javascript:;" id="forget-password" class="forget-password"><?= __("Forgot Password?");?></a>
