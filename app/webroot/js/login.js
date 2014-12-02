@@ -7,27 +7,28 @@ var Login = function() {
             errorClass: 'help-block', // default input error message class
             focusInvalid: false, // do not focus the last invalid input
             rules: {
-                username: {
+                'data[User][email]': {
+                    required: true,
+                    email: true
+                },
+                'data[User][password]': {
                     required: true
                 },
-                password: {
-                    required: true
-                },
-                remember: {
+                'remember': {
                     required: false
                 }
             },
 
             messages: {
-                username: {
+                'data[User][email]': {
                     required: "Username is required."
                 },
-                password: {
+                'password': {
                     required: "Password is required."
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit   
+            invalidHandler: function(event, validator) { //display error alert on form submit
                 $('.alert-danger', $('.login-form')).show();
             },
 
@@ -79,7 +80,7 @@ var Login = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit   
+            invalidHandler: function(event, validator) { //display error alert on form submit
 
             },
 
@@ -192,7 +193,7 @@ var Login = function() {
                 }
             },
 
-            invalidHandler: function(event, validator) { //display error alert on form submit   
+            invalidHandler: function(event, validator) { //display error alert on form submit
 
             },
 
@@ -207,7 +208,7 @@ var Login = function() {
             },
 
             errorPlacement: function(error, element) {
-                if (element.attr("name") == "tnc") { // insert checkbox errors after the container                  
+                if (element.attr("name") == "tnc") { // insert checkbox errors after the container
                     error.insertAfter($('#register_tnc_error'));
                 } else if (element.closest('.input-icon').size() === 1) {
                     error.insertAfter(element.closest('.input-icon'));
