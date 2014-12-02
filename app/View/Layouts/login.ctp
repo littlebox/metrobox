@@ -10,7 +10,7 @@ Like: www.facebook.com/littlefacebox
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang="en">
+<html lang=<?= Configure::read('Config.language') ?>>
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>

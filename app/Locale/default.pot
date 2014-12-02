@@ -1,0 +1,102 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-12-03 00:21+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: Controller/UsersController.php:19;40;64
+msgid "Invalid user"
+msgstr ""
+
+#: Controller/UsersController.php:28;44
+msgid "The user has been saved"
+msgstr ""
+
+#: Controller/UsersController.php:32;48
+msgid "The user could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:67
+msgid "User deleted"
+msgstr ""
+
+#: Controller/UsersController.php:70
+msgid "User was not deleted"
+msgstr ""
+
+#: Controller/UsersController.php:86
+msgid "Invalid username or password, try again"
+msgstr ""
+
+#: View/Layouts/login.ctp:18
+#: View/Users/login.ctp:49
+msgid "Login"
+msgstr ""
+
+#: View/Layouts/login.ctp:63
+msgid "Admin Dashboard"
+msgstr ""
+
+#: View/Pages/test.ctp:2
+msgid "So far, so good :) "
+msgstr ""
+
+#: View/Users/add.ctp:4
+msgid "Add User"
+msgstr ""
+
+#: View/Users/add.ctp:12
+#: View/Users/login.ctp:67
+msgid "Submit"
+msgstr ""
+
+#: View/Users/login.ctp:6
+msgid "Please enter your email and password"
+msgstr ""
+
+#: View/Users/login.ctp:29
+msgid "Sign In"
+msgstr ""
+
+#: View/Users/login.ctp:38
+msgid "Enter any username and password."
+msgstr ""
+
+#: View/Users/login.ctp:43
+msgid "Email"
+msgstr ""
+
+#: View/Users/login.ctp:44
+msgid "Password"
+msgstr ""
+
+#: View/Users/login.ctp:51
+msgid "Remember"
+msgstr ""
+
+#: View/Users/login.ctp:52
+msgid "Forgot Password?"
+msgstr ""
+
+#: View/Users/login.ctp:58
+msgid "Forget Password?"
+msgstr ""
+
+#: View/Users/login.ctp:60
+msgid "Enter your e-mail address below to reset your password."
+msgstr ""
+
+#: View/Users/login.ctp:66
+msgid "Back"
+msgstr ""
+
