@@ -29,6 +29,11 @@
 			<label class="control-label visible-ie8 visible-ie9"><?= __("Password");?></label>
 			<input class="form-control form-control-solid placeholder-no-fix" type="password" autocomplete="off" placeholder="<?= __("Password");?>" name="data[User][password]"/>
 		</div>
+
+		<!-- BEGIN ERROR MESSAGE-->
+		<?php echo($this->Session->flash()); ?>
+		<!-- END ERROR MESSAGE-->
+
 		<div class="form-actions">
 			<button type="submit" class="btn btn-success uppercase"><?= __("Login");?></button>
 			<label class="rememberme check">

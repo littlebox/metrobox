@@ -6,9 +6,14 @@ class User extends AppModel {
 	public $validate = array(
 		'email' => array(
 			'required' => array(
-				'rule' => array('notEmpty','email'),
+				'rule' => 'notEmpty',
 				'message' => 'A username is required'
-			)
+				),
+			'email'=> array(
+				'rule' => 'email',
+				'message' => 'Username must be an email'
+
+				)
 		),
 		'password' => array(
 			'required' => array(
@@ -24,7 +29,7 @@ class User extends AppModel {
 			)
 		)
 	);
-	
+
 	public function beforeSave($options = array()) {
     if (isset($this->data[$this->alias]['password'])) {
         $passwordHasher = new BlowfishPasswordHasher();

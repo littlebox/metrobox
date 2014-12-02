@@ -3,7 +3,6 @@
 	<fieldset>
 		<legend><?php echo __('Add User'); ?></legend>
 		<?php echo $this->Form->input('email');
-		debug($this->Form->input('password'));
 		echo $this->Form->input('password');
 		echo $this->Form->input('role', array(
 			'options' => array('admin' => 'Admin', 'author' => 'Author')
