@@ -60,7 +60,7 @@ Like: www.facebook.com/littlefacebox
 
 </div>
 <div class="copyright">
-	 <?php echo date('Y').' © littlebox. '. __('Admin Dashboard');?>
+	<?php echo date('Y').' © littlebox. '. __('Admin Dashboard');?>
 </div>
 
 <!-- END LOGIN -->

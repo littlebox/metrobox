@@ -1,15 +1,3 @@
-<!-- <div class="users form">
-<?php echo $this->Session->flash('auth'); ?>
-<?php echo $this->Form->create('User'); ?>
-    <fieldset>
-        <legend>
-            <?php echo __('Please enter your email and password'); ?>
-        </legend>
-        <?php echo $this->Form->input('email');
-    ?>
-    </fieldset>
-</div> -->
-
 <?php
 	$inputFormOptions = array(
 				'div' => array(
@@ -55,7 +43,7 @@
 	<form class="forget-form" action="index.html" method="post">
 		<h3><?= __("Forget Password?");?></h3>
 		<p>
-			 <?= __("Enter your e-mail address below to reset your password.");?>
+			<?= __("Enter your e-mail address below to reset your password.");?>
 		</p>
 		<div class="form-group">
 			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>

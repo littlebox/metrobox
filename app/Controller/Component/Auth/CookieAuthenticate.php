@@ -48,7 +48,7 @@ class CookieAuthenticate extends BaseAuthenticate {
 	}
 
 /**
- * Authenticates the identity contained in the cookie.  Will use the
+ * Authenticates the identity contained in the cookie. Will use the
  * `settings.userModel`, and `settings.fields` to find COOKIE data that is used
  * to find a matching record in the `settings.userModel`. Will return false if
  * there is no cookie data, either username or password is missing, of if the

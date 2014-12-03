@@ -218,8 +218,8 @@
  */
 	Configure::write('Session', array(
 		'defaults' => 'php',
-    	'cookie' => 'lbox', //nombre de la cookie que utiliza cake
-    	'cookieTimeout' => 0, //expires when browser closes (ask for user and password every times he close the browser unless he checked ‘remember me’ when logging in)
+		'cookie' => 'lbox', //nombre de la cookie que utiliza cake
+		'cookieTimeout' => 0, //expires when browser closes (ask for user and password every times he close the browser unless he checked ‘remember me’ when logging in)
 	));
 
 /**
