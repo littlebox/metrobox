@@ -54,9 +54,6 @@ class UsersController extends AppController {
     }
 
     public function delete($id = null) {
-        // Prior to 2.5 use
-        // $this->request->onlyAllow('post');
-
         $this->request->allowMethod('post');
 
         $this->User->id = $id;
@@ -79,16 +76,35 @@ class UsersController extends AppController {
         if($this->Auth->loggedIn()){
             return $this->redirect($this->Auth->redirect());
         }
+
         if ($this->request->is('post')) {
             if ($this->Auth->login()) {
+            	$this->_setCookie($this->Auth->user('id'));
                 return $this->redirect($this->Auth->redirect());
-                }
-            $this->Session->setFlash(__('Invalid username or password, try again'), 'metrobox_flash_login');
             }
+        	$this->Session->setFlash(__('Invalid username or password, try again'), 'metrobox_flash_login');
         }
+    }
 
     public function logout() {
         return $this->redirect($this->Auth->logout());
+    }
+
+    /*
+     * Set remember login cookies ir remember checkbox was marked
+     */
+    protected function _setCookie($id) {
+        if (!$this->request->data('remember')) {
+            return false;
+        }
+        $data = array(
+            'email' => $this->request->data('User.email'),
+            'password' => $this->request->data('User.password')
+        );
+
+        $this->Cookie->write('RememberMe', $data, true, '+2 week');
+
+        return true;
     }
 
 }

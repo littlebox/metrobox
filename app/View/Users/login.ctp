@@ -39,16 +39,14 @@
 		</div>
 		<!-- END ERROR MESSAGE-->
 
-
-			<?= $this->Form->input('email', array('placeholder' => __('Email')));?>
-			<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
-
-
+		<?= $this->Form->input('email', array('placeholder' => __('Email')));?>
+		<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
 
 		<div class="form-actions">
 			<?= $this->Form->button(__('Login'), array('class' => 'btn btn-success uppercase'));?>
 			<label class="rememberme check">
-			<input type="checkbox" name="remember" value="1"/><?= __("Remember");?> </label>
+				<input type="checkbox" name="remember" value="1"/><?= __("Remember");?>
+			</label>
 			<a href="javascript:;" id="forget-password" class="forget-password"><?= __("Forgot Password?");?></a>
 		</div>
 	<?php echo $this->Form->end(); ?>

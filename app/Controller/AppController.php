@@ -34,6 +34,10 @@ class AppController extends Controller {
 	public $components = array(
         'DebugKit.Toolbar',
         'Session',
+        'Cookie' => array(
+            'name' => 'lboxCookie',
+            'type' => 'rijndael', //AES encryptation
+        ),
         'Auth' => array(
             'loginRedirect' => array(
                 'controller' => 'pages',
@@ -47,14 +51,34 @@ class AppController extends Controller {
             'authenticate' => array(
                 'Form' => array(
                     'passwordHasher' => 'Blowfish',
-                    'fields' => array('username' => 'email', 'password' => 'password'),
+                    'userModel' => 'User',
+                    'fields' => array(
+                        'username' => 'email',
+                        'password' => 'password'
+                    ),
+                ),
+                'Cookie' => array(
+                    'passwordHasher' => 'Blowfish',
+                    'userModel' => 'User',
+                    'fields' => array(
+                        'username' => 'email',
+                        'password' => 'password'
+                    ),
+                    'crypt' => 'rijndael', // Defaults to rijndael(safest), optionally set to 'cipher' if required
+                    'cookie' => array(
+                        'name' => 'RememberMe',
+                        'time' => '+1 month',
+                    )
                 )
+
             )
         )
     );
 
     public function beforeFilter() {
+        //Permite ver sin loguearse los siguientes métodos de todos los controladores
         $this->Auth->allow('index', 'view');
+
     }
-    //...
+
 }
