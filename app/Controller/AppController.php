@@ -35,18 +35,18 @@ class AppController extends Controller {
 		'DebugKit.Toolbar',
 		'Session',
 		'Cookie' => array(
+			'key' => '?t]09u7!6Z#@|#4MKg>s&5=6y0lazuPPn`Z3G238g37V50xBIwUnv8kE1K7kvD"',
 			'name' => 'lboxCookie',
 			'type' => 'rijndael', //AES encryptation
 		),
 		'Auth' => array(
 			'loginRedirect' => array(
 				'controller' => 'pages',
-				'action' => 'display'
+				'action' => 'index'
 			),
 			'logoutRedirect' => array(
-				'controller' => 'pages',
-				'action' => 'display',
-				'home'
+				'controller' => 'users',
+				'action' => 'login'
 			),
 			'authenticate' => array(
 				'Form' => array(
@@ -77,7 +77,7 @@ class AppController extends Controller {
 
 	public function beforeFilter() {
 		//Permite ver sin loguearse los siguientes métodos de todos los controladores
-		$this->Auth->allow('index', 'view');
+		// $this->Auth->allow('index', 'view');
 
 	}
 

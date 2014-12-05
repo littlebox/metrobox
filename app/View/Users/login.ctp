@@ -8,7 +8,9 @@
 					),
 				/* input */
 				'class' => 'form-control form-control-solid placeholder-no-fix'
-			)
+			);
+
+	$this->assign('title',__('Login'));
 ?>
 
 <div class="content">
