@@ -5,7 +5,7 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('add');
+		$this->Auth->allow('add', 'forgetPassword', 'resetPassword');
 	}
 
 	public function index() {
@@ -88,6 +88,98 @@ class UsersController extends AppController {
 
 	public function logout() {
 		return $this->redirect($this->Auth->logout());
+	}
+
+	function forgetPassword(){
+		//Que sea por ajax
+		$this->User->recursive=-1;
+		if(!empty($this->data))	{
+			if(empty($this->data['User']['email']))	{
+				$this->Session->setFlash(__('Please Provide Your Email Adress that You used to Register with Us'));
+			}
+			else{
+				$email = $this->data['User']['email'];
+				$user = $this->User->find('first',array('conditions'=>array('User.email'=>$email)));
+				if($user)	{
+					$token = Security::hash(String::uuid(),'sha512',true);
+					$url = Router::url( array('controller'=>'users','action'=>'reset'), true ).'/'.$token;
+
+					$user['User']['reset_password_token'] = $token;
+					$this->User->id = $user['User']['id'];
+
+					if($this->User->saveField('reset_password_token',$user['User']['reset_password_token'])){
+
+						//============Email================//
+						/* SMTP Options */
+						$this->Email->smtpOptions = array(
+							'port'=>'465',
+							'timeout'=>'30',
+							'host' => 'ssl://smtp.gmail.com',
+							'username'=>'francisco@publinet.com.ar',
+							'password'=>'05890589'
+							);
+						$this->Email->template = 'metrobox_reset_password';
+						$this->Email->from = 'Littlebox <info@littlebox.com.ar>';
+						$this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
+						$this->Email->subject = 'Reset Your Example.com Password';
+						$this->Email->sendAs = 'both';
+
+						$this->Email->delivery = 'smtp';
+						$this->set('url', $url);
+						$this->Email->send();
+						$this->set('smtp_errors', $this->Email->smtpError);
+						$this->Session->setFlash(__('Check Your Email To Reset your password', true));
+
+						//============EndEmail=============//
+					}
+					else{
+						$this->Session->setFlash("Error Generating Reset link");
+					}
+				}
+				else{
+					$this->Session->setFlash('Email does Not Exist');
+				}
+			}
+
+		}
+	}
+
+	function resetPassword($token = null){
+		$this->layout="login";
+		$this->User->recursive=-1;
+		if(!empty($token)){
+			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $token)));
+
+			if($user){
+				$this->User->id = $user['User']['id'];
+				if(!empty($this->data)){
+					$this->User->data = $this->data;
+					//TODO: Poner token en null al resetear password
+					$this->User->data['User']['username'] = $user['User']['username'];
+					$new_hash=sha1($user['User']['username'].rand(0,100));//created token
+					$this->User->data['User']['reset_password_token'] = $new_hash;
+					if($this->User->validates(array('fieldList'=>array('password','password_confirm')))){
+						if($this->User->save($this->User->data))
+						{
+							$this->Session->setFlash('Password Has been Updated');
+							$this->redirect(array('controller'=>'users','action'=>'login'));
+						}
+
+					}
+					else{
+
+						$this->set('errors',$this->User->invalidFields());
+					}
+				}
+			}
+			else
+			{
+				$this->Session->setFlash('Token corrupted or has been used, please retry.');
+			}
+		}
+		else{
+			$this->redirect('/');
+		}
 	}
 
 /*

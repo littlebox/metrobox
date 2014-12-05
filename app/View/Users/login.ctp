@@ -15,7 +15,7 @@
 
 <div class="content">
 	<!-- BEGIN LOGIN FORM -->
-	<?php echo $this->Form->create('User', array('inputDefaults' => $inputFormOptions,'class' => 'login-form')); ?>
+	<?= $this->Form->create('User', array('inputDefaults' => $inputFormOptions,'class' => 'login-form')); ?>
 		<h3 class="form-title"><?= __("Sign In");?></h3>
 
 		<!-- BEGIN ERROR MESSAGE-->
@@ -39,20 +39,18 @@
 			</label>
 			<a href="javascript:;" id="forget-password" class="forget-password"><?= __("Forgot Password?");?></a>
 		</div>
-	<?php echo $this->Form->end(); ?>
+	<?= $this->Form->end(); ?>
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM -->
-	<form class="forget-form" action="index.html" method="post">
+	<?= $this->Form->create('User', array('action' => 'forgetPassword', 'inputDefaults' => $inputFormOptions,'class' => 'forget-form')); ?>
 		<h3><?= __("Forget Password?");?></h3>
 		<p>
 			<?= __("Enter your e-mail address below to reset your password.");?>
 		</p>
-		<div class="form-group">
-			<input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="Email" name="email"/>
-		</div>
+		<?= $this->Form->input('email', array('placeholder' => __('Email'), 'label' => false));?>
 		<div class="form-actions">
 			<button type="button" id="back-btn" class="btn btn-default"><?= __("Back");?></button>
-			<button type="submit" class="btn btn-success uppercase pull-right"><?= __("Submit");?></button>
+			<?= $this->Form->button(__("Submit"), array('class' => 'btn btn-success uppercase pull-right'));?>
 		</div>
-	</form>
+	<?= $this->Form->end(); ?>
 	<!-- END FORGOT PASSWORD FORM -->

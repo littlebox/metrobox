@@ -60,7 +60,7 @@ var Login = function() {
 			focusInvalid: false, // do not focus the last invalid input
 			ignore: "",
 			rules: {
-				email: {
+				'data[User][email]': {
 					required: true,
 					email: true
 				}
