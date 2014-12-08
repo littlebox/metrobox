@@ -20,11 +20,13 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 /**
- * Here, we are connecting '/' (base path) to controller called 'Pages',
- * its action called 'display', and we pass a param to select the view file
- * to use (in this case, /app/View/Pages/home.ctp)...
+ * Enable .json extension on urls
  */
-	// Router::connect('/', array('controller' => 'pages', 'action' => 'display', 'home'));
+	Router::parseExtensions('json');
+
+/**
+ * General routes
+ */
 	Router::connect('/', array('controller' => 'pages', 'action' => 'index'));
 	Router::connect('/test', array('controller' => 'pages', 'action' => 'test'));
 
@@ -34,10 +36,6 @@
 	Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
 
-/**
- * ...and connect the rest of 'Pages' controller's URLs.
- */
-	// Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
 
 /**
  * Load all plugin routes. See the CakePlugin documentation on

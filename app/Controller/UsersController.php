@@ -91,23 +91,28 @@ class UsersController extends AppController {
 	}
 
 	function forgetPassword(){
-		//Que sea por ajax
+		$this->request->onlyAllow('ajax');
+
+		$data = array(
+			'content' => '',
+			'error' => '',
+		);
+
 		$this->User->recursive=-1;
 		if(!empty($this->data))	{
 			if(empty($this->data['User']['email']))	{
-				$this->Session->setFlash(__('Please Provide Your Email Adress that You used to Register with Us'));
+				$data['error'] = __('Please provide email adress that you used to register');
 			}
 			else{
 				$email = $this->data['User']['email'];
-				$user = $this->User->find('first',array('conditions'=>array('User.email'=>$email)));
+				$user = $this->User->find('first',array('conditions' => array('User.email' => $email)));
 				if($user)	{
 					$token = Security::hash(String::uuid(),'sha512',true);
 					$url = Router::url( array('controller'=>'users','action'=>'reset'), true ).'/'.$token;
 
-					$user['User']['reset_password_token'] = $token;
 					$this->User->id = $user['User']['id'];
 
-					if($this->User->saveField('reset_password_token',$user['User']['reset_password_token'])){
+					if( $this->User->saveField('reset_password_token', $token) && $this->User->saveField('reset_password_token_created', date("Y-m-d H:i:s")) ){
 
 						//============Email================//
 						/* SMTP Options */
@@ -121,27 +126,31 @@ class UsersController extends AppController {
 						$this->Email->template = 'metrobox_reset_password';
 						$this->Email->from = 'Littlebox <info@littlebox.com.ar>';
 						$this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
-						$this->Email->subject = 'Reset Your Example.com Password';
+						$this->Email->subject = __('Reset Your Example.com Password');
 						$this->Email->sendAs = 'both';
 
 						$this->Email->delivery = 'smtp';
 						$this->set('url', $url);
 						$this->Email->send();
 						$this->set('smtp_errors', $this->Email->smtpError);
-						$this->Session->setFlash(__('Check Your Email To Reset your password', true));
+
+						$data['content']['title'] = __('Mail sended');
+						$data['content']['text'] = __('Check your email to reset your password');
 
 						//============EndEmail=============//
 					}
 					else{
-						$this->Session->setFlash("Error Generating Reset link");
+						$data['error'] = __('Error generating reset link');
 					}
 				}
 				else{
-					$this->Session->setFlash('Email does Not Exist');
+					$data['error'] = __('User with this email does not exist');
 				}
 			}
 
 		}
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
 	function resetPassword($token = null){
@@ -174,7 +183,7 @@ class UsersController extends AppController {
 			}
 			else
 			{
-				$this->Session->setFlash('Token corrupted or has been used, please retry.');
+				$this->Session->setFlash(__('Token corrupted or has been used, please retry.'));
 			}
 		}
 		else{

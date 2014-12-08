@@ -28,6 +28,8 @@ Like: www.facebook.com/littlefacebox
 	echo $this->Html->css('/plugins/simple-line-icons/simple-line-icons.min');
 	echo $this->Html->css('/plugins/bootstrap/css/bootstrap.min');
 	echo $this->Html->css('/plugins/uniform/css/uniform.default');
+	echo $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');
+	echo $this->Html->css('/plugins/sweetalert/lib/sweet-alert');
 
 	echo $this->Html->css('login');
 
@@ -54,16 +56,17 @@ Like: www.facebook.com/littlefacebox
 	</a>
 </div>
 <!-- END LOGO -->
+
 <!-- BEGIN LOGIN -->
 
 	<?php echo $this->fetch('content'); ?>
 
-</div>
+<!-- END LOGIN -->
+
 <div class="copyright">
 	<?php echo date('Y').' © <a href="http://littlebox.com.ar">littlebox</a>. '. __('Admin Dashboard');?>
 </div>
 
-<!-- END LOGIN -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
 <!--[if lt IE 9]>
@@ -84,6 +87,10 @@ echo $this->Html->script('/plugins/jquery.cokie.min');
 <!-- BEGIN PAGE LEVEL PLUGINS -->
 <?php
 echo $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');
+echo $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');
+echo $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');
+echo $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');
+echo $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');
 ?>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->

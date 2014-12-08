@@ -19,14 +19,7 @@
 		<h3 class="form-title"><?= __("Sign In");?></h3>
 
 		<!-- BEGIN ERROR MESSAGE-->
-
 		<?= $this->Session->flash()?>
-
-		<div class="alert alert-danger display-hide">
-			<button class="close" data-close="alert"></button>
-			<span>
-			<?= __("Enter any username and password.");?> </span>
-		</div>
 		<!-- END ERROR MESSAGE-->
 
 		<?= $this->Form->input('email', array('placeholder' => __('Email')));?>
@@ -42,15 +35,74 @@
 	<?= $this->Form->end(); ?>
 	<!-- END LOGIN FORM -->
 	<!-- BEGIN FORGOT PASSWORD FORM -->
-	<?= $this->Form->create('User', array('action' => 'forgetPassword', 'inputDefaults' => $inputFormOptions,'class' => 'forget-form')); ?>
+	<?= $this->Form->create('User', array('url' => array('action' => 'forgetPassword', 'ext' => 'json'), 'inputDefaults' => $inputFormOptions, 'class' => 'forget-form', 'id' => 'forget-form')); ?>
 		<h3><?= __("Forget Password?");?></h3>
+
+		<!-- BEGIN ERROR MESSAGE-->
+		<?= $this->Session->flash()?>
+
+		<div class="alert alert-danger display-hide">
+			<button class="close" data-close="alert"></button>
+			<span>
+
+			</span>
+		</div>
+		<!-- END ERROR MESSAGE-->
+
 		<p>
-			<?= __("Enter your e-mail address below to reset your password.");?>
+			<?= __("Enter your e-mail address to reset your password.");?>
 		</p>
-		<?= $this->Form->input('email', array('placeholder' => __('Email'), 'label' => false));?>
+		<?= $this->Form->input('email', array('placeholder' => __('Email'), 'label' => false, 'id' => 'forget-input-email'));?>
 		<div class="form-actions">
 			<button type="button" id="back-btn" class="btn btn-default"><?= __("Back");?></button>
-			<?= $this->Form->button(__("Submit"), array('class' => 'btn btn-success uppercase pull-right'));?>
+			<?= $this->Form->button($this->Html->tag('span', __('Submit'), array('class' => 'ladda-label')), array('id' => 'forget-submit-button', 'class' => 'btn btn-success uppercase pull-right ladda-button', 'data-style' => 'zoom-out'));?>
 		</div>
 	<?= $this->Form->end(); ?>
 	<!-- END FORGOT PASSWORD FORM -->
+</div>
+
+<script>
+	function sendForgetPasswordForm() {
+		var button = $( '#forget-submit-button' ).ladda();
+		button.ladda( 'start' ); //Show loader in button
+
+		var targeturl = $('#forget-form').attr('action');
+		var formData = $('#forget-form').serializeArray();
+
+		$.ajax({
+			type: 'put',
+			cache: false,
+			url: targeturl,
+			data: formData,
+			dataType: 'json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+			},
+			success: function(response) {
+				if (response.content) {
+					//Show sweetalert
+					swal({
+						title: response.content.title,
+						text: response.content.text,
+						type: "success",
+						confirmButtonText: "<?= __('Ok') ?>"
+					});
+					$('#forget-input-email').val(''); //Empty email input
+				}
+				if (response.error) {
+					$('.alert-danger', $('.forget-form')).find('span').text(response.error);
+					$('.alert-danger', $('.forget-form')).show();
+				}
+			},
+			error: function(e) {
+				$('.alert-danger', $('.forget-form')).find('span').text("<?= __('An error ocurred, please try later.') ?>");
+				$('.alert-danger', $('.forget-form')).show();
+				console.log(e.responseText.message);
+			},
+			complete: function(){
+				button.ladda( 'stop' ); //Hide loader in button
+			}
+		});
+	};
+</script>

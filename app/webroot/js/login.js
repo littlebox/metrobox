@@ -21,7 +21,7 @@ var Login = function() {
 
 
 			invalidHandler: function(event, validator) { //display error alert on form submit
-				$('.alert-danger', $('.login-form')).show();
+				//$('.alert-danger', $('.login-form')).show();
 			},
 
 			highlight: function(element) { // hightlight error inputs
@@ -85,7 +85,8 @@ var Login = function() {
 			},
 
 			submitHandler: function(form) {
-				form.submit();
+				//form.submit();
+				sendForgetPasswordForm();
 			}
 		});
 
