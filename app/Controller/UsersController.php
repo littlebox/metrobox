@@ -73,6 +73,8 @@ class UsersController extends AppController {
 
 		$this->layout = 'login';
 
+		debug($this->referer());
+
 		if($this->Auth->loggedIn()){
 			return $this->redirect($this->Auth->redirect());
 		}
@@ -125,7 +127,7 @@ class UsersController extends AppController {
 							);
 						$this->Email->template = 'metrobox_reset_password';
 						$this->Email->from = 'Littlebox <info@littlebox.com.ar>';
-						$this->Email->to = $user['User']['username'].'<'.$user['User']['email'].'>';
+						$this->Email->to = $user['User']['email'];
 						$this->Email->subject = __('Reset Your Example.com Password');
 						$this->Email->sendAs = 'both';
 
@@ -155,39 +157,43 @@ class UsersController extends AppController {
 
 	function resetPassword($token = null){
 		$this->layout="login";
-		$this->User->recursive=-1;
-		if(!empty($token)){
-			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $token)));
 
-			if($user){
-				$this->User->id = $user['User']['id'];
-				if(!empty($this->data)){
-					$this->User->data = $this->data;
-					//TODO: Poner token en null al resetear password
-					$this->User->data['User']['username'] = $user['User']['username'];
-					$new_hash=sha1($user['User']['username'].rand(0,100));//created token
-					$this->User->data['User']['reset_password_token'] = $new_hash;
-					if($this->User->validates(array('fieldList'=>array('password','password_confirm')))){
-						if($this->User->save($this->User->data))
-						{
-							$this->Session->setFlash('Password Has been Updated');
-							$this->redirect(array('controller'=>'users','action'=>'login'));
+		$this->set('token', $this->request->token); //Pass token to the view
+
+		if ($this->request->is('post')) {
+			$this->User->recursive=-1;
+
+			if(!empty($this->request->data['User']['token'])){
+				$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->data['User']['token'])));
+
+
+				if($user){
+					if(strtotime($user['User']['reset_password_token_created']) > strtotime("-1 day")){ //Check if one day passed
+						$this->User->id = $user['User']['id'];
+						$this->request->data['User']['token'] = NULL;
+						if(!empty($this->data)){
+							$this->User->data = $this->data;
+							if($this->User->validates(array('fieldList'=>array('password','password_confirm')))){
+								if($this->User->save($this->User->data)){
+									$this->Session->setFlash(__('Password has been updated!'), 'metrobox_flash_login_success');
+									$this->redirect(array('controller'=>'users','action'=>'login'));
+								}
+
+							}else{
+								$this->set('errors', $this->User->invalidFields());
+							}
+						}else{
+							$this->Session->setFlash(__('No data provided.'), 'metrobox_flash_login');
 						}
-
+					}else{
+						$this->Session->setFlash(__('The token has expired.'), 'metrobox_flash_login');
 					}
-					else{
-
-						$this->set('errors',$this->User->invalidFields());
-					}
+				}else{
+					$this->Session->setFlash(__('The token has been used or is not valid.'), 'metrobox_flash_login');
 				}
+			}else{
+				$this->Session->setFlash(__('No reset token provided.'), 'metrobox_flash_login');
 			}
-			else
-			{
-				$this->Session->setFlash(__('Token corrupted or has been used, please retry.'));
-			}
-		}
-		else{
-			$this->redirect('/');
 		}
 	}
 

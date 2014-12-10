@@ -59,12 +59,12 @@ Like: www.facebook.com/littlefacebox
 
 <!-- BEGIN LOGIN -->
 
-	<?php echo $this->fetch('content'); ?>
+	<?= $this->fetch('content'); ?>
 
 <!-- END LOGIN -->
 
 <div class="copyright">
-	<?php echo date('Y').' © <a href="http://littlebox.com.ar">littlebox</a>. '. __('Admin Dashboard');?>
+	<?= date('Y').' © <a href="http://littlebox.com.ar">littlebox</a>. '. __('Admin Dashboard');?>
 </div>
 
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
@@ -95,18 +95,17 @@ echo $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php
-echo $this->Html->script('metronic');
+echo $this->Html->script('metrobox');
 echo $this->Html->script('layout');
-echo $this->Html->script('demo');
 echo $this->Html->script('login');
 ?>
+<?php echo $this->fetch('script'); ?>
 <!-- END PAGE LEVEL SCRIPTS -->
 <script>
 jQuery(document).ready(function() {
-	Metronic.init(); // init metronic core components
+	Metrobox.init(); // init metronic core components
 	Layout.init(); // init current layout
 	Login.init();
-	Demo.init();
 });
 </script>
 <!-- END JAVASCRIPTS -->

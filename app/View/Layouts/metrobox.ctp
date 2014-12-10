@@ -154,16 +154,14 @@ echo $this->Html->script('/plugins/uniform/jquery.uniform.min');
 ?>
 <!-- END CORE PLUGINS -->
 <?php
-echo $this->Html->script('metronic');
+echo $this->Html->script('metrobox');
 echo $this->Html->script('layout');
-echo $this->Html->script('demo');
 ?>
 
 <script>
 	jQuery(document).ready(function() {
-		Metronic.init(); // init metronic core components
+		Metrobox.init(); // init metrobox core components
 		Layout.init(); // init current layout
-		Demo.init(); // init demo features
 	});
 </script>
 <!-- END JAVASCRIPTS -->

@@ -50,7 +50,7 @@
 		<!-- END ERROR MESSAGE-->
 
 		<p>
-			<?= __("Enter your e-mail address to reset your password.");?>
+			<?= __("Enter your e-mail address to reset your password");?>
 		</p>
 		<?= $this->Form->input('email', array('placeholder' => __('Email'), 'label' => false, 'id' => 'forget-input-email'));?>
 		<div class="form-actions">
@@ -77,7 +77,7 @@
 			dataType: 'json',
 			beforeSend: function(xhr) {
 				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-				xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest"); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 			},
 			success: function(response) {
 				if (response.content) {

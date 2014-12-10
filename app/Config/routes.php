@@ -35,6 +35,8 @@
  */
 	Router::connect('/login', array('controller' => 'users', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'users', 'action' => 'logout'));
+	Router::connect('/reset/:token', array('controller' => 'users', 'action' => 'resetPassword'));
+	Router::redirect('/reset', array('controller' => 'pages', 'action' => 'index')); //If no token passed, redirect to index
 
 
 /**
