@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-12-2014 a las 02:15:35
+-- Tiempo de generación: 17-12-2014 a las 00:15:29
 -- Versión del servidor: 5.6.17
 -- Versión de PHP: 5.5.12
 
@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `estates`
 --
 
+DROP TABLE IF EXISTS `estates`;
 CREATE TABLE IF NOT EXISTS `estates` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
@@ -54,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `estates` (
 -- Estructura de tabla para la tabla `estates_images`
 --
 
+DROP TABLE IF EXISTS `estates_images`;
 CREATE TABLE IF NOT EXISTS `estates_images` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `estate_id` int(11) unsigned NOT NULL,
@@ -67,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `estates_images` (
 -- Estructura de tabla para la tabla `images`
 --
 
+DROP TABLE IF EXISTS `images`;
 CREATE TABLE IF NOT EXISTS `images` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `path` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -79,20 +82,24 @@ CREATE TABLE IF NOT EXISTS `images` (
 -- Estructura de tabla para la tabla `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `fullname` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `reset_password_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `reset_password_token_created` datetime DEFAULT NULL,
+  `login_last_attempt` datetime DEFAULT NULL,
+  `login_last_attempts_count` int(11) unsigned DEFAULT '0',
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `recover_password_token` (`reset_password_token`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
