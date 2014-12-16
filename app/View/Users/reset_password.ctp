@@ -21,16 +21,22 @@
 		<!-- BEGIN ERROR MESSAGE-->
 		<?= $this->Session->flash()?>
 		<!-- END ERROR MESSAGE-->
-		<p>
-			<?= __("Enter a new password");?>
-		</p>
-		<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
-		<?= $this->Form->input('password_confirm', array('placeholder' => __('Repeat Password'), 'type' => 'password'));?>
-		<?= $this->Form->hidden('token', array('value' => $token));?>
+		<?php if(!empty($user)): //If any user with the token has found?>
+			<p>
+				<?= __("Hi %s! Please enter a new password:", $user['User']['fullname']);?>
+			</p>
+			<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
+			<?= $this->Form->input('password_confirm', array('placeholder' => __('Repeat Password'), 'type' => 'password'));?>
 
-		<div class="form-actions">
-			<?= $this->Form->button(__('Submit'), array('class' => 'btn btn-success uppercase'));?>
-		</div>
+			<div class="form-actions">
+				<?= $this->Form->button(__('Submit'), array('class' => 'btn btn-success uppercase'));?>
+			</div>
+		<?php else: ?>
+			<div class="form-actions">
+				<?= $this->Html->link(__('Back'), array('controller' => 'pages', 'action' => 'index'), array('class' => 'btn btn-default')); ?>
+			</div>
+		<?php endif; ?>
+
 	<?= $this->Form->end(); ?>
 	<!-- END RESET PASSWORD FORM -->
 </div>

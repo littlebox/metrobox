@@ -73,8 +73,6 @@ class UsersController extends AppController {
 
 		$this->layout = 'login';
 
-		debug($this->referer());
-
 		if($this->Auth->loggedIn()){
 			return $this->redirect($this->Auth->redirect());
 		}
@@ -101,6 +99,7 @@ class UsersController extends AppController {
 		);
 
 		$this->User->recursive=-1;
+
 		if(!empty($this->data))	{
 			if(empty($this->data['User']['email']))	{
 				$data['error'] = __('Please provide email adress that you used to register');
@@ -151,6 +150,7 @@ class UsersController extends AppController {
 			}
 
 		}
+
 		$this->set(compact('data')); // Pass $data to the view
 		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
@@ -158,43 +158,54 @@ class UsersController extends AppController {
 	function resetPassword($token = null){
 		$this->layout="login";
 
-		$this->set('token', $this->request->token); //Pass token to the view
-
-		if ($this->request->is('post')) {
-			$this->User->recursive=-1;
-
-			if(!empty($this->request->data['User']['token'])){
-				$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->data['User']['token'])));
+		$this->User->recursive=-1;
 
 
-				if($user){
-					if(strtotime($user['User']['reset_password_token_created']) > strtotime("-1 day")){ //Check if one day passed
-						$this->User->id = $user['User']['id'];
-						$this->request->data['User']['token'] = NULL;
-						if(!empty($this->data)){
-							$this->User->data = $this->data;
-							if($this->User->validates(array('fieldList'=>array('password','password_confirm')))){
-								if($this->User->save($this->User->data)){
-									$this->Session->setFlash(__('Password has been updated!'), 'metrobox_flash_login_success');
-									$this->redirect(array('controller'=>'users','action'=>'login'));
-								}
+		do {
 
-							}else{
-								$this->set('errors', $this->User->invalidFields());
-							}
-						}else{
-							$this->Session->setFlash(__('No data provided.'), 'metrobox_flash_login');
-						}
-					}else{
-						$this->Session->setFlash(__('The token has expired.'), 'metrobox_flash_login');
-					}
-				}else{
-					$this->Session->setFlash(__('The token has been used or is not valid.'), 'metrobox_flash_login');
-				}
-			}else{
+			//Check if token is empty
+			if( empty($this->request->token) ){
 				$this->Session->setFlash(__('No reset token provided.'), 'metrobox_flash_login');
+				break;
 			}
-		}
+
+			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->token), 'fields' => array('id', 'reset_password_token_created', 'fullname')));
+
+			//Check if a user has been founded in DB
+			if( !$user ){
+				$this->Session->setFlash(__('The token has been used or is not valid.'), 'metrobox_flash_login');
+				break;
+			}
+
+			//Check if token have less than one day since generated
+			if( strtotime($user['User']['reset_password_token_created']) < strtotime("-1 day") ){
+				$this->Session->setFlash(__('The token has expired.'), 'metrobox_flash_login');
+				break;
+			}
+
+			$this->set('user', $user); //Pass user variable to the view
+
+			if ($this->request->is('post')) {
+
+				$this->User->id = $user['User']['id'];
+				$this->request->data['User']['reset_password_token'] = null;
+				$this->User->data = $this->request->data;
+
+				//Validate password fields with validations in model
+				if(!$this->User->validates(array('fieldList'=>array('password','password_confirm')))){
+					$this->set('errors', $this->User->invalidFields());
+					break;
+				}
+
+				//Save new password in DB
+				if($this->User->save($this->User->data)){
+					$this->Session->setFlash(__('Your password has been updated!'), 'metrobox_flash_login_success');
+					$this->redirect(array('controller'=>'users','action'=>'login'));
+				}
+
+			}
+		} while (false); //Runs only once
+
 	}
 
 /*
