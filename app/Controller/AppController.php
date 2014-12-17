@@ -42,6 +42,7 @@ class AppController extends Controller {
 			'name' => 'lboxCookie',
 			'type' => 'rijndael', //AES encryptation
 		),
+		'Acl',
 		'Auth' => array(
 			'loginRedirect' => array(
 				'controller' => 'pages',
@@ -50,6 +51,9 @@ class AppController extends Controller {
 			'logoutRedirect' => array(
 				'controller' => 'users',
 				'action' => 'login'
+			),
+			'authorize' => array(
+				'Actions' => array('actionPath' => 'controllers')
 			),
 			'authenticate' => array(
 				'Form' => array(
@@ -81,7 +85,7 @@ class AppController extends Controller {
 	public function beforeFilter() {
 		//Permite ver sin loguearse los siguientes métodos de todos los controladores
 		// $this->Auth->allow('index', 'view');
-
+		$this->Auth->allow();
 	}
 
 }
