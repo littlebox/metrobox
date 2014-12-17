@@ -5,7 +5,8 @@ class UsersController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('add', 'forgetPassword', 'resetPassword');
+		//$this->Auth->allow('add', 'forgetPassword', 'resetPassword','login');
+		////$this->Auth->allow();
 	}
 
 	public function index() {
@@ -32,6 +33,8 @@ class UsersController extends AppController {
 				__('The user could not be saved. Please, try again.')
 			);
 		}
+		$groups = $this->User->Group->find('list');
+		$this->set(compact('groups'));
 	}
 
 	public function edit($id = null) {
@@ -51,6 +54,8 @@ class UsersController extends AppController {
 			$this->request->data = $this->User->read(null, $id);
 			unset($this->request->data['User']['password']);
 		}
+		$groups = $this->User->Group->find('list');
+		$this->set(compact('groups'));
 	}
 
 	public function delete($id = null) {
@@ -107,7 +112,7 @@ class UsersController extends AppController {
 					if (!$this->Recaptcha->verify()) {
 
 						$this->Session->setFlash($this->Recaptcha->error, 'metrobox_flash_login');
-						return;
+						return null;
 					}
 				}
 
