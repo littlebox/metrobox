@@ -101,7 +101,8 @@ class UsersController extends AppController {
 
 				$this->set('attempts_count',$attempts_count);
 
-				if( $attempts_count >= $min_attempts_show_captcha && strtotime($user['User']['login_last_attempt']) > strtotime($time_to_count_an_attempt)){
+				if( $attempts_count >= $min_attempts_show_captcha &&
+					strtotime($user['User']['login_last_attempt']) > strtotime($time_to_count_an_attempt)){
 
 					if (!$this->Recaptcha->verify()) {
 
@@ -133,11 +134,12 @@ class UsersController extends AppController {
 
 						$this->User->data['User']['login_last_attempts_count'] = 1;
 
+						$this->set('attempts_count',1);
+
 					}
 
 					$this->User->data['User']['login_last_attempt'] = date('Y-m-d H:i:s');
 
-					//debug($this->User->data);die();
 
 					$this->User->save($this->User->data);
 
@@ -145,9 +147,6 @@ class UsersController extends AppController {
 
 			}
 
-
-
-			// debug($user);die();
 		}
 	}
 
