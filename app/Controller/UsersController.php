@@ -73,16 +73,81 @@ class UsersController extends AppController {
 
 		$this->layout = 'login';
 
+		$min_attempts_show_captcha = 2;
+		$this->set('min_attempts_show_captcha',$min_attempts_show_captcha);
+		$time_to_count_an_attempt = '-1 minute';
+
 		if($this->Auth->loggedIn()){
 			return $this->redirect($this->Auth->redirect());
 		}
 
 		if ($this->request->is('post')) {
+
+			$user = $this->User->find('first', array(
+
+					'conditions' => array(
+						'User.email' => $this->request->data['User']['email'],
+					),
+
+					'fields' => array(
+						'id','login_last_attempt','login_last_attempts_count'
+					)
+
+				));
+
+			if($user){
+
+				$attempts_count = $user['User']['login_last_attempts_count'];
+
+				$this->set('attempts_count',$attempts_count);
+
+				if( $attempts_count >= $min_attempts_show_captcha && strtotime($user['User']['login_last_attempt']) > strtotime($time_to_count_an_attempt)){
+
+					if (!$this->Recaptcha->verify()) {
+
+						$this->Session->setFlash($this->Recaptcha->error, 'metrobox_flash_login');
+						return;
+					}
+				}
+
+			}
+
 			if ($this->Auth->login()) {
+
 				$this->_setCookie($this->Auth->user('id'));
 				return $this->redirect($this->Auth->redirect());
+
+			}else{
+
+				$this->Session->setFlash(__('Invalid username or password, try again'), 'metrobox_flash_login');
+
+				if($user){
+
+					$this->User->id = $user['User']['id'];
+
+					if( strtotime($user['User']['login_last_attempt']) > strtotime($time_to_count_an_attempt) ){
+
+						$this->User->data['User']['login_last_attempts_count'] = $attempts_count + 1;
+
+					}else{
+
+						$this->User->data['User']['login_last_attempts_count'] = 1;
+
+					}
+
+					$this->User->data['User']['login_last_attempt'] = date('Y-m-d H:i:s');
+
+					//debug($this->User->data);die();
+
+					$this->User->save($this->User->data);
+
+				}
+
 			}
-			$this->Session->setFlash(__('Invalid username or password, try again'), 'metrobox_flash_login');
+
+
+
+			// debug($user);die();
 		}
 	}
 
@@ -113,7 +178,7 @@ class UsersController extends AppController {
 
 					$this->User->id = $user['User']['id'];
 
-					if( $this->User->saveField('reset_password_token', $token) && $this->User->saveField('reset_password_token_created', date("Y-m-d H:i:s")) ){
+					if( $this->User->saveField('reset_password_token', $token) && $this->User->saveField('reset_password_token_created', date('Y-m-d H:i:s')) ){
 
 						//============Email================//
 						/* SMTP Options */
@@ -178,7 +243,7 @@ class UsersController extends AppController {
 			}
 
 			//Check if token have less than one day since generated
-			if( strtotime($user['User']['reset_password_token_created']) < strtotime("-1 day") ){
+			if( strtotime($user['User']['reset_password_token_created']) < strtotime('-1 day') ){
 				$this->Session->setFlash(__('The token has expired.'), 'metrobox_flash_login');
 				break;
 			}

@@ -34,6 +34,7 @@ class AppController extends Controller {
 	public $components = array(
 		'RequestHandler',
 		'Email',
+		'Recaptcha.Recaptcha',
 		'DebugKit.Toolbar',
 		'Session',
 		'Cookie' => array(
