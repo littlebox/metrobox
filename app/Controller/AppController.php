@@ -52,6 +52,10 @@ class AppController extends Controller {
 				'controller' => 'users',
 				'action' => 'login'
 			),
+			'unauthorizedRedirect' => array(
+				'controller' => 'users',
+				'action' => 'logout'
+			),
 			'authorize' => array(
 				'Actions' => array('actionPath' => 'controllers')
 			),
@@ -85,7 +89,7 @@ class AppController extends Controller {
 	public function beforeFilter() {
 		//Permite ver sin loguearse los siguientes métodos de todos los controladores
 		// $this->Auth->allow('index', 'view');
-		$this->Auth->allow();
+		//$this->Auth->allow();
 	}
 
 }
