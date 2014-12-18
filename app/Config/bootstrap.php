@@ -71,6 +71,7 @@ Cache::config('default', array('engine' => 'File'));
  */
 CakePlugin::load('DebugKit');
 CakePlugin::load('Recaptcha');
+CakePlugin::load('AclExtras');
 
 //Recaptcha keys
 Configure::write('Recaptcha.publicKey', '6LcNWP8SAAAAAG_hjKXHcJCkCNrogLfyVzssBf63');
