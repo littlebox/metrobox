@@ -28,13 +28,19 @@ class User extends AppModel {
 		'email' => array(
 			'required' => array(
 				'rule' => 'notEmpty',
-				'message' => 'A username is required'
+				'message' => 'An email is required'
 				),
 			'email'=> array(
 				'rule' => 'email',
-				'message' => 'Username must be an email'
+				'message' => 'Must be an email'
 
 				)
+		),
+		'full_name' => array(
+			'required' => array(
+				'rule' => 'notEmpty',
+				'message' => 'A name is required'
+				),
 		),
 		'password' => array(
 			'required' => array(
