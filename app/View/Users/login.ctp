@@ -25,6 +25,20 @@
 		<?= $this->Form->input('email', array('placeholder' => __('Email')));?>
 		<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
 
+		<?php if(!empty($attempts_count)):?>
+
+			<?php if($attempts_count >= $min_attempts_show_captcha):?>
+
+			<?= $this->Recaptcha->display(array(
+				'recaptchaOptions' => array(
+						'theme' => 'white'
+				)
+			));?>
+
+			<?php endif;?>
+		<?php endif;?>
+
+
 		<div class="form-actions">
 			<?= $this->Form->button(__('Login'), array('class' => 'btn btn-success uppercase'));?>
 			<label class="rememberme check">
@@ -44,7 +58,7 @@
 		<div class="alert alert-danger display-hide">
 			<button class="close" data-close="alert"></button>
 			<span>
-
+				<?php //Javascript text ?>
 			</span>
 		</div>
 		<!-- END ERROR MESSAGE-->
