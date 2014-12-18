@@ -5,7 +5,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 class User extends AppModel {
 
 	public $belongsTo = array('Group');
-	public $actsAs = array('Acl' => array('type' => 'requester'));
+	public $actsAs = array('Acl' => array('type' => 'requester', 'enabled' => false));
 
 	//for internal acl propose
 	public function parentNode() {
@@ -22,6 +22,11 @@ class User extends AppModel {
 		} else {
 			return array('Group' => array('id' => $groupId));
 		}
+	}
+
+	//for internal acl propose
+	public function bindNode($user) {
+		return array('model' => 'Group', 'foreign_key' => $user['User']['group_id']);
 	}
 
 	public $validate = array(
