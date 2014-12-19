@@ -44,12 +44,13 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		$this->controller->response->send();
 	}
 	public function notImplemented($error) {
-		$this->controller->beforeFilter();
-		$this->controller->response->statusCode($error->getCode());
-		$this->controller->layout = 'metrobox_error_space';
-		$this->controller->set('title_for_layout', 'Method not implemented');
-		$this->controller->render('/Errors/error501');
-		$this->controller->response->send();
+		$this->internalError($error);
+		// $this->controller->beforeFilter();
+		// $this->controller->response->statusCode($error->getCode());
+		// $this->controller->layout = 'metrobox_error_space';
+		// $this->controller->set('title_for_layout', 'Method not implemented');
+		// $this->controller->render('/Errors/error501');
+		// $this->controller->response->send();
 	}
 
 	public function missingController($error) {

@@ -31,7 +31,7 @@ Like: www.facebook.com/littlefacebox
 <!-- END GLOBAL MANDATORY STYLES -->
 <!-- BEGIN PAGE LEVEL STYLES -->
 <?php
-	echo $this->Html->css('error');
+	echo $this->Html->css('metrobox_error');
 ?>
 <!-- END PAGE LEVEL STYLES -->
 <!-- BEGIN THEME STYLES -->
@@ -47,15 +47,12 @@ Like: www.facebook.com/littlefacebox
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="page-404-3">
-<div class="page-inner">
-	<?= $this->Html->image('media/pages/earth.jpg', array('class' => 'img-responsive'));?>
-</div>
-<div class="container error-404">
+<body class="page-error-space">
+
 
 	<?= $this->fetch('content'); ?>
 
-</div>
+
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
 <!--[if lt IE 9]>
