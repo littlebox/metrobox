@@ -52,10 +52,7 @@ class AppController extends Controller {
 				'controller' => 'users',
 				'action' => 'login'
 			),
-			'unauthorizedRedirect' => array(
-				'controller' => 'users',
-				'action' => 'logout'
-			),
+			'unauthorizedRedirect' => false,
 			'authorize' => array(
 				'Actions' => array('actionPath' => 'controllers')
 			),

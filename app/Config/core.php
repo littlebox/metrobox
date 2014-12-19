@@ -54,6 +54,7 @@
 		'trace' => true
 	));
 
+
 /**
  * Configure the Exception handler used for uncaught exceptions. By default,
  * ErrorHandler::handleException() is used. It will display a HTML page for the exception, and
@@ -76,7 +77,8 @@
  */
 	Configure::write('Exception', array(
 		'handler' => 'ErrorHandler::handleException',
-		'renderer' => 'ExceptionRenderer',
+		//'renderer' => 'ExceptionRenderer',
+		'renderer' => 'AppExceptionRenderer',
 		'log' => true
 	));
 
