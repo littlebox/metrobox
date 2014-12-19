@@ -107,7 +107,7 @@ class UsersController extends AppController {
 
 	public function login() {
 
-		$this->layout = 'login';
+		$this->layout = 'metrobox_login';
 
 		$min_attempts_show_captcha = 2;
 		$this->set('min_attempts_show_captcha',$min_attempts_show_captcha);
@@ -256,7 +256,7 @@ class UsersController extends AppController {
 	}
 
 	function resetPassword($token = null){
-		$this->layout="login";
+		$this->layout = 'metrobox_login';
 
 		$this->User->recursive=-1;
 
