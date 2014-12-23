@@ -51,10 +51,10 @@ Like: www.facebook.com/littlefacebox
 <!-- BEGIN HEADER -->
 <div class="page-header">
 	<!-- BEGIN HEADER TOP -->
-	<?= $this->Element('metrobox_header'); ?>
+	<?= $this->Element('metrobox_v1/metrobox_header'); ?>
 	<!-- END HEADER TOP -->
 	<!-- BEGIN HEADER MENU -->
-	<?= $this->Element('metrobox_main_menu'); ?>
+	<?= $this->Element('metrobox_v1/metrobox_main_menu'); ?>
 	<!-- END HEADER MENU -->
 </div>
 <!-- END HEADER -->
@@ -128,10 +128,10 @@ Like: www.facebook.com/littlefacebox
 </div>
 <!-- END PAGE CONTAINER -->
 <!-- BEGIN PRE-FOOTER -->
-<?= $this->Element('metrobox_pre_footer'); ?>
+<?= $this->Element('metrobox_v1/metrobox_pre_footer'); ?>
 <!-- END PRE-FOOTER -->
 <!-- BEGIN FOOTER -->
-<?= $this->Element('metrobox_footer'); ?>
+<?= $this->Element('metrobox_v1/metrobox_footer'); ?>
 <!-- END FOOTER -->
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
