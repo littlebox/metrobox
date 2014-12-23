@@ -75,10 +75,10 @@ class PagesController extends AppController {
 	}
 
 	public function test(){
-		$this->layout = 'metrobox';
+		$this->layout = 'metrobox_v1';
 	}
 
 	public function index(){
-		$this->layout = 'metrobox';
+		$this->layout = 'metrobox_v1';
 	}
 }

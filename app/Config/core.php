@@ -75,12 +75,24 @@
  *
  * @see ErrorHandler for more information on exception handling and configuration.
  */
-	Configure::write('Exception', array(
-		'handler' => 'ErrorHandler::handleException',
-		//'renderer' => 'ExceptionRenderer',
-		'renderer' => 'AppExceptionRenderer',
-		'log' => true
-	));
+
+	if (Configure::read('debug') > 0){
+
+		Configure::write('Exception', array(
+			'handler' => 'ErrorHandler::handleException',
+			'renderer' => 'ExceptionRenderer',
+			'log' => true
+		));
+
+	} else {
+
+		Configure::write('Exception', array(
+			'handler' => 'ErrorHandler::handleException',
+			'renderer' => 'AppExceptionRenderer',
+			'log' => true
+		));
+	}
+
 
 /**
  * Application wide charset encoding
