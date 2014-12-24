@@ -111,7 +111,7 @@ class UsersController extends AppController {
 
 		$min_attempts_show_captcha = 2;
 		$this->set('min_attempts_show_captcha',$min_attempts_show_captcha);
-		$time_to_count_an_attempt = '-1 minute';
+		$time_to_count_an_attempt = '-5 minutes';
 
 		if($this->Auth->loggedIn()){
 			return $this->redirect($this->Auth->redirect());
