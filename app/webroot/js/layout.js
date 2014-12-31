@@ -1,277 +1,574 @@
 /**
 Core script to handle the entire theme and core functions
 **/
-var Layout = function () {
+var Layout = function() {
 
-	var layoutImgPath = 'admin/layout3/img/';
+    var layoutImgPath = 'admin/layout2/img/';
 
-	var layoutCssPath = 'admin/layout3/css/';
+    var layoutCssPath = 'admin/layout2/css/';
 
-	//* BEGIN:CORE HANDLERS *//
-	// this function handles responsive layout on screen size resize or mobile device rotate.
+    //* BEGIN:CORE HANDLERS *//
+    // this function handles responsive layout on screen size resize or mobile device rotate.
 
-	// Handles header
-	var handleHeader = function () {
-		// handle search box expand/collapse
-		$('.page-header').on('click', '.search-form', function (e) {
-			$(this).addClass("open");
-			$(this).find('.form-control').focus();
+    // Set proper height for sidebar and content. The content and sidebar height must be synced always.
+    var handleSidebarAndContentHeight = function() {
+        var content = $('.page-content');
+        var sidebar = $('.page-sidebar');
+        var body = $('body');
+        var height;
 
-			$('.page-header .search-form .form-control').on('blur', function (e) {
-				$(this).closest('.search-form').removeClass("open");
-				$(this).unbind("blur");
-			});
-		});
+        if (body.hasClass("page-footer-fixed") === true && body.hasClass("page-sidebar-fixed") === false) {
+            var available_height = Metrobox.getViewPort().height - $('.page-footer').outerHeight() - $('.page-header').outerHeight();
+            if (content.height() < available_height) {
+                content.attr('style', 'min-height:' + available_height + 'px');
+            }
+        } else {
+            if (body.hasClass('page-sidebar-fixed')) {
+                height = _calculateFixedSidebarViewportHeight();
+                if (body.hasClass('page-footer-fixed') === false) {
+                    height = height - $('.page-footer').outerHeight();
+                }
+            } else {
+                var headerHeight = $('.page-header').outerHeight();
+                var footerHeight = $('.page-footer').outerHeight();
 
-		// handle hor menu search form on enter press
-		$('.page-header').on('keypress', '.hor-menu .search-form .form-control', function (e) {
-			if (e.which == 13) {
-				$(this).closest('.search-form').submit();
-				return false;
-			}
-		});
+                if (Metrobox.getViewPort().width < 992) {
+                    height = Metrobox.getViewPort().height - headerHeight - footerHeight;
+                } else {
+                    height = sidebar.outerHeight() + 10;
+                }
 
-		// handle header search button click
-		$('.page-header').on('mousedown', '.search-form.open .submit', function (e) {
-			e.preventDefault();
-			e.stopPropagation();
-			$(this).closest('.search-form').submit();
-		});
-	};
+                if ((height + headerHeight + footerHeight) <= Metrobox.getViewPort().height) {
+                    height = Metrobox.getViewPort().height - headerHeight - footerHeight;
+                }
+            }
+            content.attr('style', 'min-height:' + height + 'px');
+        }
+    };
 
-	// Handles main menu
-	var handleMainMenu = function () {
+    // Handle sidebar menu links
+    var handleSidebarMenuActiveLink = function(mode, el) {
+        var url = location.hash.toLowerCase();
 
-		// handle menu toggler icon click
-		$(".page-header .menu-toggler").on("click", function(event) {
-			if (Metrobox.getViewPort().width < 992) {
-				var menu = $(".page-header .page-header-menu");
-				if (menu.hasClass("page-header-menu-opened")) {
-					menu.slideUp(300);
-					menu.removeClass("page-header-menu-opened");
-				} else {
-					menu.slideDown(300);
-					menu.addClass("page-header-menu-opened");
-				}
+        var menu = $('.page-sidebar-menu');
 
-				if ($('body').hasClass('page-header-top-fixed')) {
-					Metrobox.scrollTop();
-				}
-			}
-		});
+        if (mode === 'click' || mode === 'set') {
+            el = $(el);
+        } else if (mode === 'match') {
+            menu.find("li > a").each(function() {
+                var path = $(this).attr("href").toLowerCase();
+                // url match condition
+                if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
+                    el = $(this);
+                    return;
+                }
+            });
+        }
 
-		// handle sub dropdown menu click for mobile devices only
-		$(".dropdown-submenu > a").on("click", function(e) {
-			if (Metrobox.getViewPort().width < 992) {
-				if ($(this).next().hasClass('dropdown-menu')) {
-					e.stopPropagation();
+        if (!el || el.size() == 0) {
+            return;
+        }
 
-					if ($(this).parent().hasClass("open")) {
-						$(this).parent().removeClass("open");
-						$(this).next().hide();
-					} else {
-						$(this).parent().addClass("open");
-						$(this).next().show();
-					}
-				}
-			}
-		});
+        if (el.attr('href').toLowerCase() === 'javascript:;' || el.attr('href').toLowerCase() === '#') {
+            return;
+        }
 
-		// handle hover dropdown menu for desktop devices only
-		if (Metrobox.getViewPort().width >= 992) {
-			$('[data-hover="megamenu-dropdown"]').not('.hover-initialized').each(function() {
-				$(this).dropdownHover();
-				$(this).addClass('hover-initialized');
-			});
-		}
+        var slideSpeed = parseInt(menu.data("slide-speed"));
+        var keepExpand = menu.data("keep-expanded");
 
-		$(document).on('click', '.mega-menu-dropdown .dropdown-menu', function (e) {
-			e.stopPropagation();
-		});
+        // disable active states
+        menu.find('li.active').removeClass('active');
+        menu.find('li > a > .selected').remove();
 
-		// handle fixed mega menu(minimized)
-		$(window).scroll(function() {
-			var offset = 75;
-			if ($('body').hasClass('page-header-menu-fixed')) {
-				if ($(window).scrollTop() > offset){
-					$(".page-header-menu").addClass("fixed");
-				} else {
-					$(".page-header-menu").removeClass("fixed");
-				}
-			}
+        if (menu.hasClass('page-sidebar-menu-hover-submenu') === false) {
+            menu.find('li.open').each(function(){
+                if ($(this).children('.sub-menu').size() === 0) {
+                    $(this).removeClass('open');
+                    $(this).find('> a > .arrow.open').removeClass('open');
+                }
+            });
+        } else {
+             menu.find('li.open').removeClass('open');
+        }
 
-			if ($('body').hasClass('page-header-top-fixed')) {
-				if ($(window).scrollTop() > offset){
-					$(".page-header-top").addClass("fixed");
-				} else {
-					$(".page-header-top").removeClass("fixed");
-				}
-			}
-		});
-	};
+        el.parents('li').each(function () {
+            $(this).addClass('active');
+            $(this).find('> a > span.arrow').addClass('open');
 
-	// Handle sidebar menu links
-	var handleMainMenuActiveLink = function(mode, el) {
-		var url = location.hash.toLowerCase();
+            if ($(this).parent('ul.page-sidebar-menu').size() === 1) {
+                $(this).find('> a').append('<span class="selected"></span>');
+            }
 
-		var menu = $('.hor-menu');
+            if ($(this).children('ul.sub-menu').size() === 1) {
+                $(this).addClass('open');
+            }
+        });
 
-		if (mode === 'click' || mode === 'set') {
-			el = $(el);
-		} else if (mode === 'match') {
-			menu.find("li > a").each(function() {
-				var path = $(this).attr("href").toLowerCase();
-				// url match condition
-				if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
-					el = $(this);
-					return;
-				}
-			});
-		}
+        if (mode === 'click') {
+            if (Metrobox.getViewPort().width < 992 && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
+                $('.page-header .responsive-toggler').click();
+            }
+        }
+    };
 
-		if (!el || el.size() == 0) {
-			return;
-		}
+    // Handle sidebar menu
+    var handleSidebarMenu = function() {
+        $('.page-sidebar').on('click', 'li > a', function(e) {
 
-		if (el.attr('href').toLowerCase() === 'javascript:;' || el.attr('href').toLowerCase() === '#') {
-			return;
-		}
+            if (Metrobox.getViewPort().width >= 992 && $(this).parents('.page-sidebar-menu-hover-submenu').size() === 1) { // exit of hover sidebar menu
+                return;
+            }
 
-		// disable active states
-		menu.find('li.active').removeClass('active');
-		menu.find('li > a > .selected').remove();
-		menu.find('li.open').removeClass('open');
+            if ($(this).next().hasClass('sub-menu') === false) {
+                if (Metrobox.getViewPort().width < 992 && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
+                    $('.page-header .responsive-toggler').click();
+                }
+                return;
+            }
 
-		el.parents('li').each(function () {
-			$(this).addClass('active');
+            if ($(this).next().hasClass('sub-menu always-open')) {
+                return;
+            }
 
-			if ($(this).parent('ul.navbar-nav').size() === 1) {
-				$(this).find('> a').append('<span class="selected"></span>');
-			}
-		});
-	};
+            var parent = $(this).parent().parent();
+            var the = $(this);
+            var menu = $('.page-sidebar-menu');
+            var sub = $(this).next();
 
-	// Handles main menu on window resize
-	var handleMainMenuOnResize = function() {
-		// handle hover dropdown menu for desktop devices only
-		var width = Metrobox.getViewPort().width;
-		var menu = $(".page-header-menu");
+            var autoScroll = menu.data("auto-scroll");
+            var slideSpeed = parseInt(menu.data("slide-speed"));
+            var keepExpand = menu.data("keep-expanded");
 
-		if (width >= 992 && menu.data('breakpoint') !== 'desktop') {
-			menu.data('breakpoint', 'desktop');
-			$('.hor-menu [data-hover="megamenu-dropdown"]').not('.hover-initialized').each(function() {
-				$(this).dropdownHover();
-				$(this).addClass('hover-initialized');
-			});
-			$('.hor-menu .navbar-nav li.open').removeClass('open');
-			$(".page-header-menu").css("display", "block").removeClass('page-header-menu-opened');
-		} else if (width < 992 && menu.data('breakpoint') !== 'mobile') {
-			menu.data('breakpoint', 'mobile');
-			// disable hover bootstrap dropdowns plugin
-			$('.hor-menu [data-hover="megamenu-dropdown"].hover-initialized').each(function() {
-				$(this).unbind('hover');
-				$(this).parent().unbind('hover').find('.dropdown-submenu').each(function() {
-					$(this).unbind('hover');
-				});
-				$(this).removeClass('hover-initialized');
-			});
-		}
-	};
+            if (keepExpand !== true) {
+                parent.children('li.open').children('a').children('.arrow').removeClass('open');
+                parent.children('li.open').children('.sub-menu:not(.always-open)').slideUp(slideSpeed);
+                parent.children('li.open').removeClass('open');
+            }
 
-	var handleContentHeight = function() {
-		var height;
+            var slideOffeset = -200;
 
-		if ($('body').height() < Metrobox.getViewPort().height) {
-			height = Metrobox.getViewPort().height -
-				$('.page-header').outerHeight() -
-				($('.page-container').outerHeight() - $('.page-content').outerHeight()) -
-				$('.page-prefooter').outerHeight() -
-				$('.page-footer').outerHeight();
+            if (sub.is(":visible")) {
+                $('.arrow', $(this)).removeClass("open");
+                $(this).parent().removeClass("open");
+                sub.slideUp(slideSpeed, function() {
+                    if (autoScroll === true && $('body').hasClass('page-sidebar-closed') === false) {
+                        if ($('body').hasClass('page-sidebar-fixed')) {
+                            menu.slimScroll({
+                                'scrollTo': (the.position()).top
+                            });
+                        } else {
+                            Metrobox.scrollTo(the, slideOffeset);
+                        }
+                    }
+                    handleSidebarAndContentHeight();
+                });
+            } else {
+                $('.arrow', $(this)).addClass("open");
+                $(this).parent().addClass("open");
+                sub.slideDown(slideSpeed, function() {
+                    if (autoScroll === true && $('body').hasClass('page-sidebar-closed') === false) {
+                        if ($('body').hasClass('page-sidebar-fixed')) {
+                            menu.slimScroll({
+                                'scrollTo': (the.position()).top
+                            });
+                        } else {
+                            Metrobox.scrollTo(the, slideOffeset);
+                        }
+                    }
+                    handleSidebarAndContentHeight();
+                });
+            }
 
-			$('.page-content').css('min-height', height);
-		}
-	};
+            e.preventDefault();
+        });
 
-	// Handles the go to top button at the footer
-	var handleGoTop = function () {
-		var offset = 100;
-		var duration = 500;
+        // handle ajax links within sidebar menu
+        $('.page-sidebar').on('click', ' li > a.ajaxify', function(e) {
+            e.preventDefault();
+            Metrobox.scrollTop();
 
-		if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {  // ios supported
-			$(window).bind("touchend touchcancel touchleave", function(e){
-			   if ($(this).scrollTop() > offset) {
-					$('.scroll-to-top').fadeIn(duration);
-				} else {
-					$('.scroll-to-top').fadeOut(duration);
-				}
-			});
-		} else {  // general
-			$(window).scroll(function() {
-				if ($(this).scrollTop() > offset) {
-					$('.scroll-to-top').fadeIn(duration);
-				} else {
-					$('.scroll-to-top').fadeOut(duration);
-				}
-			});
-		}
+            var url = $(this).attr("href");
+            var menuContainer = $('.page-sidebar ul');
+            var pageContent = $('.page-content');
+            var pageContentBody = $('.page-content .page-content-body');
 
-		$('.scroll-to-top').click(function(e) {
-			e.preventDefault();
-			$('html, body').animate({scrollTop: 0}, duration);
-			return false;
-		});
-	};
+            menuContainer.children('li.active').removeClass('active');
+            menuContainer.children('arrow.open').removeClass('open');
 
-	//* END:CORE HANDLERS *//
+            $(this).parents('li').each(function() {
+                $(this).addClass('active');
+                $(this).children('a > span.arrow').addClass('open');
+            });
+            $(this).parents('li').addClass('active');
 
-	return {
+            if (Metrobox.getViewPort().width < 992 && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
+                $('.page-header .responsive-toggler').click();
+            }
 
-		// Main init methods to initialize the layout
-		// IMPORTANT!!!: Do not modify the core handlers call order.
+            Metrobox.startPageLoading();
 
-		initHeader: function() {
-			handleHeader(); // handles horizontal menu
-			handleMainMenu(); // handles menu toggle for mobile
-			Metrobox.addResizeHandler(handleMainMenuOnResize); // handle main menu on window resize
+            var the = $(this);
 
-			if (Metrobox.isAngularJsApp()) {
-				handleMainMenuActiveLink('match'); // init sidebar active links
-			}
-		},
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: url,
+                dataType: "html",
+                success: function(res) {
 
-		initContent: function() {
-			handleContentHeight(); // handles content height
-		},
+                    if (the.parents('li.open').size() === 0) {
+                        $('.page-sidebar-menu > li.open > a').click();
+                    }
 
-		initFooter: function() {
-			handleGoTop(); //handles scroll to top functionality in the footer
-		},
+                    Metrobox.stopPageLoading();
+                    pageContentBody.html(res);
+                    Layout.fixContentHeight(); // fix content height
+                    Metrobox.initAjax(); // initialize core stuff
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    Metrobox.stopPageLoading();
+                    pageContentBody.html('<h4>Could not load the requested content.</h4>');
+                }
+            });
+        });
 
-		init: function () {
-			this.initHeader();
-			this.initContent();
-			this.initFooter();
-		},
+        // handle ajax link within main content
+        $('.page-content').on('click', '.ajaxify', function(e) {
+            e.preventDefault();
+            Metrobox.scrollTop();
 
-		setMainMenuActiveLink: function(mode, el) {
-			handleMainMenuActiveLink(mode, el);
-		},
+            var url = $(this).attr("href");
+            var pageContent = $('.page-content');
+            var pageContentBody = $('.page-content .page-content-body');
 
-		closeMainMenu: function() {
-			$('.hor-menu').find('li.open').removeClass('open');
+            Metrobox.startPageLoading();
 
-			if (Metrobox.getViewPort().width < 992 && $('.page-header-menu').is(":visible")) { // close the menu on mobile view while laoding a page
-				$('.page-header .menu-toggler').click();
-			}
-		},
+            if (Metrobox.getViewPort().width < 992 && $('.page-sidebar').hasClass("in")) { // close the menu on mobile view while laoding a page
+                $('.page-header .responsive-toggler').click();
+            }
 
-		getLayoutImgPath: function() {
-			return Metrobox.getAssetsPath() + layoutImgPath;
-		},
+            $.ajax({
+                type: "GET",
+                cache: false,
+                url: url,
+                dataType: "html",
+                success: function(res) {
+                    Metrobox.stopPageLoading();
+                    pageContentBody.html(res);
+                    Layout.fixContentHeight(); // fix content height
+                    Metrobox.initAjax(); // initialize core stuff
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                    pageContentBody.html('<h4>Could not load the requested content.</h4>');
+                    Metrobox.stopPageLoading();
+                }
+            });
+        });
+    };
 
-		getLayoutCssPath: function() {
-			return Metrobox.getAssetsPath() + layoutCssPath;
-		}
-	};
+    // Helper function to calculate sidebar height for fixed sidebar layout.
+    var _calculateFixedSidebarViewportHeight = function() {
+        var sidebarHeight = Metrobox.getViewPort().height - $('.page-header').outerHeight();
+        if ($('body').hasClass("page-footer-fixed")) {
+            sidebarHeight = sidebarHeight - $('.page-footer').outerHeight();
+        }
+
+        return sidebarHeight;
+    };
+
+    // Handles fixed sidebar
+    var handleFixedSidebar = function() {
+        var menu = $('.page-sidebar-menu');
+
+        Metrobox.destroySlimScroll(menu);
+
+        if ($('.page-sidebar-fixed').size() === 0) {
+            handleSidebarAndContentHeight();
+            return;
+        }
+
+        if (Metrobox.getViewPort().width >= 992) {
+            menu.attr("data-height", _calculateFixedSidebarViewportHeight());
+            Metrobox.initSlimScroll(menu);
+            handleSidebarAndContentHeight();
+        }
+    };
+
+    // Handles sidebar toggler to close/hide the sidebar.
+    var handleFixedSidebarHoverEffect = function () {
+        var body = $('body');
+        if (body.hasClass('page-sidebar-fixed')) {
+            $('.page-sidebar').on('mouseenter', function () {
+                if (body.hasClass('page-sidebar-closed')) {
+                    $(this).find('.page-sidebar-menu').removeClass('page-sidebar-menu-closed');
+                }
+            }).on('mouseleave', function () {
+                if (body.hasClass('page-sidebar-closed')) {
+                    $(this).find('.page-sidebar-menu').addClass('page-sidebar-menu-closed');
+                }
+            });
+        }
+    };
+
+    // Hanles sidebar toggler
+    var handleSidebarToggler = function() {
+        var body = $('body');
+        if ($.cookie && $.cookie('sidebar_closed') === '1' && Metrobox.getViewPort().width >= 992) {
+            $('body').addClass('page-sidebar-closed');
+            $('.page-sidebar-menu').addClass('page-sidebar-menu-closed');
+        }
+
+        // handle sidebar show/hide
+        $('body').on('click', '.sidebar-toggler', function(e) {
+            var sidebar = $('.page-sidebar');
+            var sidebarMenu = $('.page-sidebar-menu');
+            $(".sidebar-search", sidebar).removeClass("open");
+
+            if (body.hasClass("page-sidebar-closed")) {
+                body.removeClass("page-sidebar-closed");
+                sidebarMenu.removeClass("page-sidebar-menu-closed");
+                if ($.cookie) {
+                    $.cookie('sidebar_closed', '0');
+                }
+            } else {
+                body.addClass("page-sidebar-closed");
+                sidebarMenu.addClass("page-sidebar-menu-closed");
+                if (body.hasClass("page-sidebar-fixed")) {
+                    sidebarMenu.trigger("mouseleave");
+                }
+                if ($.cookie) {
+                    $.cookie('sidebar_closed', '1');
+                }
+            }
+
+            $(window).trigger('resize');
+        });
+
+        handleFixedSidebarHoverEffect();
+
+        // handle the search bar close
+        $('.page-sidebar').on('click', '.sidebar-search .remove', function(e) {
+            e.preventDefault();
+            $('.sidebar-search').removeClass("open");
+        });
+
+        // handle the search query submit on enter press
+        $('.page-sidebar .sidebar-search').on('keypress', 'input.form-control', function(e) {
+            if (e.which == 13) {
+                $('.sidebar-search').submit();
+                return false; //<---- Add this line
+            }
+        });
+
+        // handle the search submit(for sidebar search and responsive mode of the header search)
+        $('.sidebar-search .submit').on('click', function(e) {
+            e.preventDefault();
+            if ($('body').hasClass("page-sidebar-closed")) {
+                if ($('.sidebar-search').hasClass('open') === false) {
+                    if ($('.page-sidebar-fixed').size() === 1) {
+                        $('.page-sidebar .sidebar-toggler').click(); //trigger sidebar toggle button
+                    }
+                    $('.sidebar-search').addClass("open");
+                } else {
+                    $('.sidebar-search').submit();
+                }
+            } else {
+                $('.sidebar-search').submit();
+            }
+        });
+
+        // handle close on body click
+        if ($('.sidebar-search').size() !== 0) {
+            $('.sidebar-search .input-group').on('click', function(e) {
+                e.stopPropagation();
+            });
+
+            $('body').on('click', function() {
+                if ($('.sidebar-search').hasClass('open')) {
+                    $('.sidebar-search').removeClass("open");
+                }
+            });
+        }
+    };
+
+    // Handles the horizontal menu
+    var handleHeader = function() {
+        // handle search box expand/collapse
+        $('.page-header').on('click', '.search-form', function(e) {
+            $(this).addClass("open");
+            $(this).find('.form-control').focus();
+
+            $('.page-header .search-form .form-control').on('blur', function(e) {
+                $(this).closest('.search-form').removeClass("open");
+                $(this).unbind("blur");
+            });
+        });
+
+        // handle hor menu search form on enter press
+        $('.page-header').on('keypress', '.hor-menu .search-form .form-control', function(e) {
+            if (e.which == 13) {
+                $(this).closest('.search-form').submit();
+                return false;
+            }
+        });
+
+        // handle header search button click
+        $('.page-header').on('mousedown', '.search-form.open .submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $(this).closest('.search-form').submit();
+        });
+    };
+
+    // Handles Bootstrap Tabs.
+    var handleTabs = function() {
+        // fix content height on tab click
+        $('body').on('shown.bs.tab', 'a[data-toggle="tab"]', function() {
+            handleSidebarAndContentHeight();
+        });
+    };
+
+    // Handles the go to top button at the footer
+    var handleGoTop = function() {
+        var offset = 300;
+        var duration = 500;
+
+        if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) { // ios supported
+            $(window).bind("touchend touchcancel touchleave", function(e) {
+                if ($(this).scrollTop() > offset) {
+                    $('.scroll-to-top').fadeIn(duration);
+                } else {
+                    $('.scroll-to-top').fadeOut(duration);
+                }
+            });
+        } else { // general
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > offset) {
+                    $('.scroll-to-top').fadeIn(duration);
+                } else {
+                    $('.scroll-to-top').fadeOut(duration);
+                }
+            });
+        }
+
+        $('.scroll-to-top').click(function(e) {
+            e.preventDefault();
+            $('html, body').animate({
+                scrollTop: 0
+            }, duration);
+            return false;
+        });
+    };
+
+    // Hanlde 100% height elements(block, portlet, etc)
+    var handle100HeightContent = function() {
+
+        var target = $('.full-height-content');
+        var height;
+
+        if (!target.hasClass('portlet')) {
+            return;
+        }
+
+        height = Metrobox.getViewPort().height -
+            $('.page-header').outerHeight(true) -
+            $('.page-footer').outerHeight(true) -
+            $('.page-title').outerHeight(true) -
+            $('.page-bar').outerHeight(true);
+
+        if ($('body').hasClass('page-header-fixed')) {
+            height = height - $('.page-header').outerHeight(true);
+        }
+
+        var portletBody = target.find('.portlet-body');
+
+        if (Metrobox.getViewPort().width < 992) {
+            Metrobox.destroySlimScroll(portletBody.find('.full-height-content-body')); // destroy slimscroll
+            return;
+        }
+
+        if (target.find('.portlet-title')) {
+            height = height - target.find('.portlet-title').outerHeight(true);
+        }
+
+        height = height - parseInt(portletBody.css("padding-top"));
+        height = height - parseInt(portletBody.css("padding-bottom"));
+
+        if (target.hasClass("full-height-content-scrollable")) {
+            portletBody.find('.full-height-content-body').css('height', height);
+            Metrobox.initSlimScroll(portletBody.find('.full-height-content-body'));
+        } else {
+            portletBody.css('min-height', height);
+        }
+    };
+
+    //* END:CORE HANDLERS *//
+
+    return {
+
+        // Main init methods to initialize the layout
+        // IMPORTANT!!!: Do not modify the core handlers call order.
+
+        initHeader: function() {
+            handleHeader(); // handles horizontal menu
+        },
+
+        setSidebarMenuActiveLink: function(mode, el) {
+            handleSidebarMenuActiveLink(mode, el);
+        },
+
+        initSidebar: function() {
+            //layout handlers
+            handleFixedSidebar(); // handles fixed sidebar menu
+            handleSidebarMenu(); // handles main menu
+            handleSidebarToggler(); // handles sidebar hide/show
+
+            if (Metrobox.isAngularJsApp()) {
+                handleSidebarMenuActiveLink('match'); // init sidebar active links
+            }
+
+            Metrobox.addResizeHandler(handleFixedSidebar); // reinitialize fixed sidebar on window resize
+        },
+
+        initContent: function() {
+            handle100HeightContent(); // handles 100% height elements(block, portlet, etc)
+            handleTabs(); // handle bootstrah tabs
+
+            Metrobox.addResizeHandler(handleSidebarAndContentHeight); // recalculate sidebar & content height on window resize
+            Metrobox.addResizeHandler(handle100HeightContent); // reinitialize content height on window resize
+        },
+
+        initFooter: function() {
+            handleGoTop(); //handles scroll to top functionality in the footer
+        },
+
+        init: function () {
+            this.initHeader();
+            this.initSidebar();
+            this.initContent();
+            this.initFooter();
+        },
+
+        //public function to fix the sidebar and content height accordingly
+        fixContentHeight: function() {
+            handleSidebarAndContentHeight();
+        },
+
+        initFixedSidebarHoverEffect: function() {
+            handleFixedSidebarHoverEffect();
+        },
+
+        initFixedSidebar: function() {
+            handleFixedSidebar();
+        },
+
+        getLayoutImgPath: function() {
+            return Metrobox.getAssetsPath() + layoutImgPath;
+        },
+
+        getLayoutCssPath: function() {
+            return Metrobox.getAssetsPath() + layoutCssPath;
+        }
+    };
 
 }();

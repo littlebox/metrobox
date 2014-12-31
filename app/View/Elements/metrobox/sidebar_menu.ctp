@@ -63,7 +63,7 @@
 
 				echo '<a href="'.Router::url($item['href']).'">
 						<i class="icon-'.$item['icon'].'"></i>
-						<span class="title">'.$item['title'].'</span>';
+						<span class="title">'.__($item['title']).'</span>';
 
 				if($active) echo'<span class="arrow open"></span><span class="selected"></span>';
 

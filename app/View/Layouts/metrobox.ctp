@@ -138,16 +138,7 @@ Like: www.facebook.com/littlefacebox
 		<!-- END CONTENT -->
 	</div>
 
-	<div class="page-footer">
-		<div class="page-footer-inner">
-			2014 © Metronic by keenthemes.
-		</div>
-
-	</div>
-
-	<div class="scroll-to-top" style="display: none;">
-		<i class="icon-arrow-up"></i>
-	</div>
+	<?= $this->Element('metrobox/footer')?>
 
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
 <!-- BEGIN CORE PLUGINS -->
