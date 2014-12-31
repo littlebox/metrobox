@@ -210,7 +210,7 @@ class UsersController extends AppController {
 				$user = $this->User->find('first',array('conditions' => array('User.email' => $email)));
 				if($user)	{
 					$token = Security::hash(String::uuid(),'sha512',true);
-					$url = Router::url( array('controller'=>'users','action'=>'reset'), true ).'/'.$token;
+					$url = Router::url( array('controller'=>'users','action'=>'resetPassword'), true ).'/'.$token;
 
 					$this->User->id = $user['User']['id'];
 
@@ -228,7 +228,7 @@ class UsersController extends AppController {
 						$this->Email->template = 'metrobox_reset_password';
 						$this->Email->from = 'Littlebox <info@littlebox.com.ar>';
 						$this->Email->to = $user['User']['email'];
-						$this->Email->subject = __('Reset Your Example.com Password');
+						$this->Email->subject = __('Reset Your Password');
 						$this->Email->sendAs = 'both';
 
 						$this->Email->delivery = 'smtp';
@@ -279,7 +279,7 @@ class UsersController extends AppController {
 			}
 
 			//Check if token have less than one day since generated
-			if( strtotime($user['User']['reset_password_token_created']) < strtotime('-1 day') ){
+			if( strtotime($user['User']['reset_password_token_created']) < strtotime('-3 hours') ){
 				$this->Session->setFlash(__('The token has expired.'), 'metrobox_flash_login');
 				break;
 			}
