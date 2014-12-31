@@ -392,11 +392,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<?= $this->Html->image('avatar3_small.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 						<span class="username username-hide-on-mobile">
-							<?php if(AuthComponent::user('full_name')):?>
-								<?= AuthComponent::user('full_name') ?>
-							<?php else:?>
-								WTF?
-							<?php endif;?>
+							<?= (AuthComponent::user('full_name')) ? AuthComponent::user('full_name') : "WTF?";?>
 						</span>
 						<i class="fa fa-angle-down"></i>
 						</a>
