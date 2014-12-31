@@ -270,7 +270,7 @@ class UsersController extends AppController {
 				break;
 			}
 
-			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->token), 'fields' => array('id', 'reset_password_token_created', 'fullname')));
+			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->token), 'fields' => array('id', 'reset_password_token_created', 'full_name')));
 
 			//Check if a user has been founded in DB
 			if( !$user ){

@@ -120,3 +120,16 @@
 		});
 	};
 </script>
+
+<?php
+$initScripts =
+<<<JS
+jQuery(document).ready(function() {
+	Metrobox.init(); // init metronic core components
+	Layout.init(); // init current layout
+	Login.init();
+});
+JS;
+?>
+
+<?= $this->Html->scriptBlock($initScripts, array('inline'=>false));?>

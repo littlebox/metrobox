@@ -99,15 +99,8 @@ echo $this->Html->script('metrobox');
 echo $this->Html->script('layout');
 echo $this->Html->script('login');
 ?>
-<?php echo $this->fetch('script'); ?>
 <!-- END PAGE LEVEL SCRIPTS -->
-<script>
-jQuery(document).ready(function() {
-	Metrobox.init(); // init metronic core components
-	Layout.init(); // init current layout
-	Login.init();
-});
-</script>
+<?php echo $this->fetch('script'); ?>
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->
