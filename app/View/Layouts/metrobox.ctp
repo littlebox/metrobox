@@ -161,6 +161,7 @@ echo $this->Html->script('/plugins/uniform/jquery.uniform.min');
 echo $this->Html->script('/plugins/bootstrap-switch/js/bootstrap-switch.min');
 ?>
 <!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php
 echo $this->Html->script('metrobox');
 echo $this->Html->script('layout');
@@ -171,6 +172,9 @@ echo $this->Html->script('layout');
 		Layout.init(); // init current layout
 	});
 </script>
+
+<?php echo $this->fetch('script'); ?>
+<!-- END PAGE LEVEL SCRIPTS -->
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

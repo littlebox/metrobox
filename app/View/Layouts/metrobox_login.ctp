@@ -97,10 +97,16 @@ echo $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');
 <?php
 echo $this->Html->script('metrobox');
 echo $this->Html->script('layout');
-echo $this->Html->script('login');
 ?>
-<!-- END PAGE LEVEL SCRIPTS -->
+<script>
+	jQuery(document).ready(function() {
+		Metrobox.init(); // init metronic core components
+		Layout.init(); // init current layout
+	});
+</script>
+
 <?php echo $this->fetch('script'); ?>
+<!-- END PAGE LEVEL SCRIPTS -->
 <!-- END JAVASCRIPTS -->
 </body>
 <!-- END BODY -->

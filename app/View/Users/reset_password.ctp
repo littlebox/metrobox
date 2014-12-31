@@ -47,8 +47,6 @@
 $initScripts =
 <<<JS
 jQuery(document).ready(function() {
-	Metrobox.init(); // init metronic core components
-	Layout.init(); // init current layout
 	Reset.init();
 });
 JS;
