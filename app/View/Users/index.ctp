@@ -1,66 +1,710 @@
-<div class="users index">
-	<h2><?php echo __('Users'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('full_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('password'); ?></th>
-			<th><?php echo $this->Paginator->sort('group_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('reset_password_token'); ?></th>
-			<th><?php echo $this->Paginator->sort('reset_password_token_created'); ?></th>
-			<th><?php echo $this->Paginator->sort('login_last_attempt'); ?></th>
-			<th><?php echo $this->Paginator->sort('login_last_attempts_count'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($users as $user): ?>
-	<tr>
-		<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['full_name']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($user['Group']['name'], array('controller' => 'groups', 'action' => 'view', $user['Group']['id'])); ?>
-		</td>
-		<td><?php echo h($user['User']['reset_password_token']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['reset_password_token_created']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['login_last_attempt']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['login_last_attempts_count']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['created']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['modified']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), array(), __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
+<!-- BEGIN EXAMPLE TABLE PORTLET-->
+<div class="portlet box grey-cascade">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-globe"></i>Managed Table
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse">
+			</a>
+			<a href="#portlet-config" data-toggle="modal" class="config">
+			</a>
+			<a href="javascript:;" class="reload">
+			</a>
+			<a href="javascript:;" class="remove">
+			</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="table-toolbar">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="btn-group">
+						<button id="sample_editable_1_new" class="btn green">
+						Add New <i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="btn-group pull-right">
+						<button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+						</button>
+						<ul class="dropdown-menu pull-right">
+							<li>
+								<a href="#">
+								Print </a>
+							</li>
+							<li>
+								<a href="#">
+								Save as PDF </a>
+							</li>
+							<li>
+								<a href="#">
+								Export to Excel </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="table table-striped table-bordered table-hover" id="users_table_ok">
+			<thead>
+				<th>Username</th>
+				<th>Email</th>
+				<th>Created</th>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Groups'), array('controller' => 'groups', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Group'), array('controller' => 'groups', 'action' => 'add')); ?> </li>
-	</ul>
+<!-- END EXAMPLE TABLE PORTLET-->
+
+<!-- BEGIN EXAMPLE TABLE PORTLET-->
+<div class="portlet box grey-cascade">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="fa fa-globe"></i>Managed Table
+		</div>
+		<div class="tools">
+			<a href="javascript:;" class="collapse">
+			</a>
+			<a href="#portlet-config" data-toggle="modal" class="config">
+			</a>
+			<a href="javascript:;" class="reload">
+			</a>
+			<a href="javascript:;" class="remove">
+			</a>
+		</div>
+	</div>
+	<div class="portlet-body">
+		<div class="table-toolbar">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="btn-group">
+						<button id="sample_editable_1_new" class="btn green">
+						Add New <i class="fa fa-plus"></i>
+						</button>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="btn-group pull-right">
+						<button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+						</button>
+						<ul class="dropdown-menu pull-right">
+							<li>
+								<a href="#">
+								Print </a>
+							</li>
+							<li>
+								<a href="#">
+								Save as PDF </a>
+							</li>
+							<li>
+								<a href="#">
+								Export to Excel </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="table table-striped table-bordered table-hover" id="users_table">
+		<thead>
+		<tr>
+			<th class="table-checkbox">
+				<input type="checkbox" class="group-checkable" data-set="#users_table .checkboxes"/>
+			</th>
+			<th>
+				 Username
+			</th>
+			<th>
+				 Email
+			</th>
+			<th>
+				 Points
+			</th>
+			<th>
+				 Joined
+			</th>
+			<th>
+				 Status
+			</th>
+		</tr>
+		</thead>
+		<tbody>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 shuxer
+			</td>
+			<td>
+				<a href="mailto:shuxer@gmail.com">
+				shuxer@gmail.com </a>
+			</td>
+			<td>
+				 120
+			</td>
+			<td class="center">
+				 12 Jan 2012
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 looper
+			</td>
+			<td>
+				<a href="mailto:looper90@gmail.com">
+				looper90@gmail.com </a>
+			</td>
+			<td>
+				 120
+			</td>
+			<td class="center">
+				 12.12.2011
+			</td>
+			<td>
+				<span class="label label-sm label-warning">
+				Suspended </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 userwow
+			</td>
+			<td>
+				<a href="mailto:userwow@yahoo.com">
+				userwow@yahoo.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 user1wow
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				userwow@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-default">
+				Blocked </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 restest
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				test@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 foopl
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 weep
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 coop
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 pppol
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 test
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 userwow
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				userwow@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-default">
+				Blocked </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 test
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				test@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 goop
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 weep
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 15.11.2011
+			</td>
+			<td>
+				<span class="label label-sm label-default">
+				Blocked </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 toopl
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 16.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 userwow
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				userwow@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 9.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-default">
+				Blocked </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 tes21t
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				test@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 14.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 fop
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 13.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-warning">
+				Suspended </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 kop
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 17.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 vopl
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.11.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 userwow
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				userwow@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-default">
+				Blocked </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 wap
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				test@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 12.12.2012
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 test
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 19.12.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 toop
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 17.12.2010
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		<tr class="odd gradeX">
+			<td>
+				<input type="checkbox" class="checkboxes" value="1"/>
+			</td>
+			<td>
+				 weep
+			</td>
+			<td>
+				<a href="mailto:userwow@gmail.com">
+				good@gmail.com </a>
+			</td>
+			<td>
+				 20
+			</td>
+			<td class="center">
+				 15.11.2011
+			</td>
+			<td>
+				<span class="label label-sm label-success">
+				Approved </span>
+			</td>
+		</tr>
+		</tbody>
+		</table>
+	</div>
 </div>
+<!-- END EXAMPLE TABLE PORTLET-->
+
+<?= $this->Html->css('/plugins/select2/select2', array('inline'=>false));?>
+<?= $this->Html->css('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap', array('inline'=>false));?>
+
+<?= $this->Html->script('/plugins/select2/select2.min', array('block' => 'pagePlugins'));?>
+<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min', array('block' => 'pagePlugins'));?>
+<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap', array('block' => 'pagePlugins'));?>
+
+<?= $this->Html->script('table-managed.js', array('inline'=>false));?>
+
+<?php
+$initScripts =
+<<<JS
+jQuery(document).ready(function() {
+	TableManaged.init();
+});
+JS;
+?>
+
+<?= $this->Html->scriptBlock($initScripts, array('inline'=>false));?>

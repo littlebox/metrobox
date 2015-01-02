@@ -3,6 +3,8 @@ App::uses('AppController', 'Controller');
 
 class UsersController extends AppController {
 
+	public $components = array('DataTable');
+
 	/*public function initDB() {
 		$group = $this->User->Group;
 
@@ -40,10 +42,22 @@ class UsersController extends AppController {
 
 	}
 
-	public function index() {
+	public function indexOld() {
 		$this->layout = 'metrobox';
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
+	}
+
+	public function index(){
+		$this->layout = 'metrobox';
+
+		$this->paginate = array(
+			'fields' => array('User.full_name','User.email', 'User.created'),
+		);
+
+		$this->DataTable->mDataProp = true;
+		$this->set('response', $this->DataTable->getResponse());
+		$this->set('_serialize','response');
 	}
 
 	public function view($id = null) {
