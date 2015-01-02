@@ -31,6 +31,9 @@ Like: www.facebook.com/littlefacebox
 		echo $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min');
 	?>
 	<!-- END GLOBAL MANDATORY STYLES -->
+	<!-- BEGIN PAGE LEVEL STYLES -->
+	<?php echo $this->fetch('css'); ?>
+	<!-- END PAGE LEVEL STYLES -->
 	<!-- BEGIN THEME STYLES -->
 	<?php
 		echo $this->Html->css('components');
@@ -161,6 +164,9 @@ echo $this->Html->script('/plugins/uniform/jquery.uniform.min');
 echo $this->Html->script('/plugins/bootstrap-switch/js/bootstrap-switch.min');
 ?>
 <!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE PLUGINS -->
+<?php echo $this->fetch('pagePlugins'); ?>
+<!-- END PAGE PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <?php
 echo $this->Html->script('metrobox');

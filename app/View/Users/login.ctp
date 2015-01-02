@@ -121,7 +121,7 @@
 	};
 </script>
 
-<?= $this->Html->script('login' array('inline'=>false));?>
+<?= $this->Html->script('login', array('inline'=>false));?>
 
 <?php
 $initScripts =
