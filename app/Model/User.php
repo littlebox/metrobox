@@ -38,8 +38,11 @@ class User extends AppModel {
 			'email'=> array(
 				'rule' => 'email',
 				'message' => 'Must be an email'
-
-				)
+				),
+			'isUnique'=> array(
+				'rule' => 'isUnique',
+				'message' => 'Email already exist'
+				),
 		),
 		'full_name' => array(
 			'required' => array(
