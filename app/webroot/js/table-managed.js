@@ -6,6 +6,36 @@ var TableManaged = function () {
 
 		// begin first table
 		table.dataTable({
+			"pagingType": "bootstrap_full_number",
+			"language": {
+				"paginate": {
+					"previous":"Prev",
+					"next": "Next",
+					"last": "Last",
+					"first": "First"
+				}
+			},
+			"bProcessing": true,
+				"bServerSide": true,
+				"sAjaxSource": "/metrobox/users/index.json",
+				"aoColumns": [
+					{mData:"User.full_name"},
+					{mData:"User.email"},
+					{mData:"User.created"}
+				],
+		});
+
+		var tableWrapper = jQuery('#users_table_old_wrapper');
+
+		tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
+	}
+
+	var initUsersTableOld = function () {
+
+		var table = $('#users_table_old');
+
+		// begin first table
+		table.dataTable({
 
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 
@@ -41,7 +71,7 @@ var TableManaged = function () {
 			] // set first column as a default sort by asc
 		});
 
-		var tableWrapper = jQuery('#users_table_wrapper');
+		var tableWrapper = jQuery('#users_table_old_wrapper');
 
 		table.find('.group-checkable').change(function () {
 			var set = jQuery(this).attr("data-set");
@@ -65,35 +95,7 @@ var TableManaged = function () {
 		tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
 	}
 
-	var initUsersTableOk = function () {
 
-		var table = $('#users_table_ok');
-
-		// begin first table
-		table.dataTable({
-			"pagingType": "bootstrap_full_number",
-			"language": {
-				"paginate": {
-					"previous":"Prev",
-					"next": "Next",
-					"last": "Last",
-					"first": "First"
-				}
-			},
-			"bProcessing": true,
-				"bServerSide": true,
-				"sAjaxSource": "/metrobox/users/index.json",
-				"aoColumns": [
-					{mData:"User.full_name"},
-					{mData:"User.email"},
-					{mData:"User.created"}
-				],
-		});
-
-		var tableWrapper = jQuery('#users_table_ok_wrapper');
-
-		tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
-	}
 
 
 	return {
@@ -105,8 +107,6 @@ var TableManaged = function () {
 			}
 
 			initUsersTable();
-			initUsersTableOk();
-
 		}
 
 	};
