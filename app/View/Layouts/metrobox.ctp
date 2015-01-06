@@ -32,7 +32,7 @@ Like: www.facebook.com/littlefacebox
 	?>
 	<!-- END GLOBAL MANDATORY STYLES -->
 	<!-- BEGIN PAGE LEVEL STYLES -->
-	<?php echo $this->fetch('css'); ?>
+	<?php echo $this->fetch('pageStyles'); ?>
 	<!-- END PAGE LEVEL STYLES -->
 	<!-- BEGIN THEME STYLES -->
 	<?php
@@ -179,7 +179,8 @@ echo $this->Html->script('layout');
 	});
 </script>
 
-<?php echo $this->fetch('script'); ?>
+<?php echo $this->fetch('pageScripts'); ?>
+
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- END JAVASCRIPTS -->
 </body>

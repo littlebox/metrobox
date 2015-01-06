@@ -57,22 +57,22 @@
 </div>
 <!-- END EXAMPLE TABLE PORTLET-->
 
-<?= $this->Html->css('/plugins/select2/select2', array('inline'=>false));?>
-<?= $this->Html->css('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap', array('inline'=>false));?>
+<?php $this->append('pageStyles'); ?>
+	<?= $this->Html->css('/plugins/select2/select2');?>
+	<?= $this->Html->css('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+<?php $this->end(); ?>
 
-<?= $this->Html->script('/plugins/select2/select2.min', array('block' => 'pagePlugins'));?>
-<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min', array('block' => 'pagePlugins'));?>
-<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap', array('block' => 'pagePlugins'));?>
+<?php $this->append('pagePlugins'); ?>
+	<?= $this->Html->script('/plugins/select2/select2.min');?>
+	<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min');?>
+	<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+<?php $this->end(); ?>
 
-<?= $this->Html->script('users-index-table', array('inline'=>false));?>
-
-<?php
-$initScripts =
-<<<JS
-jQuery(document).ready(function() {
-	UsersIndexTable.init();
-});
-JS;
-?>
-
-<?= $this->Html->scriptBlock($initScripts, array('inline'=>false));?>
+<?php $this->append('pageScripts'); ?>
+	<?= $this->Html->script('users-index-table');?>
+	<script>
+		jQuery(document).ready(function() {
+			UsersIndexTable.init();
+		});
+	</script>
+<?php $this->end(); ?>
