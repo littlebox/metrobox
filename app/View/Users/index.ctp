@@ -1,46 +1,42 @@
 <!-- BEGIN EXAMPLE TABLE PORTLET-->
-<div class="portlet box grey-cascade">
+<div class="portlet light">
 	<div class="portlet-title">
-		<div class="caption">
-			<i class="fa fa-globe"></i>Managed Table
+		<div class="caption font-blue-hoki">
+			<i class="icon-share font-blue-hoki"></i>
+			<span class="caption-subject bold uppercase"> <?= __('List') ?></span>
+			<span class="caption-helper"><?= __('Users') ?></span>
 		</div>
-		<div class="tools">
-			<a href="javascript:;" class="collapse">
-			</a>
-			<a href="#portlet-config" data-toggle="modal" class="config">
-			</a>
-			<a href="javascript:;" class="reload">
-			</a>
-			<a href="javascript:;" class="remove">
-			</a>
+		<div class="actions">
+			<a href="#" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
 		</div>
+
 	</div>
 	<div class="portlet-body">
 		<div class="table-toolbar">
 			<div class="row">
 				<div class="col-md-6">
 					<div class="btn-group">
-						<button id="sample_editable_1_new" class="btn green">
-						Add New <i class="fa fa-plus"></i>
+						<button id="sample_editable_1_new" class="btn green-haze">
+						<?= __('Add New') ?> <i class="fa fa-plus"></i>
 						</button>
 					</div>
 				</div>
 				<div class="col-md-6">
 					<div class="btn-group pull-right">
-						<button class="btn dropdown-toggle" data-toggle="dropdown">Tools <i class="fa fa-angle-down"></i>
+						<button class="btn dropdown-toggle" data-toggle="dropdown"><?= __('Tools') ?> <i class="fa fa-angle-down"></i>
 						</button>
 						<ul class="dropdown-menu pull-right">
 							<li>
 								<a href="#">
-								Print </a>
+								<?= __('Print') ?> </a>
 							</li>
 							<li>
 								<a href="#">
-								Save as PDF </a>
+								<?= __('Save as PDF') ?> </a>
 							</li>
 							<li>
 								<a href="#">
-								Export to Excel </a>
+								<?= __('Export to Excel') ?> </a>
 							</li>
 						</ul>
 					</div>
@@ -49,9 +45,10 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="users_table">
 			<thead>
-				<th>Username</th>
-				<th>Email</th>
-				<th>Created</th>
+				<th><?= __('Username') ?></th>
+				<th><?= __('Email') ?></th>
+				<th><?= __('Created') ?></th>
+				<th><?= __('Actions') ?></th>
 			</thead>
 			<tbody>
 			</tbody>
@@ -67,13 +64,13 @@
 <?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min', array('block' => 'pagePlugins'));?>
 <?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap', array('block' => 'pagePlugins'));?>
 
-<?= $this->Html->script('table-managed.js', array('inline'=>false));?>
+<?= $this->Html->script('users-index-table', array('inline'=>false));?>
 
 <?php
 $initScripts =
 <<<JS
 jQuery(document).ready(function() {
-	TableManaged.init();
+	UsersIndexTable.init();
 });
 JS;
 ?>

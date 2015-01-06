@@ -52,7 +52,7 @@ class UsersController extends AppController {
 		$this->layout = 'metrobox';
 
 		$this->paginate = array(
-			'fields' => array('User.full_name','User.email', 'User.created'),
+			'fields' => array('User.full_name','User.email', 'User.created', 'User.id'),
 		);
 
 		$this->DataTable->mDataProp = true;
