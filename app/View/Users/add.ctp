@@ -43,7 +43,7 @@
 					<div class="col-md-9">
 						<div class="fileinput fileinput-new" data-provides="fileinput">
 							<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-								<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+								<?= $this->Html->image('media/profile/noimage.jpg', array('alt' => ''));?>
 							</div>
 							<div class="fileinput-preview fileinput-exists thumbnail" style="min-width:100px; min-height:100px;max-width: 500px; max-height: 500px;">
 							</div>
@@ -99,18 +99,22 @@
 	</div>
 </div>
 
+<?php $this->append('pageStyles'); ?>
+	<?= $this->Html->css('/plugins/select2/select2');?>
+	<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
+	<?= $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min');?>
+	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
+	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
+	<?= $this->Html->css('image-crop.css');?>
+<?php $this->end(); ?>
 
-<?= $this->Html->css('/plugins/select2/select2', array('inline' => false));?>
-<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput', array('inline' => false));?>
-<?= $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min', array('inline' => false));?>
-<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput', array('inline' => false));?>
-<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min', array('inline' => false));?>
-<?= $this->Html->css('image-crop.css', array('inline' => false));?>
+<?php $this->append('pagePlugins'); ?>
+	<?= $this->Html->script('/plugins/select2/select2.min');?>
+	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
+	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
+	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
+<?php $this->end(); ?>
 
-<?= $this->Html->script('/plugins/select2/select2.min', array('block' => 'pagePlugins'));?>
-
-<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput', array('inline' => false));?>
-<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js', array('inline' => false));?>
-<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js', array('inline' => false));?>
-
-<?= $this->Html->script('users-add.js', array('inline'=>false));?>
+<?php $this->append('pageScripts'); ?>
+	<?= $this->Html->script('users-add.js');?>
+<?php $this->end(); ?>

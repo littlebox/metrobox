@@ -390,7 +390,7 @@
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 					<li class="dropdown dropdown-user">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-						<?= $this->Html->image('avatar3_small.jpg', array('alt' => '', 'class' => 'img-circle'));?>
+						<?= $this->Html->image('media/profile/profile_picture_'.AuthComponent::user('id').'.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 						<span class="username username-hide-on-mobile">
 							<?= (AuthComponent::user('full_name')) ? AuthComponent::user('full_name') : "WTF?";?>
 						</span>
