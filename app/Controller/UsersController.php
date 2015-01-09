@@ -108,16 +108,44 @@ class UsersController extends AppController {
 	public function delete($id = null) {
 		$this->request->allowMethod('post');
 
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('User deleted'));
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//$this->autoRender = $this->layout = false;
+
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				$data['error'] = __('Invalid user');
+			} else {
+				if ($this->User->delete()) {
+					$data['content'] = __('User deleted');
+				} else {
+					$data['error'] = __('User was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			if ($this->User->delete()) {
+				$this->Session->setFlash(__('User deleted'));
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('User was not deleted'));
 			return $this->redirect(array('action' => 'index'));
 		}
-		$this->Session->setFlash(__('User was not deleted'));
-		return $this->redirect(array('action' => 'index'));
+
+
+
 	}
 
 

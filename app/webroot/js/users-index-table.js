@@ -5,7 +5,7 @@ var UsersIndexTable = function () {
 		var table = $('#users_table');
 
 		// begin first table
-		table.dataTable({
+		dataTable = table.dataTable({
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			"pagingType": "bootstrap_full_number",
 			"language": {
@@ -23,15 +23,18 @@ var UsersIndexTable = function () {
 			"pageLength": 50, // set the initial value
 			"bProcessing": true,
 				"bServerSide": true,
-				"sAjaxSource": "/metrobox/users/index.json", //CAMBIAR POR RUTA CON HTML LINK HELPER
+				"sAjaxSource": ajaxSource, //set in view
 				"aoColumns": [
 					{mData:"User.full_name"},
 					{mData:"User.email"},
 					{mData:"User.created"},
-					{mData:"User.id",
-					mRender: function ( data, type, full ) {
-						return '<a class="delete" href="/metrobox/users/edit/'+data+'" >Edit</a> | <a class="delete" href="/metrobox/users/delete/'+data+'" >Delete</a>';
-					}}
+					{
+						mData:"User.id",
+						mRender: function ( data, type, full ) {
+							return '<button class="btn btn-sm red" onclick="confirmAlert(\''+userDeleterUrl+"/"+data+'\');" ><i class="fa fa-times"></i> '+userDeleteText+'</button> <a class="btn btn-sm blue" href="'+userEditUrl+"/"+data+'" ><i class="fa fa-pencil"></i> '+userEditText+'</a> <a class="btn btn-sm green" href="'+userViewrUrl+"/"+data+'" ><i class="fa fa-file"></i> '+userViewText+'</a>';
+						},
+						orderable: false
+					}
 				],
 		});
 

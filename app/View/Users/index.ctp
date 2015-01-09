@@ -16,9 +16,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="btn-group">
-						<button id="sample_editable_1_new" class="btn green-haze">
-						<?= __('Add New') ?> <i class="fa fa-plus"></i>
-						</button>
+						<?= $this->Html->link('<i class="fa fa-plus"></i> '.__('Add New'), array('action' => 'add'), array('class' => 'btn green-haze', 'escape' => false)); ?>
 					</div>
 				</div>
 				<div class="col-md-6">
@@ -60,19 +58,83 @@
 <?php $this->append('pageStyles'); ?>
 	<?= $this->Html->css('/plugins/select2/select2');?>
 	<?= $this->Html->css('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/select2/select2.min');?>
 	<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min');?>
 	<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('users-index-table');?>
 	<script>
+		var dataTable;
+		var deleting = false;
+		ajaxSource = ('<?= Router::url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json')) ?>');
+		userEditUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'edit')) ?>');
+		userDeleterUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'delete')) ?>');
+		userViewrUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'view')) ?>');
+		userEditText = ('<?= __("Edit") ?>');
+		userDeleteText = ('<?= __("Delete") ?>');
+		userViewText = ('<?= __("Details") ?>');
+
 		jQuery(document).ready(function() {
 			UsersIndexTable.init();
 		});
+
+		function confirmAlert(url){
+			swal(
+				{
+					title: "<?= __('Are you sure?') ?>",
+					text: "<?= __('You will not be able to recover this imaginary file!') ?>",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "<?= __('Yes, delete it!') ?>",
+					closeOnConfirm: false
+				},
+				function(){
+					if(!deleting){
+						deleting = true;
+						$.ajax({
+							type: 'post',
+							cache: false,
+							url: url+'.json',
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+								xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+							},
+							success: function(response) {
+								if (response.content) {
+									swal({
+										title: "<?= __('Deleted!') ?>",
+										text: response.content,
+										type: "success",
+									},
+									function(){
+										dataTable.fnDraw();
+									})
+								}
+								if (response.error) {
+									swal("<?= __('Error') ?>", response.error, "error");
+								}
+							},
+							error: function(e) {
+								swal("<?= __('Error') ?>", "<?= __('User hasn\'t been deleted.') ?>", "error");
+							},
+							complete: function() {
+								deleting = false;
+							}
+						});
+					}
+
+
+
+				});
+		}
+
 	</script>
 <?php $this->end(); ?>
