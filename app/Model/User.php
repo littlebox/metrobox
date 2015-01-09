@@ -90,7 +90,7 @@ class User extends AppModel {
 				$errors [] = "Please upload image";
 			}
 
-			else if ($field['profile_picture']['size'] >= 2097152) {
+			else if ($field['profile_picture']['size'] >= intval(ini_get('upload_max_filesize'))*1024*1024) { //put max file zize for image equals than seted in php.ini
 				$errors [] = "Please upload jpg,png or gif files with size 2 MB or less.";
 			}
 
