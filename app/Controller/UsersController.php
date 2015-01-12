@@ -91,12 +91,35 @@ class UsersController extends AppController {
 	}
 
 	public function edit($id = null) {
+		$this->layout = 'metrobox';
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
 		}
+
 		if ($this->request->is('post') || $this->request->is('put')) {
+
+			if(empty($this->request->data['User']['password'])){
+
+				unset($this->request->data['User']['password']);
+				unset($this->request->data['User']['confirm_password']);
+
+			}
+
+			$profile = true;
+
+			if(empty($this->request->data['User']['profile_picture']['name'])){
+
+				unset($this->request->data['User']['profile_picture']);
+
+				$profile = false;
+
+			}
+
 			if ($this->User->save($this->request->data)) {
+				if($profile){
+					$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
+				}
 				$this->Session->setFlash(__('The user has been saved'));
 				return $this->redirect(array('action' => 'index'));
 			}

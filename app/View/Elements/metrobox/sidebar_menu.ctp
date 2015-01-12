@@ -35,12 +35,6 @@
 							'title'=>'Add user',
 							'href'=>array('controller'=>'users', 'action' => 'add'),
 							'icon'=>'users',
-							'submenu'=>array(
-								array(
-								'title'=>'View users',
-								'href'=>array('controller'=>'pages', 'action' => 'test'),
-								'icon'=>'users')
-								)
 						)
 					),
 				)
