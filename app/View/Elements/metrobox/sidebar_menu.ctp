@@ -12,38 +12,42 @@
 
 			$menu = array(
 				array(
-					'title'=>'Dashboard',
+					'title'=>'Inicio',
 					'href' =>array('controller'=>'pages','action'=>'index'),
-					'icon'=>'home'
+					'icon'=>'screen-desktop'
 					),
 				array(
-					'title'=>'Test',
-					'href'=> array('controller'=>'pages','action'=>'test'),
-					'icon'=>'chemistry',
+					'title'=>'Propiedades',
+					'href'=> array('controller'=>'estates','action'=>'index'),
+					'icon'=>'home',
 					),
 				array(
-					'title' => 'Users',
-					'href' => array('controller' => 'users'),
-					'icon' => 'users',
-					'submenu'=>array(
-						array(
-							'title'=>'View users',
-							'href'=>array('controller'=>'users', 'action' => 'index'),
-							'icon'=>'users',
-						),
-						array(
-							'title'=>'Add user',
-							'href'=>array('controller'=>'users', 'action' => 'add'),
-							'icon'=>'users',
-							'submenu'=>array(
-								array(
-								'title'=>'View users',
-								'href'=>array('controller'=>'pages', 'action' => 'test'),
-								'icon'=>'users')
-								)
-						)
+					'title'=>'Mensajes',
+					'href'=> array('controller'=>'messages','action'=>'index'),
+					'icon'=>'envelope',
 					),
-				)
+				array(
+					'title'=>'Estadisticas',
+					'href'=>array('controller'=>'pages', 'action' => 'stats'),
+					'icon'=>'bar-chart',
+					),
+				//Admin Menu
+				array(
+					'title'=>'Usuarios',
+					'href'=>array('controller'=>'users', 'action' => 'index'),
+					'icon'=>'users',
+				),
+				array(
+					'title'=>'Sitio',
+					'href'=>array('controller'=>'pages', 'action' => 'site_options'),
+					'icon'=>'equalizer',
+				),
+				array(
+					'title'=>'Estadisticas del Sitio',
+					'href'=>array('controller'=>'pages', 'action' => 'site_stats'),
+					'icon'=>'bar-chart',
+				),
+
 			);
 
 
