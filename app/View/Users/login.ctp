@@ -120,3 +120,16 @@
 		});
 	};
 </script>
+
+<?= $this->Html->script('login', array('inline'=>false));?>
+
+<?php
+$initScripts =
+<<<JS
+jQuery(document).ready(function() {
+	Login.init();
+});
+JS;
+?>
+
+<?= $this->Html->scriptBlock($initScripts, array('inline'=>false));?>

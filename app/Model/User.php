@@ -38,8 +38,17 @@ class User extends AppModel {
 			'email'=> array(
 				'rule' => 'email',
 				'message' => 'Must be an email'
-
-				)
+				),
+			'isUnique'=> array(
+				'rule' => 'isUnique',
+				'message' => 'Email already exist'
+				),
+		),
+		'full_name' => array(
+			'required' => array(
+				'rule' => 'notEmpty',
+				'message' => 'A name is required'
+				),
 		),
 		'full_name' => array(
 			'required' => array(
@@ -63,14 +72,49 @@ class User extends AppModel {
 				'message' => 'Passwords don\'t match.'
 			)
 		),
-		'role' => array(
-			'valid' => array(
-				'rule' => array('inList', array('admin', 'author')),
-				'message' => 'Please enter a valid role',
-				'allowEmpty' => false
-			)
+
+		'profile_picture' => array(
+			'rule' => array('checkValidImage'),
+			'required' => false,
 		)
+
 	);
+
+	public function checkValidImage($field){
+
+		if(!empty($field['profile_picture']['name'])){
+			$extension = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/jpg');
+			$isValidFile = in_array($field['profile_picture']['type'], $extension) && is_uploaded_file($field['profile_picture']['tmp_name']);
+			$errors = array();
+			$editMethod = false;
+
+			if (($field['profile_picture']['error'] == 1)){
+				$errors [] = "Please upload jpg,png or gif files with size 2 MB or less.";
+			}
+
+			else if (empty($field['profile_picture']['name'])){
+				$errors [] = "Please upload image";
+			}
+
+			else if ($field['profile_picture']['size'] >= 2097152) {
+				$errors [] = "Please upload jpg,png or gif files with size 2 MB or less.";
+			}
+
+			else if ($isValidFile !=1){
+				$errors [] = "Please select file in gif,jpeg,png format.";
+			}
+
+		}
+		// else{
+		// 	$errors [] = "Please select file in gif,jpeg,png format.";
+		// }
+
+		if (!empty($errors)){
+			return implode("\n", $errors);
+		}
+
+		return true;
+	}
 
 	public function equaltofield($check,$otherfield){
 		//get name of field

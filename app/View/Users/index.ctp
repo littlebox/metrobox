@@ -1,66 +1,140 @@
-<div class="users index">
-	<h2><?php echo __('Users'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
-	<thead>
-	<tr>
-			<th><?php echo $this->Paginator->sort('id'); ?></th>
-			<th><?php echo $this->Paginator->sort('full_name'); ?></th>
-			<th><?php echo $this->Paginator->sort('email'); ?></th>
-			<th><?php echo $this->Paginator->sort('password'); ?></th>
-			<th><?php echo $this->Paginator->sort('group_id'); ?></th>
-			<th><?php echo $this->Paginator->sort('reset_password_token'); ?></th>
-			<th><?php echo $this->Paginator->sort('reset_password_token_created'); ?></th>
-			<th><?php echo $this->Paginator->sort('login_last_attempt'); ?></th>
-			<th><?php echo $this->Paginator->sort('login_last_attempts_count'); ?></th>
-			<th><?php echo $this->Paginator->sort('created'); ?></th>
-			<th><?php echo $this->Paginator->sort('modified'); ?></th>
-			<th class="actions"><?php echo __('Actions'); ?></th>
-	</tr>
-	</thead>
-	<tbody>
-	<?php foreach ($users as $user): ?>
-	<tr>
-		<td><?php echo h($user['User']['id']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['full_name']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['email']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['password']); ?>&nbsp;</td>
-		<td>
-			<?php echo $this->Html->link($user['Group']['name'], array('controller' => 'groups', 'action' => 'view', $user['Group']['id'])); ?>
-		</td>
-		<td><?php echo h($user['User']['reset_password_token']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['reset_password_token_created']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['login_last_attempt']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['login_last_attempts_count']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['created']); ?>&nbsp;</td>
-		<td><?php echo h($user['User']['modified']); ?>&nbsp;</td>
-		<td class="actions">
-			<?php echo $this->Html->link(__('View'), array('action' => 'view', $user['User']['id'])); ?>
-			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $user['User']['id'])); ?>
-			<?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $user['User']['id']), array(), __('Are you sure you want to delete # %s?', $user['User']['id'])); ?>
-		</td>
-	</tr>
-<?php endforeach; ?>
-	</tbody>
-	</table>
-	<p>
-	<?php
-	echo $this->Paginator->counter(array(
-	'format' => __('Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}')
-	));
-	?>	</p>
-	<div class="paging">
-	<?php
-		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
-		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
-	?>
+<!-- BEGIN EXAMPLE TABLE PORTLET-->
+<div class="portlet light">
+	<div class="portlet-title">
+		<div class="caption font-blue-hoki">
+			<i class="icon-share font-blue-hoki"></i>
+			<span class="caption-subject bold uppercase"> <?= __('List') ?></span>
+			<span class="caption-helper"><?= __('Users') ?></span>
+		</div>
+		<div class="actions">
+			<a href="#" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
+		</div>
+
+	</div>
+	<div class="portlet-body">
+		<div class="table-toolbar">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="btn-group">
+						<?= $this->Html->link('<i class="fa fa-plus"></i> '.__('Add New'), array('action' => 'add'), array('class' => 'btn green-haze', 'escape' => false)); ?>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="btn-group pull-right">
+						<button class="btn dropdown-toggle" data-toggle="dropdown"><?= __('Tools') ?> <i class="fa fa-angle-down"></i>
+						</button>
+						<ul class="dropdown-menu pull-right">
+							<li>
+								<a href="#">
+								<?= __('Print') ?> </a>
+							</li>
+							<li>
+								<a href="#">
+								<?= __('Save as PDF') ?> </a>
+							</li>
+							<li>
+								<a href="#">
+								<?= __('Export to Excel') ?> </a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<table class="table table-striped table-bordered table-hover" id="users_table">
+			<thead>
+				<th><?= __('Username') ?></th>
+				<th><?= __('Email') ?></th>
+				<th><?= __('Created') ?></th>
+				<th><?= __('Actions') ?></th>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New User'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Groups'), array('controller' => 'groups', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Group'), array('controller' => 'groups', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<!-- END EXAMPLE TABLE PORTLET-->
+
+<?php $this->append('pageStyles'); ?>
+	<?= $this->Html->css('/plugins/select2/select2');?>
+	<?= $this->Html->css('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
+<?php $this->end(); ?>
+
+<?php $this->append('pagePlugins'); ?>
+	<?= $this->Html->script('/plugins/select2/select2.min');?>
+	<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min');?>
+	<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
+<?php $this->end(); ?>
+
+<?php $this->append('pageScripts'); ?>
+	<?= $this->Html->script('users-index-table');?>
+	<script>
+		var dataTable;
+		var deleting = false;
+		ajaxSource = ('<?= Router::url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json')) ?>');
+		userEditUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'edit')) ?>');
+		userDeleterUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'delete')) ?>');
+		userViewrUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'view')) ?>');
+		userEditText = ('<?= __("Edit") ?>');
+		userDeleteText = ('<?= __("Delete") ?>');
+		userViewText = ('<?= __("Details") ?>');
+
+		jQuery(document).ready(function() {
+			UsersIndexTable.init();
+		});
+
+		function confirmAlert(url){
+			swal(
+				{
+					title: "<?= __('Are you sure?') ?>",
+					text: "<?= __('You will not be able to recover this imaginary file!') ?>",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "<?= __('Yes, delete it!') ?>",
+					closeOnConfirm: false
+				},
+				function(){
+					if(!deleting){
+						deleting = true;
+						$.ajax({
+							type: 'post',
+							cache: false,
+							url: url+'.json',
+							beforeSend: function(xhr) {
+								xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+								xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+							},
+							success: function(response) {
+								if (response.content) {
+									swal({
+										title: "<?= __('Deleted!') ?>",
+										text: response.content,
+										type: "success",
+									},
+									function(){
+										dataTable.fnDraw();
+									})
+								}
+								if (response.error) {
+									swal("<?= __('Error') ?>", response.error, "error");
+								}
+							},
+							error: function(e) {
+								swal("<?= __('Error') ?>", "<?= __('User hasn\'t been deleted.') ?>", "error");
+							},
+							complete: function() {
+								deleting = false;
+							}
+						});
+					}
+
+
+
+				});
+		}
+
+	</script>
+<?php $this->end(); ?>

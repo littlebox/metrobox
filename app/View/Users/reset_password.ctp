@@ -23,7 +23,7 @@
 		<!-- END ERROR MESSAGE-->
 		<?php if(!empty($user)): //If any user with the token has found?>
 			<p>
-				<?= __("Hi %s! Please enter a new password:", $user['User']['fullname']);?>
+				<?= __("Hi %s! Please enter a new password:", $user['User']['full_name']);?>
 			</p>
 			<?= $this->Form->input('password', array('placeholder' => __('Password')));?>
 			<?= $this->Form->input('password_confirm', array('placeholder' => __('Repeat Password'), 'type' => 'password'));?>

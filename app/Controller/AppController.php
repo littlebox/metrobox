@@ -83,6 +83,10 @@ class AppController extends Controller {
 		)
 	);
 
+	public $helpers = array(
+		'Form' => array('className' => 'BootstrapForm')
+	);
+
 	public function beforeFilter() {
 		//Permite ver sin loguearse los siguientes métodos de todos los controladores
 		// $this->Auth->allow('index', 'view');

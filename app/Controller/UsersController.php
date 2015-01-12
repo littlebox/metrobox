@@ -3,7 +3,9 @@ App::uses('AppController', 'Controller');
 
 class UsersController extends AppController {
 
-	/*public function initDB() {
+	public $components = array('DataTable');
+
+	public function initDB() {
 		$group = $this->User->Group;
 
 		// Allow admins to everything
@@ -11,20 +13,20 @@ class UsersController extends AppController {
 		$this->Acl->allow($group, 'controllers');
 
 		// allow managers to posts and widgets
-		$group->id = 2;
-		$this->Acl->deny($group, 'controllers');
-		$this->Acl->allow($group, 'controllers/Posts');
-		$this->Acl->allow($group, 'controllers/Widgets');
+		// $group->id = 2;
+		// $this->Acl->deny($group, 'controllers');
+		// $this->Acl->allow($group, 'controllers/Posts');
+		// $this->Acl->allow($group, 'controllers/Widgets');
 
 		// allow users to only add and edit on posts and widgets
-		$group->id = 3;
-		$this->Acl->deny($group, 'controllers');
-		$this->Acl->allow($group, 'controllers/Users/login');
-		$this->Acl->allow($group, 'controllers/Users/logout');
-		$this->Acl->allow($group, 'controllers/Pages/index');
-		$this->Acl->allow($group, 'controllers/Posts/edit');
-		$this->Acl->allow($group, 'controllers/Widgets/add');
-		$this->Acl->allow($group, 'controllers/Widgets/edit');
+		// $group->id = 3;
+		// $this->Acl->deny($group, 'controllers');
+		// $this->Acl->allow($group, 'controllers/Users/login');
+		// $this->Acl->allow($group, 'controllers/Users/logout');
+		// $this->Acl->allow($group, 'controllers/Pages/index');
+		// $this->Acl->allow($group, 'controllers/Posts/edit');
+		// $this->Acl->allow($group, 'controllers/Widgets/add');
+		// $this->Acl->allow($group, 'controllers/Widgets/edit');
 
 		// allow basic users to log out
 		$this->Acl->allow($group, 'controllers/users/logout');
@@ -32,7 +34,7 @@ class UsersController extends AppController {
 		// we add an exit to avoid an ugly "missing views" error message
 		echo "all done";
 		exit;
-	}*/
+	}
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -40,9 +42,22 @@ class UsersController extends AppController {
 
 	}
 
-	public function index() {
+	public function indexOld() {
+		$this->layout = 'metrobox';
 		$this->User->recursive = 0;
 		$this->set('users', $this->paginate());
+	}
+
+	public function index(){
+		$this->layout = 'metrobox';
+
+		$this->paginate = array(
+			'fields' => array('User.full_name','User.email', 'User.created', 'User.id'),
+		);
+
+		$this->DataTable->mDataProp = true;
+		$this->set('response', $this->DataTable->getResponse());
+		$this->set('_serialize','response');
 	}
 
 	public function view($id = null) {
@@ -54,10 +69,18 @@ class UsersController extends AppController {
 	}
 
 	public function add() {
+
+		$this->layout = 'metrobox';
 		if ($this->request->is('post')) {
+
+			// debug($this->request->data['User']);die();
+			$profile_picture = $this->request->data['User']['profile_picture'];
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
 				$this->Session->setFlash(__('The user has been saved'));
+
+				$this->setProfilePicture($profile_picture, $this->User->id);
+
 				return $this->redirect(array('action' => 'index'));
 			}
 			$this->Session->setFlash(
@@ -92,16 +115,44 @@ class UsersController extends AppController {
 	public function delete($id = null) {
 		$this->request->allowMethod('post');
 
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('User deleted'));
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//$this->autoRender = $this->layout = false;
+
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				$data['error'] = __('Invalid user');
+			} else {
+				if ($this->User->delete()) {
+					$data['content'] = __('User deleted');
+				} else {
+					$data['error'] = __('User was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				throw new NotFoundException(__('Invalid user'));
+			}
+			if ($this->User->delete()) {
+				$this->Session->setFlash(__('User deleted'));
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('User was not deleted'));
 			return $this->redirect(array('action' => 'index'));
 		}
-		$this->Session->setFlash(__('User was not deleted'));
-		return $this->redirect(array('action' => 'index'));
+
+
+
 	}
 
 
@@ -111,7 +162,7 @@ class UsersController extends AppController {
 
 		$min_attempts_show_captcha = 2;
 		$this->set('min_attempts_show_captcha',$min_attempts_show_captcha);
-		$time_to_count_an_attempt = '-1 minute';
+		$time_to_count_an_attempt = '-5 minutes';
 
 		if($this->Auth->loggedIn()){
 			return $this->redirect($this->Auth->redirect());
@@ -209,7 +260,7 @@ class UsersController extends AppController {
 				$user = $this->User->find('first',array('conditions' => array('User.email' => $email)));
 				if($user)	{
 					$token = Security::hash(String::uuid(),'sha512',true);
-					$url = Router::url( array('controller'=>'users','action'=>'reset'), true ).'/'.$token;
+					$url = Router::url( array('controller'=>'users','action'=>'resetPassword'), true ).'/'.$token;
 
 					$this->User->id = $user['User']['id'];
 
@@ -227,7 +278,7 @@ class UsersController extends AppController {
 						$this->Email->template = 'metrobox_reset_password';
 						$this->Email->from = 'Littlebox <info@littlebox.com.ar>';
 						$this->Email->to = $user['User']['email'];
-						$this->Email->subject = __('Reset Your Example.com Password');
+						$this->Email->subject = __('Reset Your Password');
 						$this->Email->sendAs = 'both';
 
 						$this->Email->delivery = 'smtp';
@@ -269,7 +320,7 @@ class UsersController extends AppController {
 				break;
 			}
 
-			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->token), 'fields' => array('id', 'reset_password_token_created', 'fullname')));
+			$user = $this->User->find('first',array('conditions'=>array('User.reset_password_token' => $this->request->token), 'fields' => array('id', 'reset_password_token_created', 'full_name')));
 
 			//Check if a user has been founded in DB
 			if( !$user ){
@@ -278,7 +329,7 @@ class UsersController extends AppController {
 			}
 
 			//Check if token have less than one day since generated
-			if( strtotime($user['User']['reset_password_token_created']) < strtotime('-1 day') ){
+			if( strtotime($user['User']['reset_password_token_created']) < strtotime('-3 hours') ){
 				$this->Session->setFlash(__('The token has expired.'), 'metrobox_flash_login');
 				break;
 			}
@@ -323,6 +374,67 @@ class UsersController extends AppController {
 		$this->Cookie->write('RememberMe', $data, true, '+2 week');
 
 		return true;
+	}
+
+	protected function setProfilePicture($profile_picture, $user_id){
+
+		$oml = ini_get('memory_limit'); //stands for O.M.L.
+		ini_set('memory_limit', '-1');
+
+		if(empty($profile_picture['name'])){
+
+			copy(WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_default.jpg',WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.$user_id.'.jpg');
+			return true;
+
+		}
+
+		$src = $profile_picture['tmp_name'];
+
+		$img_info = getimagesize($src);
+
+		switch ($img_info[2]) {
+			case IMAGETYPE_JPEG : $image = imagecreatefromjpeg($src); break;
+			case IMAGETYPE_GIF: $image = imagecreatefromgif($src);break;
+			case IMAGETYPE_PNG: $image = imagecreatefrompng($src);break;
+		}
+
+		// Set a maximum height and width
+		$width = intval($_POST['profile_picture_ow']);
+		$height = intval($_POST['profile_picture_oh']);
+
+		// Get new dimensions
+		list($width_orig, $height_orig) = getimagesize($src);
+
+		$ratio_orig = $width_orig/$height_orig;
+
+		if ($width/$height > $ratio_orig) {
+			$width = $height*$ratio_orig;
+		} else {
+			$height = $width/$ratio_orig;
+		}
+
+		// Resample the image to browser pixels
+		$image_p = imagecreatetruecolor($width, $height);
+		imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+		imagedestroy($image);
+
+		$targ_w = $targ_h = 150;
+		$jpeg_quality = 90;
+
+		$src = $profile_picture['tmp_name'];
+
+		$dst_r = ImageCreateTrueColor( $targ_w, $targ_h );
+
+		imagecopyresampled($dst_r,$image_p,0,0,intval($_POST['profile_picture_x']),intval($_POST['profile_picture_y']), $targ_w,$targ_h, intval($_POST['profile_picture_w']),intval($_POST['profile_picture_h']));
+
+		imagejpeg($dst_r, WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.$user_id.'.jpg' ,$jpeg_quality);
+
+		imagedestroy($image_p);
+		imagedestroy($dst_r);
+
+		ini_set('memory_limit', $oml);
+
 	}
 
 }

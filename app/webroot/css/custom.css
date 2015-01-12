@@ -17,3 +17,7 @@ Rounded Portlets
 	border-radius: 0px 0px 4px 4px !important;
 }
 */
+
+.login-form .recaptcha {
+	margin-bottom: 15px;
+}

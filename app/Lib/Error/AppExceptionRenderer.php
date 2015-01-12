@@ -8,7 +8,6 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		$this->controller->response->statusCode($error->getCode());
 		$this->controller->layout = 'metrobox_error_space';
 		$this->controller->set('title_for_layout', 'Not Found');
-		$this->controller->render('/Errors/error404');
 		$this->controller->response->send();
 	}
 	public function badRequest($error) {
@@ -16,7 +15,6 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		$this->controller->response->statusCode($error->getCode());
 		$this->controller->layout = 'metrobox_error_space';
 		$this->controller->set('title_for_layout', 'Bad Request');
-		$this->controller->render('/Errors/error400');
 		$this->controller->response->send();
 	}
 	public function forbidden($error) {
@@ -24,7 +22,6 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		$this->controller->response->statusCode($error->getCode());
 		$this->controller->layout = 'metrobox_error_space';
 		$this->controller->set('title_for_layout', 'Forbidden Access');
-		$this->controller->render('/Errors/error403');
 		$this->controller->response->send();
 	}
 	public function methodNotAllowed($error) {
@@ -32,7 +29,7 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		$this->controller->response->statusCode($error->getCode());
 		$this->controller->layout = 'metrobox_error_space';
 		$this->controller->set('title_for_layout', 'Not Allowed');
-		$this->controller->render('/Errors/error405');
+		$this->controller->render('/Errors/metrobox/error405');
 		$this->controller->response->send();
 	}
 	public function internalError($error) {
@@ -40,7 +37,6 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		$this->controller->response->statusCode($error->getCode());
 		$this->controller->layout = 'metrobox_error_space';
 		$this->controller->set('title_for_layout', 'Internal Server Error');
-		$this->controller->render('/Errors/error500');
 		$this->controller->response->send();
 	}
 	public function notImplemented($error) {
@@ -49,7 +45,6 @@ class AppExceptionRenderer extends ExceptionRenderer {
 		// $this->controller->response->statusCode($error->getCode());
 		// $this->controller->layout = 'metrobox_error_space';
 		// $this->controller->set('title_for_layout', 'Method not implemented');
-		// $this->controller->render('/Errors/error501');
 		// $this->controller->response->send();
 	}
 
