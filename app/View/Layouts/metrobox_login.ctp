@@ -33,7 +33,7 @@ Like: www.facebook.com/littlefacebox
 
 	echo $this->Html->css('login');
 
-	echo $this->Html->css('components-rounded');
+	echo $this->Html->css('components');
 	echo $this->Html->css('plugins');
 	echo $this->Html->css('layout');
 	echo $this->Html->css('themes/default');
