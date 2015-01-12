@@ -83,25 +83,21 @@ class User extends AppModel {
 			$editMethod = false;
 
 			if (($field['profile_picture']['error'] == 1)){
-				$errors [] = "Please upload jpg,png or gif files with size 2 MB or less.";
+				$errors [] = __("Please upload jpg, png or gif files with size 5MB or less.");
 			}
 
 			else if (empty($field['profile_picture']['name'])){
-				$errors [] = "Please upload image";
+				$errors [] = __("Please upload an image.");
 			}
 
-			else if ($field['profile_picture']['size'] >= intval(ini_get('upload_max_filesize'))*1024*1024) { //put max file zize for image equals than seted in php.ini
-				$errors [] = "Please upload jpg,png or gif files with size 2 MB or less.";
+			else if ($field['profile_picture']['size'] >= 5*1024*1024) {
+				$errors [] = __("Please upload jpg, png or gif files with size 5MB or less.");
 			}
 
-			else if ($isValidFile !=1){
-				$errors [] = "Please select file in gif,jpeg,png format.";
+			else if (!$isValidFile){
+				$errors [] = __("Please select file in gif, jpeg, png format.");
 			}
-
 		}
-		// else{
-		// 	$errors [] = "Please select file in gif,jpeg,png format.";
-		// }
 
 		if (!empty($errors)){
 			return implode("\n", $errors);
