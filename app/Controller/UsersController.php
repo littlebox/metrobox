@@ -102,6 +102,7 @@ class UsersController extends AppController {
 	public function admin_edit($id = null) {
 		$this->layout = 'metrobox';
 		$this->User->id = $id;
+		$this->set('id',$id);
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
 		}
