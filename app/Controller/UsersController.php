@@ -68,7 +68,7 @@ class UsersController extends AppController {
 		$this->set('user', $this->User->read(null, $id));
 	}
 
-	public function add() {
+	public function admin_add() {
 		$this->layout = 'metrobox';
 		if ($this->request->is('post')) {
 
