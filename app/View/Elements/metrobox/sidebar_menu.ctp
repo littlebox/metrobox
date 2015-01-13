@@ -36,6 +36,18 @@
 					'title'=>'Usuarios',
 					'href'=>array('controller'=>'users', 'action' => 'index'),
 					'icon'=>'users',
+					'submenu' => array(
+						array(
+							'title'=>__('View users'),
+							'href'=>array('controller'=>'users', 'action' => 'index'),
+							'icon'=>'users',
+						),
+						array(
+							'title'=>__('Add user'),
+							'href'=>array('controller'=>'users', 'action' => 'add'),
+							'icon'=>'users',
+						),
+					)
 				),
 				array(
 					'title'=>'Sitio',

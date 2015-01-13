@@ -7,9 +7,11 @@
  * @since version 1.1.1
  */
 
-App::uses('Helper', 'View');
+App::uses('AppHelper', 'View/Helper');
 
-class MenuHelper extends Helper{
+class MenuHelper extends AppHelper{
+
+	public $helpers = array('Html');
 
 	private $menu_html;
 
@@ -18,7 +20,7 @@ class MenuHelper extends Helper{
 		// if there isn't a href, set 'javascript:;' to it, so that doesn't fire an action.
 		if(empty($item['href'])) $item['href'] = 'javascript:;';
 
-		$active = ($this->submenuActive($item) || Router::url($item['href']) == Router::url()) ? true : false;
+		$active = ($this->submenuActive($item) || $this->Html->url($item['href']) == Router::url()) ? true : false;
 
 		$this->menu_html .= (($active)?'<li class="active">':'<li>');
 
@@ -58,7 +60,7 @@ class MenuHelper extends Helper{
 
 			foreach ($item['submenu'] as $it) {
 
-				$response = (Router::url($it['href']) == Router::url()) ? true : submenuActive($it);
+				$response = (Router::url($it['href']) == Router::url()) ? true : $this->submenuActive($it);
 
 			}
 
