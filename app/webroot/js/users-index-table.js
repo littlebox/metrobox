@@ -5,7 +5,7 @@ var UsersIndexTable = function () {
 		var table = $('#users_table');
 
 		// begin first table
-		dataTable = table.dataTable({
+		LocalVar.dataTable = table.dataTable({
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			"pagingType": "bootstrap_full_number",
 			"language": {
@@ -23,7 +23,7 @@ var UsersIndexTable = function () {
 			"pageLength": 50, // set the initial value
 			"bProcessing": true,
 				"bServerSide": true,
-				"sAjaxSource": ajaxSource, //set in view
+				"sAjaxSource": LocalVar.ajaxSource, //set in view
 				"aoColumns": [
 					{mData:"User.full_name"},
 					{mData:"User.email"},
@@ -31,7 +31,7 @@ var UsersIndexTable = function () {
 					{
 						mData:"User.id",
 						mRender: function ( data, type, full ) {
-							return '<button class="btn btn-sm red" onclick="confirmAlert(\''+userDeleterUrl+"/"+data+'\');" ><i class="fa fa-times"></i> '+userDeleteText+'</button> <a class="btn btn-sm blue" href="'+userEditUrl+"/"+data+'" ><i class="fa fa-pencil"></i> '+userEditText+'</a> <a class="btn btn-sm green" href="'+userViewrUrl+"/"+data+'" ><i class="fa fa-file"></i> '+userViewText+'</a>';
+							return '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.userDeleterUrl+"/"+data+'\');" ><i class="fa fa-times"></i> '+LocalVar.userDeleteText+'</button> <a class="btn btn-sm blue" href="'+LocalVar.userEditUrl+"/"+data+'" ><i class="fa fa-pencil"></i> '+LocalVar.userEditText+'</a> <a class="btn btn-sm green" href="'+LocalVar.userViewrUrl+"/"+data+'" ><i class="fa fa-file"></i> '+LocalVar.userViewText+'</a>';
 						},
 						orderable: false
 					}
@@ -42,74 +42,6 @@ var UsersIndexTable = function () {
 
 		tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
 	}
-
-	var initUsersTableOld = function () {
-
-		var table = $('#users_table_old');
-
-		// begin first table
-		table.dataTable({
-
-			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
-
-			"columns": [{
-				"orderable": false
-			}, {
-				"orderable": true
-			}, {
-				"orderable": false
-			}, {
-				"orderable": false
-			}, {
-				"orderable": true
-			}, {
-				"orderable": false
-			}],
-			"lengthMenu": [
-				[10, 20, 50, 100, -1],
-				[10, 20, 50, 100, "All"] // change per page values here
-			],
-			// set the initial value
-			"pageLength": 50,
-			"pagingType": "bootstrap_full_number",
-			"columnDefs": [{ // set default column settings
-				'orderable': false,
-				'targets': [0]
-			}, {
-				"searchable": false,
-				"targets": [0]
-			}],
-			"order": [
-				[1, "asc"]
-			] // set first column as a default sort by asc
-		});
-
-		var tableWrapper = jQuery('#users_table_old_wrapper');
-
-		table.find('.group-checkable').change(function () {
-			var set = jQuery(this).attr("data-set");
-			var checked = jQuery(this).is(":checked");
-			jQuery(set).each(function () {
-				if (checked) {
-					$(this).attr("checked", true);
-					$(this).parents('tr').addClass("active");
-				} else {
-					$(this).attr("checked", false);
-					$(this).parents('tr').removeClass("active");
-				}
-			});
-			jQuery.uniform.update(set);
-		});
-
-		table.on('change', 'tbody tr .checkboxes', function () {
-			$(this).parents('tr').toggleClass("active");
-		});
-
-		tableWrapper.find('.dataTables_length select').addClass("form-control input-xsmall input-inline"); // modify table per page dropdown
-	}
-
-
-
 
 	return {
 

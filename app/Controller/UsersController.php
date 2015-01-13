@@ -5,6 +5,10 @@ class UsersController extends AppController {
 
 	public $components = array('DataTable');
 
+	public $helpers = array(
+		'Form' => array('className' => 'BootstrapForm')
+	);
+
 	public function initDB() {
 		$group = $this->User->Group;
 
@@ -61,11 +65,16 @@ class UsersController extends AppController {
 	}
 
 	public function admin_view($id = null) {
+		$this->layout = 'metrobox';
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
 		}
-		$this->set('user', $this->User->read(null, $id));
+
+		$this->request->data = $this->User->read(null, $id);
+		unset($this->request->data['User']['password']); //To don't show password on edit
+
+		// $this->set('user', $this->User->read(null, $id));
 	}
 
 	public function admin_add() {
@@ -128,7 +137,7 @@ class UsersController extends AppController {
 			);
 		} else {
 			$this->request->data = $this->User->read(null, $id);
-			unset($this->request->data['User']['password']);
+			unset($this->request->data['User']['password']); //To don't show password on edit
 		}
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));

@@ -71,15 +71,16 @@
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('users-index-table');?>
 	<script>
-		var dataTable;
-		var deleting = false;
-		ajaxSource = ('<?= Router::url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json')) ?>');
-		userEditUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'edit')) ?>');
-		userDeleterUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'delete')) ?>');
-		userViewrUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'view')) ?>');
-		userEditText = ('<?= __("Edit") ?>');
-		userDeleteText = ('<?= __("Delete") ?>');
-		userViewText = ('<?= __("Details") ?>');
+		var LocalVar = {};
+		LocalVar.dataTable = '';
+		LocalVar.deleting = false;
+		LocalVar.ajaxSource = ('<?= Router::url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json')) ?>');
+		LocalVar.userEditUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'edit')) ?>');
+		LocalVar.userDeleterUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'delete')) ?>');
+		LocalVar.userViewrUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'view')) ?>');
+		LocalVar.userEditText = ('<?= __("Edit") ?>');
+		LocalVar.userDeleteText = ('<?= __("Delete") ?>');
+		LocalVar.userViewText = ('<?= __("Details") ?>');
 
 		jQuery(document).ready(function() {
 			UsersIndexTable.init();
@@ -97,8 +98,8 @@
 					closeOnConfirm: false
 				},
 				function(){
-					if(!deleting){
-						deleting = true;
+					if(!LocalVar.deleting){
+						LocalVar.deleting = true;
 						$.ajax({
 							type: 'post',
 							cache: false,
@@ -115,7 +116,7 @@
 										type: "success",
 									},
 									function(){
-										dataTable.fnDraw();
+										LocalVar.dataTable.fnDraw();
 									})
 								}
 								if (response.error) {
@@ -126,7 +127,7 @@
 								swal("<?= __('Error') ?>", "<?= __('User hasn\'t been deleted.') ?>", "error");
 							},
 							complete: function() {
-								deleting = false;
+								LocalVar.deleting = false;
 							}
 						});
 					}
