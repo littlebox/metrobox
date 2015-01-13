@@ -11,20 +11,21 @@ App::uses('AppHelper', 'View/Helper');
 
 class MenuHelper extends AppHelper{
 
-	public $helpers = array('Html');
+	public $helpers = array('Html', 'Cache');
 
 	private $menu_html;
+	private $cached_menu;
 
 	public function itemMenu($item){
 
 		// if there isn't a href, set 'javascript:;' to it, so that doesn't fire an action.
 		if(empty($item['href'])) $item['href'] = 'javascript:;';
 
-		$active = ($this->submenuActive($item) || $this->Html->url($item['href']) == Router::url()) ? true : false;
+		$active = ($this->submenuActive($item) || $this->Html->url($item['href']) == $this->Html->url()) ? true : false;
 
 		$this->menu_html .= (($active)?'<li class="active">':'<li>');
 
-		$this->menu_html .= '<a href="'.Router::url($item['href']).'">
+		$this->menu_html .= '<a href="'.$this->Html->url($item['href']).'">
 				<i class="icon-'.$item['icon'].'"></i>
 				<span class="title">'.__($item['title']).'</span>';
 
@@ -60,7 +61,7 @@ class MenuHelper extends AppHelper{
 
 			foreach ($item['submenu'] as $it) {
 
-				$response = (Router::url($it['href']) == Router::url()) ? true : $this->submenuActive($it);
+				$response = ($this->Html->url($it['href']) == $this->Html->url()) ? true : $this->submenuActive($it);
 
 			}
 
@@ -72,16 +73,24 @@ class MenuHelper extends AppHelper{
 
 	public function showMenu($menu){
 
-		foreach($menu as $m){
+		// $this->menu_html = Cache::read('main_menu','long');
 
-				if(is_array($m)){
-					$this->itemMenu($m);
+		if(!$this->menu_html){
+
+			// debug('not cached!!!');
+
+			foreach($menu as $m){
+
+					if(is_array($m)){
+						$this->itemMenu($m);
+						// Cache::write('main_menu',$this->menu_html,'long');
+					};
+
 				};
 
-			};
+		}
 
 		echo $this->menu_html;
-
 	}
 
 }

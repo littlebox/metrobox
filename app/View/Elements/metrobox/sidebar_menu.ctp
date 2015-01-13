@@ -13,7 +13,7 @@
 			$menu = array(
 				array(
 					'title'=>'Inicio',
-					'href' =>array('controller'=>'pages','action'=>'index', 'admin' => false),
+					'href' =>array('controller'=>'pages','action'=>'index'),
 					'icon'=>'screen-desktop'
 					),
 				array(
@@ -34,29 +34,29 @@
 				//Admin Menu
 				array(
 					'title'=>'Usuarios',
-					'href'=>array('controller'=>'users', 'action' => 'index'),
+					'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 					'icon'=>'users',
 					'submenu' => array(
 						array(
 							'title'=>__('View users'),
-							'href'=>array('controller'=>'users', 'action' => 'index'),
+							'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 							'icon'=>'users',
 						),
 						array(
 							'title'=>__('Add user'),
-							'href'=>array('controller'=>'users', 'action' => 'add'),
+							'href'=>array('controller'=>'users', 'action' => 'add', 'admin' => true),
 							'icon'=>'users',
 						),
 					)
 				),
 				array(
 					'title'=>'Sitio',
-					'href'=>array('controller'=>'pages', 'action' => 'site_options'),
+					'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),
 					'icon'=>'equalizer',
 				),
 				array(
 					'title'=>'Estadisticas del Sitio',
-					'href'=>array('controller'=>'pages', 'action' => 'site_stats'),
+					'href'=>array('controller'=>'pages', 'action' => 'site_stats', 'admin' => true),
 					'icon'=>'bar-chart',
 				),
 

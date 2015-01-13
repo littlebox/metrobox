@@ -48,7 +48,7 @@ class UsersController extends AppController {
 		$this->set('users', $this->paginate());
 	}
 
-	public function index(){
+	public function admin_index(){
 		$this->layout = 'metrobox';
 
 		$this->paginate = array(
@@ -60,7 +60,7 @@ class UsersController extends AppController {
 		$this->set('_serialize','response');
 	}
 
-	public function view($id = null) {
+	public function admin_view($id = null) {
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
@@ -90,7 +90,7 @@ class UsersController extends AppController {
 		$this->set(compact('groups'));
 	}
 
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
 		$this->layout = 'metrobox';
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
@@ -134,7 +134,7 @@ class UsersController extends AppController {
 		$this->set(compact('groups'));
 	}
 
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		$this->request->allowMethod('post');
 
 		if($this->request->is('ajax')){
