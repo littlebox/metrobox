@@ -35,7 +35,7 @@
 					echo $this->Form->input('full_name');
 					echo $this->Form->input('email');
 					echo $this->Form->input('password');
-					echo $this->Form->input('password_confirm');
+					echo $this->Form->input('password_confirm', array('type' => 'password'));
 					echo $this->Form->input('group_id');
 				?>
 

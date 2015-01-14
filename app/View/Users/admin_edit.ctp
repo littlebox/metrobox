@@ -45,8 +45,8 @@
 						<div class="fileinput fileinput-new" data-provides="fileinput">
 							<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
 								<?php
-								if(file_exists(WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.AuthComponent::user('id').'.jpg')){
-									echo $this->Html->image('media/profile/profile_picture_'.AuthComponent::user('id').'.jpg', array('alt' => ''));
+								if(file_exists(WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.$id.'.jpg')){
+									echo $this->Html->image('media/profile/profile_picture_'.$id.'.jpg', array('alt' => ''));
 								}else{
 									echo $this->Html->image('media/profile/noimage.jpg', array('alt' => ''));
 								}
