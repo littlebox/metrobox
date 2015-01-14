@@ -63,6 +63,7 @@ Like: www.facebook.com/littlefacebox
 			<div class="page-content">
 
 				<?= $this->Element('metrobox/page_header'); ?>
+				<?= $this->Session->flash(); ?>
 
 				<!-- BEGIN PAGE CONTENT-->
 				<div class="row">

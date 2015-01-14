@@ -85,7 +85,7 @@ class UsersController extends AppController {
 			$profile_picture = $this->request->data['User']['profile_picture'];
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
+				$this->Session->setFlash(__('The user has been saved'), 'metrobox/flash_success');
 
 				$this->setProfilePicture($profile_picture, $this->User->id);
 
@@ -176,7 +176,7 @@ class UsersController extends AppController {
 				throw new NotFoundException(__('Invalid user'));
 			}
 			if ($this->User->delete()) {
-				$this->Session->setFlash(__('User deleted'));
+				$this->Session->setFlash(__('User deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
 			$this->Session->setFlash(__('User was not deleted'));
