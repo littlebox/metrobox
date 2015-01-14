@@ -105,7 +105,7 @@ echo $this->Html->script('layout');
 	});
 </script>
 
-<?php echo $this->fetch('script'); ?>
+<?php echo $this->fetch('pageScripts'); ?>
 <!-- END PAGE LEVEL SCRIPTS -->
 <!-- END JAVASCRIPTS -->
 </body>

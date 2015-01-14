@@ -41,15 +41,11 @@
 	<!-- END RESET PASSWORD FORM -->
 </div>
 
-<?= $this->Html->script('reset-password', array('inline'=>false));?>
-
-<?php
-$initScripts =
-<<<JS
-jQuery(document).ready(function() {
-	Reset.init();
-});
-JS;
-?>
-
-<?= $this->Html->scriptBlock($initScripts, array('inline'=>false));?>
+<?php $this->append('pageScripts'); ?>
+	<?= $this->Html->script('reset-password');?>
+	<script>
+		jQuery(document).ready(function() {
+			Login.init();
+		});
+	</script>
+<?php $this->end(); ?>
