@@ -74,10 +74,10 @@
 		var LocalVar = {};
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
-		LocalVar.ajaxSource = ('<?= Router::url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json')) ?>');
-		LocalVar.userEditUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'edit')) ?>');
-		LocalVar.userDeleterUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'delete')) ?>');
-		LocalVar.userViewrUrl = ('<?= Router::url(array('controller'=>'users', 'action' => 'view')) ?>');
+		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json', 'admin' => true)) ?>');
+		LocalVar.userEditUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'edit', 'admin' => true)) ?>');
+		LocalVar.userDeleterUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'delete', 'admin' => true)) ?>');
+		LocalVar.userViewrUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'view', 'admin' => true)) ?>');
 		LocalVar.userEditText = ('<?= __("Edit") ?>');
 		LocalVar.userDeleteText = ('<?= __("Delete") ?>');
 		LocalVar.userViewText = ('<?= __("Details") ?>');
