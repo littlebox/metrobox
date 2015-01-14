@@ -92,7 +92,7 @@ class UsersController extends AppController {
 				return $this->redirect(array('action' => 'index'));
 			}
 			$this->Session->setFlash(
-				__('The user could not be saved. Please, try again.')
+				__('The user could not be saved. Please, try again.', 'metrobox/flash_danger')
 			);
 		}
 		$groups = $this->User->Group->find('list');
@@ -130,11 +130,11 @@ class UsersController extends AppController {
 				if($profile){
 					$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
 				}
-				$this->Session->setFlash(__('The user has been saved'));
+				$this->Session->setFlash(__('The user has been saved'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
 			$this->Session->setFlash(
-				__('The user could not be saved. Please, try again.')
+				__('The user could not be saved. Please, try again.', 'metrobox/flash_danger')
 			);
 		} else {
 			$this->request->data = $this->User->read(null, $id);
@@ -179,7 +179,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('User deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Session->setFlash(__('User was not deleted'));
+			$this->Session->setFlash(__('User was not deleted', 'metrobox/flash_danger'));
 			return $this->redirect(array('action' => 'index'));
 		}
 

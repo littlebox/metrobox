@@ -63,7 +63,27 @@ Like: www.facebook.com/littlefacebox
 			<div class="page-content">
 
 				<?= $this->Element('metrobox/page_header'); ?>
+
+				<!--BEGIN PAGE ALERTS -->
 				<?= $this->Session->flash(); ?>
+
+				<div id="page-alert-success" class="hide alert alert-success">
+					<button class="close" data-close="alert"></button>
+					<i class="fa-lg fa fa-check"></i>
+					<span></span>
+				</div>
+
+				<div id="page-alert-danger" class="hide alert alert-danger">
+					<button class="close" data-close="alert"></button>
+					<i class="fa-lg fa fa-times"></i>
+					<span></span>
+				</div>
+				<div id="page-alert-warning" class="hide alert alert-warning">
+					<button class="close" data-close="alert"></button>
+					<i class="fa-lg fa fa-warning"></i>
+					<span></span>
+				</div>
+				<!-- END PAGE ALERTS -->
 
 				<!-- BEGIN PAGE CONTENT-->
 				<div class="row">
