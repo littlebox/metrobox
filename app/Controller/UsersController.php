@@ -46,14 +46,15 @@ class UsersController extends AppController {
 
 	}
 
-	public function indexOld() {
-		$this->layout = 'metrobox';
-		$this->User->recursive = 0;
-		$this->set('users', $this->paginate());
-	}
+	// public function index() {
+	// 	$this->layout = 'metrobox';
+	// 	$this->User->recursive = 0;
+	// 	$this->set('users', $this->paginate());
+	// }
 
 	public function admin_index(){
 		$this->layout = 'metrobox';
+		$this->User->recursive = 0;
 
 		$this->paginate = array(
 			'fields' => array('User.full_name','User.email', 'User.created', 'User.id'),
@@ -62,6 +63,19 @@ class UsersController extends AppController {
 		$this->DataTable->mDataProp = true;
 		$this->set('response', $this->DataTable->getResponse());
 		$this->set('_serialize','response');
+	}
+
+	public function view($id = null) {
+		$this->layout = 'metrobox';
+		$this->User->id = $id;
+		if (!$this->User->exists()) {
+			throw new NotFoundException(__('Invalid user'));
+		}
+
+		$this->request->data = $this->User->read(null, $id);
+		unset($this->request->data['User']['password']); //To don't show password on edit
+
+		// $this->set('user', $this->User->read(null, $id));
 	}
 
 	public function admin_view($id = null) {
@@ -97,6 +111,49 @@ class UsersController extends AppController {
 		}
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
+	}
+
+	public function edit($id = null) {
+		$this->request->onlyAllow('ajax');
+
+		//Check if request is post or put
+		if ($this->request->is('post') || $this->request->is('put')) {
+
+			//Return array
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//Check if user exist
+			$this->User->id = $id;
+			if (!$this->User->exists()) {
+				$data['error'] = __('Invalid user');
+			}else{
+
+				//Check if profile picture is sended
+				$profilePicSended = true;
+				if(empty($this->request->data['User']['profile_picture']['name'])){
+					$profilePicSended = false;
+				}
+
+				if ($this->User->save($this->request->data)) {
+					if($profilePicSended){
+						//Call function to set profile picture
+						$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
+					}
+					$data['content'] = __('The user has been saved');
+				}else{
+					$data['error'] = __('The user could not be saved. Please, try again.');
+				}
+
+			}
+
+		} else {
+			$data['error'] = __('Invalid request type (has to be post or put)');
+		}
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
 	public function admin_edit($id = null) {

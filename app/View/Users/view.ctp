@@ -79,7 +79,7 @@
 						<!-- PERSONAL INFO TAB -->
 						<div class="tab-pane active" id="user_info">
 							<!-- <form role="form" action="#"> -->
-							<?php echo $this->Form->create('User', array("id" => "user-profile-edit"));?>
+							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-edit'));?>
 								<?php
 									echo $this->Form->input('full_name', array("disabled" => "disabled"));
 									echo $this->Form->input('email', array("disabled" => "disabled"));
@@ -88,7 +88,7 @@
 								<div class="margiv-top-10">
 									<button id="user-profile-edit-btn-edit" class="btn blue" onclick="makeEditable(); return false;"><?= __('Edit') ?></button>
 									<button id="user-profile-edit-btn-cancel" class="btn" onclick="unmakeEditable(); return false;" style="display:none;"><?= __('Cancel') ?></button>
-									<?= $this->Form->button(__('Save Changes'), array('class' => 'btn green-haze', 'style' =>'display:none;', 'id' => 'user-profile-edit-btn-save'));?>
+									<button id="user-profile-edit-btn-save" class="btn green-haze ladda-button" onclick="sendProfileInfoForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Save Changes') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 							<!-- </form> -->
@@ -224,13 +224,17 @@
 <?php $this->append('pageStyles'); ?>
 	<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->css('profile');?>
+	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
+	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jquery.sparkline.min');?>
+	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
+	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
@@ -273,5 +277,45 @@
 			$("#user-profile-edit-btn-cancel").hide();
 			$("#user-profile-edit-btn-save").hide();
 		}
+
+		function sendProfileInfoForm() {
+			//var button = $( '#user-profile-edit-btn-save' ).ladda();
+			//button.ladda( 'start' ); //Show loader in button
+
+			var targeturl = $('#user-profile-edit').attr('action');
+			var formData = $('#user-profile-edit').serializeArray();
+
+			$.ajax({
+				type: 'put',
+				cache: false,
+				url: targeturl,
+				data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					if (response.content) {
+						console.log(response.content);
+						$('#page-alert-success').find('span').text(response.content);
+						$('#page-alert-success').show();
+					}
+					if (response.error) {
+						console.log(response.error);
+						$('#page-alert-danger').find('span').text(response.error);
+						$('#page-alert-danger').show();
+					}
+				},
+				error: function(e) {
+					console.log('ajaxerror');
+					$('#page-alert-danger').find('span').text("<?= __('An error ocurred, please try later.') ?>");
+					$('#page-alert-danger').show();
+				},
+				complete: function(){
+					//button.ladda( 'stop' ); //Hide loader in button
+				}
+			});
+		};
 	</script>
 <?php $this->end(); ?>
