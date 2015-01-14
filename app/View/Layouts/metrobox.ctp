@@ -67,18 +67,18 @@ Like: www.facebook.com/littlefacebox
 				<!--BEGIN PAGE ALERTS -->
 				<?= $this->Session->flash(); ?>
 
-				<div id="page-alert-success" class="hide alert alert-success">
+				<div id="page-alert-success" class="alert alert-success" style="display:none;">
 					<button class="close" data-close="alert"></button>
 					<i class="fa-lg fa fa-check"></i>
 					<span></span>
 				</div>
 
-				<div id="page-alert-danger" class="hide alert alert-danger">
+				<div id="page-alert-danger" class="alert alert-danger" style="display:none;">
 					<button class="close" data-close="alert"></button>
 					<i class="fa-lg fa fa-times"></i>
 					<span></span>
 				</div>
-				<div id="page-alert-warning" class="hide alert alert-warning">
+				<div id="page-alert-warning" class="alert alert-warning" style="display:none;">
 					<button class="close" data-close="alert"></button>
 					<i class="fa-lg fa fa-warning"></i>
 					<span></span>
