@@ -95,60 +95,58 @@
 
 						</div>
 						<!-- END PERSONAL INFO TAB -->
+
 						<!-- CHANGE AVATAR TAB -->
 						<div class="tab-pane" id="change_avatar">
-							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-picture-edit'));?>
+							<?php echo $this->Form->create('User', array(
+								'url' => array('action' => 'edit', 'ext' => 'json'),
+								'id' => 'user-profile-picture-edit',
+								'enctype' => 'multipart/form-data')
+							);?>
 								<div class="form-group">
 									<div class="fileinput fileinput-new" data-provides="fileinput">
-							<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-								<?php
-								if(file_exists(WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.$user['User']['id'].'.jpg')){
-									echo $this->Html->image('media/profile/profile_picture_'.$user['User']['id'].'.jpg', array('alt' => ''));
-								}else{
-									echo $this->Html->image('media/profile/noimage.jpg', array('alt' => ''));
-								}
-								?>
-							</div>
-							<div class="fileinput-preview fileinput-exists thumbnail" style="min-width:100px; min-height:100px;max-width: 500px; max-height: 500px;">
-							</div>
-							<div>
-								<span class="btn default btn-file">
-								<span class="fileinput-new"><?= __('Select image');?></span>
-								<span class="fileinput-exists"><?= __('Change');?></span>
+										<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+											<?php
+											if(file_exists(WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.$user['User']['id'].'.jpg')){
+												echo $this->Html->image('media/profile/profile_picture_'.$user['User']['id'].'.jpg', array('alt' => ''));
+											}else{
+												echo $this->Html->image('media/profile/noimage.jpg', array('alt' => ''));
+											}
+											?>
+										</div>
+										<div class="fileinput-preview fileinput-exists thumbnail" style="min-width:100px; min-height:100px;max-width: 500px; max-height: 500px;"></div>
+										<div>
+											<span class="btn default btn-file">
+											<span class="fileinput-new"><?= __('Select image');?></span>
+											<span class="fileinput-exists"><?= __('Save');?></span>
 
-								<?php echo $this->Form->file('profile_picture', array(
-									'id' => 'profile_picture',
-									'required' => false)
-								);?>
+											<?php echo $this->Form->file('profile_picture', array(
+												'id' => 'profile_picture',
+												'required' => false)
+											);?>
 
-								<input id="profile_picture_x" type="hidden" name="profile_picture_x">
-								<input id="profile_picture_y" type="hidden" name="profile_picture_y">
-								<input id="profile_picture_w" type="hidden" name="profile_picture_w">
-								<input id="profile_picture_h" type="hidden" name="profile_picture_h">
-								<input id="profile_picture_ow" type="hidden" name="profile_picture_ow">
-								<input id="profile_picture_oh" type="hidden" name="profile_picture_oh">
-								</span>
-								<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove</a>
-							</div>
-						</div>
+											<input id="profile_picture_x" type="hidden" name="profile_picture_x">
+											<input id="profile_picture_y" type="hidden" name="profile_picture_y">
+											<input id="profile_picture_w" type="hidden" name="profile_picture_w">
+											<input id="profile_picture_h" type="hidden" name="profile_picture_h">
+											<input id="profile_picture_ow" type="hidden" name="profile_picture_ow">
+											<input id="profile_picture_oh" type="hidden" name="profile_picture_oh">
+											</span>
+											<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove</a>
+										</div>
+									</div>
 
-						<?php if ($this->Form->isFieldError('profile_picture')) {
-							echo $this->Form->error('profile_picture');
-						}?>
+									<?php if ($this->Form->isFieldError('profile_picture')) {
+										echo $this->Form->error('profile_picture');
+									}?>
 								</div>
 								<div class="margin-top-10">
-									<?php
-										echo $this->Form->Button(__('Save'),array(
-											'div' => false,
-											'class' => 'btn green',
-										));
-									?>
-									<a href="#" class="btn default">
-									Cancel </a>
+									<button id="user-profile-picture-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfilePictureForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Change') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 						</div>
 						<!-- END CHANGE AVATAR TAB -->
+
 						<!-- CHANGE PASSWORD TAB -->
 						<div class="tab-pane" id="change_password">
 							<form action="#">
@@ -310,34 +308,74 @@
 			});
 		};
 
+		function sendProfilePictureForm() {
+			var button = $( '#user-profile-picture-edit-btn-save' ).ladda();
+			button.ladda( 'start' ); //Show loader in button
+
+			var targeturl = $('#user-profile-picture-edit').attr('action');
+			var formData = $('#user-profile-picture-edit').serializeArray();
+
+			$.ajax({
+				type: 'post',
+				cache: false,
+				url: targeturl,
+				data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					if (response.content) {
+						$('#page-alert-success').find('span').text(response.content);
+						$('#page-alert-success').show();
+						//Save new insputs values on an object LocalVar
+						$("form#user-profile-info-edit input[type!='hidden']").each(function(){
+							var input = $(this); // This is the jquery object of the input, do what you will
+							LocalVar[input.attr('name')]=input.val();
+						});
+						unmakeEditable();
+						$('#profile-usertitle-name').text(LocalVar['data[User][full_name]']);
+					}
+					if (response.error) {
+						$('#page-alert-danger').find('span').text(response.error);
+						$('#page-alert-danger').show();
+					}
+				},
+				error: function(e) {
+					$('#page-alert-danger').find('span').text("<?= __('An error ocurred, please try later.') ?>");
+					$('#page-alert-danger').show();
+				},
+				complete: function(){
+					button.ladda( 'stop' ); //Hide loader in button
+				}
+			});
+		};
+
+		//Profile picture cropping function
 		$('.fileinput').on('change.bs.fileinput',function(){
-
-		img_prev = $('.fileinput-preview img')
-
-		div = $('.fileinput-preview')
-
-		img_prev.css('min-width','100px');
-		img_prev.css('min-height','100px');
-
-		img_prev.Jcrop({
-			bgFade:true,
-			bgOpacity: 0.5,
-			bgColor: 'black',
-			addClass: 'jcrop-light',
-			setSelect: [ 0, 0, 200, 200 ],
-			aspectRatio: 1,
-			minSize: [20,20],
-
-			onSelect: function(c){
-				document.getElementById('profile_picture_x').value = c.x;
-				document.getElementById('profile_picture_y').value = c.y;
-				document.getElementById('profile_picture_w').value = c.w;
-				document.getElementById('profile_picture_h').value = c.h;
-				document.getElementById('profile_picture_ow').value = div.width();
-				document.getElementById('profile_picture_oh').value = div.height();
-			}
-		});
-
+			$('#user-profile-picture-edit-btn-save').show();
+			img_prev = $('.fileinput-preview img');
+			div = $('.fileinput-preview');
+			img_prev.css('min-width','100px');
+			img_prev.css('min-height','100px');
+			img_prev.Jcrop({
+				bgFade:true,
+				bgOpacity: 0.5,
+				bgColor: 'black',
+				addClass: 'jcrop-light',
+				setSelect: [ 0, 0, 200, 200 ],
+				aspectRatio: 1,
+				minSize: [20,20],
+				onSelect: function(c){
+					document.getElementById('profile_picture_x').value = c.x;
+					document.getElementById('profile_picture_y').value = c.y;
+					document.getElementById('profile_picture_w').value = c.w;
+					document.getElementById('profile_picture_h').value = c.h;
+					document.getElementById('profile_picture_ow').value = div.width();
+					document.getElementById('profile_picture_oh').value = div.height();
+				}
+			});
 		})
 
 	</script>

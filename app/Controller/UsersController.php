@@ -135,15 +135,16 @@ class UsersController extends AppController {
 				if(empty($this->request->data['User']['profile_picture']['name'])){
 					$profilePicSended = false;
 				}
+				debug($profilePicSended);debug($this->request->data);die();
 
 				if ($this->User->save($this->request->data)) {
 					if($profilePicSended){
 						//Call function to set profile picture
 						$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
 					}
-					$data['content'] = __('The user has been saved');
+					$data['content'] = __('The changes has been saved');
 				}else{
-					$data['error'] = __('The user could not be saved. Please, try again.');
+					$data['error'] = __('The changes could not be saved. Please, try again.');
 				}
 
 			}
