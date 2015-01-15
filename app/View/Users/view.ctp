@@ -97,41 +97,56 @@
 						<!-- END PERSONAL INFO TAB -->
 						<!-- CHANGE AVATAR TAB -->
 						<div class="tab-pane" id="change_avatar">
-							<p>
-								Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-							</p>
-							<form action="#" role="form">
+							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-picture-edit'));?>
 								<div class="form-group">
 									<div class="fileinput fileinput-new" data-provides="fileinput">
-										<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-											<img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt=""/>
-										</div>
-										<div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px;">
-										</div>
-										<div>
-											<span class="btn default btn-file">
-											<span class="fileinput-new">
-											Select image </span>
-											<span class="fileinput-exists">
-											Change </span>
-											<input type="file" name="...">
-											</span>
-											<a href="#" class="btn default fileinput-exists" data-dismiss="fileinput">
-											Remove </a>
-										</div>
-									</div>
-									<div class="clearfix margin-top-10">
-										<span class="label label-danger">NOTE! </span>
-										<span>Attached image thumbnail is supported in Latest Firefox, Chrome, Opera, Safari and Internet Explorer 10 only </span>
-									</div>
+							<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+								<?php
+								if(file_exists(WWW_ROOT.'img'.DS.'media'.DS.'profile'.DS.'profile_picture_'.$user['User']['id'].'.jpg')){
+									echo $this->Html->image('media/profile/profile_picture_'.$user['User']['id'].'.jpg', array('alt' => ''));
+								}else{
+									echo $this->Html->image('media/profile/noimage.jpg', array('alt' => ''));
+								}
+								?>
+							</div>
+							<div class="fileinput-preview fileinput-exists thumbnail" style="min-width:100px; min-height:100px;max-width: 500px; max-height: 500px;">
+							</div>
+							<div>
+								<span class="btn default btn-file">
+								<span class="fileinput-new"><?= __('Select image');?></span>
+								<span class="fileinput-exists"><?= __('Change');?></span>
+
+								<?php echo $this->Form->file('profile_picture', array(
+									'id' => 'profile_picture',
+									'required' => false)
+								);?>
+
+								<input id="profile_picture_x" type="hidden" name="profile_picture_x">
+								<input id="profile_picture_y" type="hidden" name="profile_picture_y">
+								<input id="profile_picture_w" type="hidden" name="profile_picture_w">
+								<input id="profile_picture_h" type="hidden" name="profile_picture_h">
+								<input id="profile_picture_ow" type="hidden" name="profile_picture_ow">
+								<input id="profile_picture_oh" type="hidden" name="profile_picture_oh">
+								</span>
+								<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove</a>
+							</div>
+						</div>
+
+						<?php if ($this->Form->isFieldError('profile_picture')) {
+							echo $this->Form->error('profile_picture');
+						}?>
 								</div>
 								<div class="margin-top-10">
-									<a href="#" class="btn green-haze">
-									Submit </a>
+									<?php
+										echo $this->Form->Button(__('Save'),array(
+											'div' => false,
+											'class' => 'btn green',
+										));
+									?>
 									<a href="#" class="btn default">
 									Cancel </a>
 								</div>
-							</form>
+							<?php echo $this->Form->end();?>
 						</div>
 						<!-- END CHANGE AVATAR TAB -->
 						<!-- CHANGE PASSWORD TAB -->
@@ -226,6 +241,8 @@
 	<?= $this->Html->css('profile');?>
 	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
 	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
+	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
+	<?= $this->Html->css('image-crop.css');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -235,6 +252,8 @@
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
 	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
+	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
+	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
@@ -317,5 +336,36 @@
 				}
 			});
 		};
+
+		$('.fileinput').on('change.bs.fileinput',function(){
+
+		img_prev = $('.fileinput-preview img')
+
+		div = $('.fileinput-preview')
+
+		img_prev.css('min-width','100px');
+		img_prev.css('min-height','100px');
+
+		img_prev.Jcrop({
+			bgFade:true,
+			bgOpacity: 0.5,
+			bgColor: 'black',
+			addClass: 'jcrop-light',
+			setSelect: [ 0, 0, 200, 200 ],
+			aspectRatio: 1,
+			minSize: [20,20],
+
+			onSelect: function(c){
+				document.getElementById('profile_picture_x').value = c.x;
+				document.getElementById('profile_picture_y').value = c.y;
+				document.getElementById('profile_picture_w').value = c.w;
+				document.getElementById('profile_picture_h').value = c.h;
+				document.getElementById('profile_picture_ow').value = div.width();
+				document.getElementById('profile_picture_oh').value = div.height();
+			}
+		});
+
+		})
+
 	</script>
 <?php $this->end(); ?>
