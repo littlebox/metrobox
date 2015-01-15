@@ -123,11 +123,14 @@ class UsersController extends AppController {
 				'error' => '',
 			);
 
+			// print_r($this->request->data);die();
+
 			//Check if user exist
 			$this->User->id = $id;
 			if ($esto = !$this->User->exists()) {
 				throw new NotFoundException(__('Invalid user.'));
 			}
+
 
 			//Check if user is logged user or admin
 			if ($id != AuthComponent::user('id') AND AuthComponent::user('group_id') != 1) {

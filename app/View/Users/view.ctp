@@ -115,7 +115,7 @@
 										<div>
 											<span class="btn default btn-file">
 											<span class="fileinput-new"><?= __('Select image');?></span>
-											<span class="fileinput-exists"><?= __('Save');?></span>
+											<span class="fileinput-exists"><?= __('Change image');?></span>
 
 											<?php echo $this->Form->file('profile_picture', array(
 												'id' => 'profile_picture',
@@ -132,13 +132,9 @@
 											<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove</a>
 										</div>
 									</div>
-
-									<?php if ($this->Form->isFieldError('profile_picture')) {
-										echo $this->Form->error('profile_picture');
-									}?>
 								</div>
 								<div class="margin-top-10">
-									<button id="user-profile-picture-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfilePictureForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Change') ?></span></button>
+									<button id="user-profile-picture-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="UsersView.sendProfilePictureForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Change') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 						</div>
@@ -220,10 +216,10 @@
 	<?= $this->Html->script('users-view.js');?>
 	<script>
 		jQuery(document).ready(function() {
-			//UsersView.init(); //Momentaneamente no hay nada
+			UsersView.init();
 		});
 
-		//Save all original insputs values on an object
+		//Save all original inputs values on an object
 		var LocalVar = {};
 		$("form#user-profile-info-edit input[type!='hidden']").each(function(){
 			var input = $(this); // This is the jquery object of the input, do what you will
@@ -341,31 +337,7 @@
 			});
 		};
 
-		//Profile picture cropping function
-		$('.fileinput').on('change.bs.fileinput',function(){
-			$('#user-profile-picture-edit-btn-save').show();
-			img_prev = $('.fileinput-preview img');
-			div = $('.fileinput-preview');
-			img_prev.css('min-width','100px');
-			img_prev.css('min-height','100px');
-			img_prev.Jcrop({
-				bgFade:true,
-				bgOpacity: 0.5,
-				bgColor: 'black',
-				addClass: 'jcrop-light',
-				setSelect: [ 0, 0, 200, 200 ],
-				aspectRatio: 1,
-				minSize: [20,20],
-				onSelect: function(c){
-					document.getElementById('profile_picture_x').value = c.x;
-					document.getElementById('profile_picture_y').value = c.y;
-					document.getElementById('profile_picture_w').value = c.w;
-					document.getElementById('profile_picture_h').value = c.h;
-					document.getElementById('profile_picture_ow').value = div.width();
-					document.getElementById('profile_picture_oh').value = div.height();
-				}
-			});
-		})
+		
 
 		function sendProfilePasswordForm() {
 			var button = $( '#user-profile-password-edit-btn-save' ).ladda();
