@@ -78,7 +78,6 @@
 					<div class="tab-content">
 						<!-- PERSONAL INFO TAB -->
 						<div class="tab-pane active" id="user_info">
-							<!-- <form role="form" action="#"> -->
 							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-info-edit'));?>
 								<?php
 									echo $this->Form->input('full_name', array("disabled" => "disabled"));
@@ -91,8 +90,6 @@
 									<button id="user-profile-info-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfileInfoForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Save Changes') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
-							<!-- </form> -->
-
 						</div>
 						<!-- END PERSONAL INFO TAB -->
 
@@ -149,26 +146,18 @@
 
 						<!-- CHANGE PASSWORD TAB -->
 						<div class="tab-pane" id="change_password">
-							<form action="#">
-								<div class="form-group">
-									<label class="control-label">Current Password</label>
-									<input type="password" class="form-control"/>
+							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-password-edit'));?>
+								<?php
+									echo $this->Form->input('current_password', array('type' => 'password'));
+									echo $this->Form->input('password');
+									echo $this->Form->input('password_confirm', array('type' => 'password'));
+
+								?>
+
+								<div class="margiv-top-10">
+									<button id="user-profile-info-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfilePasswordForm(); return false;"><span class="ladda-label"><?= __('Change Password') ?></span></button>
 								</div>
-								<div class="form-group">
-									<label class="control-label">New Password</label>
-									<input type="password" class="form-control"/>
-								</div>
-								<div class="form-group">
-									<label class="control-label">Re-type New Password</label>
-									<input type="password" class="form-control"/>
-								</div>
-								<div class="margin-top-10">
-									<a href="#" class="btn green-haze">
-									Change Password </a>
-									<a href="#" class="btn default">
-									Cancel </a>
-								</div>
-							</form>
+							<?php echo $this->Form->end();?>
 						</div>
 						<!-- END CHANGE PASSWORD TAB -->
 						<!-- PRIVACY SETTINGS TAB -->
@@ -283,7 +272,7 @@
 				},
 				success: function(response) {
 					if (response.content) {
-						$('#page-alert-success').find('span').text(response.content);
+						$('#page-alert-success').find('span').html(response.content);
 						$('#page-alert-success').show();
 						//Save new insputs values on an object LocalVar
 						$("form#user-profile-info-edit input[type!='hidden']").each(function(){
@@ -291,15 +280,15 @@
 							LocalVar[input.attr('name')]=input.val();
 						});
 						unmakeEditable();
-						$('#profile-usertitle-name').text(LocalVar['data[User][full_name]']);
+						$('#profile-usertitle-name').html(LocalVar['data[User][full_name]']);
 					}
 					if (response.error) {
-						$('#page-alert-danger').find('span').text(response.error);
+						$('#page-alert-danger').find('span').html(response.error);
 						$('#page-alert-danger').show();
 					}
 				},
 				error: function(e) {
-					$('#page-alert-danger').find('span').text("<?= __('An error ocurred, please try later.') ?>");
+					$('#page-alert-danger').find('span').html(e.responseJSON.message);
 					$('#page-alert-danger').show();
 				},
 				complete: function(){
@@ -327,7 +316,7 @@
 				},
 				success: function(response) {
 					if (response.content) {
-						$('#page-alert-success').find('span').text(response.content);
+						$('#page-alert-success').find('span').html(response.content);
 						$('#page-alert-success').show();
 						//Save new insputs values on an object LocalVar
 						$("form#user-profile-info-edit input[type!='hidden']").each(function(){
@@ -335,15 +324,15 @@
 							LocalVar[input.attr('name')]=input.val();
 						});
 						unmakeEditable();
-						$('#profile-usertitle-name').text(LocalVar['data[User][full_name]']);
+						$('#profile-usertitle-name').html(LocalVar['data[User][full_name]']);
 					}
 					if (response.error) {
-						$('#page-alert-danger').find('span').text(response.error);
+						$('#page-alert-danger').find('span').html(response.error);
 						$('#page-alert-danger').show();
 					}
 				},
 				error: function(e) {
-					$('#page-alert-danger').find('span').text("<?= __('An error ocurred, please try later.') ?>");
+					$('#page-alert-danger').find('span').html(e.responseJSON.message);
 					$('#page-alert-danger').show();
 				},
 				complete: function(){
@@ -377,6 +366,48 @@
 				}
 			});
 		})
+
+		function sendProfilePasswordForm() {
+			var button = $( '#user-profile-password-edit-btn-save' ).ladda();
+			button.ladda( 'start' ); //Show loader in button
+
+			var targeturl = $('#user-profile-password-edit').attr('action');
+			var formData = $('#user-profile-password-edit').serializeArray();
+
+			$.ajax({
+				type: 'post',
+				cache: false,
+				url: targeturl,
+				data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					if (response.content) {
+						$('#page-alert-success').find('span').html(response.content);
+						$('#page-alert-success').show();
+						//Empty fields
+						$("form#user-profile-password-edit input[type!='hidden']").each(function(){
+							var input = $(this); // This is the jquery object of the input, do what you will
+							input.val('');
+						});
+					}
+					if (response.error) {
+						$('#page-alert-danger').find('span').html(response.error);
+						$('#page-alert-danger').show();
+					}
+				},
+				error: function(e) {
+					$('#page-alert-danger').find('span').html(e.responseJSON.message);
+					$('#page-alert-danger').show();
+				},
+				complete: function(){
+					button.ladda( 'stop' ); //Hide loader in button
+				}
+			});
+		};
 
 	</script>
 <?php $this->end(); ?>
