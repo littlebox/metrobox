@@ -5,13 +5,13 @@
 	<div class="portlet light profile-sidebar-portlet">
 		<!-- SIDEBAR USERPIC -->
 		<div class="profile-userpic">
-			<?= $this->Html->image('media/profile/profile_picture_'.AuthComponent::user('id').'.jpg', array('alt' => '', 'class' => 'img-responsive'));?>
+			<?= $this->Html->image('media/profile/profile_picture_'.$user['User']['id'].'.jpg', array('alt' => '', 'class' => 'img-responsive'));?>
 		</div>
 		<!-- END SIDEBAR USERPIC -->
 		<!-- SIDEBAR USER TITLE -->
 		<div class="profile-usertitle">
-			<div class="profile-usertitle-name">
-				<?= (AuthComponent::user('full_name')) ? AuthComponent::user('full_name') : "WTF?";?>
+			<div class="profile-usertitle-name" id="profile-usertitle-name">
+				<?= $user['User']['full_name'];?>
 			</div>
 		</div>
 		<!-- END SIDEBAR USER TITLE -->
@@ -22,7 +22,7 @@
 					37
 				</div>
 				<div class="uppercase profile-stat-text">
-					Projects
+					<?= __('Something') ?>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-6">
@@ -30,7 +30,7 @@
 					51
 				</div>
 				<div class="uppercase profile-stat-text">
-					Tasks
+					<?= __('Something Else') ?>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-6">
@@ -38,7 +38,7 @@
 					61
 				</div>
 				<div class="uppercase profile-stat-text">
-					Uploads
+					<?= __('Thing') ?>
 				</div>
 			</div>
 		</div>
@@ -57,20 +57,20 @@
 				<div class="portlet-title tabbable-line">
 					<div class="caption caption-md">
 						<i class="icon-globe theme-font hide"></i>
-						<span class="caption-subject font-blue-madison bold uppercase">Profile Account</span>
+						<span class="caption-subject font-blue-madison bold uppercase"><?= __('Profile Account') ?></span>
 					</div>
 					<ul class="nav nav-tabs">
 						<li class="active">
-							<a href="#user_info" data-toggle="tab">Personal Info</a>
+							<a href="#user_info" data-toggle="tab"><?= __('Personal Info') ?></a>
 						</li>
 						<li>
-							<a href="#change_avatar" data-toggle="tab">Change Avatar</a>
+							<a href="#change_avatar" data-toggle="tab"><?= __('Change Avatar') ?></a>
 						</li>
 						<li>
-							<a href="#change_password" data-toggle="tab">Change Password</a>
+							<a href="#change_password" data-toggle="tab"><?= __('Change Password') ?></a>
 						</li>
 						<li>
-							<a href="#user_settings" data-toggle="tab">Privacy Settings</a>
+							<a href="#user_settings" data-toggle="tab"><?= __('Account Settings') ?></a>
 						</li>
 					</ul>
 				</div>
@@ -79,16 +79,16 @@
 						<!-- PERSONAL INFO TAB -->
 						<div class="tab-pane active" id="user_info">
 							<!-- <form role="form" action="#"> -->
-							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-edit'));?>
+							<?php echo $this->Form->create('User', array('url' => array('action' => 'edit', 'ext' => 'json'), 'id' => 'user-profile-info-edit'));?>
 								<?php
 									echo $this->Form->input('full_name', array("disabled" => "disabled"));
 									echo $this->Form->input('email', array("disabled" => "disabled"));
 								?>
 
 								<div class="margiv-top-10">
-									<button id="user-profile-edit-btn-edit" class="btn blue" onclick="makeEditable(); return false;"><?= __('Edit') ?></button>
-									<button id="user-profile-edit-btn-cancel" class="btn" onclick="unmakeEditable(); return false;" style="display:none;"><?= __('Cancel') ?></button>
-									<button id="user-profile-edit-btn-save" class="btn green-haze ladda-button" onclick="sendProfileInfoForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Save Changes') ?></span></button>
+									<button id="user-profile-info-edit-btn-edit" class="btn blue" onclick="makeEditable(); return false;"><?= __('Edit') ?></button>
+									<button id="user-profile-info-edit-btn-cancel" class="btn" onclick="unmakeEditable(); return false;" style="display:none;"><?= __('Cancel') ?></button>
+									<button id="user-profile-info-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfileInfoForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Save Changes') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 							<!-- </form> -->
@@ -179,38 +179,7 @@
 								<table class="table table-light table-hover">
 								<tr>
 									<td>
-										Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus..
-									</td>
-									<td>
-										<label class="uniform-inline">
-										<input type="radio" name="optionsRadios1" value="option1"/>
-										Yes </label>
-										<label class="uniform-inline">
-										<input type="radio" name="optionsRadios1" value="option2" checked/>
-										No </label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-									</td>
-									<td>
-										<label class="uniform-inline">
-										<input type="checkbox" value=""/> Yes </label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Enim eiusmod high life accusamus terry richardson ad squid wolf moon
-									</td>
-									<td>
-										<label class="uniform-inline">
-										<input type="checkbox" value=""/> Yes </label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										Enim eiusmod high life accusamus terry richardson ad squid wolf moon
+										<?= __('I want recive newslwtter.') ?>
 									</td>
 									<td>
 										<label class="uniform-inline">
@@ -269,40 +238,40 @@
 
 		//Save all original insputs values on an object
 		var LocalVar = {};
-		$("form#user-profile-edit input[type!='hidden']").each(function(){
+		$("form#user-profile-info-edit input[type!='hidden']").each(function(){
 			var input = $(this); // This is the jquery object of the input, do what you will
 			LocalVar[input.attr('name')]=input.val();
 		});
 
 
 		function makeEditable(){
-			$("form#user-profile-edit input[type!='hidden']").each(function(){
+			$("form#user-profile-info-edit input[type!='hidden']").each(function(){
 				var input = $(this); // This is the jquery object of the input, do what you will
 				input.removeAttr('disabled');
 			});
-			$("#user-profile-edit-btn-cancel").show();
-			$("#user-profile-edit-btn-save").show();
-			$("#user-profile-edit-btn-edit").hide();
+			$("#user-profile-info-edit-btn-cancel").show();
+			$("#user-profile-info-edit-btn-save").show();
+			$("#user-profile-info-edit-btn-edit").hide();
 		}
 
 		function unmakeEditable(){
-			$("form#user-profile-edit input[type!='hidden']").each(function(){
+			$("form#user-profile-info-edit input[type!='hidden']").each(function(){
 				var input = $(this); // This is the jquery object of the input, do what you will
 				input.val(LocalVar[input.attr('name')]);
 				input.attr('disabled', 'disabled');
 
 			});
-			$("#user-profile-edit-btn-edit").show();
-			$("#user-profile-edit-btn-cancel").hide();
-			$("#user-profile-edit-btn-save").hide();
+			$("#user-profile-info-edit-btn-edit").show();
+			$("#user-profile-info-edit-btn-cancel").hide();
+			$("#user-profile-info-edit-btn-save").hide();
 		}
 
 		function sendProfileInfoForm() {
-			//var button = $( '#user-profile-edit-btn-save' ).ladda();
-			//button.ladda( 'start' ); //Show loader in button
+			var button = $( '#user-profile-info-edit-btn-save' ).ladda();
+			button.ladda( 'start' ); //Show loader in button
 
-			var targeturl = $('#user-profile-edit').attr('action');
-			var formData = $('#user-profile-edit').serializeArray();
+			var targeturl = $('#user-profile-info-edit').attr('action');
+			var formData = $('#user-profile-info-edit').serializeArray();
 
 			$.ajax({
 				type: 'put',
@@ -316,23 +285,27 @@
 				},
 				success: function(response) {
 					if (response.content) {
-						console.log(response.content);
 						$('#page-alert-success').find('span').text(response.content);
 						$('#page-alert-success').show();
+						//Save new insputs values on an object LocalVar
+						$("form#user-profile-info-edit input[type!='hidden']").each(function(){
+							var input = $(this); // This is the jquery object of the input, do what you will
+							LocalVar[input.attr('name')]=input.val();
+						});
+						unmakeEditable();
+						$('#profile-usertitle-name').text(LocalVar['data[User][full_name]']);
 					}
 					if (response.error) {
-						console.log(response.error);
 						$('#page-alert-danger').find('span').text(response.error);
 						$('#page-alert-danger').show();
 					}
 				},
 				error: function(e) {
-					console.log('ajaxerror');
 					$('#page-alert-danger').find('span').text("<?= __('An error ocurred, please try later.') ?>");
 					$('#page-alert-danger').show();
 				},
 				complete: function(){
-					//button.ladda( 'stop' ); //Hide loader in button
+					button.ladda( 'stop' ); //Hide loader in button
 				}
 			});
 		};

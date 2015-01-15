@@ -74,8 +74,7 @@ class UsersController extends AppController {
 
 		$this->request->data = $this->User->read(null, $id);
 		unset($this->request->data['User']['password']); //To don't show password on edit
-
-		// $this->set('user', $this->User->read(null, $id));
+		$this->set('user', $this->User->read(null, $id));
 	}
 
 	public function admin_view($id = null) {
