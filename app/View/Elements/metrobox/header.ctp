@@ -19,7 +19,7 @@
 		<!-- BEGIN PAGE ACTIONS -->
 		<!-- DOC: Remove "hide" class to enable the page header actions -->
 		<div class="page-actions">
-			
+
 			<div class="btn-group">
 				<button type="button" class="btn btn-circle green-haze dropdown-toggle" data-toggle="dropdown">
 				<i class="fa fa-plus"></i>&nbsp;<span class="hidden-sm hidden-xs">New&nbsp;</span>&nbsp;<i class="fa fa-angle-down"></i>
@@ -369,7 +369,7 @@
 							<li>
 								<?= $this->Html->link(
 									'<i class="icon-user"></i> '.__('My profile').' ',
-									array('controller' => 'users', 'action' => 'view'),
+									array('controller' => 'users', 'action' => 'view', AuthComponent::user('id')),
 									array('escape' => false)
 								); ?>
 							</li>

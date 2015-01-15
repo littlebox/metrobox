@@ -77,7 +77,7 @@
 		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json', 'admin' => true)) ?>');
 		LocalVar.userEditUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'edit', 'admin' => true)) ?>');
 		LocalVar.userDeleterUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'delete', 'admin' => true)) ?>');
-		LocalVar.userViewrUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'view', 'admin' => true)) ?>');
+		LocalVar.userViewrUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'view')) ?>');
 		LocalVar.userEditText = ('<?= __("Edit") ?>');
 		LocalVar.userDeleteText = ('<?= __("Delete") ?>');
 		LocalVar.userViewText = ('<?= __("Details") ?>');
