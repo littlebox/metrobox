@@ -47,82 +47,36 @@ var UsersView = {
 
 		xhr.addEventListener("progress", updateProgress, false);
 		xhr.addEventListener("load", transferComplete, false);
-		xhr.addEventListener("error", transferFailed, false);
-		xhr.addEventListener("abort", transferCanceled, false);
+		// xhr.addEventListener("error", transferFailed, false);
+		// xhr.addEventListener("abort", transferCanceled, false);
 
 		xhr.open('POST', targeturl, true);
 		
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 
 		function updateProgress(ev){
-
 			p = (ev.loaded / ev.total);
 			button.ladda( 'setProgress', p );
-
-
 		}
 
 		function transferComplete(ev){
 
 			button.ladda('stop');
 
-			var src = $('.profile-userpic img').attr('src');
-			$('.profile-userpic img').attr('src', '');
-			$('.profile-userpic img').attr('src', src +'?'+ new Date().getTime); //download new image without cache
+			var profileUserpic = $('.profile-userpic img');
+			var thumbnail = $('.fileinput-new.thumbnail img');
+			
+			var src = profileUserpic.attr('src');
+			profileUserpic.attr('src', '').attr('src', src +'?'+ Math.random); //download new image without cache
 
-		}
-
-		function transferFailed(ev){
-
-			console.log(ev);
-
-		}
-
-		function transferCanceled(ev){
-
-			console.log(ev);
+			var src2 = thumbnail.attr('src');
+			thumbnail.attr('src', '').attr('src', src2 +'?'+ Math.random); //download new image without cache
 
 		}
 
 		xhr.send(formData);
 
-		
 
-		/*$.ajax({
-			type: 'put',
-			cache: false,
-			url: targeturl,
-			data: formData,
-			dataType: 'json',
-			beforeSend: function(xhr) {
-				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-			},
-			success: function(response) {
-				if (response.content) {
-					$('#page-alert-success').find('span').text(response.content);
-					$('#page-alert-success').show();
-					//Save new insputs values on an object LocalVar
-					$("form#user-profile-info-edit input[type!='hidden']").each(function(){
-						var input = $(this); // This is the jquery object of the input, do what you will
-						LocalVar[input.attr('name')]=input.val();
-					});
-					unmakeEditable();
-					$('#profile-usertitle-name').text(LocalVar['data[User][full_name]']);
-				}
-				if (response.error) {
-					$('#page-alert-danger').find('span').text(response.error);
-					$('#page-alert-danger').show();
-				}
-			},
-			error: function(e) {
-				$('#page-alert-danger').find('span').text("<?= __('An error ocurred, please try later.') ?>");
-				$('#page-alert-danger').show();
-			},
-			complete: function(){
-				button.ladda( 'stop' ); //Hide loader in button
-			}*/
-
-		}
+	}
 
 };
