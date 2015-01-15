@@ -94,7 +94,6 @@ class UsersController extends AppController {
 		$this->layout = 'metrobox';
 		if ($this->request->is('post')) {
 
-			// debug($this->request->data['User']);die();
 			$profile_picture = $this->request->data['User']['profile_picture'];
 			$this->User->create();
 			if ($this->User->save($this->request->data)) {
@@ -113,7 +112,7 @@ class UsersController extends AppController {
 	}
 
 	public function edit($id = null) {
-		$this->request->onlyAllow('ajax');
+		$this->request->onlyAllow('ajax'); //Call only with .json at end on url
 
 		//Check if request is post or put
 		if ($this->request->is('post') || $this->request->is('put')) {
@@ -128,33 +127,61 @@ class UsersController extends AppController {
 
 			//Check if user exist
 			$this->User->id = $id;
-			if (!$this->User->exists()) {
-				$data['error'] = __('Invalid user');
-			}else{
-
-				//Check if profile picture is sended
-				$profilePicSended = true;
-				if(empty($this->request->data['User']['profile_picture']['name'])){
-					$profilePicSended = false;
-				}
-
-				if ($this->User->save($this->request->data)) {
-					if($profilePicSended){
-						//Call function to set profile picture
-						$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
-					}
-					$data['content'] = __('The changes has been saved');
-				}else{
-					$data['error'] = __('The changes could not be saved. Please, try again.');
-				}
-
+			if ($esto = !$this->User->exists()) {
+				throw new NotFoundException(__('Invalid user.'));
 			}
 
+
+			//Check if user is logged user or admin
+			if ($id != AuthComponent::user('id') AND AuthComponent::user('group_id') != 1) {
+				throw new ForbiddenException(__('You can\'t edit this user.'));
+			}
+
+			$user = $this->User->find('first', array(
+
+				'conditions' => array(
+					'User.id' => $id,
+				),
+
+				'fields' => array(
+					'id','password'
+				)
+
+			));
+
+			//Check if new password has sended and if the current password ir right
+			if(!empty($this->request->data['User']['password'])){
+				$storedHash = $user['User']['password'];
+				$newHash = Security::hash($this->request->data['User']['current_password'], 'blowfish', $storedHash);
+				$correct = $storedHash == $newHash;
+				if (!$correct) throw new ForbiddenException(__('Incorrect current password'));
+			}
+
+
+			//Check if profile picture is sended
+			$profilePicSended = true;
+			if(empty($this->request->data['User']['profile_picture']['name'])){
+				$profilePicSended = false;
+			}
+
+			if ($this->User->save($this->request->data)) {
+				if($profilePicSended){
+					//Call function to set profile picture
+					$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
+				}
+				$data['content'] = __('The changes has been saved');
+			}else{
+				$data['error'] = __('The changes could not be saved. Please, try again.');
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+
 		} else {
-			$data['error'] = __('Invalid request type (has to be post or put)');
+			throw new BadRequestException(__('Invalid request type (has to be post or put)'));
 		}
-		$this->set(compact('data')); // Pass $data to the view
-		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
 	}
 
 	public function admin_edit($id = null) {
