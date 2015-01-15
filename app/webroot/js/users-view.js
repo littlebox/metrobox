@@ -28,13 +28,15 @@ var UsersView = {
 			});
 		})
 
+
+
 	},
 
 	sendProfilePictureForm: function (){
 
 		var button = $( '#user-profile-picture-edit-btn-save' ).ladda();
 		button.ladda( 'start' ); //Show loader in button
-		button.ladda( 'setProgress', 0.5 );
+		button.ladda( 'setProgress', 0 );
 
 		var targeturl = $('#user-profile-picture-edit').attr('action');
 		var formData = new FormData(document.getElementById('user-profile-picture-edit'));
@@ -62,8 +64,11 @@ var UsersView = {
 
 		function transferComplete(ev){
 
-			p = (ev.loaded / ev.total);
-			button.ladda( 'setProgress', p );
+			button.ladda('stop');
+
+			var src = $('.profile-userpic img').attr('src');
+			$('.profile-userpic img').attr('src', '');
+			$('.profile-userpic img').attr('src', src +'?'+ new Date().getTime); //download new image without cache
 
 		}
 
