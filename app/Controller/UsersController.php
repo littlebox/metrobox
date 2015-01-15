@@ -124,6 +124,8 @@ class UsersController extends AppController {
 				'error' => '',
 			);
 
+			// print_r($this->request->data);die();
+
 			//Check if user exist
 			$this->User->id = $id;
 			if (!$this->User->exists()) {
@@ -135,7 +137,6 @@ class UsersController extends AppController {
 				if(empty($this->request->data['User']['profile_picture']['name'])){
 					$profilePicSended = false;
 				}
-				debug($profilePicSended);debug($this->request->data);die();
 
 				if ($this->User->save($this->request->data)) {
 					if($profilePicSended){
