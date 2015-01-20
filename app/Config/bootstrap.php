@@ -25,6 +25,9 @@
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
 
+// Load own configs
+Configure::load('metrobox');
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
@@ -74,8 +77,8 @@ CakePlugin::load('Recaptcha');
 CakePlugin::load('AclExtras');
 
 //Recaptcha keys
-Configure::write('Recaptcha.publicKey', '6LcNWP8SAAAAAG_hjKXHcJCkCNrogLfyVzssBf63');
-Configure::write('Recaptcha.privateKey', '6LcNWP8SAAAAAG_v4a2cXlPCH4AeaiS3RmiXJESB');
+Configure::write('Recaptcha.publicKey', Configure::read('Metrobox.recaptachaPublicKey'));
+Configure::write('Recaptcha.privateKey', Configure::read('Metrobox.recaptachaPrivateKey'));
 
 /**
  * You can attach event listeners to the request lifecycle as Dispatcher Filter. By default CakePHP bundles two filters:

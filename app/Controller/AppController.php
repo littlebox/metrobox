@@ -30,7 +30,9 @@ App::uses('Controller', 'Controller');
  * @package		app.Controller
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
+
 class AppController extends Controller {
+
 	public $components = array(
 		'RequestHandler',
 		'Email',
@@ -38,7 +40,7 @@ class AppController extends Controller {
 		'DebugKit.Toolbar',
 		'Session',
 		'Cookie' => array(
-			'key' => '?t]09u7!6Z#@|#4MKg>s&5=6y0lazuPPn`Z3G238g37V50xBIwUnv8kE1K7kvD"',
+			'key' => 'mt]09u7!6Z#@|#4MKg>s&5=6y0lazuPPn4Z3G238g37V50xBIwUnv8kE1K7kvD8',
 			'name' => 'lboxCookie',
 			'type' => 'rijndael', //AES encryptation
 		),
@@ -84,9 +86,7 @@ class AppController extends Controller {
 	);
 
 	public function beforeFilter() {
-		//Permite ver sin loguearse los siguientes métodos de todos los controladores
-		// $this->Auth->allow('index', 'view');
-		//$this->Auth->allow();
+
 	}
 
 }

@@ -384,14 +384,14 @@ class UsersController extends AppController {
 						//============Email================//
 						/* SMTP Options */
 						$this->Email->smtpOptions = array(
-							'port'=>'465',
-							'timeout'=>'30',
-							'host' => 'ssl://smtp.gmail.com',
-							'username'=>'francisco@publinet.com.ar',
-							'password'=>'05890589'
+							'port' => '465',
+							'timeout' => '30',
+							'host' => 'ssl://p3plcpnl0494.prod.phx3.secureserver.net',
+							'username' => 'metrobox@littlebox.com.ar',
+							'password' => Configure::read('Metrobox.mailPassword')
 							);
 						$this->Email->template = 'metrobox_reset_password';
-						$this->Email->from = 'Littlebox <info@littlebox.com.ar>';
+						$this->Email->from = 'Metrobox <metrobox@littlebox.com.ar>';
 						$this->Email->to = $user['User']['email'];
 						$this->Email->subject = __('Reset Your Password');
 						$this->Email->sendAs = 'both';

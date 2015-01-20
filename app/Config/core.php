@@ -239,12 +239,12 @@
 /**
  * A random string used in security hashing methods.
  */
-	Configure::write('Security.salt', 'hcubUrENEM484CPqd4wFrNbALxBGuhKCQ6yMxGVG');
+	Configure::write('Security.salt', Configure::read('Metrobox.cakeSalt'));
 
 /**
  * A random numeric string (digits only) used to encrypt/decrypt strings.
  */
-	Configure::write('Security.cipherSeed', '26560408962065020915623093606');
+	Configure::write('Security.cipherSeed', Configure::read('Metrobox.cakeCipherSeed'));
 
 /**
  * Apply timestamps with the last modified time to static assets (js, css, images).

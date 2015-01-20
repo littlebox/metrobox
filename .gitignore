@@ -10,6 +10,7 @@
 /tags
 *.mo
 /app/webroot/img/media/profile/
+/app/Config/metrobox.php
 
 # IDE and editor specific files #
 #################################
