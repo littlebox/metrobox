@@ -324,10 +324,10 @@ var UserView = {
 			var thumbnail = $('.fileinput-new.thumbnail img');
 
 			var src = profileUserpic.attr('src');
-			profileUserpic.attr('src', '').attr('src', src +'?'+ Math.random); //download new image without cache
+			profileUserpic.attr('src', '').attr('src', src +'?'+ Math.random()); //download new image without cache
 
 			var src2 = thumbnail.attr('src');
-			thumbnail.attr('src', '').attr('src', src2 +'?'+ Math.random); //download new image without cache
+			thumbnail.attr('src', '').attr('src', src2 +'?'+ Math.random()); //download new image without cache
 
 		}
 		xhr.send(formData);
