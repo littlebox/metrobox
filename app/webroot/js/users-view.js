@@ -1,6 +1,13 @@
-var UsersView = {
+var UserView = {
+	//Submit buttons in form start disabled until the pages finish load
+	enableButtons: function() {
+		$("#user-profile-info-edit-btn-save").removeClass('disabled');
+		$("#user-profile-password-edit-btn-save").removeClass('disabled');
+		$("#user-profile-picture-edit-btn-save").removeClass('disabled');
+	},
 
-	init: function(){
+	//Prepare picture preview for cropping
+	setCropProfilePicture: function(){
 
 		//Profile picture cropping function
 		$('.fileinput').on('change.bs.fileinput',function(){
@@ -27,13 +34,260 @@ var UsersView = {
 				}
 			});
 		})
+	},
+
+	//Validations
+	validateProfileInfo: function(){
+		var thisForm = $('#user-profile-info-edit');
+
+		thisForm.validate({
+			errorElement: 'span', //default input error message container
+			errorClass: 'help-block', // default input error message class
+			focusInvalid: false, // do not focus the last invalid input
+			rules: ValidationRules, //from global-setups.js file
+
+			invalidHandler: function(event, validator) { //display error alert on form submit
+				//$('.alert-danger', $('.login-form')).show();
+			},
+
+			highlight: function(element) { // hightlight error inputs
+				$(element)
+					.closest('.form-group').addClass('has-error'); // set error class to the control group
+			},
+
+			success: function(label) {
+				label.closest('.form-group').removeClass('has-error');
+				label.remove();
+			},
+
+			errorPlacement: function(error, element) {
+				error.insertAfter(element);
+			},
+
+			submitHandler: function(form) {
+				UserView.sendProfileInfoForm();
+			}
+		});
+
+		//Make for submitable by press enter
+		thisForm.find('input').keypress(function(e) {
+			if (e.which == 13) {
+				if (thisForm.validate().form()) {
+					thisForm.submit();
+				}
+				return false;
+			}
+		});
+	},
+
+	validateProfilePassword: function(){
+		var thisForm = $('#user-profile-password-edit');
+
+		thisForm.validate({
+			errorElement: 'span', //default input error message container
+			errorClass: 'help-block', // default input error message class
+			focusInvalid: false, // do not focus the last invalid input
+			rules: ValidationRules,
 
 
+			invalidHandler: function(event, validator) { //display error alert on form submit
+				//$('.alert-danger', $('.login-form')).show();
+			},
 
+			highlight: function(element) { // hightlight error inputs
+				$(element)
+					.closest('.form-group').addClass('has-error'); // set error class to the control group
+			},
+
+			success: function(label) {
+				label.closest('.form-group').removeClass('has-error');
+				label.remove();
+			},
+
+			errorPlacement: function(error, element) {
+				error.insertAfter(element);
+			},
+
+			submitHandler: function(form) {
+				UserView.sendProfilePasswordForm();
+			}
+		});
+
+		//Make for submitable by press enter
+		thisForm.find('input').keypress(function(e) {
+			if (e.which == 13) {
+				if (thisForm.validate().form()) {
+					thisForm.submit();
+				}
+				return false;
+			}
+		});
+	},
+
+	validateProfilePicture: function(){
+		var thisForm = $('#user-profile-picture-edit');
+
+		thisForm.validate({
+			errorElement: 'span', //default input error message container
+			errorClass: 'help-block', // default input error message class
+			focusInvalid: false, // do not focus the last invalid input
+			rules: ValidationRules,
+
+
+			invalidHandler: function(event, validator) { //display error alert on form submit
+				//$('.alert-danger', $('.login-form')).show();
+			},
+
+			highlight: function(element) { // hightlight error inputs
+				$(element)
+					.closest('.form-group').addClass('has-error'); // set error class to the control group
+			},
+
+			success: function(label) {
+				label.closest('.form-group').removeClass('has-error');
+				label.remove();
+			},
+
+			errorPlacement: function(error, element) {
+				error.insertAfter('.fileinput.fileinput-exists');
+			},
+
+			submitHandler: function(form) {
+				UserView.sendProfilePictureForm();
+			}
+		});
+
+		//Make for submitable by press enter
+		thisForm.find('input').keypress(function(e) {
+			if (e.which == 13) {
+				if (thisForm.validate().form()) {
+					thisForm.submit();
+				}
+				return false;
+			}
+		});
+	},
+
+	//Save all original inputs values on an object
+	LocalVar: {},
+	setLocalVar: function(){
+		$("form#user-profile-info-edit input[type!='hidden']").each(function(){
+			var input = $(this); // This is the jquery object of the input, do what you will
+			UserView.LocalVar[input.attr('name')]=input.val();
+		})
+	},
+
+	//Make editable Profile Info Form
+	makeEditable: function(){
+		$("form#user-profile-info-edit input[type!='hidden']").each(function(){
+			var input = $(this); // This is the jquery object of the input, do what you will
+			input.removeAttr('disabled');
+		});
+		$("#user-profile-info-edit-btn-cancel").show();
+		$("#user-profile-info-edit-btn-save").show();
+		$("#user-profile-info-edit-btn-edit").hide();
+	},
+
+	//Make non editable Profile Info form and reset fields to original values
+	unmakeEditable: function(){
+		$("form#user-profile-info-edit input[type!='hidden']").each(function(){
+			var input = $(this); // This is the jquery object of the input, do what you will
+			input.val(UserView.LocalVar[input.attr('name')]);
+			input.attr('disabled', 'disabled');
+
+		});
+		$("#user-profile-info-edit-btn-edit").show();
+		$("#user-profile-info-edit-btn-cancel").hide();
+		$("#user-profile-info-edit-btn-save").hide();
+	},
+
+	sendProfileInfoForm: function() {
+		var button = $( '#user-profile-info-edit-btn-save' ).ladda();
+		button.ladda( 'start' ); //Show loader in button
+
+		var targeturl = $('#user-profile-info-edit').attr('action');
+		var formData = $('#user-profile-info-edit').serializeArray();
+
+		$.ajax({
+			type: 'put',
+			cache: false,
+			url: targeturl,
+			data: formData,
+			dataType: 'json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+			},
+			success: function(response) {
+				if (response.content) {
+					$('#page-alert-success').find('span').html(response.content);
+					$('#page-alert-success').show();
+					//Save new insputs values on an object LocalVar
+					$("form#user-profile-info-edit input[type!='hidden']").each(function(){
+						var input = $(this); // This is the jquery object of the input, do what you will
+						UserView.LocalVar[input.attr('name')]=input.val();
+					});
+					UserView.unmakeEditable();
+					$('#profile-usertitle-name').html(UserView.LocalVar['data[User][full_name]']);
+				}
+				if (response.error) {
+					$('#page-alert-danger').find('span').html(response.error);
+					$('#page-alert-danger').show();
+				}
+			},
+			error: function(e) {
+				$('#page-alert-danger').find('span').html(e.responseJSON.message);
+				$('#page-alert-danger').show();
+			},
+			complete: function(){
+				button.ladda( 'stop' ); //Hide loader in button
+			}
+		});
+	},
+
+	sendProfilePasswordForm: function() {
+		var button = $( '#user-profile-password-edit-btn-save' ).ladda();
+		button.ladda( 'start' ); //Show loader in button
+
+		var targeturl = $('#user-profile-password-edit').attr('action');
+		var formData = $('#user-profile-password-edit').serializeArray();
+
+		$.ajax({
+			type: 'post',
+			cache: false,
+			url: targeturl,
+			data: formData,
+			dataType: 'json',
+			beforeSend: function(xhr) {
+				xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+			},
+			success: function(response) {
+				if (response.content) {
+					$('#page-alert-success').find('span').html(response.content);
+					$('#page-alert-success').show();
+					//Empty fields
+					$("form#user-profile-password-edit input[type!='hidden']").each(function(){
+						var input = $(this); // This is the jquery object of the input, do what you will
+						input.val('');
+					});
+				}
+				if (response.error) {
+					$('#page-alert-danger').find('span').html(response.error);
+					$('#page-alert-danger').show();
+				}
+			},
+			error: function(e) {
+				$('#page-alert-danger').find('span').html(e.responseJSON.message);
+				$('#page-alert-danger').show();
+			},
+			complete: function(){
+				button.ladda( 'stop' ); //Hide loader in button
+			}
+		});
 	},
 
 	sendProfilePictureForm: function (){
-
 		var button = $( '#user-profile-picture-edit-btn-save' ).ladda();
 		button.ladda( 'start' ); //Show loader in button
 		button.ladda( 'setProgress', 0.1 );
@@ -48,13 +302,13 @@ var UsersView = {
 		if(xhr.upload){
 			xhr.upload.addEventListener("progress", updateProgress, false);
 		}
-		
+
 		xhr.addEventListener("load", transferComplete, false);
 		// xhr.addEventListener("error", transferFailed, false);
 		// xhr.addEventListener("abort", transferCanceled, false);
 
 		xhr.open('POST', targeturl, true);
-		
+
 		xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 
 		function updateProgress(ev){
@@ -68,7 +322,7 @@ var UsersView = {
 
 			var profileUserpic = $('.profile-userpic img');
 			var thumbnail = $('.fileinput-new.thumbnail img');
-			
+
 			var src = profileUserpic.attr('src');
 			profileUserpic.attr('src', '').attr('src', src +'?'+ Math.random); //download new image without cache
 
@@ -76,10 +330,25 @@ var UsersView = {
 			thumbnail.attr('src', '').attr('src', src2 +'?'+ Math.random); //download new image without cache
 
 		}
-
 		xhr.send(formData);
+	},
 
+	eventListeners: function(){
+		$('#user-profile-info-edit-btn-edit').on('click', UserView.makeEditable);
+		$('#user-profile-info-edit-btn-cancel').on('click', UserView.unmakeEditable);
+		//$('#user-profile-info-edit').on('submit', UserView.validateProfileInfo);
+		//$('#user-profile-picture-edit').on('submit', UserView.sendProfilePictureForm);
+		//$('#user-profile-password-edit').on('submit', UserView.sendProfilePasswordForm);
+	},
 
+	init: function (){
+		UserView.eventListeners();
+		UserView.setLocalVar();
+		UserView.setCropProfilePicture();
+		UserView.validateProfileInfo();
+		UserView.validateProfilePassword();
+		UserView.validateProfilePicture();
+		UserView.enableButtons();
 	}
 
-};
+}

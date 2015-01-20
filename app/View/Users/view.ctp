@@ -85,9 +85,9 @@
 								?>
 
 								<div class="margiv-top-10">
-									<button id="user-profile-info-edit-btn-edit" class="btn blue" onclick="makeEditable(); return false;"><?= __('Edit') ?></button>
-									<button id="user-profile-info-edit-btn-cancel" class="btn" onclick="unmakeEditable(); return false;" style="display:none;"><?= __('Cancel') ?></button>
-									<button id="user-profile-info-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfileInfoForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Save Changes') ?></span></button>
+									<button id="user-profile-info-edit-btn-edit" class="btn blue" type="button"><?= __('Edit') ?></button>
+									<button id="user-profile-info-edit-btn-cancel" class="btn" style="display:none;" type="button"><?= __('Cancel') ?></button>
+									<button id="user-profile-info-edit-btn-save" class="btn green-haze ladda-button disabled" data-style="zoom-out" style="display:none;" type="submit"><span class="ladda-label"><?= __('Save Changes') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 						</div>
@@ -134,7 +134,7 @@
 									</div>
 								</div>
 								<div class="margin-top-10">
-									<button id="user-profile-picture-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="UsersView.sendProfilePictureForm(); return false;" style="display:none;"><span class="ladda-label"><?= __('Change') ?></span></button>
+									<button id="user-profile-picture-edit-btn-save" class="btn green-haze ladda-button disabled" data-style="zoom-out" style="display:none;" type="submit"><span class="ladda-label"><?= __('Change') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 						</div>
@@ -151,7 +151,7 @@
 								?>
 
 								<div class="margiv-top-10">
-									<button id="user-profile-info-edit-btn-save" class="btn green-haze ladda-button" data-style="zoom-out" onclick="sendProfilePasswordForm(); return false;"><span class="ladda-label"><?= __('Change Password') ?></span></button>
+									<button id="user-profile-password-edit-btn-save" class="btn green-haze ladda-button disabled" data-style="zoom-out" type="submit"><span class="ladda-label"><?= __('Change Password') ?></span></button>
 								</div>
 							<?php echo $this->Form->end();?>
 						</div>
@@ -199,6 +199,8 @@
 
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
+	<?= $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');?>
+	<?= $this->Html->script('/plugins/jquery-validation/js/additional-methods.min');?>
 	<?= $this->Html->script('/plugins/jquery.sparkline.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
@@ -210,129 +212,14 @@
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('users-view');?>
+	<?= $this->Html->script('global-setups');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('users-view.js');?>
 	<script>
 		jQuery(document).ready(function() {
-			UsersView.init();
+			UserView.init();
 		});
-
-		//Save all original inputs values on an object
-		var LocalVar = {};
-		$("form#user-profile-info-edit input[type!='hidden']").each(function(){
-			var input = $(this); // This is the jquery object of the input, do what you will
-			LocalVar[input.attr('name')]=input.val();
-		});
-
-
-		function makeEditable(){
-			$("form#user-profile-info-edit input[type!='hidden']").each(function(){
-				var input = $(this); // This is the jquery object of the input, do what you will
-				input.removeAttr('disabled');
-			});
-			$("#user-profile-info-edit-btn-cancel").show();
-			$("#user-profile-info-edit-btn-save").show();
-			$("#user-profile-info-edit-btn-edit").hide();
-		}
-
-		function unmakeEditable(){
-			$("form#user-profile-info-edit input[type!='hidden']").each(function(){
-				var input = $(this); // This is the jquery object of the input, do what you will
-				input.val(LocalVar[input.attr('name')]);
-				input.attr('disabled', 'disabled');
-
-			});
-			$("#user-profile-info-edit-btn-edit").show();
-			$("#user-profile-info-edit-btn-cancel").hide();
-			$("#user-profile-info-edit-btn-save").hide();
-		}
-
-		function sendProfileInfoForm() {
-			var button = $( '#user-profile-info-edit-btn-save' ).ladda();
-			button.ladda( 'start' ); //Show loader in button
-
-			var targeturl = $('#user-profile-info-edit').attr('action');
-			var formData = $('#user-profile-info-edit').serializeArray();
-
-			$.ajax({
-				type: 'put',
-				cache: false,
-				url: targeturl,
-				data: formData,
-				dataType: 'json',
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-				},
-				success: function(response) {
-					if (response.content) {
-						$('#page-alert-success').find('span').html(response.content);
-						$('#page-alert-success').show();
-						//Save new insputs values on an object LocalVar
-						$("form#user-profile-info-edit input[type!='hidden']").each(function(){
-							var input = $(this); // This is the jquery object of the input, do what you will
-							LocalVar[input.attr('name')]=input.val();
-						});
-						unmakeEditable();
-						$('#profile-usertitle-name').html(LocalVar['data[User][full_name]']);
-					}
-					if (response.error) {
-						$('#page-alert-danger').find('span').html(response.error);
-						$('#page-alert-danger').show();
-					}
-				},
-				error: function(e) {
-					$('#page-alert-danger').find('span').html(e.responseJSON.message);
-					$('#page-alert-danger').show();
-				},
-				complete: function(){
-					button.ladda( 'stop' ); //Hide loader in button
-				}
-			});
-		};
-
-		function sendProfilePasswordForm() {
-			var button = $( '#user-profile-password-edit-btn-save' ).ladda();
-			button.ladda( 'start' ); //Show loader in button
-
-			var targeturl = $('#user-profile-password-edit').attr('action');
-			var formData = $('#user-profile-password-edit').serializeArray();
-
-			$.ajax({
-				type: 'post',
-				cache: false,
-				url: targeturl,
-				data: formData,
-				dataType: 'json',
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-				},
-				success: function(response) {
-					if (response.content) {
-						$('#page-alert-success').find('span').html(response.content);
-						$('#page-alert-success').show();
-						//Empty fields
-						$("form#user-profile-password-edit input[type!='hidden']").each(function(){
-							var input = $(this); // This is the jquery object of the input, do what you will
-							input.val('');
-						});
-					}
-					if (response.error) {
-						$('#page-alert-danger').find('span').html(response.error);
-						$('#page-alert-danger').show();
-					}
-				},
-				error: function(e) {
-					$('#page-alert-danger').find('span').html(e.responseJSON.message);
-					$('#page-alert-danger').show();
-				},
-				complete: function(){
-					button.ladda( 'stop' ); //Hide loader in button
-				}
-			});
-		};
 	</script>
 <?php $this->end(); ?>
