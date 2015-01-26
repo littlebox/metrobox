@@ -16,7 +16,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="btn-group">
-						<?= $this->Html->link('<i class="fa fa-plus"></i> '.__('Add New'), array('action' => 'add'), array('class' => 'btn green-haze', 'escape' => false)); ?>
+						<?= $this->Html->link('<i class="fa fa-plus"></i> '.__('Add New'), array('action' => 'add', 'admin' => true), array('class' => 'btn green-haze', 'escape' => false)); ?>
 					</div>
 				</div>
 				<div class="col-md-6">

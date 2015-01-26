@@ -211,8 +211,8 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('users-view');?>
 	<?= $this->Html->script('global-setups');?>
+	<?= $this->Html->script('users-view');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>

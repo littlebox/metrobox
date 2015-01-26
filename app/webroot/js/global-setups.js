@@ -18,4 +18,7 @@ var ValidationRules = {
 	'data[User][profile_picture]': {
 		accept: "image/gif, image/jpeg, image/pjpeg, image/x-png, image/png, image/jpg",
 	},
+	'data[User][group_id]': {
+		required: true,
+	},
 }

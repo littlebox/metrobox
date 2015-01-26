@@ -28,6 +28,7 @@
 					))
 			),
 			'class' => 'form-horizontal form-bordered',
+			'id' => 'user-form',
 		)); ?>
 			<div class="form-body">
 
@@ -35,7 +36,7 @@
 					echo $this->Form->input('full_name');
 					echo $this->Form->input('email');
 					echo $this->Form->input('password', array('required' => 'false'));
-					echo $this->Form->input('confirm_password',array('required' => 'false','type' => 'password'));
+					echo $this->Form->input('password_confirm',array('required' => 'false','type' => 'password'));
 					echo $this->Form->input('group_id');
 				?>
 
@@ -95,6 +96,7 @@
 							echo $this->Form->Button(__('Save'),array(
 								'div' => false,
 								'class' => 'btn green',
+								'type' => 'submit'
 							));
 							echo $this->Form->end();
 						?>
@@ -107,7 +109,6 @@
 </div>
 
 <?php $this->append('pageStyles'); ?>
-	<?= $this->Html->css('/plugins/select2/select2');?>
 	<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min');?>
 	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
@@ -116,12 +117,19 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
-	<?= $this->Html->script('/plugins/select2/select2.min');?>
+	<?= $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');?>
+	<?= $this->Html->script('/plugins/jquery-validation/js/additional-methods.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('users-add.js');?>
+	<?= $this->Html->script('global-setups');?>
+	<?= $this->Html->script('users-admin-add-edit.js');?>
+	<script>
+		jQuery(document).ready(function() {
+			UserAdminAddEdit.init();
+		});
+	</script>
 <?php $this->end(); ?>
