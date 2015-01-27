@@ -352,8 +352,16 @@ class UsersController extends AppController {
 		}
 	}
 
+	public function admin_login() {
+		$this->redirect(array('controller'=>'users','action'=>'login', 'admin' => false));
+	}
+
 	public function logout() {
 		return $this->redirect($this->Auth->logout());
+	}
+
+	public function admin_logout() {
+		return $this->redirect(array('controller'=>'users','action'=>'logout', 'admin' => false));
 	}
 
 	function forgetPassword(){
