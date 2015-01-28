@@ -86,7 +86,7 @@ class AppController extends Controller {
 	);
 
 	public function beforeFilter() {
-
+		// debug(Configure::read('Config.language'));die();
 	}
 
 }

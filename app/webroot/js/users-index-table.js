@@ -9,12 +9,7 @@ var UsersIndexTable = function () {
 			"bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
 			"pagingType": "bootstrap_full_number",
 			"language": {
-				"paginate": {
-					"previous":"Prev",
-					"next": "Next",
-					"last": "Last",
-					"first": "First"
-				}
+				"url": '../plugins/datatables/i18n/'+LocalVar.langFile+'.json'
 			},
 			"lengthMenu": [
 				[10, 25, 50, 100, -1],

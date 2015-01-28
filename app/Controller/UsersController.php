@@ -112,7 +112,7 @@ class UsersController extends AppController {
 	}
 
 	public function edit($id = null) {
-		$this->request->onlyAllow('ajax'); //Call only with .json at end on url
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
 
 		//Check if request is post or put
 		if ($this->request->is('post') || $this->request->is('put')) {
@@ -365,7 +365,7 @@ class UsersController extends AppController {
 	}
 
 	function forgetPassword(){
-		$this->request->onlyAllow('ajax');
+		$this->request->allowMethod('ajax');
 
 		$data = array(
 			'content' => '',
