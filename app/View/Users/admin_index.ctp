@@ -72,7 +72,7 @@
 	<?= $this->Html->script('users-index-table');?>
 	<script>
 		var LocalVar = {};
-		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2)?>';
+		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2) ?>';
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
 		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json', 'admin' => true)) ?>');

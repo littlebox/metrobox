@@ -7,10 +7,10 @@ Website: http://www.littlebox.com.ar/
 Contact: info@littlebox.com.ar
 Like: www.facebook.com/littlefacebox
 -->
-<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
-<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if IE 8]> <html lang="<?= substr(Configure::read('Config.language'), 0, 2) ?>" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="<?= substr(Configure::read('Config.language'), 0, 2) ?>" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-<html lang=<?= Configure::read('Config.language') ?>>
+<html lang="<?= substr(Configure::read('Config.language'), 0, 2) ?>">
 <!--<![endif]-->
 <!-- BEGIN HEAD -->
 <head>
