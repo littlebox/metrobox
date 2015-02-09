@@ -36,7 +36,7 @@ Like: www.facebook.com/littlefacebox
 		echo $this->Html->css('components');
 		echo $this->Html->css('plugins');
 		echo $this->Html->css('layout');
-		echo $this->Html->css('themes/dark');
+		echo $this->Html->css('themes/bebusca-colors');
 		echo $this->Html->css('custom');
 	?>
 	<!-- END THEME STYLES -->
