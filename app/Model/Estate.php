@@ -3,30 +3,37 @@ App::uses('AppModel', 'Model');
 /**
  * Estate Model
  *
- * @property OperationEstate $Operation
- * @property TypeEstate $Type
+ * @property Type $Type
+ * @property Operation $Operation
  */
 class Estate extends AppModel {
+
+/**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'label';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasOne associations
+ * belongsTo associations
  *
  * @var array
  */
-	public $hasOne = array(
-		'Operation' => array(
-			'className' => 'EstateOperation',
-			'foreignKey' => 'id',
+	public $belongsTo = array(
+		'Type' => array(
+			'className' => 'Type',
+			'foreignKey' => 'type_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
 		),
-		'Type' => array(
-			'className' => 'EstateType',
-			'foreignKey' => 'id',
+		'Operation' => array(
+			'className' => 'Operation',
+			'foreignKey' => 'operation_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''

@@ -20,6 +20,16 @@
 					'title'=>'Propiedades',
 					'href'=> array('controller'=>'estates','action'=>'index'),
 					'icon'=>'home',
+					'submenu' => array(
+						array(
+							'title'=>'Ver propiedades',
+							'href'=> array('controller'=>'estates','action'=>'index'),
+							'icon'=>'home'),
+						array(
+							'title'=>'Añadir propiedad',
+							'href'=> array('controller'=>'estates','action'=>'add'),
+							'icon'=>'home')
+						)
 					),
 				array(
 					'title'=>'Mensajes',

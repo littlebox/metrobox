@@ -41,11 +41,12 @@
 				</div>
 			</div>
 		</div>
-		<table class="table table-striped table-bordered table-hover" id="users_table">
+		<table class="table table-striped table-bordered table-hover" id="estates_table">
 			<thead>
-				<th><?= __('Username') ?></th>
-				<th><?= __('Email') ?></th>
-				<th><?= __('Created') ?></th>
+				<th><?= __('id') ?></th>
+				<th><?= __('street_number') ?></th>
+				<th><?= __('street_name') ?></th>
+				<th><?= __('type') ?></th>
 				<th><?= __('Actions') ?></th>
 			</thead>
 			<tbody>
@@ -84,7 +85,7 @@
 		LocalVar.estateViewText = ('<?= __("Details") ?>');
 
 		jQuery(document).ready(function() {
-			UsersIndexTable.init();
+			EstatesIndexTable.init();
 		});
 
 		function confirmAlert(url){

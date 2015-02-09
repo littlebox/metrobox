@@ -26,7 +26,8 @@ class EstatesController extends AppController {
 		$this->Estate->recursive = 0;
 
 		$this->paginate = array(
-			'fields' => array('Estate.street_number','Estate.street_name','Estate.province','Estate.id'),
+			'fields' => array('Estate.id','Estate.street_number','Estate.street_name','Estate.province','Type.name'),
+			'recursive' => true //lee el de arriba, creo.
 		);
 
 		$this->DataTable->mDataProp = true;
@@ -55,7 +56,7 @@ class EstatesController extends AppController {
  * @return void
  */
 	public function add() {
-		$this->layout = 'metrobox';
+		$this->layout = 'metrobox_estates';
 		if ($this->request->is('post')) {
 			$this->Estate->create();
 			if ($this->Estate->save($this->request->data)) {
