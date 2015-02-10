@@ -68,81 +68,82 @@
 						</a>
 						<ul class="dropdown-menu">
 							<li class="external">
-								<h3>You have <span class="bold">7 New</span> Messages</h3>
-								<a href="page_inbox.html">view all</a>
+								<h3><?= __('Tenes') ?> <span class="bold">4 Nuevos</span> <?= __('Mensajes') ?></h3>
+								<a href="page_inbox.html"><?= __('ver todo') ?></a>
 							</li>
 							<li>
 								<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 275px;"><ul class="dropdown-menu-list scroller" style="height: 275px; overflow: hidden; width: auto;" data-handle-color="#637283" data-initialized="1">
 									<li>
 										<a href="inbox.html?a=view">
 										<span class="photo">
-											<?= $this->Html->image('avatar2.jpg', array('alt' => '', 'class' => 'img-circle'));?>
+											<?= $this->Html->image('media/profile/profile_picture_7.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 										</span>
 										<span class="subject">
 										<span class="from">
-										Lisa Wong </span>
+										Nicolás Pennesi </span>
 										<span class="time">Just Now </span>
 										</span>
 										<span class="message">
-										Vivamus sed auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+										Peru ponete a laburar! </span>
 										</a>
 									</li>
 									<li>
 										<a href="inbox.html?a=view">
 										<span class="photo">
-											<?= $this->Html->image('avatar3.jpg', array('alt' => '', 'class' => 'img-circle'));?>
+											<?= $this->Html->image('media/profile/profile_picture_2.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 										</span>
 										<span class="subject">
 										<span class="from">
-										Richard Doe </span>
+										Admin </span>
 										<span class="time">16 mins </span>
 										</span>
 										<span class="message">
-										Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+										Haciendo magia </span>
 										</a>
 									</li>
 									<li>
 										<a href="inbox.html?a=view">
 										<span class="photo">
-											<?= $this->Html->image('avatar1.jpg', array('alt' => '', 'class' => 'img-circle'));?>
+											<?= $this->Html->image('media/profile/profile_picture_2.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 										</span>
 										<span class="subject">
 										<span class="from">
-										Bob Nilson </span>
-										<span class="time">2 hrs </span>
+										Admin </span>
+										<span class="time">30 mins </span>
 										</span>
 										<span class="message">
-										Vivamus sed nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+										Prueba?? </span>
 										</a>
 									</li>
 									<li>
 										<a href="inbox.html?a=view">
 										<span class="photo">
-											<?= $this->Html->image('avatar2.jpg', array('alt' => '', 'class' => 'img-circle'));?>
+											<?= $this->Html->image('media/profile/profile_picture_2.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 										</span>
 										<span class="subject">
 										<span class="from">
-										Lisa Wong </span>
-										<span class="time">40 mins </span>
+										Admin </span>
+										<span class="time">1 hs </span>
 										</span>
 										<span class="message">
-										Vivamus sed auctor 40% nibh congue nibh... </span>
+										Si esto se ve, es que funciona </span>
 										</a>
 									</li>
 									<li>
 										<a href="inbox.html?a=view">
 										<span class="photo">
-											<?= $this->Html->image('avatar3.jpg', array('alt' => '', 'class' => 'img-circle'));?>
+											<?= $this->Html->image('media/profile/profile_picture_2.jpg', array('alt' => '', 'class' => 'img-circle'));?>
 										</span>
 										<span class="subject">
 										<span class="from">
-										Richard Doe </span>
-										<span class="time">46 mins </span>
+										Admin </span>
+										<span class="time">2 hs </span>
 										</span>
 										<span class="message">
-										Vivamus sed congue nibh auctor nibh congue nibh. auctor nibh auctor nibh... </span>
+										Prueba? </span>
 										</a>
 									</li>
+
 								</ul><div class="slimScrollBar" style="width: 7px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px; background: rgb(99, 114, 131);"></div><div class="slimScrollRail" style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; opacity: 0.2; z-index: 90; right: 1px; background: rgb(234, 234, 234);"></div></div>
 							</li>
 						</ul>

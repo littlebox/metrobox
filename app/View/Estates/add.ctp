@@ -10,18 +10,18 @@
 	<div id="mapView" class="mob-min"><div class="mapPlaceholder"><span class="fa fa-spin fa-spinner"></span> Loading map...</div></div>
 	<div id="content" class="mob-max">
 		<div class="rightContainer">
-			<h1>List a New Property</h1>
+			<h1><?= __('Añadir una propiedad') ?></h1>
 			<form role="form">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
 						<div class="form-group">
-							<label>Title</label>
+							<label><?= __('Titulo') ?></label>
 							<input type="text" class="form-control">
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 						<div class="form-group">
-							<label>Price</label>
+							<label><?= __('Precio') ?></label>
 							<div class="input-group">
 								<div class="input-group-addon">$</div>
 								<input class="form-control" type="text">
@@ -30,42 +30,42 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label>Description</label>
+					<label><?= __('Descripción') ?></label>
 					<textarea class="form-control" rows="4"></textarea>
 				</div>
 				<div class="form-group">
-					<label>Address <span id="latitude" class="label label-default"></span> <span id="longitude" class="label label-default"></span></label>
-					<input class="form-control" type="text" id="address" placeholder="Enter a Location" autocomplete="off">
-					<p class="help-block">You can drag the marker to property position</p>
+					<label><?= __('Dirección') ?> <span id="latitude" class="label label-default"></span> <span id="longitude" class="label label-default"></span></label>
+					<input class="form-control" type="text" id="address" placeholder="Ingresa una localidad" autocomplete="off">
+					<p class="help-block"><?= __('Arrastrá el marcador del mapa hasta el lugar exacto de la propiedad') ?></p>
 				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 						<div class="form-group">
-							<label>Bedrooms</label>
+							<label><?= __('Habitaciones') ?></label>
 							<input type="text" class="form-control">
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 						<div class="form-group">
-							<label>Bathrooms</label>
+							<label><?= __('Baños') ?></label>
 							<input type="text" class="form-control">
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 						<div class="form-group">
-							<label>Area</label>
+							<label><?= __('Area cubierta') ?></label>
 							<div class="input-group">
 								<input class="form-control" type="text">
-								<div class="input-group-addon">Sq Ft</div>
+								<div class="input-group-addon"><?= __('m2') ?></div>
 							</div>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-3 col-lg-3">
 						<div class="btn-group">
-							<label>Type</label>
+							<label><?= __('Tipo') ?></label>
 							<select>
-								<option>For Sale</option>
-								<option>For Rent</option>
+								<option><?= __('Venta') ?></option>
+								<option><?= __('Alquiler') ?></option>
 							</select>
 						</div>
 					</div>
@@ -73,42 +73,43 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<div class="form-group">
-							<label>Image Gallery</label>
-							<input type="file" class="file" multiple data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png" data-browse-class="btn btn-o btn-default" data-browse-label="Browse Images">
-							<p class="help-block">You can select multiple images at once</p>
+							<label><?= __('Galeria de imágenes') ?></label>
+							<input type="file" class="file" multiple data-show-upload="false" data-show-caption="false" data-show-remove="false" accept="image/jpeg,image/png" data-browse-class="btn btn-o btn-default" data-browse-label="<?= __('Buscar Imágenes') ?>">
+							<p class="help-block"><?= __('Podés seleccionar varias imagenes') ?></p>
 						</div>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 						<div class="form-group">
-							<label>Amenities</label>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Garage</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Security System</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Air Conditioning</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Balcony</label></div>
+							<label><?= __('Comodidades') ?></label>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Garage') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Alarma') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Aire acondicionado') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Balcon') ?></label></div>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 						<div class="form-group">
 							<label>&nbsp;</label>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Outdoor Pool</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Internet</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Heating</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> TV Cable</label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Piscina') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Internet') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Calefacción') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('TV por cable/satelite') ?></label></div>
 						</div>
 					</div>
 					<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
 						<div class="form-group">
 							<label>&nbsp;</label>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Garden</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Telephone</label></div>
-							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> Fireplace</label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Jardín') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Teléfono') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Sotano') ?></label></div>
+							<div class="checkbox custom-checkbox"><label><input type="checkbox"><span class="fa fa-check"></span> <?= __('Patio interno') ?></label></div>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<a href="#" class="btn btn-green btn-lg">Add Property</a>
+					<a href="#" class="btn btn-green btn-lg"><?= __('Añadir propiedad') ?></a>
 				</div>
 			</form>
 		</div>
@@ -139,7 +140,7 @@
 <?php $this->end(); ?>
 <script>
 	var LocalVar = {};
-	LocalVar.markerGreen = "<?php echo ('http://localhost/metrobox/img/estates-add/marker-green.png');?>"
+	LocalVar.markerGreen = "<?php echo ('http://localhost/metrobox/img/estates-add/marker-blue.png');?>"
 	LocalVar.markerNew = "<?php echo ('http://localhost/metrobox/img/estates-add/marker-new.png');?>"
 	LocalVar.infoBox = "<?php echo ('http://localhost/metrobox/img/estates-add/infobox-bg.png');?>"
 </script>

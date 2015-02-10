@@ -42,7 +42,7 @@
 
 	// json for properties markers on map
 	var props = [{
-		title : 'Modern Residence in New York',
+		title : 'Depto en Av Belgrano',
 		image : '1-1-thmb.png',
 		type : 'For Sale',
 		price : '$1,550,000',
@@ -245,8 +245,8 @@
 									'</ul>' +
 									'<div class="clearfix"></div>' +
 									'<div class="infoButtons">' +
-										'<a class="btn btn-sm btn-round btn-gray btn-o closeInfo">Close</a>' +
-										'<a href="single.html" class="btn btn-sm btn-round btn-green viewInfo">View</a>' +
+										'<a class="btn btn-sm btn-round btn-gray btn-o closeInfo">Cerrar</a>' +
+										'<a href="single.html" class="btn btn-sm btn-round btn-green viewInfo">Ver</a>' +
 									'</div>' +
 								 '</div>';
 
