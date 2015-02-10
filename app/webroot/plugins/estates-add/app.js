@@ -41,147 +41,147 @@
 	var markers = [];
 
 	// json for properties markers on map
-    var props = [{
-        title : 'Residencia Moderna en Dalvian',
-        image : '1-1-thmb.png',
-        type : 'Venta',
-        price : '$1,550,000',
-        address : 'Calle Falsa 123, Las Heras, Mendoza',
-        bedrooms : '3',
-        bathrooms : '2',
-        area : '3430 m2',
-        position : {
-            lat : -32.8843989418938,
-            lng : -68.84862028416137
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Casa Muy Bonita',
-        image : '2-1-thmb.png',
-        type : 'Alquiler',
-        price : '$1,750,000',
-        address : 'Otra Calle 865, Godoy Cruz, Mendoza',
-        bedrooms : '2',
-        bathrooms : '2',
-        area : '4430 m2',
-        position : {
-            lat : -32.88895774818249,
-            lng : -68.85443531330566
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Mansa Mansión',
-        image : '3-1-thmb.png',
-        type : 'Venta',
-        price : '$1,340,000',
-        address : 'Ricachon 2365, San Isidro, Buenos Aires',
-        bedrooms : '2',
-        bathrooms : '3',
-        area : '2640 m2',
-        position : {
-            lat : -32.89333614367499,
-            lng : -68.85274015720825
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Una Casa Sofisticada',
-        image : '4-1-thmb.png',
-        type : 'Venta',
-        price : '$1,930,000',
-        address : 'Fifistreet 5478, Merlo, San Luis',
-        bedrooms : '3',
-        bathrooms : '2',
-        area : '2800 m2',
-        position : {
-            lat : -32.890183,
-            lng : -68.8440498
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Mansión Copada',
-        image : '5-1-thmb.png',
-        type : 'Alquiler',
-        price : '$2,350,000',
-        address : 'Eusebio blanco 123, Ciudad, Mendoza',
-        bedrooms : '2',
-        bathrooms : '2',
-        area : '2750 m2',
-        position : {
-            lat : -32.896092800194744,
-            lng : -68.84643160160522
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Residencia Moderna en Dalvian',
-        image : '1-1-thmb.png',
-        type : 'Venta',
-        price : '$1,550,000',
-        address : 'Calle Falsa 123, Las Heras, Mendoza',
-        bedrooms : '3',
-        bathrooms : '2',
-        area : '3430 m2',
-        position : {
-            lat : -32.89036318266172,
-            lng : -68.84698950108032
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Casa Muy Bonita',
-        image : '2-1-thmb.png',
-        type : 'Alquiler',
-        price : '$1,750,000',
-        address : 'Otra Calle 865, Godoy Cruz, Mendoza',
-        bedrooms : '2',
-        bathrooms : '2',
-        area : '4430 m2',
-        position : {
-            lat : -32.887624366658365,
-            lng : -68.83872829731445
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Mansa Mansión',
-        image : '3-1-thmb.png',
-        type : 'Venta',
-        price : '$1,340,000',
-        address : 'Ricachon 2365, San Isidro, Buenos Aires',
-        bedrooms : '2',
-        bathrooms : '3',
-        area : '2640 m2',
-        position : {
-            lat : -32.89182264871652,
-            lng : -68.83917890842895
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Una Casa Sofisticada',
-        image : '4-1-thmb.png',
-        type : 'Venta',
-        price : '$1,930,000',
-        address : 'Fifistreet 5478, Merlo, San Luis',
-        bedrooms : '3',
-        bathrooms : '2',
-        area : '2800 m2',
-        position : {
-            lat : -32.890483,
-            lng : -68.8447498
-        },
-        markerIcon : LocalVar.markerGreen
-    }, {
-        title : 'Mansión Copada',
-        image : '5-1-thmb.png',
-        type : 'Alquiler',
-        price : '$2,350,000',
-        address : 'Eusebio blanco 123, Ciudad, Mendoza',
-        bedrooms : '2',
-        bathrooms : '2',
-        area : '2750 m2',
-        position : {
-            lat : -32.891183,
-            lng : -68.8430498
-        },
-        markerIcon : LocalVar.markerGreen
-    }];
+	var props = [{
+		title : 'Residencia Moderna en Dalvian',
+		image : '1-1-thmb.png',
+		type : 'Venta',
+		price : '$1,550,000',
+		address : 'Calle Falsa 123, Las Heras, Mendoza',
+		bedrooms : '3',
+		bathrooms : '2',
+		area : '3430 m2',
+		position : {
+			lat : -32.8843989418938,
+			lng : -68.84862028416137
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Casa Muy Bonita',
+		image : '2-1-thmb.png',
+		type : 'Alquiler',
+		price : '$1,750,000',
+		address : 'Otra Calle 865, Godoy Cruz, Mendoza',
+		bedrooms : '2',
+		bathrooms : '2',
+		area : '4430 m2',
+		position : {
+			lat : -32.88895774818249,
+			lng : -68.85443531330566
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Mansa Mansión',
+		image : '3-1-thmb.png',
+		type : 'Venta',
+		price : '$1,340,000',
+		address : 'Ricachon 2365, San Isidro, Buenos Aires',
+		bedrooms : '2',
+		bathrooms : '3',
+		area : '2640 m2',
+		position : {
+			lat : -32.89333614367499,
+			lng : -68.85274015720825
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Una Casa Sofisticada',
+		image : '4-1-thmb.png',
+		type : 'Venta',
+		price : '$1,930,000',
+		address : 'Fifistreet 5478, Merlo, San Luis',
+		bedrooms : '3',
+		bathrooms : '2',
+		area : '2800 m2',
+		position : {
+			lat : -32.890183,
+			lng : -68.8440498
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Mansión Copada',
+		image : '5-1-thmb.png',
+		type : 'Alquiler',
+		price : '$2,350,000',
+		address : 'Eusebio blanco 123, Ciudad, Mendoza',
+		bedrooms : '2',
+		bathrooms : '2',
+		area : '2750 m2',
+		position : {
+			lat : -32.896092800194744,
+			lng : -68.84643160160522
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Residencia Moderna en Dalvian',
+		image : '1-1-thmb.png',
+		type : 'Venta',
+		price : '$1,550,000',
+		address : 'Calle Falsa 123, Las Heras, Mendoza',
+		bedrooms : '3',
+		bathrooms : '2',
+		area : '3430 m2',
+		position : {
+			lat : -32.89036318266172,
+			lng : -68.84698950108032
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Casa Muy Bonita',
+		image : '2-1-thmb.png',
+		type : 'Alquiler',
+		price : '$1,750,000',
+		address : 'Otra Calle 865, Godoy Cruz, Mendoza',
+		bedrooms : '2',
+		bathrooms : '2',
+		area : '4430 m2',
+		position : {
+			lat : -32.887624366658365,
+			lng : -68.83872829731445
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Mansa Mansión',
+		image : '3-1-thmb.png',
+		type : 'Venta',
+		price : '$1,340,000',
+		address : 'Ricachon 2365, San Isidro, Buenos Aires',
+		bedrooms : '2',
+		bathrooms : '3',
+		area : '2640 m2',
+		position : {
+			lat : -32.89182264871652,
+			lng : -68.83917890842895
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Una Casa Sofisticada',
+		image : '4-1-thmb.png',
+		type : 'Venta',
+		price : '$1,930,000',
+		address : 'Fifistreet 5478, Merlo, San Luis',
+		bedrooms : '3',
+		bathrooms : '2',
+		area : '2800 m2',
+		position : {
+			lat : -32.890483,
+			lng : -68.8447498
+		},
+		markerIcon : LocalVar.markerGreen
+	}, {
+		title : 'Mansión Copada',
+		image : '5-1-thmb.png',
+		type : 'Alquiler',
+		price : '$2,350,000',
+		address : 'Eusebio blanco 123, Ciudad, Mendoza',
+		bedrooms : '2',
+		bathrooms : '2',
+		area : '2750 m2',
+		position : {
+			lat : -32.891183,
+			lng : -68.8430498
+		},
+		markerIcon : LocalVar.markerGreen
+	}];
 
 	// custom infowindow object
 	var infobox = new InfoBox({
@@ -221,7 +221,7 @@
 			});
 			var infoboxContent = '<div class="infoW">' +
 									'<div class="propImg">' +
-										'<img src="images/prop/' + prop.image + '">' +
+										'<img src="/metrobox/img/estates-add/prop/' + prop.image + '">' +
 										'<div class="propBg">' +
 											'<div class="propPrice">' + prop.price + '</div>' +
 											'<div class="propType">' + prop.type + '</div>' +
