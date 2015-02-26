@@ -436,44 +436,44 @@ Orange Bebusca
 /* Button */
 .orange-bebusca.btn {
   color: #FFFFFF;
-  background-color: #ed7612;
+  background-color: #ff6600;
   border-color: "";
 }
 .orange-bebusca.btn:hover, .orange-bebusca.btn:focus, .orange-bebusca.btn:active, .orange-bebusca.btn.active {
   color: #FFFFFF;
-  background-color: #cc650f;
+  background-color: #db5800;
 }
 .open .orange-bebusca.btn.dropdown-toggle {
   color: #FFFFFF;
-  background-color: #cc650f;
+  background-color: #db5800;
 }
 .orange-bebusca.btn:active, .orange-bebusca.btn.active {
   background-image: none;
-  background-color: #b45a0e;
+  background-color: #c24e00;
 }
 .orange-bebusca.btn:active:hover, .orange-bebusca.btn.active:hover {
-  background-color: #be5e0e;
+  background-color: #cc5200;
 }
 .open .orange-bebusca.btn.dropdown-toggle {
   background-image: none;
 }
 .orange-bebusca.btn.disabled, .orange-bebusca.btn.disabled:hover, .orange-bebusca.btn.disabled:focus, .orange-bebusca.btn.disabled:active, .orange-bebusca.btn.disabled.active, .orange-bebusca.btn[disabled], .orange-bebusca.btn[disabled]:hover, .orange-bebusca.btn[disabled]:focus, .orange-bebusca.btn[disabled]:active, .orange-bebusca.btn[disabled].active, fieldset[disabled] .orange-bebusca.btn, fieldset[disabled] .orange-bebusca.btn:hover, fieldset[disabled] .orange-bebusca.btn:focus, fieldset[disabled] .orange-bebusca.btn:active, fieldset[disabled] .orange-bebusca.btn.active {
-  background-color: #ed7612;
+  background-color: #ff6600;
 }
 .orange-bebusca.btn .badge {
-  color: #ed7612;
+  color: #ff6600;
   background-color: #FFFFFF;
 }
 
 /* Button Strip */
 .btn.orange-bebusca-stripe {
-  border-left: 3px solid #ed7612;
+  border-left: 3px solid #ff6600;
 }
 
 /* Portlet */
 .portlet > .portlet-body.orange-bebusca,
 .portlet.orange-bebusca {
-  background-color: #ed7612;
+  background-color: #ff6600;
 }
 
 .portlet.solid.orange-bebusca > .portlet-title,
@@ -504,11 +504,11 @@ Orange Bebusca
 }
 
 .portlet.box.orange-bebusca {
-  border: 1px solid #f19141;
+  border: 1px solid #ff8533;
   border-top: 0;
 }
 .portlet.box.orange-bebusca > .portlet-title {
-  background-color: #ed7612;
+  background-color: #ff6600;
 }
 .portlet.box.orange-bebusca > .portlet-title > .caption {
   color: #FFFFFF;
@@ -519,23 +519,23 @@ Orange Bebusca
 .portlet.box.orange-bebusca > .portlet-title > .actions .btn-default {
   background: transparent !important;
   background-color: transparent !important;
-  border: 1px solid #f5b27a;
-  color: #f7c092;
+  border: 1px solid #ffa970;
+  color: #ffb98a;
 }
 .portlet.box.orange-bebusca > .portlet-title > .actions .btn-default > i {
-  color: #f8c8a0;
+  color: #ffc299;
 }
 .portlet.box.orange-bebusca > .portlet-title > .actions .btn-default:hover, .portlet.box.orange-bebusca > .portlet-title > .actions .btn-default:focus, .portlet.box.orange-bebusca > .portlet-title > .actions .btn-default:active, .portlet.box.orange-bebusca > .portlet-title > .actions .btn-default.active {
-  border: 1px solid #f9ceaa;
-  color: #fadbc1;
+  border: 1px solid #ffc8a3;
+  color: #ffd7bd;
 }
 
 /* Statistic Block */
 .dashboard-stat.orange-bebusca {
-  background-color: #ed7612;
+  background-color: #ff6600;
 }
 .dashboard-stat.orange-bebusca.dashboard-stat-light:hover {
-  background-color: #da6d11;
+  background-color: #eb5e00;
 }
 .dashboard-stat.orange-bebusca .visual > i {
   color: #FFFFFF;
@@ -552,18 +552,18 @@ Orange Bebusca
 }
 .dashboard-stat.orange-bebusca .more {
   color: #FFFFFF;
-  background-color: #da6d11;
+  background-color: #eb5e00;
 }
 
 /* General Element */
 .bg-orange-bebusca {
-  border-color: #ed7612 !important;
+  border-color: #ff6600 !important;
   background-image: none !important;
-  background-color: #ed7612 !important;
+  background-color: #ff6600 !important;
   color: #FFFFFF !important;
 }
 
 /* General Text & Icon Font Colors */
 .font-orange-bebusca {
-  color: #ed7612 !important;
+  color: #ff6600 !important;
 }

@@ -43,32 +43,27 @@
 					),
 				//Admin Menu
 				array(
-					'title'=>'Usuarios',
+					'title'=>'Administrar',
 					'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
-					'icon'=>'users',
+					'icon'=>'layers',
 					'submenu' => array(
 						array(
-							'title'=>__('View users'),
+							'title'=>'Usuarios',
 							'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 							'icon'=>'users',
 						),
 						array(
-							'title'=>__('Add user'),
-							'href'=>array('controller'=>'users', 'action' => 'add', 'admin' => true),
-							'icon'=>'users',
+							'title'=>'Sitio',
+							'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),
+							'icon'=>'equalizer',
+						),
+						array(
+							'title'=>'Estadisticas del Sitio',
+							'href'=>array('controller'=>'pages', 'action' => 'site_stats', 'admin' => true),
+							'icon'=>'bar-chart',
 						),
 					)
-				),
-				array(
-					'title'=>'Sitio',
-					'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),
-					'icon'=>'equalizer',
-				),
-				array(
-					'title'=>'Estadisticas del Sitio',
-					'href'=>array('controller'=>'pages', 'action' => 'site_stats', 'admin' => true),
-					'icon'=>'bar-chart',
-				),
+				)
 
 			);
 		?>
