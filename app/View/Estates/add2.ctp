@@ -105,17 +105,38 @@
 										<label class="control-label col-md-3">Dirección <span class="required">
 										* </span>
 										</label>
-										<div class="col-md-4">
-											<div class="input-group">
-												<input type="text" class="form-control" id="gmap_geocoding_address" placeholder="Ciudad o Barrio...">
-												<span class="input-group-btn">
-												<button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-search"></i>
+										<div class="input-group col-md-9 row row-izq-padding">
+											<div class="col-md-4">
+												<input type="text" class="form-control" id="gmap_geocoding_city" placeholder="Ciudad o Barrio...">
 												</span>
 											</div>
+											<div class="col-md-2">
+												<input type="text" class="form-control" id="gmap_geocoding_street" placeholder="Calle">
+												</span>
+											</div>
+											<div class="col-md-2">
+												<input type="number" class="form-control" id="gmap_geocoding_number" placeholder="Número">
+												</span>
+											</div>
+											<div class="col-md-2">
+												<button class="btn blue" id="gmap_geocoding_btn"><i class="fa fa-search"></i> Buscar </button>
+											</div>
+											<div class="col-md-12"><span id="marker-help-text" style="display:none;" class="help-block">Podés corregir la posición arrastrando el marcador!</span></div>
 										</div>
+
+
+
+
 									</div>
 
-									<div id="gmap_geocoding" class="gmaps"></div>
+									<div class="form-group row row-izq-padding">
+										<label class="control-label col-md-3">Mapa</label>
+
+										<div class="col-md-7">
+											<div id="gmap_geocoding" class="gmaps"></div>
+										</div>
+
+									</div>
 
 								</div>
 								<div class="tab-pane" id="tab2">
@@ -639,8 +660,8 @@
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
 	<?= $this->Html->script('/plugins/icheck/icheck.min'); //Para poner bonitos los radio buttons ?>
-	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false'); //Para los mapas de google ?>
-	<?= $this->Html->script('/plugins/gmaps/gmaps.min'); //Para los mapas de google ?>
+	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false&libraries=places'); //Para los mapas de google ?>
+	<?= $this->Html->script('/plugins/gmaps/gmaps.js'); //Para los mapas de google ?>
 
 <?php $this->end(); ?>
 
@@ -649,6 +670,7 @@
 	<?= $this->Html->script('estates-add');?>
 
 	<?= $this->Html->script('form-wizard');?>
+	<?= $this->Html->script('maps-google');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
@@ -657,6 +679,7 @@
 		jQuery(document).ready(function() {
 			//EstateAdd.init();
 			FormWizard.init();
+			MapsGoogle.init();
 		});
 	</script>
 <?php $this->end(); ?>

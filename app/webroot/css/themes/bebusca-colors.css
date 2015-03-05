@@ -567,3 +567,8 @@ Orange Bebusca
 .font-orange-bebusca {
   color: #ff6600 !important;
 }
+
+/* Special class for rows without padding in bootstrap */
+.row-izq-padding [class*="col-"] {
+  padding-right: 0 !important;
+}

@@ -2,7 +2,7 @@ var MapsGoogle = function () {
 
     var mapBasic = function () {
         new GMaps({
-            div: '#gmap_basic',
+            div: '#gmap_geocoding',
             lat: -12.043333,
             lng: -77.028333
         });
