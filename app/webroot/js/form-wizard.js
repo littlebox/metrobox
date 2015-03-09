@@ -34,18 +34,20 @@ var FormWizard = function () {
 				focusInvalid: false, // do not focus the last invalid input
 				rules: {
 					//tab1
-					username: {
-						minlength: 5,
+					operation: {
 						required: true
 					},
-					password: {
-						minlength: 5,
+					type: {
 						required: true
 					},
-					rpassword: {
-						minlength: 5,
+					gmap_geocoding_city: {
 						required: true,
-						equalTo: "#submit_form_password"
+					},
+					gmap_geocoding_street: {
+						required: true,
+					},
+					gmap_geocoding_number: {
+						required: true,
 					},
 					//profile
 					fullname: {
@@ -102,10 +104,10 @@ var FormWizard = function () {
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
-					if (element.attr("name") == "gender") { // for uniform radio buttons, insert the after the given container
-						error.insertAfter("#form_gender_error");
-					} else if (element.attr("name") == "payment[]") { // for uniform checkboxes, insert the after the given container
-						error.insertAfter("#form_payment_error");
+					if (element.attr("name") == "operation") { // for uniform radio buttons, insert the after the given container
+						error.insertAfter("#form_operation_error");
+					} else if (element.attr("name") == "type") { // for uniform radio buttons, insert the after the given container
+						error.insertAfter("#form_type_error");
 					} else {
 						error.insertAfter(element); // for other inputs, just perform default behavior
 					}
@@ -128,7 +130,7 @@ var FormWizard = function () {
 				},
 
 				success: function (label) {
-					if (label.attr("for") == "gender" || label.attr("for") == "payment[]") { // for checkboxes and radio buttons, no need to show OK icon
+					if (label.attr("for") == "operation" || label.attr("for") == "type") { // for checkboxes and radio buttons, no need to show OK icon
 						label
 							.closest('.form-group').removeClass('has-error').addClass('has-success');
 						label.remove(); // remove error label here

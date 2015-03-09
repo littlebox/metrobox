@@ -28,7 +28,7 @@
 									<span class="number">
 									1 </span>
 									<span class="desc">
-									<i class="fa fa-check"></i> Información Principal </span>
+									<i class="fa fa-check"></i> Ubicación </span>
 									</a>
 								</li>
 								<li>
@@ -44,7 +44,7 @@
 									<span class="number">
 									3 </span>
 									<span class="desc">
-									<i class="fa fa-check"></i> Billing Setup </span>
+									<i class="fa fa-check"></i> Información Adicional </span>
 									</a>
 								</li>
 								<li>
@@ -52,7 +52,7 @@
 									<span class="number">
 									4 </span>
 									<span class="desc">
-									<i class="fa fa-check"></i> Confirm </span>
+									<i class="fa fa-check"></i> Detalles Publicación </span>
 									</a>
 								</li>
 							</ul>
@@ -107,15 +107,15 @@
 										</label>
 										<div class="input-group col-md-9 row row-izq-padding">
 											<div class="col-md-4">
-												<input type="text" class="form-control" id="gmap_geocoding_city" placeholder="Ciudad o Barrio...">
+												<input type="text" class="form-control" id="gmap_geocoding_city" name="gmap_geocoding_city" placeholder="Ciudad o Barrio...">
 												</span>
 											</div>
 											<div class="col-md-2">
-												<input type="text" class="form-control" id="gmap_geocoding_street" placeholder="Calle">
+												<input type="text" class="form-control" id="gmap_geocoding_street" name="gmap_geocoding_street" placeholder="Calle">
 												</span>
 											</div>
 											<div class="col-md-2">
-												<input type="number" class="form-control" id="gmap_geocoding_number" placeholder="Número">
+												<input type="number" class="form-control" id="gmap_geocoding_number" name="gmap_geocoding_number" placeholder="Número">
 												</span>
 											</div>
 											<div class="col-md-2">
