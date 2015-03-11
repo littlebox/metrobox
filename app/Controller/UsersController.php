@@ -107,8 +107,12 @@ class UsersController extends AppController {
 				__('The user could not be saved. Please, try again.', 'metrobox/flash_danger')
 			);
 		}
+		//To show Grupos in view
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
+		//To show Wineries in view
+		$wineries = $this->User->Winery->find('list');
+		$this->set(compact('wineries'));
 	}
 
 	public function edit($id = null) {
@@ -197,7 +201,7 @@ class UsersController extends AppController {
 			if(empty($this->request->data['User']['password'])){
 
 				unset($this->request->data['User']['password']);
-				unset($this->request->data['User']['confirm_password']);
+				unset($this->request->data['User']['password_confirm']);
 
 			}
 
@@ -225,8 +229,12 @@ class UsersController extends AppController {
 			$this->request->data = $this->User->read(null, $id);
 			unset($this->request->data['User']['password']); //To don't show password on edit
 		}
+		//To show Grupos in view
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
+		//To show Wineries in view
+		$wineries = $this->User->Winery->find('list');
+		$this->set(compact('wineries'));
 	}
 
 	public function admin_delete($id = null) {

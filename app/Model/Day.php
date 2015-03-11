@@ -1,40 +1,40 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Operation Model
+ * Day Model
  *
- * @property Estate $Estate
+ * @property Tour $Tour
  */
-class Operation extends AppModel {
+class Day extends AppModel {
 
 /**
  * Display field
  *
  * @var string
  */
-	public $displayField = 'operation';
+	public $displayField = 'name';
 
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasMany associations
+ * hasAndBelongsToMany associations
  *
  * @var array
  */
-	public $hasMany = array(
-		'Estate' => array(
-			'className' => 'Estate',
-			'foreignKey' => 'operation_id',
-			'dependent' => false,
+	public $hasAndBelongsToMany = array(
+		'Tour' => array(
+			'className' => 'Tour',
+			'joinTable' => 'tours_days',
+			'foreignKey' => 'day_id',
+			'associationForeignKey' => 'tour_id',
+			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
 			'limit' => '',
 			'offset' => '',
-			'exclusive' => '',
 			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 

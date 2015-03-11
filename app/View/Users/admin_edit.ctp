@@ -36,8 +36,9 @@
 					echo $this->Form->input('full_name');
 					echo $this->Form->input('email');
 					echo $this->Form->input('password', array('required' => 'false'));
-					echo $this->Form->input('password_confirm',array('required' => 'false','type' => 'password'));
+					echo $this->Form->input('password_confirm',array('required' => 'false','type' => 'password', 'id' => 'UserPassword'));
 					echo $this->Form->input('group_id');
+					echo $this->Form->input('winery_id');
 				?>
 
 				<div class="form-group last">

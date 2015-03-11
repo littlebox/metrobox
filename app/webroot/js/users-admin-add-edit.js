@@ -38,7 +38,27 @@ var UserAdminAddEdit = {
 			errorElement: 'span', //default input error message container
 			errorClass: 'help-block', // default input error message class
 			focusInvalid: false, // do not focus the last invalid input
-			rules: ValidationRules, //from global-setups.js file
+			rules: {
+				'data[User][full_name]': {
+					required: true,
+				},
+				'data[User][email]': {
+					required: true,
+					email: true
+				},
+				'data[User][password_confirm]': {
+					equalTo: "#UserPassword",
+				},
+				'data[User][group_id]': {
+					required: true,
+				},
+				'data[User][winery_id]': {
+					required: true,
+				},
+				'data[User][profile_picture]': {
+					accept: "image/gif, image/jpeg, image/pjpeg, image/x-png, image/png, image/jpg",
+				}
+			},
 
 			invalidHandler: function(event, validator) { //display error alert on form submit
 				//$('.alert-danger', $('.login-form')).show();

@@ -4,7 +4,7 @@ App::uses('BlowfishPasswordHasher', 'Controller/Component/Auth');
 
 class User extends AppModel {
 
-	public $belongsTo = array('Group');
+	public $belongsTo = array('Group', 'Winery');
 	public $actsAs = array('Acl' => array('type' => 'requester', 'enabled' => false));
 
 	//for internal acl propose
