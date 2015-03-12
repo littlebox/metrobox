@@ -25,6 +25,8 @@ class WineriesController extends AppController {
 
 
 	public function admin_add() {
+		$this->layout = 'metrobox';
+
 		if ($this->request->is('post')) {
 			$this->Winery->create();
 			if ($this->Winery->save($this->request->data)) {

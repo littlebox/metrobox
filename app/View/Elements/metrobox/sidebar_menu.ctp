@@ -48,6 +48,11 @@
 					'icon'=>'layers',
 					'submenu' => array(
 						array(
+							'title'=>'Bodegas',
+							'href'=>array('controller'=>'wineries', 'action' => 'index', 'admin' => true),
+							'icon'=>'glass',
+						),
+						array(
 							'title'=>'Usuarios',
 							'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 							'icon'=>'users',

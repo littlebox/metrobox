@@ -3,12 +3,12 @@
 		<div class="caption">
 			<i class="icon-plus font-blue-hoki"></i>
 			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Add')?></span>
-			<span class="caption-helper"><?= __('Users')?></span>
+			<span class="caption-helper"><?= __('Wineries')?></span>
 		</div>
 	</div>
 	<div class="portlet-body form">
 		<!-- BEGIN FORM-->
-		<?php echo $this->Form->create('User', array(
+		<?php echo $this->Form->create('Winery', array(
 			'enctype' => 'multipart/form-data',
 			'inputDefaults' => array(
 				'format' => array('before','label','between','input','error','after'),
@@ -28,55 +28,14 @@
 					))
 			),
 			'class' => 'form-horizontal form-bordered',
-			'id' => 'user-form',
+			'id' => 'winery-form',
 		)); ?>
 			<div class="form-body">
 
 				<?php
-					echo $this->Form->input('full_name');
-					echo $this->Form->input('email');
-					echo $this->Form->input('password');
-					echo $this->Form->input('password_confirm', array('type' => 'password'));
-					echo $this->Form->input('group_id');
-					echo $this->Form->input('winery_id');
+					echo $this->Form->input('name');
 				?>
 
-				<div class="form-group last">
-					<label class="control-label col-md-3"><?= __('Profile picture');?></label>
-					<div class="col-md-9">
-						<div class="fileinput fileinput-new" data-provides="fileinput">
-							<div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-								<?= $this->Html->image('media/profile/noimage.jpg', array('alt' => ''));?>
-							</div>
-							<div class="fileinput-preview fileinput-exists thumbnail" style="min-width:100px; min-height:100px;max-width: 500px; max-height: 500px;">
-							</div>
-							<div>
-								<span class="btn default btn-file">
-								<span class="fileinput-new"><?= __('Select image');?></span>
-								<span class="fileinput-exists"><?= __('Change');?></span>
-
-								<?php echo $this->Form->file('profile_picture', array(
-									'id' => 'profile_picture',
-									'required' => false)
-								);?>
-
-								<input id="profile_picture_x" type="hidden" name="profile_picture_x">
-								<input id="profile_picture_y" type="hidden" name="profile_picture_y">
-								<input id="profile_picture_w" type="hidden" name="profile_picture_w">
-								<input id="profile_picture_h" type="hidden" name="profile_picture_h">
-								<input id="profile_picture_ow" type="hidden" name="profile_picture_ow">
-								<input id="profile_picture_oh" type="hidden" name="profile_picture_oh">
-								</span>
-								<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove</a>
-							</div>
-						</div>
-
-						<?php if ($this->Form->isFieldError('profile_picture')) {
-							echo $this->Form->error('profile_picture');
-						}?>
-
-					</div>
-				</div>
 			</div>
 
 			<div class="form-actions">
@@ -93,6 +52,7 @@
 								'class' => 'btn green',
 								'type' => 'submit'
 							));
+
 						?>
 					</div>
 				</div>
@@ -120,10 +80,10 @@
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('users-admin-add-edit.js');?>
+	<?= $this->Html->script('wineries-admin-add-edit.js');?>
 	<script>
 		jQuery(document).ready(function() {
-			UserAdminAddEdit.init();
+			WineryAdminAddEdit.init();
 		});
 	</script>
 <?php $this->end(); ?>
