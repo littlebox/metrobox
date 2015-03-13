@@ -4,7 +4,7 @@
 		<div class="caption font-blue-hoki">
 			<i class="icon-share font-blue-hoki"></i>
 			<span class="caption-subject bold uppercase"> <?= __('List') ?></span>
-			<span class="caption-helper"><?= __('Users') ?></span>
+			<span class="caption-helper"><?= __('Wineries') ?></span>
 		</div>
 		<div class="actions">
 			<a href="#" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
@@ -41,10 +41,9 @@
 				</div>
 			</div>
 		</div>
-		<table class="table table-striped table-bordered table-hover" id="users_table">
+		<table class="table table-striped table-bordered table-hover" id="wineries_table">
 			<thead>
-				<th><?= __('Username') ?></th>
-				<th><?= __('Email') ?></th>
+				<th><?= __('Name') ?></th>
 				<th><?= __('Created') ?></th>
 				<th><?= __('Actions') ?></th>
 			</thead>
@@ -69,22 +68,22 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('users-index-table');?>
+	<?= $this->Html->script('wineries-index-table');?>
 	<script>
 		var LocalVar = {};
 		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2) ?>';
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
-		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'index', 'ext' => 'json', 'admin' => true)) ?>');
-		LocalVar.userEditUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'edit', 'admin' => true)) ?>');
-		LocalVar.userDeleterUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'delete', 'admin' => true)) ?>');
-		LocalVar.userViewrUrl = ('<?= $this->Html->url(array('controller'=>'users', 'action' => 'view')) ?>');
-		LocalVar.userEditText = ('<?= __("Edit") ?>');
-		LocalVar.userDeleteText = ('<?= __("Delete") ?>');
-		LocalVar.userViewText = ('<?= __("Details") ?>');
+		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'index', 'ext' => 'json', 'admin' => true)) ?>');
+		LocalVar.wineryEditUrl = ('<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'edit', 'admin' => true)) ?>');
+		LocalVar.wineryDeleterUrl = ('<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'delete', 'admin' => true)) ?>');
+		LocalVar.wineryViewrUrl = ('<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'view')) ?>');
+		LocalVar.wineryEditText = ('<?= __("Edit") ?>');
+		LocalVar.wineryDeleteText = ('<?= __("Delete") ?>');
+		LocalVar.wineryViewText = ('<?= __("Details") ?>');
 
 		jQuery(document).ready(function() {
-			UsersIndexTable.init();
+			WineriesIndexTable.init();
 		});
 
 		function confirmAlert(url){
@@ -125,7 +124,7 @@
 								}
 							},
 							error: function(e) {
-								swal("<?= __('Error') ?>", "<?= __('User hasn\'t been deleted.') ?>", "error");
+								swal("<?= __('Error') ?>", "<?= __('Winery hasn\'t been deleted.') ?>", "error");
 							},
 							complete: function() {
 								LocalVar.deleting = false;

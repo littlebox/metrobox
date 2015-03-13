@@ -21,13 +21,13 @@
 		<div class="page-actions">
 
 			<div class="btn-group">
-				<button type="button" class="btn btn-circle orange-bebusca dropdown-toggle" data-toggle="dropdown">
+				<button type="button" class="btn btn-circle purple-soft dropdown-toggle" data-toggle="dropdown">
 				<i class="fa fa-plus"></i>&nbsp;<span class="hidden-sm hidden-xs"><?= __('New') ?>&nbsp;</span>&nbsp;<i class="fa fa-angle-down"></i>
 				</button>
 				<ul class="dropdown-menu" role="menu">
 					<li>
 						<a href="#">
-						<i class="icon-home"></i> <?= __('New Estate') ?> </a>
+						<i class="icon-directions"></i> <?= __('New Winery') ?> </a>
 					</li>
 					<?php //Admin Part ?>
 					<li class="divider">

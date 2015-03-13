@@ -29,7 +29,7 @@ Login page
 }
 
 .login .content h3 {
-  color: #ed7612;
+  color: #8877a9;
   text-align: center;
   font-size: 28px;
   font-weight: 400 !important;
@@ -158,7 +158,7 @@ Login page
 
 .login .content .form-actions .btn-default:hover {
   background-color: #fafaff;
-  color: #45b6af;
+  color: #746198;
 }
 
 .login .content .forget-password {

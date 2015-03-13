@@ -8,12 +8,32 @@ App::uses('AppController', 'Controller');
  */
 class WineriesController extends AppController {
 
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'DataTable');
+
+	public $helpers = array(
+		'Form' => array('className' => 'BootstrapForm')
+	);
 
 	public function index() {
 		$this->Winery->recursive = 0;
 		$this->set('wineries', $this->Paginator->paginate());
 	}
+
+	public function admin_index(){
+		$this->layout = 'metrobox';
+		$this->Winery->recursive = 0;
+
+		$this->paginate = array(
+			'fields' => array('Winery.name', 'Winery.created', 'Winery.id'),
+		);
+
+		$this->DataTable->mDataProp = true;
+		$this->set('response', $this->DataTable->getResponse());
+		$this->set('_serialize','response');
+	}
+
+
+
 
 	public function view($id = null) {
 		if (!$this->Winery->exists($id)) {
@@ -56,13 +76,6 @@ class WineriesController extends AppController {
 		}
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$this->Winery->id = $id;
 		if (!$this->Winery->exists()) {
@@ -75,5 +88,46 @@ class WineriesController extends AppController {
 			$this->Session->setFlash(__('The winery could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function admin_delete($id = null) {
+		$this->request->allowMethod('post');
+
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//$this->autoRender = $this->layout = false;
+
+			$this->Winery->id = $id;
+			if (!$this->Winery->exists()) {
+				$data['error'] = __('Invalid Winery');
+			} else {
+				if ($this->Winery->delete()) {
+					$data['content'] = __('Winery deleted');
+				} else {
+					$data['error'] = __('Winery was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->Winery->id = $id;
+			if (!$this->Winery->exists()) {
+				throw new NotFoundException(__('Invalid winery'));
+			}
+			if ($this->Winery->delete()) {
+				$this->Session->setFlash(__('Winery deleted'), 'metrobox/flash_success');
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Winery was not deleted', 'metrobox/flash_danger'));
+			return $this->redirect(array('action' => 'index'));
+		}
+
 	}
 }

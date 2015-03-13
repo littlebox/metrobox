@@ -17,24 +17,9 @@
 					'icon'=>'screen-desktop'
 					),
 				array(
-					'title'=>'Propiedades',
-					'href'=> array('controller'=>'estates','action'=>'index'),
-					'icon'=>'home',
-					'submenu' => array(
-						array(
-							'title'=>'Ver propiedades',
-							'href'=> array('controller'=>'estates','action'=>'index'),
-							'icon'=>'home'),
-						array(
-							'title'=>'Añadir propiedad',
-							'href'=> array('controller'=>'estates','action'=>'add'),
-							'icon'=>'home')
-						)
-					),
-				array(
-					'title'=>'Mensajes',
-					'href'=> array('controller'=>'messages','action'=>'index'),
-					'icon'=>'envelope',
+					'title'=>'Reservas',
+					'href'=> array('controller'=>'reserves','action'=>'index'),
+					'icon'=>'book-open',
 					),
 				array(
 					'title'=>'Estadisticas',
@@ -50,7 +35,7 @@
 						array(
 							'title'=>'Bodegas',
 							'href'=>array('controller'=>'wineries', 'action' => 'index', 'admin' => true),
-							'icon'=>'glass',
+							'icon'=>'directions',
 						),
 						array(
 							'title'=>'Usuarios',

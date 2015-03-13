@@ -8,30 +8,21 @@ App::uses('AppController', 'Controller');
  */
 class ReservesController extends AppController {
 
-/**
- * Components
- *
- * @var array
- */
 	public $components = array('Paginator');
 
-/**
- * index method
- *
- * @return void
- */
+
 	public function index() {
+		$this->layout = 'metrobox';
 		$this->Reserve->recursive = 0;
 		$this->set('reserves', $this->Paginator->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	public function admin_index() {
+		$this->layout = 'metrobox';
+		$this->Reserve->recursive = 0;
+		$this->set('reserves', $this->Paginator->paginate());
+	}
+
 	public function view($id = null) {
 		if (!$this->Reserve->exists($id)) {
 			throw new NotFoundException(__('Invalid reserve'));
@@ -40,11 +31,6 @@ class ReservesController extends AppController {
 		$this->set('reserve', $this->Reserve->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Reserve->create();
@@ -59,13 +45,6 @@ class ReservesController extends AppController {
 		$this->set(compact('tours'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function edit($id = null) {
 		if (!$this->Reserve->exists($id)) {
 			throw new NotFoundException(__('Invalid reserve'));
@@ -85,13 +64,6 @@ class ReservesController extends AppController {
 		$this->set(compact('tours'));
 	}
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$this->Reserve->id = $id;
 		if (!$this->Reserve->exists()) {
