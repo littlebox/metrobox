@@ -11,6 +11,8 @@
 *.mo
 /app/webroot/img/media/profile/
 /app/Config/metrobox.php
+app/Config/database.metrobox.php
+app/Config/database.bebusca.php
 
 # IDE and editor specific files #
 #################################
@@ -27,4 +29,3 @@
 Icon?
 ehthumbs.db
 Thumbs.db
-
