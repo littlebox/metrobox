@@ -50,10 +50,10 @@ class WineriesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Winery->create();
 			if ($this->Winery->save($this->request->data)) {
-				$this->Session->setFlash(__('The winery has been saved.'));
+				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		}
 	}
@@ -65,10 +65,10 @@ class WineriesController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			if ($this->Winery->save($this->request->data)) {
-				$this->Session->setFlash(__('The winery has been saved.'));
+				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		} else {
 			$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id));
@@ -125,7 +125,7 @@ class WineriesController extends AppController {
 				$this->Session->setFlash(__('Winery deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Session->setFlash(__('Winery was not deleted', 'metrobox/flash_danger'));
+			$this->Session->setFlash(__('Winery was not deleted'), 'metrobox/flash_danger');
 			return $this->redirect(array('action' => 'index'));
 		}
 
