@@ -50,30 +50,7 @@ class EstatesController extends AppController {
 		$this->set('estate', $this->Estate->find('first', $options));
 	}
 
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
-		$this->layout = 'metrobox_estates';
-		if ($this->request->is('post')) {
-			$this->Estate->create();
-			if ($this->Estate->save($this->request->data)) {
-				$this->Session->setFlash(__('The estate has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The estate could not be saved. Please, try again.'));
-			}
-		}
-	}
-
-/**
- * add2 method
- *
- * @return void
- */
-	public function add2() {
 		$this->layout = 'metrobox';
 		if ($this->request->is('post')) {
 			$this->Estate->create();
