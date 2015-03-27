@@ -448,64 +448,15 @@
 										</div>
 									</div>
 								</div>
+
 								<div class="tab-pane" id="tab3">
-									<h3 class="block">Provide your billing and credit card details</h3>
-									<div class="form-group">
-										<label class="control-label col-md-3">Card Holder Name <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="card_name"/>
-											<span class="help-block">
-											</span>
-										</div>
+
+									<div class="dropzone" id="imagesDropzone">
+
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Card Number <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="card_number"/>
-											<span class="help-block">
-											</span>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">CVC <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" placeholder="" class="form-control" name="card_cvc"/>
-											<span class="help-block">
-											</span>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Expiration(MM/YYYY) <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" placeholder="MM/YYYY" maxlength="7" class="form-control" name="card_expiry_date"/>
-											<span class="help-block">
-											e.g 11/2020 </span>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Payment Options <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<div class="checkbox-list">
-												<label>
-												<input type="checkbox" name="payment[]" value="1" data-title="Auto-Pay with this Credit Card."/> Auto-Pay with this Credit Card </label>
-												<label>
-												<input type="checkbox" name="payment[]" value="2" data-title="Email me monthly billing."/> Email me monthly billing </label>
-											</div>
-											<div id="form_payment_error">
-											</div>
-										</div>
-									</div>
+
 								</div>
+
 								<div class="tab-pane" id="tab4">
 									<h3 class="block">Confirm your account</h3>
 									<h4 class="form-section">Account</h4>
@@ -644,6 +595,7 @@
 	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
 	<?= $this->Html->css('/plugins/icheck/skins/square/_all');?>
 	<?= $this->Html->css('image-crop.css');?>
+	<?= $this->Html->css('/plugins/dropzone/dropzone.css');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -662,22 +614,22 @@
 	<?= $this->Html->script('/plugins/icheck/icheck.min'); //Para poner bonitos los radio buttons ?>
 	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false&libraries=places'); //Para los mapas de google ?>
 	<?= $this->Html->script('/plugins/gmaps/gmaps.js'); //Para los mapas de google ?>
+	<?= $this->Html->script('/plugins/dropzone/dropzone.js'); //Dropzone para las imagesnes ?>
 
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('estates-add');?>
 
 	<?= $this->Html->script('form-wizard');?>
 	<?= $this->Html->script('maps-google');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('users-view.js');?>
+	<?= $this->Html->script('estates-add');?>
 	<script>
 		jQuery(document).ready(function() {
-			//EstateAdd.init();
+			EstateAdd.init();
 			FormWizard.init();
 			MapsGoogle.init();
 		});

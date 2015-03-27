@@ -219,7 +219,7 @@ var FormWizard = function () {
 					success.hide();
 					error.hide();
 
-					if (form.valid() == false) {
+					if (false && form.valid() == false) {
 						return false;
 					}
 
