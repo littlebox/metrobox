@@ -61,6 +61,18 @@ class EstatesController extends AppController {
 				$this->Session->setFlash(__('The estate could not be saved. Please, try again.'));
 			}
 		}
+		$currencies = $this->Estate->Currency->find('list');
+		$this->set(compact('currencies'));
+		$conditions = $this->Estate->Condition->find('list');
+		$this->set(compact('conditions'));
+		$dispositions = $this->Estate->Disposition->find('list');
+		$this->set(compact('dispositions'));
+		$buildingTypes = $this->Estate->BuildingType->find('list');
+		$this->set(compact('buildingTypes'));
+		$buildingConditions = $this->Estate->BuildingCondition->find('list');
+		$this->set(compact('buildingConditions'));
+		$buildingCategories = $this->Estate->BuildingCategory->find('list');
+		$this->set(compact('buildingCategories'));
 	}
 
 /**

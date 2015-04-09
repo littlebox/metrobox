@@ -1,11 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Operation Model
+ * Room Model
  *
  * @property Estate $Estate
  */
-class Operation extends AppModel {
+class Room extends AppModel {
 
 /**
  * Display field
@@ -18,23 +18,23 @@ class Operation extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
- * hasMany associations
+ * hasAndBelongsToMany associations
  *
  * @var array
  */
-	public $hasMany = array(
+	public $hasAndBelongsToMany = array(
 		'Estate' => array(
 			'className' => 'Estate',
-			'foreignKey' => 'operation_id',
-			'dependent' => false,
+			'joinTable' => 'estates_rooms',
+			'foreignKey' => 'room_id',
+			'associationForeignKey' => 'estate_id',
+			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
 			'order' => '',
 			'limit' => '',
 			'offset' => '',
-			'exclusive' => '',
 			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 

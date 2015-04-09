@@ -1,12 +1,12 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Type Model
+ * Subtype Model
  *
+ * @property Type $Type
  * @property Estate $Estate
- * @property Subtype $Subtype
  */
-class Type extends AppModel {
+class Subtype extends AppModel {
 
 /**
  * Display field
@@ -19,6 +19,21 @@ class Type extends AppModel {
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'Type' => array(
+			'className' => 'Type',
+			'foreignKey' => 'type_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+	);
+
+/**
  * hasMany associations
  *
  * @var array
@@ -26,20 +41,7 @@ class Type extends AppModel {
 	public $hasMany = array(
 		'Estate' => array(
 			'className' => 'Estate',
-			'foreignKey' => 'type_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Subtype' => array(
-			'className' => 'Subtype',
-			'foreignKey' => 'type_id',
+			'foreignKey' => 'subtype_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

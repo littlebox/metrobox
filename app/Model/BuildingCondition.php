@@ -1,12 +1,11 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Type Model
+ * BuildingCondition Model
  *
  * @property Estate $Estate
- * @property Subtype $Subtype
  */
-class Type extends AppModel {
+class BuildingCondition extends AppModel {
 
 /**
  * Display field
@@ -26,20 +25,7 @@ class Type extends AppModel {
 	public $hasMany = array(
 		'Estate' => array(
 			'className' => 'Estate',
-			'foreignKey' => 'type_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'Subtype' => array(
-			'className' => 'Subtype',
-			'foreignKey' => 'type_id',
+			'foreignKey' => 'building_condition_id',
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',

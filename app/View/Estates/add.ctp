@@ -19,7 +19,30 @@
 				</div>
 			</div>
 			<div class="portlet-body form">
-				<form action="#" class="form-horizontal" id="submit_form" method="POST">
+
+				<?php echo $this->Form->create('User', array(
+					'enctype' => 'multipart/form-data',
+					'inputDefaults' => array(
+						'format' => array('before','label','between','input','error','after'),
+						'autocomplete' => 'off',
+						'div' => array(
+							'class' => 'form-group',
+						),
+						'label' => array(
+							'class' => 'control-label col-md-3'
+						),
+						'class' => 'form-control',
+						'between' => '<div class="col-md-5">',
+						'after' => '</div>',
+						'error' => array('attributes' => array(
+							'class' => 'help-block',
+							'wrap' => 'span',
+							))
+					),
+					'class' => 'form-horizontal',
+					'id' => 'user-form',
+				)); ?>
+				<!-- <form action="#" class="form-horizontal" id="submit_form" method="POST"> -->
 					<div class="form-wizard">
 						<div class="form-body">
 							<ul class="nav nav-pills nav-justified steps">
@@ -129,10 +152,10 @@
 
 									</div>
 
-									<div class="form-group row row-izq-padding">
+									<div class="form-group">
 										<label class="control-label col-md-3">Mapa</label>
 
-										<div class="col-md-7">
+										<div class="col-md-8">
 											<div id="gmap_geocoding" class="gmaps"></div>
 										</div>
 
@@ -140,320 +163,109 @@
 
 								</div>
 								<div class="tab-pane" id="tab2">
-									<h3 class="block">Provide your profile details</h3>
-									<div class="form-group">
-										<label class="control-label col-md-3">Fullname <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="fullname"/>
-											<span class="help-block">
-											Provide your fullname </span>
-										</div>
+									<h3 class="form-section">Pago y Financioación</h3>
+									<?php
+										echo $this->Form->input('price');
+										echo $this->Form->input('currency_id');
+										echo $this->Form->input('show_price', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+										echo $this->Form->input('offers_funding', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+									?>
+
+									<h3 class="form-section">Caracerísticas</h3>
+
+									<div id="caracteristicas-casa">
+										<?php
+											echo $this->Form->input('total_surface');
+											echo $this->Form->input('covered_surface');
+											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('bedrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+										?>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Phone Number <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="phone"/>
-											<span class="help-block">
-											Provide your phone number </span>
-										</div>
+									<div id="caracteristicas-departamento">
+										<?php
+											echo $this->Form->input('total_surface');
+											echo $this->Form->input('covered_surface');
+											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('rooms_number', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('bedrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('building_type_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('building_condition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('building_category_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('apartments_per_floor', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('number_of_floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', 13 => '13', 14 => '14', 15 => '15', 16 => '16', 17 => '17', 18 => '18', 19 => '19', 20 => '20', 21 => '21', 22 => '22', 23 => '23', 24 => '24', 25 => '25', 26 => '26', 27 => '27', 28 => '28', 29 => '29', 30 => '30', 31 => '31', 32 => '32', 33 => '33', 34 => '34', 35 => '35', 36 => '36', 37 => '37', 38 => '38', 39 => '39', 40 => '40', 41 => '41', 42 => '42', 43 => '43', 44 => '44', 45 => '45', 46 => '46', 47 => '47', 48 => '48', 49 => '49', 50 => '50+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('number_of_elevators', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('expenses');
+											echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+										?>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Gender <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<div class="radio-list">
-												<label>
-												<input type="radio" name="gender" value="M" data-title="Male"/>
-												Male </label>
-												<label>
-												<input type="radio" name="gender" value="F" data-title="Female"/>
-												Female </label>
-											</div>
-											<div id="form_gender_error">
-											</div>
-										</div>
+									<div id="caracteristicas-oficina">
+										<?php
+											echo $this->Form->input('total_surface');
+											echo $this->Form->input('covered_surface');
+											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('building_type_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('building_condition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('building_category_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('apartments_per_floor', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('number_of_floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', 13 => '13', 14 => '14', 15 => '15', 16 => '16', 17 => '17', 18 => '18', 19 => '19', 20 => '20', 21 => '21', 22 => '22', 23 => '23', 24 => '24', 25 => '25', 26 => '26', 27 => '27', 28 => '28', 29 => '29', 30 => '30', 31 => '31', 32 => '32', 33 => '33', 34 => '34', 35 => '35', 36 => '36', 37 => '37', 38 => '38', 39 => '39', 40 => '40', 41 => '41', 42 => '42', 43 => '43', 44 => '44', 45 => '45', 46 => '46', 47 => '47', 48 => '48', 49 => '49', 50 => '50+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('number_of_elevators', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('expenses');
+											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+										?>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Address <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="address"/>
-											<span class="help-block">
-											Provide your street address </span>
-										</div>
+									<div id="caracteristicas-local-comercial">
+										<?php
+											echo $this->Form->input('total_surface');
+											echo $this->Form->input('covered_surface');
+											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+											echo $this->Form->input('expenses');
+											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+										?>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">City/Town <span class="required">
-										* </span>
-										</label>
-										<div class="col-md-4">
-											<input type="text" class="form-control" name="city"/>
-											<span class="help-block">
-											Provide your city or town </span>
-										</div>
+									<div id="caracteristicas-terreno">
+										<?php
+											echo $this->Form->input('total_surface');
+											echo $this->Form->input('front');
+											echo $this->Form->input('back');
+											echo $this->Form->input('expenses');
+											echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+										?>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Country</label>
-										<div class="col-md-4">
-											<select name="country" id="country_list" class="form-control">
-												<option value=""></option>
-												<option value="AF">Afghanistan</option>
-												<option value="AL">Albania</option>
-												<option value="DZ">Algeria</option>
-												<option value="AS">American Samoa</option>
-												<option value="AD">Andorra</option>
-												<option value="AO">Angola</option>
-												<option value="AI">Anguilla</option>
-												<option value="AQ">Antarctica</option>
-												<option value="AR">Argentina</option>
-												<option value="AM">Armenia</option>
-												<option value="AW">Aruba</option>
-												<option value="AU">Australia</option>
-												<option value="AT">Austria</option>
-												<option value="AZ">Azerbaijan</option>
-												<option value="BS">Bahamas</option>
-												<option value="BH">Bahrain</option>
-												<option value="BD">Bangladesh</option>
-												<option value="BB">Barbados</option>
-												<option value="BY">Belarus</option>
-												<option value="BE">Belgium</option>
-												<option value="BZ">Belize</option>
-												<option value="BJ">Benin</option>
-												<option value="BM">Bermuda</option>
-												<option value="BT">Bhutan</option>
-												<option value="BO">Bolivia</option>
-												<option value="BA">Bosnia and Herzegowina</option>
-												<option value="BW">Botswana</option>
-												<option value="BV">Bouvet Island</option>
-												<option value="BR">Brazil</option>
-												<option value="IO">British Indian Ocean Territory</option>
-												<option value="BN">Brunei Darussalam</option>
-												<option value="BG">Bulgaria</option>
-												<option value="BF">Burkina Faso</option>
-												<option value="BI">Burundi</option>
-												<option value="KH">Cambodia</option>
-												<option value="CM">Cameroon</option>
-												<option value="CA">Canada</option>
-												<option value="CV">Cape Verde</option>
-												<option value="KY">Cayman Islands</option>
-												<option value="CF">Central African Republic</option>
-												<option value="TD">Chad</option>
-												<option value="CL">Chile</option>
-												<option value="CN">China</option>
-												<option value="CX">Christmas Island</option>
-												<option value="CC">Cocos (Keeling) Islands</option>
-												<option value="CO">Colombia</option>
-												<option value="KM">Comoros</option>
-												<option value="CG">Congo</option>
-												<option value="CD">Congo, the Democratic Republic of the</option>
-												<option value="CK">Cook Islands</option>
-												<option value="CR">Costa Rica</option>
-												<option value="CI">Cote d'Ivoire</option>
-												<option value="HR">Croatia (Hrvatska)</option>
-												<option value="CU">Cuba</option>
-												<option value="CY">Cyprus</option>
-												<option value="CZ">Czech Republic</option>
-												<option value="DK">Denmark</option>
-												<option value="DJ">Djibouti</option>
-												<option value="DM">Dominica</option>
-												<option value="DO">Dominican Republic</option>
-												<option value="EC">Ecuador</option>
-												<option value="EG">Egypt</option>
-												<option value="SV">El Salvador</option>
-												<option value="GQ">Equatorial Guinea</option>
-												<option value="ER">Eritrea</option>
-												<option value="EE">Estonia</option>
-												<option value="ET">Ethiopia</option>
-												<option value="FK">Falkland Islands (Malvinas)</option>
-												<option value="FO">Faroe Islands</option>
-												<option value="FJ">Fiji</option>
-												<option value="FI">Finland</option>
-												<option value="FR">France</option>
-												<option value="GF">French Guiana</option>
-												<option value="PF">French Polynesia</option>
-												<option value="TF">French Southern Territories</option>
-												<option value="GA">Gabon</option>
-												<option value="GM">Gambia</option>
-												<option value="GE">Georgia</option>
-												<option value="DE">Germany</option>
-												<option value="GH">Ghana</option>
-												<option value="GI">Gibraltar</option>
-												<option value="GR">Greece</option>
-												<option value="GL">Greenland</option>
-												<option value="GD">Grenada</option>
-												<option value="GP">Guadeloupe</option>
-												<option value="GU">Guam</option>
-												<option value="GT">Guatemala</option>
-												<option value="GN">Guinea</option>
-												<option value="GW">Guinea-Bissau</option>
-												<option value="GY">Guyana</option>
-												<option value="HT">Haiti</option>
-												<option value="HM">Heard and Mc Donald Islands</option>
-												<option value="VA">Holy See (Vatican City State)</option>
-												<option value="HN">Honduras</option>
-												<option value="HK">Hong Kong</option>
-												<option value="HU">Hungary</option>
-												<option value="IS">Iceland</option>
-												<option value="IN">India</option>
-												<option value="ID">Indonesia</option>
-												<option value="IR">Iran (Islamic Republic of)</option>
-												<option value="IQ">Iraq</option>
-												<option value="IE">Ireland</option>
-												<option value="IL">Israel</option>
-												<option value="IT">Italy</option>
-												<option value="JM">Jamaica</option>
-												<option value="JP">Japan</option>
-												<option value="JO">Jordan</option>
-												<option value="KZ">Kazakhstan</option>
-												<option value="KE">Kenya</option>
-												<option value="KI">Kiribati</option>
-												<option value="KP">Korea, Democratic People's Republic of</option>
-												<option value="KR">Korea, Republic of</option>
-												<option value="KW">Kuwait</option>
-												<option value="KG">Kyrgyzstan</option>
-												<option value="LA">Lao People's Democratic Republic</option>
-												<option value="LV">Latvia</option>
-												<option value="LB">Lebanon</option>
-												<option value="LS">Lesotho</option>
-												<option value="LR">Liberia</option>
-												<option value="LY">Libyan Arab Jamahiriya</option>
-												<option value="LI">Liechtenstein</option>
-												<option value="LT">Lithuania</option>
-												<option value="LU">Luxembourg</option>
-												<option value="MO">Macau</option>
-												<option value="MK">Macedonia, The Former Yugoslav Republic of</option>
-												<option value="MG">Madagascar</option>
-												<option value="MW">Malawi</option>
-												<option value="MY">Malaysia</option>
-												<option value="MV">Maldives</option>
-												<option value="ML">Mali</option>
-												<option value="MT">Malta</option>
-												<option value="MH">Marshall Islands</option>
-												<option value="MQ">Martinique</option>
-												<option value="MR">Mauritania</option>
-												<option value="MU">Mauritius</option>
-												<option value="YT">Mayotte</option>
-												<option value="MX">Mexico</option>
-												<option value="FM">Micronesia, Federated States of</option>
-												<option value="MD">Moldova, Republic of</option>
-												<option value="MC">Monaco</option>
-												<option value="MN">Mongolia</option>
-												<option value="MS">Montserrat</option>
-												<option value="MA">Morocco</option>
-												<option value="MZ">Mozambique</option>
-												<option value="MM">Myanmar</option>
-												<option value="NA">Namibia</option>
-												<option value="NR">Nauru</option>
-												<option value="NP">Nepal</option>
-												<option value="NL">Netherlands</option>
-												<option value="AN">Netherlands Antilles</option>
-												<option value="NC">New Caledonia</option>
-												<option value="NZ">New Zealand</option>
-												<option value="NI">Nicaragua</option>
-												<option value="NE">Niger</option>
-												<option value="NG">Nigeria</option>
-												<option value="NU">Niue</option>
-												<option value="NF">Norfolk Island</option>
-												<option value="MP">Northern Mariana Islands</option>
-												<option value="NO">Norway</option>
-												<option value="OM">Oman</option>
-												<option value="PK">Pakistan</option>
-												<option value="PW">Palau</option>
-												<option value="PA">Panama</option>
-												<option value="PG">Papua New Guinea</option>
-												<option value="PY">Paraguay</option>
-												<option value="PE">Peru</option>
-												<option value="PH">Philippines</option>
-												<option value="PN">Pitcairn</option>
-												<option value="PL">Poland</option>
-												<option value="PT">Portugal</option>
-												<option value="PR">Puerto Rico</option>
-												<option value="QA">Qatar</option>
-												<option value="RE">Reunion</option>
-												<option value="RO">Romania</option>
-												<option value="RU">Russian Federation</option>
-												<option value="RW">Rwanda</option>
-												<option value="KN">Saint Kitts and Nevis</option>
-												<option value="LC">Saint LUCIA</option>
-												<option value="VC">Saint Vincent and the Grenadines</option>
-												<option value="WS">Samoa</option>
-												<option value="SM">San Marino</option>
-												<option value="ST">Sao Tome and Principe</option>
-												<option value="SA">Saudi Arabia</option>
-												<option value="SN">Senegal</option>
-												<option value="SC">Seychelles</option>
-												<option value="SL">Sierra Leone</option>
-												<option value="SG">Singapore</option>
-												<option value="SK">Slovakia (Slovak Republic)</option>
-												<option value="SI">Slovenia</option>
-												<option value="SB">Solomon Islands</option>
-												<option value="SO">Somalia</option>
-												<option value="ZA">South Africa</option>
-												<option value="GS">South Georgia and the South Sandwich Islands</option>
-												<option value="ES">Spain</option>
-												<option value="LK">Sri Lanka</option>
-												<option value="SH">St. Helena</option>
-												<option value="PM">St. Pierre and Miquelon</option>
-												<option value="SD">Sudan</option>
-												<option value="SR">Suriname</option>
-												<option value="SJ">Svalbard and Jan Mayen Islands</option>
-												<option value="SZ">Swaziland</option>
-												<option value="SE">Sweden</option>
-												<option value="CH">Switzerland</option>
-												<option value="SY">Syrian Arab Republic</option>
-												<option value="TW">Taiwan, Province of China</option>
-												<option value="TJ">Tajikistan</option>
-												<option value="TZ">Tanzania, United Republic of</option>
-												<option value="TH">Thailand</option>
-												<option value="TG">Togo</option>
-												<option value="TK">Tokelau</option>
-												<option value="TO">Tonga</option>
-												<option value="TT">Trinidad and Tobago</option>
-												<option value="TN">Tunisia</option>
-												<option value="TR">Turkey</option>
-												<option value="TM">Turkmenistan</option>
-												<option value="TC">Turks and Caicos Islands</option>
-												<option value="TV">Tuvalu</option>
-												<option value="UG">Uganda</option>
-												<option value="UA">Ukraine</option>
-												<option value="AE">United Arab Emirates</option>
-												<option value="GB">United Kingdom</option>
-												<option value="US">United States</option>
-												<option value="UM">United States Minor Outlying Islands</option>
-												<option value="UY">Uruguay</option>
-												<option value="UZ">Uzbekistan</option>
-												<option value="VU">Vanuatu</option>
-												<option value="VE">Venezuela</option>
-												<option value="VN">Viet Nam</option>
-												<option value="VG">Virgin Islands (British)</option>
-												<option value="VI">Virgin Islands (U.S.)</option>
-												<option value="WF">Wallis and Futuna Islands</option>
-												<option value="EH">Western Sahara</option>
-												<option value="YE">Yemen</option>
-												<option value="ZM">Zambia</option>
-												<option value="ZW">Zimbabwe</option>
-											</select>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Remarks</label>
-										<div class="col-md-4">
-											<textarea class="form-control" rows="3" name="remarks"></textarea>
-										</div>
-									</div>
+
+
+
 								</div>
 
 								<div class="tab-pane" id="tab3">
 
-									<div class="dropzone" id="imagesDropzone">
-
-									</div>
+									<div class="dropzone" id="imagesDropzone"></div>
 
 								</div>
 
@@ -592,10 +404,9 @@
 	<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
 	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
-	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
 	<?= $this->Html->css('/plugins/icheck/skins/square/_all');?>
-	<?= $this->Html->css('image-crop.css');?>
-	<?= $this->Html->css('/plugins/dropzone/dropzone.css');?>
+	<?= $this->Html->css('/plugins/dropzone/dropzone');?>
+	<?= $this->Html->css('estate-add');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -610,28 +421,30 @@
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
 	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
-	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
 	<?= $this->Html->script('/plugins/icheck/icheck.min'); //Para poner bonitos los radio buttons ?>
 	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false&libraries=places'); //Para los mapas de google ?>
-	<?= $this->Html->script('/plugins/gmaps/gmaps.js'); //Para los mapas de google ?>
-	<?= $this->Html->script('/plugins/dropzone/dropzone.js'); //Dropzone para las imagesnes ?>
+	<?= $this->Html->script('/plugins/gmaps/gmaps'); //Para los mapas de google ?>
+	<?= $this->Html->script('/plugins/dropzone/dropzone'); //Dropzone para las imagesnes ?>
+
 
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-
 	<?= $this->Html->script('form-wizard');?>
 	<?= $this->Html->script('maps-google');?>
+	<?= $this->Html->script('estates-add');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('estates-add');?>
 	<script>
+		Dropzone.autoDiscover = false; //Prevent auto init dropzone
+		estateAddImageUrl = '<?= $this->Html->Url(array("action" => "add_image"));?>';
+
 		jQuery(document).ready(function() {
-			EstateAdd.init();
 			FormWizard.init();
 			MapsGoogle.init();
+			EstateAdd.init();
 		});
 	</script>
 <?php $this->end(); ?>
