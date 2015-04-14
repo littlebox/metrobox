@@ -307,225 +307,222 @@
 
 								<div class="tab-pane" id="tab3">
 
-									<h3 class="form-section">Servicios</h3>
-
-									<div class="form-group">
-
-										<div class="col-md-12">
-											<div class="input-group">
-												<div class="icheck-inline">
-													<input type="hidden" name="data[Service][Service]" value="" id="ServiceService"/>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="1" id="ServiceService1">
-														Agua Corriente
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="2" id="ServiceService2">
-														Desagüe cloacal
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="3" id="ServiceService3">
-														Gas natural
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="4" id="ServiceService4">
-														Internet
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="5" id="ServiceService5">
-														Luz
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="6" id="ServiceService6">
-														Pavimento
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="7" id="ServiceService7">
-														Teléfono
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="8" id="ServiceService8">
-														Video cable
-													</label>
+									<div id="services-section">
+										<h3 class="form-section">Servicios</h3>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="input-group">
+													<div class="icheck-inline">
+														<input type="hidden" name="data[Service][Service]" value="" id="ServiceService"/>
+														<label class="services-item no-in-terreno">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="1" id="ServiceService1">
+															Agua Corriente
+														</label>
+														<label class="services-item no-in-terreno">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="2" id="ServiceService2">
+															Desagüe cloacal
+														</label>
+														<label class="services-item no-in-terreno">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="3" id="ServiceService3">
+															Gas natural
+														</label>
+														<label class="services-item no-in-terreno">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="4" id="ServiceService4">
+															Internet
+														</label>
+														<label class="services-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="5" id="ServiceService5">
+															Luz
+														</label>
+														<label class="services-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="6" id="ServiceService6">
+															Pavimento
+														</label>
+														<label class="services-item no-in-terreno">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="7" id="ServiceService7">
+															Teléfono
+														</label>
+														<label class="services-item no-in-terreno">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="8" id="ServiceService8">
+															Video cable
+														</label>
+													</div>
 												</div>
 											</div>
 										</div>
-
 									</div>
 
 
-									<h3 class="form-section">Ambientes</h3>
-
-									<div class="form-group">
-
-										<div class="col-md-12">
-											<div class="input-group">
-												<div class="icheck-inline">
-													<input type="hidden" name="data[Room][Room]" value="" id="RoomRoom"/>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="1" id="RoomRoom1">
-														Altillo
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="2" id="RoomRoom2">
-														Balcón
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="3" id="RoomRoom3">
-														Baulera
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="4" id="RoomRoom4">
-														Cocina
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="5" id="RoomRoom5">
-														Comedor
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="6" id="RoomRoom6">
-														Comedor de diario
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="7" id="RoomRoom7">
-														Dependencia servicio
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="8" id="RoomRoom8">
-														Dormitorio en suite
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="9" id="RoomRoom9">
-														Escritorio
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="10" id="RoomRoom10">
-														Hall
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="11" id="RoomRoom11">
-														Jardín
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="12" id="RoomRoom12">
-														Lavadero
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="13" id="RoomRoom13">
-														Living
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="14" id="RoomRoom14">
-														Living comedor
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="15" id="RoomRoom15">
-														Patio
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="16" id="RoomRoom16">
-														Sótano
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="17" id="RoomRoom17">
-														Terraza
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="18" id="RoomRoom18">
-														Toilette
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="19" id="RoomRoom19">
-														Vestidor
-													</label>
+									<div id="rooms-section">
+										<h3 class="form-section">Ambientes</h3>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="input-group">
+													<div class="icheck-inline">
+														<input type="hidden" name="data[Room][Room]" value="" id="RoomRoom"/>
+														<label class="rooms-item no-in-departamento no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="1" id="RoomRoom1">
+															Altillo
+														</label>
+														<label class="rooms-item no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="2" id="RoomRoom2">
+															Balcón
+														</label>
+														<label class="rooms-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="3" id="RoomRoom3">
+															Baulera
+														</label>
+														<label class="rooms-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="4" id="RoomRoom4">
+															Cocina
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="5" id="RoomRoom5">
+															Comedor
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="6" id="RoomRoom6">
+															Comedor de diario
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="7" id="RoomRoom7">
+															Dependencia servicio
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="8" id="RoomRoom8">
+															Dormitorio en suite
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="9" id="RoomRoom9">
+															Escritorio
+														</label>
+														<label class="rooms-item no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="10" id="RoomRoom10">
+															Hall
+														</label>
+														<label class="rooms-item no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="11" id="RoomRoom11">
+															Jardín
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="12" id="RoomRoom12">
+															Lavadero
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="13" id="RoomRoom13">
+															Living
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="14" id="RoomRoom14">
+															Living comedor
+														</label>
+														<label class="rooms-item no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="15" id="RoomRoom15">
+															Patio
+														</label>
+														<label class="rooms-item no-in-departamento">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="16" id="RoomRoom16">
+															Sótano
+														</label>
+														<label class="rooms-item no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="17" id="RoomRoom17">
+															Terraza
+														</label>
+														<label class="rooms-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="18" id="RoomRoom18">
+															Toilette
+														</label>
+														<label class="rooms-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="19" id="RoomRoom19">
+															Vestidor
+														</label>
+													</div>
 												</div>
 											</div>
 										</div>
-
 									</div>
 
-									<h3 class="form-section">Adicionales</h3>
-									<div class="form-group">
-
-										<div class="col-md-12">
-											<div class="input-group">
-												<div class="icheck-inline">
-													<input type="hidden" name="data[Extra][Extra]" value="" id="ExtraExtra"/>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="1" id="ExtraExtra1">
-														Aire acondicionado
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="2" id="ExtraExtra2">
-														Alarma
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="3" id="ExtraExtra3">
-														Amoblado
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="4" id="ExtraExtra4">
-														Calefacción
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="5" id="ExtraExtra5">
-														Cancha deportes
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="6" id="ExtraExtra6">
-														Gimnasio
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="7" id="ExtraExtra7">
-														Hidromasaje
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="8" id="ExtraExtra8">
-														Laundry
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="9" id="ExtraExtra9">
-														Parrilla
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="10" id="ExtraExtra10">
-														Piscina
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="11" id="ExtraExtra11">
-														Quincho
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="12" id="ExtraExtra12">
-														Sala de juegos
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="13" id="ExtraExtra13">
-														Sauna
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="14" id="ExtraExtra14">
-														Solarium
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="15" id="ExtraExtra15">
-														SUM
-													</label>
-													<label>
-														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="16" id="ExtraExtra16">
-														Vigilancia
-													</label>
-
+									<div id="extras-section">
+										<h3 class="form-section">Adicionales</h3>
+										<div class="form-group">
+											<div class="col-md-12">
+												<div class="input-group">
+													<div class="icheck-inline">
+														<input type="hidden" name="data[Extra][Extra]" value="" id="ExtraExtra"/>
+														<label class="extras-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="1" id="ExtraExtra1">
+															Aire acondicionado
+														</label>
+														<label class="extras-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="2" id="ExtraExtra2">
+															Alarma
+														</label>
+														<label class="extras-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="3" id="ExtraExtra3">
+															Amoblado
+														</label>
+														<label class="extras-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="4" id="ExtraExtra4">
+															Calefacción
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="5" id="ExtraExtra5">
+															Cancha deportes
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="6" id="ExtraExtra6">
+															Gimnasio
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="7" id="ExtraExtra7">
+															Hidromasaje
+														</label>
+														<label class="extras-item no-in-casa no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="8" id="ExtraExtra8">
+															Laundry
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="9" id="ExtraExtra9">
+															Parrilla
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="10" id="ExtraExtra10">
+															Piscina
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="11" id="ExtraExtra11">
+															Quincho
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="12" id="ExtraExtra12">
+															Sala de juegos
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="13" id="ExtraExtra13">
+															Sauna
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="14" id="ExtraExtra14">
+															Solarium
+														</label>
+														<label class="extras-item no-in-oficina no-in-local-comercial">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="15" id="ExtraExtra15">
+															SUM
+														</label>
+														<label class="extras-item">
+															<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="16" id="ExtraExtra16">
+															Vigilancia
+														</label>
+													</div>
 												</div>
 											</div>
 										</div>
-
 									</div>
 
 								</div>
 
 								<div class="tab-pane" id="tab4">
-
+									<h3 class="form-section">Fotos de la Propiedad</h3>
 									<div class="dropzone" id="imagesDropzone"></div>
 
 								</div>
@@ -610,20 +607,64 @@
 		//Activo listeners para que al cambiar el tipo de propiedad se cambien las características en el formulario
 		$('input[name="data[Estate][type_id]"]:radio').on('ifChecked', function(event){
 			switch(parseInt(this.value)) {
-				case 1:
+				case 1: //Casa
 					$('#caracteristicas-inmueble').html(caracteristicasCasa);
+					$('#services-section').show();
+					$('.services-item',$('#services-section')).show();
+					$('.no-in-casa',$('#services-section')).hide();
+					$('#rooms-section').show();
+					$('.rooms-item',$('#rooms-section')).show();
+					$('.no-in-casa',$('#rooms-section')).hide();
+					$('#extras-section').show();
+					$('.extras-item',$('#extras-section')).show();
+					$('.no-in-casa',$('#extras-section')).hide();
 					break;
-				case 2:
+				case 2: //Departamento
 					$('#caracteristicas-inmueble').html(caracteristicasDepartamento);
+					$('#services-section').show();
+					$('.services-item',$('#services-section')).show();
+					$('.no-in-departamento',$('#services-section')).hide();
+					$('#rooms-section').show();
+					$('.rooms-item',$('#rooms-section')).show();
+					$('.no-in-departamento',$('#rooms-section')).hide();
+					$('#extras-section').show();
+					$('.extras-item',$('#extras-section')).show();
+					$('.no-in-departamento',$('#extras-section')).hide();
 					break;
-				case 3:
+				case 3: //Oficina
 					$('#caracteristicas-inmueble').html(caracteristicasOficina);
+					$('#services-section').show();
+					$('.services-item',$('#services-section')).show();
+					$('.no-in-oficina',$('#services-section')).hide();
+					$('#rooms-section').show();
+					$('.rooms-item',$('#rooms-section')).show();
+					$('.no-in-oficina',$('#rooms-section')).hide();
+					$('#extras-section').show();
+					$('.extras-item',$('#extras-section')).show();
+					$('.no-in-oficina',$('#extras-section')).hide();
 					break;
-				case 4:
+				case 4: //Local Comercial
 					$('#caracteristicas-inmueble').html(caracteristicasLocalComercial);
-					break;
-				case 5:
+					$('#services-section').show();
+					$('.services-item',$('#services-section')).show();
+					$('.no-in-local-comercial',$('#services-section')).hide();
+					$('#rooms-section').show();
+					$('.rooms-item',$('#rooms-section')).show();
+					$('.no-in-local-comercial',$('#rooms-section')).hide();
+					$('#extras-section').show();
+					$('.extras-item',$('#extras-section')).show();
+					$('.no-in-local-comercial',$('#extras-section')).hide();
+				case 5: //Terreno
 					$('#caracteristicas-inmueble').html(caracteristicasTerreno);
+					$('#services-section').show();
+					$('.services-item',$('#services-section')).show();
+					$('.no-in-terreno',$('#services-section')).hide();
+					$('#rooms-section').hide();
+					$('.rooms-item',$('#rooms-section')).show();
+					$('.no-in-terreno',$('#rooms-section')).hide();
+					$('#extras-section').hide();
+					$('.extras-item',$('#extras-section')).show();
+					$('.no-in-terreno',$('#extras-section')).hide();
 					break;
 				default:
 					alert('Operación Incorrecta');
