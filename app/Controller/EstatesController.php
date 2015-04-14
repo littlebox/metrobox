@@ -26,9 +26,11 @@ class EstatesController extends AppController {
 		$this->Estate->recursive = 0;
 
 		$this->paginate = array(
-			'fields' => array('Estate.id','Estate.street_number','Estate.street_name','Estate.province','Type.name'),
+			'fields' => array('Estate.id','Estate.street_number','Estate.street_name','Estate.city','Type.name'),
 			'recursive' => true //lee el de arriba, creo.
 		);
+
+		debug($this->DataTable->getResponse());die();
 
 		$this->DataTable->mDataProp = true;
 		$this->set('response', $this->DataTable->getResponse());
@@ -53,6 +55,9 @@ class EstatesController extends AppController {
 	public function add() {
 		$this->layout = 'metrobox';
 		if ($this->request->is('post')) {
+
+			// debug($this->request->data);die();
+
 			$this->Estate->create();
 			if ($this->Estate->save($this->request->data)) {
 				$this->Session->setFlash(__('The estate has been saved.'));
@@ -73,6 +78,12 @@ class EstatesController extends AppController {
 		$this->set(compact('buildingConditions'));
 		$buildingCategories = $this->Estate->BuildingCategory->find('list');
 		$this->set(compact('buildingCategories'));
+		$services = $this->Estate->Service->find('list');
+		$this->set(compact('services'));
+		$subtypes_casa = $this->Estate->Subtype->find('list', array('conditions' => array('Subtype.type_id' => 1)));
+		$this->set(compact('subtypes_casa'));
+		$subtypes_departamento = $this->Estate->Subtype->find('list', array('conditions' => array('Subtype.type_id' => 2)));
+		$this->set(compact('subtypes_departamento'));
 	}
 
 /**

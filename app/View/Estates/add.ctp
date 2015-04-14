@@ -1,7 +1,8 @@
+
 <!-- BEGIN PAGE CONTENT-->
 <div class="row">
 	<div class="col-md-12">
-		<div class="portlet box blue" id="form_wizard_1">
+		<div class="portlet box blue" id="estate_add_form_wizard">
 			<div class="portlet-title">
 				<div class="caption">
 					<i class="fa fa-home"></i> <?= __('Publicá Tu Propiedad') ?> - <span class="step-title">
@@ -20,7 +21,7 @@
 			</div>
 			<div class="portlet-body form">
 
-				<?php echo $this->Form->create('User', array(
+				<?php echo $this->Form->create('Estate', array(
 					'enctype' => 'multipart/form-data',
 					'inputDefaults' => array(
 						'format' => array('before','label','between','input','error','after'),
@@ -40,7 +41,7 @@
 							))
 					),
 					'class' => 'form-horizontal',
-					'id' => 'user-form',
+					'id' => 'estate-add-form',
 				)); ?>
 				<!-- <form action="#" class="form-horizontal" id="submit_form" method="POST"> -->
 					<div class="form-wizard">
@@ -99,12 +100,29 @@
 										* </span>
 										</label>
 										<div class="col-md-8">
-											<div class="icheck-inline">
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="operation" value="venta" data-title="Male"/>Venta </label>
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="operation" value="alquiler" data-title="Female"/>Alquiler </label>
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="operation" value="alquiler-temporal" data-title="Female"/>Alquiler Temporal </label>
-											</div>
-											<div id="form_operation_error"></div>
+											<?php
+												echo $this->Form->input('operation_id', array(
+													'type' => 'radio',
+													'before' => '<fieldset>',
+													'between' => '',
+													'after' => '</fieldset>',
+													'separator' => '&nbsp&nbsp',
+													'escape' => false, //For no html escape
+													'legend' => false,
+													'fieldset' => true,
+													'div' => array(
+														'class' => 'icheck-inline'
+													),
+													'label' => array(
+														'class' => ''
+													),
+													'class' => 'icheck',
+													'data-radio'=> 'iradio_square-blue',
+													'options' => array(1 => 'Venta', 2 => 'Alquiler', 3 => 'Alquiler Temporal')
+
+												));
+											?>
+											<div id="form_operation_id_error"></div>
 										</div>
 									</div>
 
@@ -113,32 +131,53 @@
 										* </span>
 										</label>
 										<div class="col-md-8">
-											<div class="icheck-inline">
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="type" value="venta" data-title="Male"/>Casa </label>
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="type" value="departamento" data-title="Male"/>Departamento </label>
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="type" value="oficina" data-title="Male"/>Oficina </label>
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="type" value="local-comercial" data-title="Female"/>Local Comercial </label>
-												<label><input type="radio" class="icheck" data-radio="iradio_square-blue" name="type" value="terreno" data-title="Female"/>Terreno </label>
-											</div>
-											<div id="form_type_error"></div>
+											<?php
+												echo $this->Form->input('type_id', array(
+													'type' => 'radio',
+													'before' => '<fieldset>',
+													'between' => '',
+													'after' => '</fieldset>',
+													'separator' => '&nbsp&nbsp',
+													'escape' => false, //For no html escape
+													'legend' => false,
+													'fieldset' => true,
+													'div' => array(
+														'class' => 'icheck-inline'
+													),
+													'label' => array(
+														'class' => ''
+													),
+													'class' => 'icheck',
+													'data-radio'=> 'iradio_square-blue',
+													'options' => array(1 => 'Casa', 2 => 'Departamento', 3 => 'Oficina', 4 => 'Local Comercial', 5 => 'Terreno')
+
+												));
+											?>
+											<div id="form_type_id_error"></div>
 										</div>
 									</div>
 
-									<div class="form-group">
+									<div class="form-group" id="gmap_geocoding_form">
 										<label class="control-label col-md-3">Dirección <span class="required">
 										* </span>
 										</label>
 										<div class="input-group col-md-9 row row-izq-padding">
+											<input type="hidden" name="data[Estate][latitude]" value="" id="EstateLatitude"/>
+											<input type="hidden" name="data[Estate][longitude]" value="" id="EstateLongitude"/>
 											<div class="col-md-4">
-												<input type="text" class="form-control" id="gmap_geocoding_city" name="gmap_geocoding_city" placeholder="Ciudad o Barrio...">
+												<input type="text" class="form-control" id="gmap_geocoding_city" name="data[Estate][city]" placeholder="Ciudad o Barrio...">
 												</span>
 											</div>
 											<div class="col-md-2">
-												<input type="text" class="form-control" id="gmap_geocoding_street" name="gmap_geocoding_street" placeholder="Calle">
+												<input type="text" class="form-control" id="gmap_geocoding_street" name="data[Estate][street_name]" placeholder="Calle">
 												</span>
 											</div>
 											<div class="col-md-2">
-												<input type="number" class="form-control" id="gmap_geocoding_number" name="gmap_geocoding_number" placeholder="Número">
+												<input type="number" class="form-control" id="gmap_geocoding_number" name="data[Estate][street_number]" placeholder="Número">
+												</span>
+											</div>
+											<div class="col-md-1">
+												<input type="number" class="form-control" id="gmap_geocoding_postal_code" name="data[Estate][postal_code]" placeholder="C.P.">
 												</span>
 											</div>
 											<div class="col-md-2">
@@ -146,9 +185,6 @@
 											</div>
 											<div class="col-md-12"><span id="marker-help-text" style="display:none;" class="help-block">Podés corregir la posición arrastrando el marcador!</span></div>
 										</div>
-
-
-
 
 									</div>
 
@@ -171,208 +207,330 @@
 										echo $this->Form->input('offers_funding', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
 									?>
 
-									<h3 class="form-section">Caracerísticas</h3>
 
-									<div id="caracteristicas-casa">
-										<?php
-											echo $this->Form->input('total_surface');
-											echo $this->Form->input('covered_surface');
-											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('bedrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
-										?>
+									<div id="caracteristicas-inmueble">
+										<div id="caracteristicas-casa">
+											<h3 class="form-section">Caracerísticas Casa</h3>
+											<?php
+												echo $this->Form->input('subtype_id', array('options' => $subtypes_casa,'empty' => __('Seleccionar...')));
+												echo $this->Form->input('total_surface');
+												echo $this->Form->input('covered_surface');
+												echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('bedrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+											?>
+										</div>
+										<div id="caracteristicas-departamento">
+											<h3 class="form-section">Caracerísticas Departamento</h3>
+											<?php
+												echo $this->Form->input('subtype_id', array('options' => $subtypes_departamento,'empty' => __('Seleccionar...')));
+												echo $this->Form->input('total_surface');
+												echo $this->Form->input('covered_surface');
+												echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('rooms_number', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('bedrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('building_type_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('building_condition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('building_category_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('No especifico')));
+												echo $this->Form->input('apartments_per_floor', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10+'), 'empty' => __('No especifico')));
+												echo $this->Form->input('number_of_floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', 13 => '13', 14 => '14', 15 => '15', 16 => '16', 17 => '17', 18 => '18', 19 => '19', 20 => '20', 21 => '21', 22 => '22', 23 => '23', 24 => '24', 25 => '25', 26 => '26', 27 => '27', 28 => '28', 29 => '29', 30 => '30', 31 => '31', 32 => '32', 33 => '33', 34 => '34', 35 => '35', 36 => '36', 37 => '37', 38 => '38', 39 => '39', 40 => '40', 41 => '41', 42 => '42', 43 => '43', 44 => '44', 45 => '45', 46 => '46', 47 => '47', 48 => '48', 49 => '49', 50 => '50+'), 'empty' => __('No especifico')));
+												echo $this->Form->input('number_of_elevators', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('expenses');
+												echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+											?>
+										</div>
+										<div id="caracteristicas-oficina">
+											<h3 class="form-section">Caracerísticas Oficina</h3>
+											<?php
+												echo $this->Form->input('total_surface');
+												echo $this->Form->input('covered_surface');
+												echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('building_type_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('building_condition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('building_category_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('apartments_per_floor', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('number_of_floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', 13 => '13', 14 => '14', 15 => '15', 16 => '16', 17 => '17', 18 => '18', 19 => '19', 20 => '20', 21 => '21', 22 => '22', 23 => '23', 24 => '24', 25 => '25', 26 => '26', 27 => '27', 28 => '28', 29 => '29', 30 => '30', 31 => '31', 32 => '32', 33 => '33', 34 => '34', 35 => '35', 36 => '36', 37 => '37', 38 => '38', 39 => '39', 40 => '40', 41 => '41', 42 => '42', 43 => '43', 44 => '44', 45 => '45', 46 => '46', 47 => '47', 48 => '48', 49 => '49', 50 => '50+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('number_of_elevators', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('expenses');
+												echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+											?>
+										</div>
+										<div id="caracteristicas-local-comercial">
+											<h3 class="form-section">Caracerísticas Local Comercial</h3>
+											<?php
+												echo $this->Form->input('total_surface');
+												echo $this->Form->input('covered_surface');
+												echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
+												echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
+												echo $this->Form->input('expenses');
+												echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+											?>
+										</div>
+										<div id="caracteristicas-terreno">
+											<h3 class="form-section">Caracerísticas Terreno</h3>
+											<?php
+												echo $this->Form->input('total_surface');
+												echo $this->Form->input('front');
+												echo $this->Form->input('back');
+												echo $this->Form->input('expenses');
+												echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
+												echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
+											?>
+										</div>
 									</div>
-									<div id="caracteristicas-departamento">
-										<?php
-											echo $this->Form->input('total_surface');
-											echo $this->Form->input('covered_surface');
-											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('rooms_number', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('bedrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('building_type_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('building_condition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('building_category_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('apartments_per_floor', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('number_of_floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', 13 => '13', 14 => '14', 15 => '15', 16 => '16', 17 => '17', 18 => '18', 19 => '19', 20 => '20', 21 => '21', 22 => '22', 23 => '23', 24 => '24', 25 => '25', 26 => '26', 27 => '27', 28 => '28', 29 => '29', 30 => '30', 31 => '31', 32 => '32', 33 => '33', 34 => '34', 35 => '35', 36 => '36', 37 => '37', 38 => '38', 39 => '39', 40 => '40', 41 => '41', 42 => '42', 43 => '43', 44 => '44', 45 => '45', 46 => '46', 47 => '47', 48 => '48', 49 => '49', 50 => '50+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('number_of_elevators', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('expenses');
-											echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
-										?>
-									</div>
-									<div id="caracteristicas-oficina">
-										<?php
-											echo $this->Form->input('total_surface');
-											echo $this->Form->input('covered_surface');
-											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('building_type_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('building_condition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('building_category_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('apartments_per_floor', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('number_of_floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5', 6 => '6', 7 => '7', 8 => '8', 9 => '9', 10 => '10', 11 => '11', 12 => '12', 13 => '13', 14 => '14', 15 => '15', 16 => '16', 17 => '17', 18 => '18', 19 => '19', 20 => '20', 21 => '21', 22 => '22', 23 => '23', 24 => '24', 25 => '25', 26 => '26', 27 => '27', 28 => '28', 29 => '29', 30 => '30', 31 => '31', 32 => '32', 33 => '33', 34 => '34', 35 => '35', 36 => '36', 37 => '37', 38 => '38', 39 => '39', 40 => '40', 41 => '41', 42 => '42', 43 => '43', 44 => '44', 45 => '45', 46 => '46', 47 => '47', 48 => '48', 49 => '49', 50 => '50+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('number_of_elevators', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('expenses');
-											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
-										?>
-									</div>
-									<div id="caracteristicas-local-comercial">
-										<?php
-											echo $this->Form->input('total_surface');
-											echo $this->Form->input('covered_surface');
-											echo $this->Form->input('is_new', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('bathrooms', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('garages', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('orientation', array('options' => array('Norte' => 'Norte', 'Sur' => 'Sur', 'Este' => 'Este', 'Oeste' => 'Oeste', 'Noreste' => 'Noreste', 'Noroeste' => 'Noroeste', 'Sudeste' => 'Sudeste', 'Sudoeste' => 'Sudoeste'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('disposition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('condition_id', array('empty' => __('Seleccionar...')));
-											echo $this->Form->input('floors', array('options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5+'), 'empty' => __('Seleccionar...')));
-											echo $this->Form->input('expenses');
-											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
-										?>
-									</div>
-									<div id="caracteristicas-terreno">
-										<?php
-											echo $this->Form->input('total_surface');
-											echo $this->Form->input('front');
-											echo $this->Form->input('back');
-											echo $this->Form->input('expenses');
-											echo $this->Form->input('commercial_use', array('type' => 'checkbox', 'class' => 'icheck', 'data-checkbox' => 'icheckbox_square-blue'));
-											echo $this->Form->input('brightness', array('options' => array('Muy Luminoso' => 'Muy Luminoso','Luminoso' => 'Luminoso','Poco Luminoso' => 'Poco Luminoso'), 'empty' => __('Seleccionar...')));
-										?>
-									</div>
-
-
 
 								</div>
 
 								<div class="tab-pane" id="tab3">
 
-									<div class="dropzone" id="imagesDropzone"></div>
+									<h3 class="form-section">Servicios</h3>
+
+									<div class="form-group">
+
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="icheck-inline">
+													<input type="hidden" name="data[Service][Service]" value="" id="ServiceService"/>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="1" id="ServiceService1">
+														Agua Corriente
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="2" id="ServiceService2">
+														Desagüe cloacal
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="3" id="ServiceService3">
+														Gas natural
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="4" id="ServiceService4">
+														Internet
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="5" id="ServiceService5">
+														Luz
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="6" id="ServiceService6">
+														Pavimento
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="7" id="ServiceService7">
+														Teléfono
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Service][Service][]" value="8" id="ServiceService8">
+														Video cable
+													</label>
+												</div>
+											</div>
+										</div>
+
+									</div>
+
+
+									<h3 class="form-section">Ambientes</h3>
+
+									<div class="form-group">
+
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="icheck-inline">
+													<input type="hidden" name="data[Room][Room]" value="" id="RoomRoom"/>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="1" id="RoomRoom1">
+														Altillo
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="2" id="RoomRoom2">
+														Balcón
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="3" id="RoomRoom3">
+														Baulera
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="4" id="RoomRoom4">
+														Cocina
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="5" id="RoomRoom5">
+														Comedor
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="6" id="RoomRoom6">
+														Comedor de diario
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="7" id="RoomRoom7">
+														Dependencia servicio
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="8" id="RoomRoom8">
+														Dormitorio en suite
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="9" id="RoomRoom9">
+														Escritorio
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="10" id="RoomRoom10">
+														Hall
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="11" id="RoomRoom11">
+														Jardín
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="12" id="RoomRoom12">
+														Lavadero
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="13" id="RoomRoom13">
+														Living
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="14" id="RoomRoom14">
+														Living comedor
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="15" id="RoomRoom15">
+														Patio
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="16" id="RoomRoom16">
+														Sótano
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="17" id="RoomRoom17">
+														Terraza
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="18" id="RoomRoom18">
+														Toilette
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Room][Room][]" value="19" id="RoomRoom19">
+														Vestidor
+													</label>
+												</div>
+											</div>
+										</div>
+
+									</div>
+
+									<h3 class="form-section">Adicionales</h3>
+									<div class="form-group">
+
+										<div class="col-md-12">
+											<div class="input-group">
+												<div class="icheck-inline">
+													<input type="hidden" name="data[Extra][Extra]" value="" id="ExtraExtra"/>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="1" id="ExtraExtra1">
+														Aire acondicionado
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="2" id="ExtraExtra2">
+														Alarma
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="3" id="ExtraExtra3">
+														Amoblado
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="4" id="ExtraExtra4">
+														Calefacción
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="5" id="ExtraExtra5">
+														Cancha deportes
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="6" id="ExtraExtra6">
+														Gimnasio
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="7" id="ExtraExtra7">
+														Hidromasaje
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="8" id="ExtraExtra8">
+														Laundry
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="9" id="ExtraExtra9">
+														Parrilla
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="10" id="ExtraExtra10">
+														Piscina
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="11" id="ExtraExtra11">
+														Quincho
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="12" id="ExtraExtra12">
+														Sala de juegos
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="13" id="ExtraExtra13">
+														Sauna
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="14" id="ExtraExtra14">
+														Solarium
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="15" id="ExtraExtra15">
+														SUM
+													</label>
+													<label>
+														<input type="checkbox" class="icheck" data-checkbox="icheckbox_square-blue" name="data[Extra][Extra][]" value="16" id="ExtraExtra16">
+														Vigilancia
+													</label>
+
+												</div>
+											</div>
+										</div>
+
+									</div>
 
 								</div>
 
 								<div class="tab-pane" id="tab4">
-									<h3 class="block">Confirm your account</h3>
-									<h4 class="form-section">Account</h4>
-									<div class="form-group">
-										<label class="control-label col-md-3">Username:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="username">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Email:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="email">
-											</p>
-										</div>
-									</div>
-									<h4 class="form-section">Profile</h4>
-									<div class="form-group">
-										<label class="control-label col-md-3">Fullname:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="fullname">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Gender:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="gender">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Phone:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="phone">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Address:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="address">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">City/Town:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="city">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Country:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="country">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Remarks:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="remarks">
-											</p>
-										</div>
-									</div>
-									<h4 class="form-section">Billing</h4>
-									<div class="form-group">
-										<label class="control-label col-md-3">Card Holder Name:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="card_name">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Card Number:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="card_number">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">CVC:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="card_cvc">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Expiration:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="card_expiry_date">
-											</p>
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="control-label col-md-3">Payment Options:</label>
-										<div class="col-md-4">
-											<p class="form-control-static" data-display="payment">
-											</p>
-										</div>
-									</div>
+
+									<div class="dropzone" id="imagesDropzone"></div>
+
 								</div>
+
+
 							</div>
 						</div>
 						<div class="form-actions">
@@ -440,6 +598,44 @@
 	<script>
 		Dropzone.autoDiscover = false; //Prevent auto init dropzone
 		estateAddImageUrl = '<?= $this->Html->Url(array("action" => "add_image"));?>';
+
+		caracteristicasCasa = $('#caracteristicas-casa').html();
+		caracteristicasDepartamento = $('#caracteristicas-departamento').html();
+		caracteristicasOficina = $('#caracteristicas-oficina').html();
+		caracteristicasLocalComercial = $('#caracteristicas-local-comercial').html();
+		caracteristicasTerreno = $('#caracteristicas-terreno').html();
+
+		//Vacío div de características del inmueble
+		$('#caracteristicas-inmueble').html('');
+		//Activo listeners para que al cambiar el tipo de propiedad se cambien las características en el formulario
+		$('input[name="data[Estate][type_id]"]:radio').on('ifChecked', function(event){
+			switch(parseInt(this.value)) {
+				case 1:
+					$('#caracteristicas-inmueble').html(caracteristicasCasa);
+					break;
+				case 2:
+					$('#caracteristicas-inmueble').html(caracteristicasDepartamento);
+					break;
+				case 3:
+					$('#caracteristicas-inmueble').html(caracteristicasOficina);
+					break;
+				case 4:
+					$('#caracteristicas-inmueble').html(caracteristicasLocalComercial);
+					break;
+				case 5:
+					$('#caracteristicas-inmueble').html(caracteristicasTerreno);
+					break;
+				default:
+					alert('Operación Incorrecta');
+					break;
+			}
+			$('#caracteristicas-inmueble input').iCheck({
+				checkboxClass: 'icheckbox_square-blue',
+				radioClass: 'iradio_square-blue',
+			});
+		});
+
+
 
 		jQuery(document).ready(function() {
 			FormWizard.init();

@@ -35,9 +35,12 @@ var MapsGoogle = function () {
 				address: text,
 				callback: function (results, status) {
 					if (status == 'OK') {
+						//Centra el mapa en la latitud y longitu encontrada y pone el zoom en 16
 						var latlng = results[0].geometry.location;
 						map.setCenter(latlng.lat(), latlng.lng());
 						map.setZoom(16);
+
+						map.removeMarkers();
 
 						mapGeocoding.locationMarker = map.addMarker({
 							lat: latlng.lat(),
@@ -57,11 +60,14 @@ var MapsGoogle = function () {
 						//muestro el texto de ayuda
 						$('#marker-help-text').show();
 
-						google.maps.event.addListener(locationMarker, "mouseup", function(event) {
-							var latitude = this.position.lat();
-							var longitude = this.position.lng();
-							console.log(this.position.lat());
-							console.log(this.position.lng());
+						//Seteo la latitud y longitud en los inpus ocultos correspondientes
+						$('#EstateLatitude').val(latlng.lat());
+						$('#EstateLongitude').val(latlng.lng());
+
+						//Seteamos un listener para que cada vez que se mueva el marcador, se actualice la latitud y la longitud en los inpus ocultos correspondientes
+						google.maps.event.addListener(mapGeocoding.locationMarker, "mouseup", function(event) {
+							$('#EstateLatitude').val(this.position.lat());
+							$('#EstateLongitude').val(this.position.lng());
 						});
 
 						Metrobox.scrollTo($('#gmap_geocoding'));
@@ -75,7 +81,7 @@ var MapsGoogle = function () {
 			handleAction();
 		});
 
-		$("#gmap_geocoding_address").keypress(function (e) {
+		$("#gmap_geocoding_form").keypress(function (e) {
 			var keycode = (e.keyCode ? e.keyCode : e.which);
 			if (keycode == '13') {
 				e.preventDefault();
@@ -90,13 +96,7 @@ var MapsGoogle = function () {
 	return {
 		//main function to initiate map samples
 		init: function () {
-			// mapBasic();
-			// mapMarker();
-			// mapGeolocation();
 			mapGeocoding();
-			// mapPolylines();
-			// mapPolygone();
-			// mapRoutes();
 		}
 
 	};

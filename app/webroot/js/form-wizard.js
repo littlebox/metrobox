@@ -23,7 +23,7 @@ var FormWizard = function () {
 				}
 			});
 
-			var form = $('#submit_form');
+			var form = $('#estate-add-form');
 			var error = $('.alert-danger', form);
 			var success = $('.alert-success', form);
 
@@ -34,66 +34,92 @@ var FormWizard = function () {
 				focusInvalid: false, // do not focus the last invalid input
 				rules: {
 					//tab1
-					operation: {
+					'data[Estate][operation_id]': {
 						required: true
 					},
-					type: {
+					'data[Estate][type_id]': {
 						required: true
 					},
-					gmap_geocoding_city: {
+					'data[Estate][city]': {
 						required: true,
 					},
-					gmap_geocoding_street: {
+					'data[Estate][street_name]': {
 						required: true,
 					},
-					gmap_geocoding_number: {
+					'data[Estate][street_number]': {
 						required: true,
 					},
-					//profile
-					fullname: {
+					//tab2
+					'data[Estate][price]': {
 						required: true
 					},
-					email: {
-						required: true,
-						email: true
-					},
-					phone: {
+					'data[Estate][currency_id]': {
 						required: true
 					},
-					gender: {
+					// 'data[Estate][show_price]': {
+					// 	required: true
+					// },
+					// 'data[Estate][offers_funding]': {
+					// 	required: true
+					// },
+					'data[Estate][total_surface]': {
 						required: true
 					},
-					address: {
+					'data[Estate][covered_surface]': {
 						required: true
 					},
-					city: {
+					// 'data[Estate][is_new]': {
+					// 	required: true
+					// },
+					'data[Estate][rooms_number]': {
 						required: true
 					},
-					country: {
+					'data[Estate][bedrooms]': {
 						required: true
 					},
-					//payment
-					card_name: {
+					'data[Estate][bathrooms]': {
 						required: true
 					},
-					card_number: {
-						minlength: 16,
-						maxlength: 16,
+					'data[Estate][garages]': {
 						required: true
 					},
-					card_cvc: {
-						digits: true,
-						required: true,
-						minlength: 3,
-						maxlength: 4
-					},
-					card_expiry_date: {
+					'data[Estate][orientation]': {
 						required: true
 					},
-					'payment[]': {
-						required: true,
-						minlength: 1
-					}
+					'data[Estate][disposition_id]': {
+						required: true
+					},
+					'data[Estate][building_type_id]': {
+						required: true
+					},
+					'data[Estate][building_condition_id]': {
+						required: true
+					},
+					'data[Estate][building_category_id]': {
+						required: true
+					},
+					'data[Estate][condition_id]': {
+						required: true
+					},
+					'data[Estate][floors]': {
+						required: true
+					},
+					'data[Estate][apartments_per_floor]': {
+						required: true
+					},
+					'data[Estate][number_of_elevators]': {
+						required: true
+					},
+					'data[Estate][expenses]': {
+						required: true
+					},
+					// 'data[Estate][commercial_use]': {
+					// 	required: true
+					// },
+					'data[Estate][brightness]': {
+						required: true
+					},
+
 				},
 
 				messages: { // custom messages for radio buttons and checkboxes
@@ -104,10 +130,10 @@ var FormWizard = function () {
 				},
 
 				errorPlacement: function (error, element) { // render error placement for each input type
-					if (element.attr("name") == "operation") { // for uniform radio buttons, insert the after the given container
-						error.insertAfter("#form_operation_error");
-					} else if (element.attr("name") == "type") { // for uniform radio buttons, insert the after the given container
-						error.insertAfter("#form_type_error");
+					if (element.attr("name") == "data[Estate][operation_id]") { // for uniform radio buttons, insert the after the given container
+						error.insertAfter("#form_operation_id_error");
+					} else if (element.attr("name") == "data[Estate][type_id]") { // for uniform radio buttons, insert the after the given container
+						error.insertAfter("#form_type_id_error");
 					} else {
 						error.insertAfter(element); // for other inputs, just perform default behavior
 					}
@@ -130,7 +156,7 @@ var FormWizard = function () {
 				},
 
 				success: function (label) {
-					if (label.attr("for") == "operation" || label.attr("for") == "type") { // for checkboxes and radio buttons, no need to show OK icon
+					if (label.attr("for") == "data[Estate][operation_id]" || label.attr("for") == "data[Estate][type_id]") { // for checkboxes and radio buttons, no need to show OK icon
 						label
 							.closest('.form-group').removeClass('has-error').addClass('has-success');
 						label.remove(); // remove error label here
@@ -142,8 +168,9 @@ var FormWizard = function () {
 				},
 
 				submitHandler: function (form) {
-					success.show();
+					// success.show();
 					error.hide();
+					form.submit();
 					//add here some ajax code to submit your form or just call form.submit() if you want to submit the form without ajax
 				}
 
@@ -175,51 +202,49 @@ var FormWizard = function () {
 				var total = navigation.find('li').length;
 				var current = index + 1;
 				// set wizard title
-				$('.step-title', $('#form_wizard_1')).text('Step ' + (index + 1) + ' of ' + total);
+				$('.step-title', $('#estate_add_form_wizard')).text('Step ' + (index + 1) + ' of ' + total);
 				// set done steps
-				jQuery('li', $('#form_wizard_1')).removeClass("done");
+				jQuery('li', $('#estate_add_form_wizard')).removeClass("done");
 				var li_list = navigation.find('li');
 				for (var i = 0; i < index; i++) {
 					jQuery(li_list[i]).addClass("done");
 				}
 
 				if (current == 1) {
-					$('#form_wizard_1').find('.button-previous').hide();
+					$('#estate_add_form_wizard').find('.button-previous').hide();
 				} else {
-					$('#form_wizard_1').find('.button-previous').show();
+					$('#estate_add_form_wizard').find('.button-previous').show();
 				}
 
 				if (current >= total) {
-					$('#form_wizard_1').find('.button-next').hide();
-					$('#form_wizard_1').find('.button-submit').show();
+					$('#estate_add_form_wizard').find('.button-next').hide();
+					$('#estate_add_form_wizard').find('.button-submit').show();
 					displayConfirm();
 				} else {
-					$('#form_wizard_1').find('.button-next').show();
-					$('#form_wizard_1').find('.button-submit').hide();
+					$('#estate_add_form_wizard').find('.button-next').show();
+					$('#estate_add_form_wizard').find('.button-submit').hide();
 				}
 				Metrobox.scrollTo($('.page-title'));
 			}
 
 			// default form wizard
-			$('#form_wizard_1').bootstrapWizard({
+			$('#estate_add_form_wizard').bootstrapWizard({
 				'nextSelector': '.button-next',
 				'previousSelector': '.button-previous',
 				onTabClick: function (tab, navigation, index, clickedIndex) {
-					return false;
-					/*
 					success.hide();
 					error.hide();
 					if (form.valid() == false) {
 						return false;
 					}
 					handleTitle(tab, navigation, clickedIndex);
-					*/
+
 				},
 				onNext: function (tab, navigation, index) {
 					success.hide();
 					error.hide();
 
-					if (false && form.valid() == false) {
+					if (form.valid() == false) {
 						return false;
 					}
 
@@ -235,15 +260,20 @@ var FormWizard = function () {
 					var total = navigation.find('li').length;
 					var current = index + 1;
 					var $percent = (current / total) * 100;
-					$('#form_wizard_1').find('.progress-bar').css({
+					$('#estate_add_form_wizard').find('.progress-bar').css({
 						width: $percent + '%'
 					});
 				}
 			});
 
-			$('#form_wizard_1').find('.button-previous').hide();
-			$('#form_wizard_1 .button-submit').click(function () {
-				alert('Finished! Hope you like it :)');
+			$('#estate_add_form_wizard').find('.button-previous').hide();
+			$('#estate_add_form_wizard .button-submit').click(function () {
+				// alert('Finished! Hope you like it :)');
+				if (form.valid() == false) {
+					return false;
+				}else{
+					form.submit();
+				}
 			}).hide();
 		}
 
