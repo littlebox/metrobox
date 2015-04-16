@@ -40,7 +40,7 @@
 
 
 		<div class="form-actions">
-			<?= $this->Form->button(__('Login'), array('class' => 'btn btn-success uppercase'));?>
+			<?= $this->Form->button(__('Login'), array('class' => 'btn blue-bebusca uppercase'));?>
 			<label class="rememberme check">
 				<input type="checkbox" name="remember" value="1"/><?= __("Remember");?>
 			</label>
@@ -69,7 +69,7 @@
 		<?= $this->Form->input('email', array('placeholder' => __('Email'), 'label' => false, 'id' => 'forget-input-email'));?>
 		<div class="form-actions">
 			<button type="button" id="back-btn" class="btn btn-default"><?= __("Back");?></button>
-			<?= $this->Form->button($this->Html->tag('span', __('Submit'), array('class' => 'ladda-label')), array('id' => 'forget-submit-button', 'class' => 'btn btn-success uppercase pull-right ladda-button', 'data-style' => 'zoom-out'));?>
+			<?= $this->Form->button($this->Html->tag('span', __('Submit'), array('class' => 'ladda-label')), array('id' => 'forget-submit-button', 'class' => 'btn blue-bebusca uppercase pull-right ladda-button', 'data-style' => 'zoom-out'));?>
 		</div>
 	<?= $this->Form->end(); ?>
 	<!-- END FORGOT PASSWORD FORM -->

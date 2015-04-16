@@ -64,7 +64,7 @@ Like: www.facebook.com/littlefacebox
 <!-- END LOGIN -->
 
 <div class="copyright">
-	<?= date('Y').' © <a href="http://littlebox.com.ar">littlebox</a>. '. __('Admin Dashboard');?>
+	<?= 'Panel de administración de bebusca. By <a href="http://littlebox.com.ar">littlebox</a>. '.date('Y').' ©';?>
 </div>
 
 <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->

@@ -21,12 +21,12 @@
 		<div class="page-actions">
 
 			<div class="btn-group">
-				<button type="button" class="btn btn-circle orange-bebusca dropdown-toggle" data-toggle="dropdown">
+				<button type="button" class="btn btn-circle blue-bebusca dropdown-toggle" data-toggle="dropdown">
 				<i class="fa fa-plus"></i>&nbsp;<span class="hidden-sm hidden-xs"><?= __('New') ?>&nbsp;</span>&nbsp;<i class="fa fa-angle-down"></i>
 				</button>
 				<ul class="dropdown-menu" role="menu">
 					<li>
-						<a href="#">
+						<a href="<?= $this->Html->Url(array('controller'=>'estates','action'=>'add'))?>">
 						<i class="icon-home"></i> <?= __('New Estate') ?> </a>
 					</li>
 					<?php //Admin Part ?>

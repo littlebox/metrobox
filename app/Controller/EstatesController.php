@@ -23,14 +23,14 @@ class EstatesController extends AppController {
  */
 	public function index() {
 		$this->layout = 'metrobox';
-		$this->Estate->recursive = 0;
 
 		$this->paginate = array(
-			'fields' => array('Estate.id','Estate.street_number','Estate.street_name','Estate.city','Type.name'),
-			'recursive' => true //lee el de arriba, creo.
+			'fields' => array('Estate.created','Estate.id','Estate.street_number','Estate.street_name','Estate.city','Type.name','Subtype.name'),
+			'link' => array('Type','Subtype'), //Use Linkable behavior
+			'order' => 'Estate.created DESC',
 		);
 
-		debug($this->DataTable->getResponse());die();
+		//debug($this->DataTable->getResponse());die();
 
 		$this->DataTable->mDataProp = true;
 		$this->set('response', $this->DataTable->getResponse());
@@ -56,10 +56,10 @@ class EstatesController extends AppController {
 		$this->layout = 'metrobox';
 		if ($this->request->is('post')) {
 
-			// debug($this->request->data);die();
+			//debug($this->request->data);die();
 
 			$this->Estate->create();
-			if ($this->Estate->save($this->request->data)) {
+			if ($this->Estate->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The estate has been saved.'));
 				return $this->redirect(array('action' => 'index'));
 			} else {
@@ -84,6 +84,54 @@ class EstatesController extends AppController {
 		$this->set(compact('subtypes_casa'));
 		$subtypes_departamento = $this->Estate->Subtype->find('list', array('conditions' => array('Subtype.type_id' => 2)));
 		$this->set(compact('subtypes_departamento'));
+	}
+
+	public function add_image() {
+
+		$this->request->allowMethod('ajax');
+
+
+
+		$data = array(
+			'content' => [],
+			'error' => '',
+		);
+
+		// $this->params->form['file']
+
+		//Check if image has been uploaded
+		if(!empty($this->params->form['file']['name'])){
+			$file = $this->params->form['file']; //put the data into a var for easy use
+
+			$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+			$arr_ext = array('jpg', 'jpeg', 'png'); //set allowed extensions
+
+			//only process if the extension is valid
+			if(in_array($ext, $arr_ext)){
+				//do the actual uploading of the file. First arg is the tmp name, second arg is
+				//where we are putting it
+
+				//Create new image model
+				$this->Estate->Image->create();
+				$imageData = array('estate_id' => NULL);
+				//Save the image model in DB and get the ID
+				if ($this->Estate->Image->save($imageData)) {
+					move_uploaded_file($file['tmp_name'], WWW_ROOT . 'img'.DS.'estates'.DS.$this->Estate->Image->id.'.'.$ext);
+					$data['content']['msg'] = __('The estate has been saved.');
+					$data['content']['id'] = $this->Estate->Image->id;
+				} else {
+					$data['error'] = __('The Image could not be saved.');
+				}
+			}else{
+				$data['error'] = __('Invalid file extension.');
+			}
+
+		}else{
+			$data['error'] = __('No Data Sended');
+		}
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
 /**
@@ -118,17 +166,43 @@ class EstatesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Estate->id = $id;
-		if (!$this->Estate->exists()) {
-			throw new NotFoundException(__('Invalid estate'));
+		$this->request->allowMethod('post');
+
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//$this->autoRender = $this->layout = false;
+
+			$this->Estate->id = $id;
+			if (!$this->Estate->exists()) {
+				$data['error'] = __('Invalid Estate');
+			} else {
+				if ($this->Estate->delete()) {
+					$data['content'] = __('Estate deleted');
+				} else {
+					$data['error'] = __('Estate was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->Estate->id = $id;
+			if (!$this->Estate->exists()) {
+				throw new NotFoundException(__('Invalid Estate'));
+			}
+			if ($this->Estate->delete()) {
+				$this->Session->setFlash(__('Estate deleted'), 'metrobox/flash_success');
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Estate was not deleted', 'metrobox/flash_danger'));
+			return $this->redirect(array('action' => 'index'));
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Estate->delete()) {
-			$this->Session->setFlash(__('The estate has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The estate could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
 	}
 
 /**

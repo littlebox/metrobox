@@ -20,19 +20,20 @@ var EstatesIndexTable = function () {
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
 			"aoColumns": [
+				{mData:"Estate.city"},
+				{mData:"Type.name"},
+				{mData:"Subtype.name"},
 				{mData:"Estate.street_name"},
 				{mData:"Estate.street_number"},
-				{mData:"Estate.province"},
-				{mData:"Type.name"},
 				{mData:"Estate.id"},
 			],
 			"fnCreatedRow": function(nRow, aData, iDataIndex){ //callback function after create a row for add action buttons en column 3
-				$('td:eq(4)', nRow).html('<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.estateDeleterUrl+"/"+aData.Estate.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.estateDeleteText+'</button> <a class="btn btn-sm blue" href="'+LocalVar.estateEditUrl+"/"+aData.Estate.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.estateEditText+'</a> <a class="btn btn-sm green" href="'+LocalVar.estateViewrUrl+"/"+aData.Estate.id+'" ><i class="fa fa-file"></i> '+LocalVar.estateViewText+'</a>');
+				$('td:eq(5)', nRow).html('<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.estateDeleterUrl+"/"+aData.Estate.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.estateDeleteText+'</button> <a class="btn btn-sm blue" href="'+LocalVar.estateEditUrl+"/"+aData.Estate.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.estateEditText+'</a> <a class="btn btn-sm green" href="'+LocalVar.estateViewrUrl+"/"+aData.Estate.id+'" ><i class="fa fa-file"></i> '+LocalVar.estateViewText+'</a>');
 			}
 		});
 
 		//Sort the table afer load [TODO do it after first load! it bring data twice]
-		table.fnSort([[2, 'des']]);
+		// table.fnSort([[2, 'des']]);
 
 		var tableWrapper = jQuery('#estates_table_old_wrapper');
 

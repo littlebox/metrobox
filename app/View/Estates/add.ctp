@@ -76,7 +76,15 @@
 									<span class="number">
 									4 </span>
 									<span class="desc">
-									<i class="fa fa-check"></i> Detalles Publicación </span>
+									<i class="fa fa-check"></i> Fotos </span>
+									</a>
+								</li>
+								<li>
+									<a href="#tab5" data-toggle="tab" class="step">
+									<span class="number">
+									5 </span>
+									<span class="desc">
+									<i class="fa fa-check"></i> Descripción </span>
 									</a>
 								</li>
 							</ul>
@@ -524,6 +532,13 @@
 								<div class="tab-pane" id="tab4">
 									<h3 class="form-section">Fotos de la Propiedad</h3>
 									<div class="dropzone" id="imagesDropzone"></div>
+									<div id="hiddenImagesInputs"></div>
+
+								</div>
+
+								<div class="tab-pane" id="tab5">
+									<h3 class="form-section">Descripción de la Propiedad</h3>
+									<textarea class="form-control" rows="15" name="data[Estate][description]"></textarea>
 
 								</div>
 
@@ -586,13 +601,14 @@
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('form-wizard');?>
 	<?= $this->Html->script('maps-google');?>
 	<?= $this->Html->script('estates-add');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
 	<script>
+		counter = 0;
+		imagesIdArray = []; //This array will contain all IDs of images to asociate with the estate
 		Dropzone.autoDiscover = false; //Prevent auto init dropzone
 		estateAddImageUrl = '<?= $this->Html->Url(array("action" => "add_image"));?>';
 
@@ -679,7 +695,6 @@
 
 
 		jQuery(document).ready(function() {
-			FormWizard.init();
 			MapsGoogle.init();
 			EstateAdd.init();
 		});

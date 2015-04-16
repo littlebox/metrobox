@@ -43,10 +43,11 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="estates_table">
 			<thead>
-				<th><?= __('id') ?></th>
-				<th><?= __('street_number') ?></th>
-				<th><?= __('street_name') ?></th>
-				<th><?= __('type') ?></th>
+				<th><?= __('City') ?></th>
+				<th><?= __('Type') ?></th>
+				<th><?= __('Sub Type') ?></th>
+				<th><?= __('Street') ?></th>
+				<th><?= __('Number') ?></th>
 				<th><?= __('Actions') ?></th>
 			</thead>
 			<tbody>
@@ -77,8 +78,8 @@
 		LocalVar.dataTable = '';
 		LocalVar.deleting = false;
 		LocalVar.ajaxSource = ('<?= $this->Html->url(array('controller'=>'estates', 'action' => 'index', 'ext' => 'json')) ?>');
-		LocalVar.estateEditUrl = ('<?= $this->Html->url(array('controller'=>'estates', 'action' => 'edit', 'admin' => true)) ?>');
-		LocalVar.estateDeleterUrl = ('<?= $this->Html->url(array('controller'=>'estates', 'action' => 'delete', 'admin' => true)) ?>');
+		LocalVar.estateEditUrl = ('<?= $this->Html->url(array('controller'=>'estates', 'action' => 'edit')) ?>');
+		LocalVar.estateDeleterUrl = ('<?= $this->Html->url(array('controller'=>'estates', 'action' => 'delete')) ?>');
 		LocalVar.estateViewrUrl = ('<?= $this->Html->url(array('controller'=>'estates', 'action' => 'view')) ?>');
 		LocalVar.estateEditText = ('<?= __("Edit") ?>');
 		LocalVar.estateDeleteText = ('<?= __("Delete") ?>');
