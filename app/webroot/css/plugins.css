@@ -1,5 +1,5 @@
 /******************************
- 3RD PARTY PLUGIN CUSTOMIZATION 
+ 3RD PARTY PLUGIN CUSTOMIZATION
 ******************************/
 /***
 Bootstrap Colorpicker
@@ -26,7 +26,7 @@ Bootstrap Colorpicker
 Bootstrap Datepaginator
 ***/
 .datepaginator a {
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 13px;
   font-weight: 300;
 }
@@ -85,12 +85,12 @@ Bootstrap Datepicker
 .datepicker table td {
   color: #000;
   font-weight: 300  !important;
-  font-family: 'Open Sans' !important;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 .datepicker table th {
   color: #333;
-  font-family: 'Open Sans' !important;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
   font-weight: 400  !important;
 }
 
@@ -173,11 +173,11 @@ Bootstrap  Datetimepicker
 .datetimepicker table td {
   color: #000;
   font-weight: 300  !important;
-  font-family: 'Open Sans' !important;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
 }
 
 .datetimepicker table th {
-  font-family: 'Open Sans' !important;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
   font-weight: 400  !important;
 }
 
@@ -349,7 +349,7 @@ Bootstrap Select
 
 .bootstrap-select.btn-group .dropdown-menu > li > dt > .text {
   font-weight: 600;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 14px;
 }
 
@@ -382,7 +382,7 @@ Bootstrap Select
 }
 
 /***
-Bootstrap Switch 
+Bootstrap Switch
 ***/
 .bootstrap-switch {
   border-color: #e5e5e5;
@@ -1185,7 +1185,8 @@ Fullcalendar
 }
 .portlet.calendar .fc-toolbar h2 {
   margin-top: 3px;
-  font-size: 17px;
+  font-size: 23px;
+  text-transform: uppercase;
 }
 .portlet.calendar .fc-header {
   margin-bottom: -21px;
@@ -1374,7 +1375,7 @@ Gritter notification modify
 }
 
 .gritter-title {
-  font-family: "Open Sans";
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 18px;
   font-weight: 300;
 }
@@ -2187,13 +2188,13 @@ Morris Charts
   font-weight: 400;
   font-size: 15px;
   color: #7D8C9D;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif, sans-serif;
 }
 .morris-hover.morris-default-style .morris-hover-point {
   text-align: left;
   font-size: 14px;
   font-weight: 400;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif, sans-serif;
 }
 
 /***

@@ -54,10 +54,10 @@ class UsersController extends AppController {
 
 	public function admin_index(){
 		$this->layout = 'metrobox';
-		$this->User->recursive = 0;
 
 		$this->paginate = array(
 			'fields' => array('User.full_name','User.email', 'User.created', 'User.id'),
+			'contain' => false
 		);
 
 		$this->DataTable->mDataProp = true;
@@ -103,9 +103,7 @@ class UsersController extends AppController {
 
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Session->setFlash(
-				__('The user could not be saved. Please, try again.', 'metrobox/flash_danger')
-			);
+			$this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'metrobox/flash_danger');
 		}
 		//To show Grupos in view
 		$groups = $this->User->Group->find('list');
@@ -222,9 +220,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('The user has been saved'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Session->setFlash(
-				__('The user could not be saved. Please, try again.', 'metrobox/flash_danger')
-			);
+			$this->Session->setFlash(__('The user could not be saved. Please, try again.'), 'metrobox/flash_danger');
 		} else {
 			$this->request->data = $this->User->read(null, $id);
 			unset($this->request->data['User']['password']); //To don't show password on edit
@@ -272,7 +268,7 @@ class UsersController extends AppController {
 				$this->Session->setFlash(__('User deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
-			$this->Session->setFlash(__('User was not deleted', 'metrobox/flash_danger'));
+			$this->Session->setFlash(__('User was not deleted'), 'metrobox/flash_danger');
 			return $this->redirect(array('action' => 'index'));
 		}
 

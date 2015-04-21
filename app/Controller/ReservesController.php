@@ -13,8 +13,22 @@ class ReservesController extends AppController {
 
 	public function index() {
 		$this->layout = 'metrobox';
-		$this->Reserve->recursive = 0;
-		$this->set('reserves', $this->Paginator->paginate());
+		if (empty($this->Auth->user('winery_id'))) {
+			throw new NotFoundException(__('Missed Winery ID in Argument'));
+		}
+		$wineryId = $this->Auth->user('winery_id');
+		$this->loadModel('Winery', 'Language');
+		if (!$this->Winery->exists($wineryId)) {
+			throw new NotFoundException(__('Invalid Winery'));
+		}
+		$this->Winery->id = $wineryId;
+		//To show Winery's Tours in view
+		$tours = $this->Winery->Tour->find('list', array('contain' => false, 'conditions' => array('winery_id' => $wineryId)));
+		$this->set('tours', $tours);
+		//To use Tour's Lnaguajes and Reserves in view
+		$toursData = $this->Winery->Tour->find('all', array('contain' => array('Language', 'Reserve'), 'conditions' => array('winery_id' => $wineryId)));
+		$this->set('toursData', $toursData);
+		// debug($toursData);die();
 	}
 
 	public function admin_index() {
@@ -31,7 +45,7 @@ class ReservesController extends AppController {
 		$this->set('reserve', $this->Reserve->find('first', $options));
 	}
 
-	public function add() {
+	public function add() { //The id is for winery
 		if ($this->request->is('post')) {
 			$this->Reserve->create();
 			if ($this->Reserve->save($this->request->data)) {
@@ -41,6 +55,7 @@ class ReservesController extends AppController {
 				$this->Session->setFlash(__('The reserve could not be saved. Please, try again.'));
 			}
 		}
+		//To show winerie's tours
 		$tours = $this->Reserve->Tour->find('list');
 		$this->set(compact('tours'));
 	}

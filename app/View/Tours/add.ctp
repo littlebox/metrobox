@@ -3,12 +3,12 @@
 		<div class="caption">
 			<i class="icon-plus font-blue-hoki"></i>
 			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Add')?></span>
-			<span class="caption-helper"><?= __('Wineries')?></span>
+			<span class="caption-helper"><?= __('Tours')?></span>
 		</div>
 	</div>
 	<div class="portlet-body form">
 		<!-- BEGIN FORM-->
-		<?php echo $this->Form->create('Winery', array(
+		<?php echo $this->Form->create('Tour', array(
 			'enctype' => 'multipart/form-data',
 			'inputDefaults' => array(
 				'format' => array('before','label','between','input','error','after'),
@@ -28,12 +28,21 @@
 					))
 			),
 			'class' => 'form-horizontal form-bordered form-row-stripped',
-			'id' => 'winery-form',
+			'id' => 'tour-add-form',
 		)); ?>
 			<div class="form-body">
 
 				<?php
 					echo $this->Form->input('name');
+					echo $this->Form->input('lenght');
+					echo $this->Form->input('quota');
+					echo $this->Form->input('price');
+					echo $this->Form->input('Language', array('multiple' => 'checkbox', 'class' => ''));
+					echo $this->Form->input('Day', array('multiple' => 'checkbox', 'class' => ''));
+					echo $this->Form->input('description');
+					//Languages
+					//Days
+					//Times
 				?>
 
 			</div>
@@ -80,10 +89,10 @@
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('wineries-admin-add-edit.js');?>
+	<?= $this->Html->script('tours-add-edit.js');?>
 	<script>
 		jQuery(document).ready(function() {
-			WineryAdminAddEdit.init();
+			TourAdminAddEdit.init();
 		});
 	</script>
 <?php $this->end(); ?>

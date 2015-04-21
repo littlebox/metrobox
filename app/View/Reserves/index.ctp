@@ -9,21 +9,43 @@
 		<div class="row">
 			<div class="col-md-3 col-sm-12">
 				<!-- BEGIN DRAGGABLE EVENTS PORTLET-->
-				<h3 class="event-form-title"><?= __('New Reserve') ?></h3>
+				<h3 class="form-section" style="margin-top:3px;"><?= __('New Reserve') ?></h3>
 				<div id="external-events">
-					<form class="inline-form">
-						<input type="text" value="" class="form-control" placeholder="Tour" id="event_title"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Fecha"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Hora"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Cantidad"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Nombre"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Mail"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Teléfono"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Edad"/><br/>
-						<input type="text" value="" class="form-control" placeholder="Origen"/><br/>
+					<?php echo $this->Form->create('Reserve', array(
+						'enctype' => 'multipart/form-data',
+						'inputDefaults' => array(
+							'format' => array('before','label','between','input','error','after'),
+							'autocomplete' => 'off',
+							'div' => array(
+								'class' => 'form-group',
+							),
+							'label' => array(
+								'class' => 'control-label'
+							),
+							'class' => 'form-control',
+							'error' => array('attributes' => array(
+								'class' => 'help-block',
+								'wrap' => 'span',
+								))
+						),
+						'class' => 'inline-form',
+						'id' => 'reserve-add-form',
+					)); ?>
+						<?php
+							echo $this->Form->input('tour_id', array('id' => 'tour-selector', 'empty' => __('Select a tour...')));
+							echo $this->Form->input('language_id', array('id' => 'language-selector', 'empty' => __('Select a tour first')));
+							echo $this->Form->input('date', array('type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
+							echo $this->Form->input('time', array('type' => 'text', 'class' => 'timepicker timepicker-24 form-control', 'placeholder' => '--:--'));
+							echo $this->Form->input('Client.name');
+							echo $this->Form->input('Client.age');
+							echo $this->Form->input('quantity');
+							echo $this->Form->input('Client.country');
+							echo $this->Form->input('Client.email');
+							echo $this->Form->input('Client.phone');
+						?>
 						<a href="javascript:;" id="event_add" class="btn default">
 						<?= __('Add') ?></a>
-					</form>
+					<?php echo $this->Form->end(); ?>
 					<hr/>
 					<div id="event_box">
 					</div>
@@ -44,22 +66,32 @@
 	<?= $this->Html->css('/plugins/select2/select2');?>
 	<?= $this->Html->css('/plugins/fullcalendar/fullcalendar.min');?>
 	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
+	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
+	<?= $this->Html->css('/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min');?>
+	<?= $this->Html->css('/plugins/bootstrap-datepicker/css/datepicker3');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
+	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
+	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
+	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
 	<?= $this->Html->script('/plugins/select2/select2.min');?>
 	<?= $this->Html->script('/plugins/moment.min');?>
 	<?= $this->Html->script('/plugins/fullcalendar/fullcalendar.min');?>
-	<?= $this->Html->script('/plugins/datatables/media/js/jquery.dataTables.min');?>
-	<?= $this->Html->script('/plugins/datatables/plugins/bootstrap/dataTables.bootstrap');?>
+	<?= $this->Html->script('/plugins/fullcalendar/lang/es');?>
 	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
+	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/bootstrap-datepicker');?>
+	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es');?>
+	<?= $this->Html->script('/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('reserves-calendar');?>
+	<?= $this->Html->script('reserves');?>
 	<script>
+		var toursData = <?= json_encode($toursData) ?>;
+
 		jQuery(document).ready(function() {
-			Calendar.init();
+			reserves.init();
 		});
 
 	</script>

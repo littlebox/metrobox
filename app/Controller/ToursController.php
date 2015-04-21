@@ -13,7 +13,7 @@ class ToursController extends AppController {
  *
  * @var array
  */
-	public $components = array('Paginator');
+	public $components = array('Paginator', 'DataTable');
 
 /**
  * index method
@@ -21,8 +21,16 @@ class ToursController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->Tour->recursive = 0;
-		$this->set('tours', $this->Paginator->paginate());
+		$this->layout = 'metrobox';
+
+		$this->paginate = array(
+			'fields' => array('Tour.name','Tour.price', 'Tour.quota', 'Tour.length', 'Tour.id'),
+			'contain' => false
+		);
+
+		$this->DataTable->mDataProp = true;
+		$this->set('response', $this->DataTable->getResponse());
+		$this->set('_serialize','response');
 	}
 
 /**
@@ -46,19 +54,25 @@ class ToursController extends AppController {
  * @return void
  */
 	public function add() {
+		$this->layout = 'metrobox';
+
 		if ($this->request->is('post')) {
 			$this->Tour->create();
 			if ($this->Tour->save($this->request->data)) {
-				$this->Session->setFlash(__('The tour has been saved.'));
+				$this->Session->setFlash(__('The tour has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The tour could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The tour could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		}
+		//To show wineries, days and languages avaiables in view
 		$wineries = $this->Tour->Winery->find('list');
 		$days = $this->Tour->Day->find('list');
 		$languages = $this->Tour->Language->find('list');
 		$this->set(compact('wineries', 'days', 'languages'));
+
+
+
 	}
 
 /**
@@ -97,16 +111,42 @@ class ToursController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->Tour->id = $id;
-		if (!$this->Tour->exists()) {
-			throw new NotFoundException(__('Invalid tour'));
+		$this->request->allowMethod('post');
+
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//$this->autoRender = $this->layout = false;
+
+			$this->Tour->id = $id;
+			if (!$this->Tour->exists()) {
+				$data['error'] = __('Invalid Tour');
+			} else {
+				if ($this->Tour->delete()) {
+					$data['content'] = __('Tour deleted');
+				} else {
+					$data['error'] = __('Tour was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->Tour->id = $id;
+			if (!$this->Tour->exists()) {
+				throw new NotFoundException(__('Invalid Tour'));
+			}
+			if ($this->Tour->delete()) {
+				$this->Session->setFlash(__('Tour deleted'), 'metrobox/flash_success');
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Tour was not deleted', 'metrobox/flash_danger'));
+			return $this->redirect(array('action' => 'index'));
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Tour->delete()) {
-			$this->Session->setFlash(__('The tour has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The tour could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
 	}
 }

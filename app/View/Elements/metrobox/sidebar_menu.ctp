@@ -14,12 +14,17 @@
 				array(
 					'title'=>'Inicio',
 					'href' =>array('controller'=>'pages','action'=>'index'),
-					'icon'=>'screen-desktop'
+					'icon'=>'home'
 					),
 				array(
 					'title'=>'Reservas',
 					'href'=> array('controller'=>'reserves','action'=>'index'),
 					'icon'=>'book-open',
+					),
+				array(
+					'title'=>'Tours',
+					'href'=> array('controller'=>'tours','action'=>'index'),
+					'icon'=>'direction',
 					),
 				array(
 					'title'=>'Estadisticas',

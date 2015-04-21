@@ -21,3 +21,8 @@ Rounded Portlets
 .login-form .recaptcha {
 	margin-bottom: 15px;
 }
+
+.checkbox .checker input[type=checkbox] {
+	position: inherit;
+	margin: 0;
+}
