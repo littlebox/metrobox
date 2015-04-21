@@ -23,11 +23,11 @@ class Time extends AppModel {
  * @var array
  */
 	public $hasAndBelongsToMany = array(
-		'ToursDay' => array(
-			'className' => 'ToursDay',
-			'joinTable' => 'tours_days_times',
+		'Tour' => array(
+			'className' => 'Tour',
+			'joinTable' => 'tours_times',
 			'foreignKey' => 'time_id',
-			'associationForeignKey' => 'tours_day_id',
+			'associationForeignKey' => 'tour_id',
 			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',

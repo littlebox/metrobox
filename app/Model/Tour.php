@@ -126,19 +126,6 @@ class Tour extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
-		),
-		'ToursDay' => array(
-			'className' => 'ToursDay',
-			'foreignKey' => 'tour_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
 		)
 	);
 
@@ -154,6 +141,19 @@ class Tour extends AppModel {
 			'joinTable' => 'tours_days',
 			'foreignKey' => 'tour_id',
 			'associationForeignKey' => 'day_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+		),
+		'Time' => array(
+			'className' => 'Time',
+			'joinTable' => 'tours_times',
+			'foreignKey' => 'tour_id',
+			'associationForeignKey' => 'time_id',
 			'unique' => 'keepExisting',
 			'conditions' => '',
 			'fields' => '',
