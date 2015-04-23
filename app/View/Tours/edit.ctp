@@ -44,7 +44,7 @@
 						<label for="TimeTime" class="control-label col-md-3">Time</label>
 						<div class="col-md-9">
 							<div id="all-timepickers-div">
-								<div class="timepicker-div">
+								<div class="timepicker-div" style="display:none;">
 									<div class="col-md-10" style="padding:0px;">
 										<input name="data[Time][Time][]" autocomplete="off" class="timepicker timepicker-time form-control" placeholder="--:--" style="margin-bottom:10px;" type="text" id="TimeTime">
 									</div>
@@ -52,6 +52,16 @@
 										<button type="button" class="btn red remove-time-button"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
 									</div>
 								</div>
+								<?php foreach($this->request->data['Time'] as $time):?>
+									<div class="timepicker-div">
+										<div class="col-md-10" style="padding:0px;">
+											<input name="data[Time][Time][]" autocomplete="off" class="timepicker timepicker-time form-control" placeholder="--:--" style="margin-bottom:10px;" type="text" id="TimeTime" value="<?= $time['hour'];?>">
+										</div>
+										<div class="col-md-2">
+											<button type="button" class="btn red remove-time-button"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
+										</div>
+									</div>
+								<?php endforeach;?>
 							</div>
 							<div class="col-md-12" style="padding:0px;">
 								<button type="button" class="btn green" id="add-time-button"><?= __('Add Time') ?> <i class="fa fa-plus"></i></button>

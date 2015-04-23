@@ -43,7 +43,7 @@ Like: www.facebook.com/littlefacebox
 	<!-- BEGIN PAGE LEVEL STYLES -->
 	<?php echo $this->fetch('pageStyles'); ?>
 	<!-- END PAGE LEVEL STYLES -->
-	<link rel="shortcut icon" href="favicon.ico"/>
+	<link rel="shortcut icon" href="/favicon.ico"/>
 </head>
 <!-- END HEAD -->
 

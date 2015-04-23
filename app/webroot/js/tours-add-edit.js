@@ -1,8 +1,8 @@
-var TourAdminAddEdit = {
+var TourAddEdit = {
 
 	//Validations
 	validateTour: function(){
-		var thisForm = $('#tour-form');
+		var thisForm = $('#tour-add-edit-form');
 
 		thisForm.validate({
 			errorElement: 'span', //default input error message container
@@ -10,6 +10,21 @@ var TourAdminAddEdit = {
 			focusInvalid: false, // do not focus the last invalid input
 			rules: {
 				'data[Tour][name]': {
+					required: true
+				},
+				'data[Tour][lenght]': {
+					required: true
+				},
+				'data[Tour][quota]': {
+					required: true
+				},
+				'data[Tour][price]': {
+					required: true
+				},
+				'data[Time][Time][]': {
+					required: true
+				},
+				'data[Tour][description]': {
 					required: true
 				}
 			},
@@ -29,11 +44,8 @@ var TourAdminAddEdit = {
 			},
 
 			errorPlacement: function(error, element) {
-				if (element.attr('id') == 'profile_picture') {
-					error.insertAfter('.fileinput.fileinput-exists');
-				} else {
-					error.insertAfter(element);
-				}
+				error.insertAfter(element); // for other inputs, just perform default behavior
+
 			},
 
 			submitHandler: function(form) {
@@ -52,9 +64,61 @@ var TourAdminAddEdit = {
 		});
 	},
 
+	handleTimePickers: function () {
+
+		if (jQuery().timepicker) {
+
+			$('.timepicker-length').timepicker({
+				autoclose: true,
+				minuteStep: 15,
+				showSeconds: false,
+				showMeridian: false,
+				defaultTime: '01:30'
+			});
+
+			$('.timepicker-time').timepicker({
+				autoclose: true,
+				minuteStep: 15,
+				showSeconds: false,
+				showMeridian: false,
+				defaultTime: '09:00'
+			});
+
+			// handle input group button click
+			$('.timepicker').parent('.input-group').on('click', '.input-group-btn', function(e){
+				e.preventDefault();
+				$(this).parent('.input-group').find('.timepicker').timepicker('showWidget');
+			});
+
+			// Hide widgew on lost focus
+			// $('.timepicker').on('blur', function(e){
+			// 	e.preventDefault();
+			// 	$(this).timepicker('hideWidget');
+			// });
+
+		}
+	},
+
+	addTime: function() {
+		timePickerDiv = $('#all-timepickers-div').children().first().clone(true).removeAttr('style').wrap('<div/>').parent().html();
+		$('#add-time-button').on('click', function(){
+			$('#all-timepickers-div').append(timePickerDiv);
+			TourAddEdit.handleTimePickers();
+		})
+	},
+
+	removeTime: function() {
+		$('#all-timepickers-div').on('click', '.remove-time-button', function(){
+			$(this).closest('.timepicker-div').remove();
+		})
+	},
+
 
 	init: function (){
-		TourAdminAddEdit.validateTour();
+		TourAddEdit.handleTimePickers();
+		TourAddEdit.validateTour();
+		TourAddEdit.addTime();
+		TourAddEdit.removeTime();
 	}
 
 }

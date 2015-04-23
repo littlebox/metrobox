@@ -58,18 +58,59 @@ class ToursController extends AppController {
 
 		if ($this->request->is('post')) {
 			$this->Tour->create();
-			if ($this->Tour->save($this->request->data)) {
+
+			//Set the winery of user logged in
+			$this->request->data['Tour']['winery_id'] = $this->Auth->user('winery_id');
+
+			debug($this->request->data);
+
+			//Make length field "hh:mm:ss formated" to save in DB
+			list($h, $m) = split(':', $this->request->data['Tour']['length']);
+			//Add leading 0 at one digit numbers
+			$h = sprintf("%02d", $h);
+			$m = sprintf("%02d", $m);
+			$s = '00';
+			$this->request->data['Tour']['length'] = implode(':', array($h, $m, $s));
+
+
+			foreach ($this->request->data['Time']['Time'] as $key => $time) {
+				//Clean the empty times
+				if(empty($time)){
+					unset($this->request->data['Time']['Time'][$key]);
+				}else{
+					//Round time to nearest quarter hour (to match with someone in DB)
+					list($h, $m) = split(':', $time);
+					$h = $m > 52 ? ($h == 23 ? 0 : ++$h) : $h;
+					$m = (intval(($m + 7.5)/15) * 15) % 60;
+					//Add leading 0 at one digit numbers
+					$h = sprintf("%02d", $h);
+					$m = sprintf("%02d", $m);
+					$time = implode(':', array($h, $m));
+
+					//Search in DB for the ID of these time
+					$timeId = $this->Tour->Time->find('first', array('contain' => false, 'fields' => array('id'), 'conditions' => array('hour' => $time)));
+
+					$this->request->data['Time']['Time'][$key] = $timeId['Time']['id'];
+				}
+
+			}
+
+			//debug($this->request->data);die();
+
+			if ($this->Tour->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The tour has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The tour could not be saved. Please, try again.'), 'metrobox/flash_danger');
+				//debug($this->Tour->validationErrors); die();
 			}
 		}
 		//To show wineries, days and languages avaiables in view
 		$wineries = $this->Tour->Winery->find('list');
 		$days = $this->Tour->Day->find('list');
 		$languages = $this->Tour->Language->find('list');
-		$this->set(compact('wineries', 'days', 'languages'));
+		$times = $this->Tour->Time->find('list');
+		$this->set(compact('wineries', 'days', 'languages', 'times'));
 
 
 
@@ -83,20 +124,56 @@ class ToursController extends AppController {
  * @return void
  */
 	public function edit($id = null) {
+		$this->layout = 'metrobox';
 		if (!$this->Tour->exists($id)) {
 			throw new NotFoundException(__('Invalid tour'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Tour->save($this->request->data)) {
-				$this->Session->setFlash(__('The tour has been saved.'));
+
+			$this->request->data['Tour']['id'] = $id;
+
+			//Make length field "hh:mm:ss formated" to save in DB
+			list($h, $m) = split(':', $this->request->data['Tour']['length']);
+			//Add leading 0 at one digit numbers
+			$h = sprintf("%02d", $h);
+			$m = sprintf("%02d", $m);
+			$s = '00';
+			$this->request->data['Tour']['length'] = implode(':', array($h, $m, $s));
+
+
+			foreach ($this->request->data['Time']['Time'] as $key => $time) {
+				//Clean the empty times
+				if(empty($time)){
+					unset($this->request->data['Time']['Time'][$key]);
+				}else{
+					//Round time to nearest quarter hour (to match with someone in DB)
+					list($h, $m) = split(':', $time);
+					$h = $m > 52 ? ($h == 23 ? 0 : ++$h) : $h;
+					$m = (intval(($m + 7.5)/15) * 15) % 60;
+					//Add leading 0 at one digit numbers
+					$h = sprintf("%02d", $h);
+					$m = sprintf("%02d", $m);
+					$time = implode(':', array($h, $m));
+
+					//Search in DB for the ID of these time
+					$timeId = $this->Tour->Time->find('first', array('contain' => false, 'fields' => array('id'), 'conditions' => array('hour' => $time)));
+
+					$this->request->data['Time']['Time'][$key] = $timeId['Time']['id'];
+				}
+
+			}
+
+			if ($this->Tour->saveAssociated($this->request->data)) {
+				$this->Session->setFlash(__('The tour has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The tour could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The tour could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		} else {
-			$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id));
+			$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id), 'contain' => array('Day', 'Language', 'Time'));
 			$this->request->data = $this->Tour->find('first', $options);
 		}
+		//To show wineries, days and languages avaiables in view
 		$wineries = $this->Tour->Winery->find('list');
 		$days = $this->Tour->Day->find('list');
 		$languages = $this->Tour->Language->find('list');
