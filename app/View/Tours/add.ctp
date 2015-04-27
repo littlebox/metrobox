@@ -3,7 +3,7 @@
 		<div class="caption">
 			<i class="icon-plus font-blue-hoki"></i>
 			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Add')?></span>
-			<span class="caption-helper"><?= __('Tours')?></span>
+			<span class="caption-helper"><?= __('Tour')?></span>
 		</div>
 	</div>
 	<div class="portlet-body form">
@@ -44,6 +44,14 @@
 						<label for="TimeTime" class="control-label col-md-3">Time</label>
 						<div class="col-md-9">
 							<div id="all-timepickers-div">
+								<div class="timepicker-div" style="display:none;">
+									<div class="col-md-10" style="padding:0px;">
+										<input name="data[Time][Time][]" autocomplete="off" class="timepicker timepicker-time form-control" placeholder="--:--" style="margin-bottom:10px;" type="text" id="TimeTime">
+									</div>
+									<div class="col-md-2">
+										<button type="button" class="btn red remove-time-button"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
+									</div>
+								</div>
 								<div class="timepicker-div">
 									<div class="col-md-10" style="padding:0px;">
 										<input name="data[Time][Time][]" autocomplete="off" class="timepicker timepicker-time form-control" placeholder="--:--" style="margin-bottom:10px;" type="text" id="TimeTime">

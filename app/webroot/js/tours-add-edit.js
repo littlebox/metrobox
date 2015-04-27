@@ -101,6 +101,8 @@ var TourAddEdit = {
 
 	addTime: function() {
 		timePickerDiv = $('#all-timepickers-div').children().first().clone(true).removeAttr('style').wrap('<div/>').parent().html();
+		$('#all-timepickers-div').children().first().remove();
+
 		$('#add-time-button').on('click', function(){
 			$('#all-timepickers-div').append(timePickerDiv);
 			TourAddEdit.handleTimePickers();

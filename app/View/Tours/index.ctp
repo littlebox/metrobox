@@ -2,7 +2,7 @@
 <div class="portlet light">
 	<div class="portlet-title">
 		<div class="caption font-blue-hoki">
-			<i class="icon-share font-blue-hoki"></i>
+			<i class="icon-direction font-blue-hoki"></i>
 			<span class="caption-subject bold uppercase"> <?= __('List') ?></span>
 			<span class="caption-helper"><?= __('Tours') ?></span>
 		</div>

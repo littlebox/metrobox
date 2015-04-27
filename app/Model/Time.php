@@ -3,7 +3,7 @@ App::uses('AppModel', 'Model');
 /**
  * Time Model
  *
- * @property ToursDay $ToursDay
+ * @property Tour $Tour
  */
 class Time extends AppModel {
 

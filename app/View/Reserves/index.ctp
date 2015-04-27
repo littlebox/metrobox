@@ -2,7 +2,7 @@
 <div class="portlet box purple-plum calendar">
 	<div class="portlet-title">
 		<div class="caption">
-			<i class="fa fa-gift"></i>Reserves
+			<i class="fa fa-book"></i>Reserves
 		</div>
 	</div>
 	<div class="portlet-body">
@@ -35,7 +35,7 @@
 							echo $this->Form->input('tour_id', array('id' => 'tour-selector', 'empty' => __('Select a tour...')));
 							echo $this->Form->input('language_id', array('id' => 'language-selector', 'empty' => __('Select a tour first')));
 							echo $this->Form->input('date', array('type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
-							echo $this->Form->input('time', array('type' => 'text', 'class' => 'timepicker timepicker-24 form-control', 'placeholder' => '--:--'));
+							echo $this->Form->input('time', array('id' => 'time-selector', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
 							echo $this->Form->input('Client.name');
 							echo $this->Form->input('Client.age');
 							echo $this->Form->input('quantity');
@@ -43,8 +43,8 @@
 							echo $this->Form->input('Client.email');
 							echo $this->Form->input('Client.phone');
 						?>
-						<a href="javascript:;" id="event_add" class="btn default">
-						<?= __('Add') ?></a>
+						<button type="button" id="event_add" class="btn default">
+						<?= __('Add') ?></button>
 					<?php echo $this->Form->end(); ?>
 					<hr/>
 					<div id="event_box">

@@ -1,9 +1,9 @@
 <div class="portlet light bordered form-fit">
 	<div class="portlet-title">
 		<div class="caption">
-			<i class="icon-plus font-blue-hoki"></i>
-			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Add')?></span>
-			<span class="caption-helper"><?= __('Tours')?></span>
+			<i class="icon-pencil font-blue-hoki"></i>
+			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Edit')?></span>
+			<span class="caption-helper"><?= __('Tour')?></span>
 		</div>
 	</div>
 	<div class="portlet-body form">

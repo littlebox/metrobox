@@ -26,9 +26,9 @@ class ReservesController extends AppController {
 		$tours = $this->Winery->Tour->find('list', array('contain' => false, 'conditions' => array('winery_id' => $wineryId)));
 		$this->set('tours', $tours);
 		//To use Tour's Lnaguajes and Reserves in view
-		$toursData = $this->Winery->Tour->find('all', array('contain' => array('Language', 'Reserve'), 'conditions' => array('winery_id' => $wineryId)));
+		$toursData = $this->Winery->Tour->find('all', array('contain' => array('Language', 'Reserve', 'Time', 'Day'), 'conditions' => array('winery_id' => $wineryId)));
 		$this->set('toursData', $toursData);
-		// debug($toursData);die();
+		//debug($toursData);die();
 	}
 
 	public function admin_index() {
@@ -45,8 +45,21 @@ class ReservesController extends AppController {
 		$this->set('reserve', $this->Reserve->find('first', $options));
 	}
 
-	public function add() { //The id is for winery
-		if ($this->request->is('post')) {
+	public function add() {
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+
+		//Check if request is post or put
+		if ($this->request->is('post') || $this->request->is('put')) {
+
+			if (!$this->Reserve->Tour->exists($this->request->data['Reserve']['tour_id'])) {
+				throw new NotFoundException(__('Invalid Tour'));
+			}
+
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
 			$this->Reserve->create();
 			if ($this->Reserve->save($this->request->data)) {
 				$this->Session->setFlash(__('The reserve has been saved.'));
@@ -55,9 +68,9 @@ class ReservesController extends AppController {
 				$this->Session->setFlash(__('The reserve could not be saved. Please, try again.'));
 			}
 		}
-		//To show winerie's tours
-		$tours = $this->Reserve->Tour->find('list');
-		$this->set(compact('tours'));
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
 	public function edit($id = null) {
