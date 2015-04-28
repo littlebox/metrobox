@@ -31,6 +31,26 @@ class Reserve extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
+		'client_id' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
+		'language_id' => array(
+			'notEmpty' => array(
+				'rule' => array('notEmpty'),
+				//'message' => 'Your custom message here',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
+			),
+		),
 		'date' => array(
 			'date' => array(
 				'rule' => array('date'),
@@ -101,27 +121,20 @@ class Reserve extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
-		)
-	);
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
+		),
 		'Client' => array(
 			'className' => 'Client',
-			'foreignKey' => 'reserve_id',
-			'dependent' => false,
+			'foreignKey' => 'client_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
+			'order' => ''
+		),
+		'Language' => array(
+			'className' => 'Language',
+			'foreignKey' => 'language_id',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
 		)
 	);
 

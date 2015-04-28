@@ -31,6 +31,9 @@ Like: www.facebook.com/littlefacebox
 		echo $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min');
 	?>
 	<!-- END GLOBAL MANDATORY STYLES -->
+	<!-- BEGIN PAGE LEVEL STYLES -->
+	<?php echo $this->fetch('pageStyles'); ?>
+	<!-- END PAGE LEVEL STYLES -->
 	<!-- BEGIN THEME STYLES -->
 	<?php
 		echo $this->Html->css('components');
@@ -40,9 +43,6 @@ Like: www.facebook.com/littlefacebox
 		echo $this->Html->css('custom');
 	?>
 	<!-- END THEME STYLES -->
-	<!-- BEGIN PAGE LEVEL STYLES -->
-	<?php echo $this->fetch('pageStyles'); ?>
-	<!-- END PAGE LEVEL STYLES -->
 	<link rel="shortcut icon" href="/favicon.ico"/>
 </head>
 <!-- END HEAD -->

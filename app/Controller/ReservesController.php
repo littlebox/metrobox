@@ -60,12 +60,23 @@ class ReservesController extends AppController {
 				'error' => '',
 			);
 
+			//Convert date d/m/Y to Y-m-d format tosave in DB
+			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
+
+			//if the client exist, put the id in the request data array
+			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
+				//WARING!! All Client data will be overwritten!!
+				$this->request->data['Client']['id'] = $client['Client']['id'];
+			}
+
+			//debug($this->request->data);debug($client);die();
 			$this->Reserve->create();
-			if ($this->Reserve->save($this->request->data)) {
-				$this->Session->setFlash(__('The reserve has been saved.'));
-				return $this->redirect(array('action' => 'index'));
+			if ($this->Reserve->saveAssociated($this->request->data)) {
+				$data['content']['title'] = __('Good.');
+				$data['content']['text'] = __('The reserve has been saved.');
 			} else {
-				$this->Session->setFlash(__('The reserve could not be saved. Please, try again.'));
+				debug($this->Reserve->validationErrors); die();
+				$data['error'] = __('The reserve could not be saved. Please, try again.');
 			}
 		}
 
