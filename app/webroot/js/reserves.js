@@ -69,7 +69,6 @@ var reserves = {
 
 		if (jQuery().datepicker) {
 			$('.date-picker').datepicker({
-				rtl: Metrobox.isRTL(),
 				language: 'es',
 				format: 'dd/mm/yyyy',
 				orientation: "left",
@@ -79,7 +78,6 @@ var reserves = {
 			});
 
 			$('.birth-date-picker').datepicker({
-				rtl: Metrobox.isRTL(),
 				startView: 'decade',
 				language: 'es',
 				format: 'dd/mm/yyyy',
@@ -236,14 +234,16 @@ var reserves = {
 			h = {
 				left: 'title, prev, next',
 				center: '',
-				right: 'today,month,agendaWeek,agendaDay'
+				//right: 'today,month,agendaWeek,agendaDay'
+				right: 'today,month,basicWeek,basicDay'
 			};
 		} else {
 			$('#calendar').removeClass("mobile");
 			h = {
 				left: 'title',
 				center: '',
-				right: 'prev,next,today,month,agendaWeek,agendaDay'
+				//right: 'prev,next,today,month,agendaWeek,agendaDay'
+				right: 'prev,next,today,month,basicWeek,basicDay'
 			};
 		}
 
@@ -292,6 +292,7 @@ var reserves = {
 		$('#calendar').fullCalendar('destroy'); // destroy the calendar
 		$('#calendar').fullCalendar({ //re-initialize the calendar
 			header: h,
+			timeFormat: 'H(:mm)', // uppercase H for 24-hour clock //'h(:mm)t' like '7p' is the default
 			defaultView: 'month', // change default view with available options from http://arshaw.com/fullcalendar/docs/views/Available_Views/
 			slotMinutes: 15,
 			editable: true,
@@ -318,48 +319,65 @@ var reserves = {
 					$(this).remove();
 				// }
 			},
-			events: [{
-				title: 'Reserve',
-				start: new Date(y, m, 1, 10, 30),
-				backgroundColor: Metrobox.getBrandColor('yellow'),
-				allDay: false,
+			eventClick: function(reserve, jsEvent, view) {
 
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, d - 5, 10, 30),
-				backgroundColor: Metrobox.getBrandColor('green'),
-				allDay: false,
+				console.log(reserve);
+				//Show Modal Popup and set data
 
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, d - 3, 16, 0),
-				backgroundColor: Metrobox.getBrandColor('red'),
-				allDay: false,
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, d + 4, 16, 0),
-				backgroundColor: Metrobox.getBrandColor('green'),
-				allDay: false,
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, d, 10, 30),
-				allDay: false,
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, d, 12, 0),
-				backgroundColor: Metrobox.getBrandColor('grey'),
-				allDay: false,
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, d + 1, 19, 0),
-				backgroundColor: Metrobox.getBrandColor('purple'),
-				allDay: false,
-			}, {
-				title: 'Reserve',
-				start: new Date(y, m, 28, 17, 30),
-				backgroundColor: Metrobox.getBrandColor('yellow'),
-				allDay: false,
-			}]
+			},
+			eventDrop: function(reserve, delta, revertFunc) {
+				changeReserveDate(reserve, revertFunc);
+
+				// alert(reserve.title + " was dropped on " + reserve.start.format('YYYY-mm-DD HH:mm'));
+				// if (!confirm("Are you sure about this change?")) {
+				//	revertFunc();
+				// }
+
+			},
+			events: getReservesUrl
+
+			// events: [{
+			//	title: 'Reserve',
+			//	start: new Date(y, m, 1, 10, 30),
+			//	backgroundColor: Metrobox.getBrandColor('yellow'),
+			//	allDay: false,
+
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, d - 5, 10, 30),
+			//	backgroundColor: Metrobox.getBrandColor('green'),
+			//	allDay: false,
+
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, d - 3, 16, 0),
+			//	backgroundColor: Metrobox.getBrandColor('red'),
+			//	allDay: false,
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, d + 4, 16, 0),
+			//	backgroundColor: Metrobox.getBrandColor('green'),
+			//	allDay: false,
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, d, 10, 30),
+			//	allDay: false,
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, d, 12, 0),
+			//	backgroundColor: Metrobox.getBrandColor('grey'),
+			//	allDay: false,
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, d + 1, 19, 0),
+			//	backgroundColor: Metrobox.getBrandColor('purple'),
+			//	allDay: false,
+			// }, {
+			//	title: 'Reserve',
+			//	start: new Date(y, m, 28, 17, 30),
+			//	backgroundColor: Metrobox.getBrandColor('yellow'),
+			//	allDay: false,
+			// }]
 		});
 
 	},

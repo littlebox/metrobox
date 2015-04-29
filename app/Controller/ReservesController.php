@@ -85,23 +85,70 @@ class ReservesController extends AppController {
 		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
-	public function edit($id = null) {
-		if (!$this->Reserve->exists($id)) {
+	//Return a JSON encode respons with reserves to show in calendar (http://fullcalendar.io/docs/event_data/events_json_feed/)
+	public function get() {
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+
+		//Bring al IDs of user winery's tour
+		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		//Bring only reserves of those tours
+		$reserves = $this->Reserve->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client')));
+		//debug($reserves);die();
+
+		//Prepare response for fullcalendar
+		$response = [];
+		foreach ($reserves as $reserve) {
+			$arrayToPush = array(
+				'id' => $reserve['Reserve']['id'],
+				'title' => $reserve['Client']['full_name'],
+				'start' => $reserve['Reserve']['date'].' '.$reserve['Reserve']['time'],
+				'quantity' => $reserve['Reserve']['quantity'],
+				'language' => $reserve['Reserve']['language_id'],
+				'clientName' => $reserve['Client']['full_name'],
+			);
+			$response[] = $arrayToPush;
+		}
+
+		$this->set(compact('response')); // Pass $data to the view
+		$this->set('_serialize', 'response'); // Let the JsonView class know what variable to use
+	}
+
+	public function edit() {
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+
+		if (!$this->request->is(array('post', 'put'))) {
+			throw new MethodNotAllowedException(__('Only POST or PUT methods allowed.'));
+		}
+
+		if (!$this->Reserve->exists($this->request->data['Reserve']['id'])) {
 			throw new NotFoundException(__('Invalid reserve'));
 		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Reserve->save($this->request->data)) {
-				$this->Session->setFlash(__('The reserve has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The reserve could not be saved. Please, try again.'));
-			}
+
+
+		$data = array(
+			'content' => '',
+			'error' => '',
+		);
+
+		//Convert date d/m/Y to Y-m-d format tosave in DB
+		$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
+
+		if ($this->Reserve->save($this->request->data)) {
+			$data['content']['title'] = __('Good.');
+			$data['content']['text'] = __('The reserve has been saved.');
 		} else {
-			$options = array('conditions' => array('Reserve.' . $this->Reserve->primaryKey => $id));
-			$this->request->data = $this->Reserve->find('first', $options);
+			$data['error'] = __('The reserve could not be saved. Please, try again.');
 		}
-		$tours = $this->Reserve->Tour->find('list');
-		$this->set(compact('tours'));
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
 	}
 
 	public function delete($id = null) {

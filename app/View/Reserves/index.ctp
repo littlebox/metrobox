@@ -329,6 +329,7 @@
 	<?= $this->Html->script('reserves');?>
 	<script>
 		var toursData = <?= json_encode($toursData) ?>;
+		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
 		var placeHolderCountrySelect = '<?= __("Select a country...");?>';
 
 		function sendReserveAddForm() {
@@ -384,7 +385,7 @@
 		};
 
 		function findClient() {
-			var targeturl = "<?= $this->Html->Url(array('controller' => 'clients', 'action' => 'find')); ?>/"+$('#client-email').val()+".json";
+			var targeturl = "<?= $this->Html->Url(array('controller' => 'clients', 'action' => 'find')); ?>/"+$('#client-email').val();
 			//var formData = $('#client-email').serializeArray();
 
 			$('#client-email-spinner').show();
@@ -403,6 +404,7 @@
 					if (response.content) {
 						$('#client-full-name').val(response.content.Client.full_name);
 						$('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
+						$('#client-birth-date').datepicker('update');
 						//$('#client-country').val(response.content.Client.country);
 						$('#client-country').select2("val", response.content.Client.country);
 						$('#client-phone').val(response.content.Client.phone);
@@ -420,6 +422,57 @@
 				},
 				complete: function(){
 					$('#client-email-spinner').hide();
+				}
+			});
+		};
+
+		function changeReserveDate(reserve, revertFunc) {
+
+			var targeturl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'edit')); ?>";
+			var formData = [
+				{
+					"name": "data[Reserve][id]",
+					"value": reserve.id
+				},
+				{
+					"name": "data[Reserve][date]",
+					"value": reserve.start.format('DD/MM/YYYY')
+				}
+			];
+
+			$.ajax({
+				type: 'put',
+				cache: false,
+				url: targeturl,
+				data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					if (response.content) {
+						console.log(response.content);
+					}
+					if (response.error) {
+						revertFunc();
+						swal({
+							title: 'Error',
+							text: response.error,
+							type: "error",
+							confirmButtonText: "<?= __('Ok') ?>"
+						});
+					}
+				},
+				error: function(e) {
+					revertFunc();
+					swal({
+						title: 'Error',
+						text: 'Ajax Problem',
+						type: "error",
+						confirmButtonText: "<?= __('Ok') ?>"
+					});
+					console.log('Ajax Error: 'e.responseText.message);
 				}
 			});
 		};
