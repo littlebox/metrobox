@@ -284,7 +284,6 @@
 							echo $this->Form->input('Client.phone', array('id' => 'client-phone'));
 						?>
 						<?= $this->Form->button($this->Html->tag('span', __('Add'), array('class' => 'ladda-label')), array('id' => 'reserve-add-submit-button', 'class' => 'btn default ladda-button', 'data-style' => 'zoom-out'));?>
-						<!-- <button type="button" id="event_add" class="btn default"><?= __('Add') ?></button> -->
 					<?php echo $this->Form->end(); ?>
 					<hr/>
 					<div id="event_box">
