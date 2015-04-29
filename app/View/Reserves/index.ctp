@@ -279,16 +279,13 @@
 							echo $this->Form->input('Client.email', array('id' => 'client-email', 'between' => '<div class="input-icon right"><i id="client-email-spinner" class="fa fa-cog fa-spin" style="display:none;transform-origin: 8px 6px;"></i>', 'after' => '</div>'));
 							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name'));
 							echo $this->Form->input('Client.birth_date', array('type' => 'text', 'id' => 'client-birth-date', 'class' => 'birth-date-picker form-control', 'placeholder' => '--/--/----'));
-							echo $this->Form->input('quantity');
+							echo $this->Form->input('number_of_adults');
+							echo $this->Form->input('number_of_minors');
 							echo $this->Form->input('Client.country',array('type' => 'select', 'id' => 'client-country', 'options' => $countryList, 'empty' => ''));
 							echo $this->Form->input('Client.phone', array('id' => 'client-phone'));
 						?>
 						<?= $this->Form->button($this->Html->tag('span', __('Add'), array('class' => 'ladda-label')), array('id' => 'reserve-add-submit-button', 'class' => 'btn default ladda-button', 'data-style' => 'zoom-out'));?>
 					<?php echo $this->Form->end(); ?>
-					<hr/>
-					<div id="event_box">
-					</div>
-					<hr class="visible-xs"/>
 				</div>
 				<!-- END DRAGGABLE EVENTS PORTLET-->
 			</div>
@@ -351,6 +348,7 @@
 				},
 				success: function(response) {
 					if (response.content) {
+						$('#calendar').fullCalendar('refetchEvents'); //Reload reserves in calendar
 						//Show sweetalert
 						swal({
 							title: response.content.title,
@@ -358,7 +356,6 @@
 							type: "success",
 							confirmButtonText: "<?= __('Ok') ?>"
 						});
-						$('#forget-input-email').val(''); //Empty email input
 					}
 					if (response.error) {
 						swal({
@@ -472,7 +469,7 @@
 						type: "error",
 						confirmButtonText: "<?= __('Ok') ?>"
 					});
-					console.log('Ajax Error: 'e.responseText.message);
+					console.log('Ajax Error: '+e.responseText.message);
 				}
 			});
 		};

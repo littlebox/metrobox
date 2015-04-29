@@ -1244,7 +1244,9 @@ Fullcalendar
   text-align: left;
   color: #fff;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 600;
+  margin-right: 3px;
+
 }
 .portlet.calendar .fc-event .fc-title {
   text-align: left;

@@ -104,11 +104,20 @@ class ReservesController extends AppController {
 		//Prepare response for fullcalendar
 		$response = [];
 		foreach ($reserves as $reserve) {
+			//Build the title for show reserve
+			$title = $reserve['Client']['full_name'];
+			$title = $title.' ('.$reserve['Reserve']['number_of_adults'].'a';
+			if($reserve['Reserve']['number_of_minors'] > 0){
+				$title = $title.' '.$reserve['Reserve']['number_of_minors'].'m';
+			}
+			$title = $title.')';
+
 			$arrayToPush = array(
 				'id' => $reserve['Reserve']['id'],
-				'title' => $reserve['Client']['full_name'],
+				'title' => $title,
 				'start' => $reserve['Reserve']['date'].' '.$reserve['Reserve']['time'],
-				'quantity' => $reserve['Reserve']['quantity'],
+				'number_of_adults' => $reserve['Reserve']['number_of_adults'],
+				'number_of_minors' => $reserve['Reserve']['number_of_minors'],
 				'language' => $reserve['Reserve']['language_id'],
 				'clientName' => $reserve['Client']['full_name'],
 			);
