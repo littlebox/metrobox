@@ -77,8 +77,20 @@ var reserves = {
 				autoclose: true,
 				daysOfWeekDisabled: [2],
 			});
+
+			$('.birth-date-picker').datepicker({
+				rtl: Metrobox.isRTL(),
+				startView: 'decade',
+				language: 'es',
+				format: 'dd/mm/yyyy',
+				orientation: "left",
+				weekStart: 1,
+				autoclose: true,
+				daysOfWeekDisabled: [2],
+			});
 			//$('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
 		}
+
 		/* Workaround to restrict daterange past date select: http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker */
 	},
 
@@ -103,7 +115,7 @@ var reserves = {
 	},
 
 	intiSelects2: function(){
-		$("#country_list").select2({
+		$("#client-country").select2({
 			placeholder: placeHolderCountrySelect,
 			allowClear: true,
 			formatResult: format,
@@ -117,6 +129,18 @@ var reserves = {
 			if (!state.id) return state.text; // optgroup
 			return "<img class='flag' src='/img/flags/" + state.id.toLowerCase() + ".png'/>&nbsp;&nbsp;" + state.text;
 		}
+	},
+
+	intiFindCLientListener: function(){
+		timeToWait = 1000;
+
+		timer = null;
+
+		$("#client-email").on('input', function(){
+			clearTimeout(timer);
+			timer = setTimeout(findClient, timeToWait)
+		});
+
 	},
 
 	//Validations
@@ -347,6 +371,7 @@ var reserves = {
 		reserves.handleTimePickers();
 		reserves.validateReserve();
 		reserves.intiSelects2();
+		reserves.intiFindCLientListener();
 
 	}
 

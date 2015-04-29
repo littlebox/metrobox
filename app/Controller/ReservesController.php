@@ -62,6 +62,7 @@ class ReservesController extends AppController {
 
 			//Convert date d/m/Y to Y-m-d format tosave in DB
 			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
+			$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
 
 			//if the client exist, put the id in the request data array
 			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){

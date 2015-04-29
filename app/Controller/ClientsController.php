@@ -25,6 +25,24 @@ class ClientsController extends AppController {
 		$this->set('clients', $this->Paginator->paginate());
 	}
 
+	public function find($email = null) {
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+
+		$data = array(
+			'content' => '',
+			'error' => '',
+		);
+
+		if(!empty($client = $this->Client->find('first', array('conditions' => array('Client.email' => $email), 'contain' => false)))){
+			$data['content'] = $client;
+		}else{
+			$data['error'] = __('No client found with that email.');
+		}
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+	}
+
 /**
  * view method
  *

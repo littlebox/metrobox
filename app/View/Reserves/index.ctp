@@ -254,7 +254,7 @@
 						'enctype' => 'multipart/form-data',
 						'action' => 'add',
 						'inputDefaults' => array(
-							'format' => array('before','label','between','input','error','after'),
+							'format' => array('before','label','between','input','after','error'),
 							'autocomplete' => 'off',
 							'div' => array(
 								'class' => 'form-group',
@@ -276,12 +276,12 @@
 							echo $this->Form->input('language_id', array('id' => 'language-selector', 'empty' => __('Select a tour first')));
 							echo $this->Form->input('date', array('type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
 							echo $this->Form->input('time', array('id' => 'time-selector', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
-							echo $this->Form->input('Client.full_name');
-							echo $this->Form->input('Client.age');
+							echo $this->Form->input('Client.email', array('id' => 'client-email', 'between' => '<div class="input-icon right"><i id="client-email-spinner" class="fa fa-cog fa-spin" style="display:none;transform-origin: 8px 6px;"></i>', 'after' => '</div>'));
+							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name'));
+							echo $this->Form->input('Client.birth_date', array('type' => 'text', 'id' => 'client-birth-date', 'class' => 'birth-date-picker form-control', 'placeholder' => '--/--/----'));
 							echo $this->Form->input('quantity');
-							echo $this->Form->input('Client.country',array('type' => 'select', 'id' => 'country_list', 'options' => $countryList, 'empty' => ''));
-							echo $this->Form->input('Client.email');
-							echo $this->Form->input('Client.phone');
+							echo $this->Form->input('Client.country',array('type' => 'select', 'id' => 'client-country', 'options' => $countryList, 'empty' => ''));
+							echo $this->Form->input('Client.phone', array('id' => 'client-phone'));
 						?>
 						<?= $this->Form->button($this->Html->tag('span', __('Add'), array('class' => 'ladda-label')), array('id' => 'reserve-add-submit-button', 'class' => 'btn default ladda-button', 'data-style' => 'zoom-out'));?>
 						<!-- <button type="button" id="event_add" class="btn default"><?= __('Add') ?></button> -->
@@ -380,6 +380,47 @@
 				},
 				complete: function(){
 					button.ladda( 'stop' ); //Hide loader in button
+				}
+			});
+		};
+
+		function findClient() {
+			var targeturl = "<?= $this->Html->Url(array('controller' => 'clients', 'action' => 'find')); ?>/"+$('#client-email').val()+".json";
+			//var formData = $('#client-email').serializeArray();
+
+			$('#client-email-spinner').show();
+
+			$.ajax({
+				type: 'get',
+				cache: false,
+				url: targeturl,
+				//data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					if (response.content) {
+						$('#client-full-name').val(response.content.Client.full_name);
+						$('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
+						//$('#client-country').val(response.content.Client.country);
+						$('#client-country').select2("val", response.content.Client.country);
+						$('#client-phone').val(response.content.Client.phone);
+					}
+					if (response.error) {
+						$('#client-full-name').val('');
+						$('#client-birth-date').val('');
+						//$('#client-country').val('');
+						$('#client-country').select2("val", '');
+						$('#client-phone').val('');
+					}
+				},
+				error: function(e) {
+					console.log('Ajax error: '+e.responseText.message);
+				},
+				complete: function(){
+					$('#client-email-spinner').hide();
 				}
 			});
 		};
