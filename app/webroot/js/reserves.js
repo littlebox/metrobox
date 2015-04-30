@@ -257,7 +257,7 @@ var reserves = {
 	},
 
 	//Validations
-	validateReserve: function(){
+	validateAddReserve: function(){
 		var thisForm = $('#reserve-add-form');
 
 		thisForm.validate({
@@ -333,6 +333,82 @@ var reserves = {
 		});
 	},
 
+	validateEditReserve: function(){
+		var thisForm = $('#reserve-edit-form');
+
+		thisForm.validate({
+			errorElement: 'span', //default input error message container
+			errorClass: 'help-block', // default input error message class
+			focusInvalid: false, // do not focus the last invalid input
+			rules: {
+				'data[Reserve][tour_id]': {
+					required: true
+				},
+				'data[Reserve][language_id]': {
+					required: true
+				},
+				'data[Reserve][date]': {
+					required: true
+				},
+				'data[Reserve][time]': {
+					required: true
+				},
+				'data[Reserve][number_of_adults]': {
+					required: true
+				},
+				'data[Reserve][number_of_minors]': {
+					required: true
+				},
+				'data[Client][full_name]': {
+					required: true
+				},
+				'data[Client][country]': {
+					required: true
+				},
+				'data[Client][email]': {
+					required: true
+				},
+				'data[Client][phone]': {
+					required: true
+				}
+			},
+
+			invalidHandler: function(event, validator) { //display error alert on form submit
+				//$('.alert-danger', $('.login-form')).show();
+			},
+
+			highlight: function(element) { // hightlight error inputs
+				$(element)
+					.closest('.form-group').addClass('has-error'); // set error class to the control group
+			},
+
+			success: function(label) {
+				label.closest('.form-group').removeClass('has-error');
+				label.remove();
+			},
+
+			errorPlacement: function(error, element) {
+				error.insertAfter(element); // for other inputs, just perform default behavior
+
+			},
+
+			submitHandler: function(form) {
+				sendReserveEditForm();
+				//form.submit();
+			}
+		});
+
+		//Make for submitable by press enter
+		thisForm.find('input').keypress(function(e) {
+			if (e.which == 13) {
+				if (thisForm.validate().form()) {
+					thisForm.submit();
+				}
+				return false;
+			}
+		});
+	},
+
 	initCalendar: function() {
 
 		if (!jQuery().fullCalendar) {
@@ -376,6 +452,7 @@ var reserves = {
 			eventClick: function(reserve, jsEvent, view) {
 				//console.log(reserve);
 				//Set data on reserves details modal popup form
+				$('#id-modal').val(reserve.id);
 				$('#tour-selector-modal').val(reserve.tour);
 				$('#tour-selector-modal').trigger('change');
 				$('#language-selector-modal').val(reserve.language);
@@ -390,7 +467,6 @@ var reserves = {
 				$('#number-of-minors-modal').val(reserve.numberOfMinors);
 				$('#client-country-modal').select2("val", reserve.clientCountry);
 				$('#client-phone-modal').val(reserve.clientPhone);
-				$('#client-id-modal').val(reserve.id);
 
 			},
 			eventDrop: function(reserve, delta, revertFunc) {
@@ -476,7 +552,8 @@ var reserves = {
 		reserves.setSelectsOnAddReserveForm();
 		reserves.handleDatePickers();
 		reserves.handleTimePickers();
-		reserves.validateReserve();
+		reserves.validateAddReserve();
+		reserves.validateEditReserve();
 		reserves.intiSelects2();
 		reserves.intiFindCLientListener();
 

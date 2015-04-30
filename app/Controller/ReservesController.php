@@ -173,18 +173,59 @@ class ReservesController extends AppController {
 			throw new NotFoundException(__('Invalid reserve'));
 		}
 
-
 		$data = array(
 			'content' => '',
+			'reserve' => '',
 			'error' => '',
 		);
 
+		$hasClientData = !empty($this->request->data['Client']);
+
+		//if the client exist, put the id in the request data array
+		if($hasClientData){
+			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
+				//WARING!! All Client data will be overwritten!!
+				$this->request->data['Client']['id'] = $client['Client']['id'];
+			}
+		}
+
 		//Convert date d/m/Y to Y-m-d format tosave in DB
 		$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
+		if($hasClientData){
+			$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
+		}
 
-		if ($this->Reserve->save($this->request->data)) {
+		if ($this->Reserve->saveAssociated($this->request->data)) {
 			$data['content']['title'] = __('Good.');
 			$data['content']['text'] = __('The reserve has been saved.');
+
+			if($hasClientData){
+
+				//Build the title for show reserve
+				$title = '';
+				$title = $title.$this->request->data['Client']['full_name'];
+				$title = $title.' ('.$this->request->data['Reserve']['number_of_adults'].'a';
+				if($this->request->data['Reserve']['number_of_minors'] > 0){
+					$title = $title.' '.$this->request->data['Reserve']['number_of_minors'].'m';
+				}
+				$title = $title.')';
+
+				//Prepare array to show new reserve in view
+				$data['reserve']['id'] = $this->Reserve->id;
+				$data['reserve']['title'] = $title;
+				$data['reserve']['start'] = $this->request->data['Reserve']['date'].' '.$this->request->data['Reserve']['time'];
+				$data['reserve']['tour'] = $this->request->data['Reserve']['tour_id'];
+				$data['reserve']['language'] = $this->request->data['Reserve']['language_id'];
+				$data['reserve']['date'] = $this->request->data['Reserve']['date'];
+				$data['reserve']['time'] = $this->request->data['Reserve']['time'];
+				$data['reserve']['clientEmail'] = $this->request->data['Client']['email'];
+				$data['reserve']['clientName'] = $this->request->data['Client']['full_name'];
+				$data['reserve']['clientBirthDate'] = $this->request->data['Client']['birth_date'];
+				$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
+				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
+				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
+				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+			}
 		} else {
 			$data['error'] = __('The reserve could not be saved. Please, try again.');
 		}

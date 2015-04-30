@@ -310,7 +310,7 @@
 				<div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
 					<?php echo $this->Form->create('Reserve', array(
 						'enctype' => 'multipart/form-data',
-						'action' => 'add',
+						'action' => 'edit',
 						'inputDefaults' => array(
 							'format' => array('before','label','between','input','error','after'),
 							'autocomplete' => 'off',
@@ -343,14 +343,14 @@
 							echo $this->Form->input('language_id', array('id' => 'language-selector-modal', 'empty' => __('Select a tour first')));
 							echo $this->Form->input('date', array('id' => 'date-modal', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
 							echo $this->Form->input('time', array('id' => 'time-selector-modal', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
-							echo $this->Form->hidden('Client.id', array('id' => 'client-id-modal'));
+							echo $this->Form->hidden('id', array('id' => 'id-modal'));
 						?>
 					<?php echo $this->Form->end(); ?>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" data-dismiss="modal" class="btn default">Close</button>
-				<?= $this->Form->button($this->Html->tag('span', __('Save Changes'), array('class' => 'ladda-label')), array('id' => 'reserve-edit-submit-button', 'class' => 'btn green ladda-button', 'data-style' => 'zoom-out'));?>
+				<button type="button" data-dismiss="modal" class="btn default"><?= __('Close') ?></button>
+				<?= $this->Form->button($this->Html->tag('span', __('Save Changes'), array('class' => 'ladda-label')), array('id' => 'reserve-edit-submit-button', 'class' => 'btn green ladda-button', 'data-style' => 'zoom-out', 'form' => 'reserve-edit-form'));?>
 			</div>
 		</div>
 	</div>
@@ -390,7 +390,7 @@
 		var selecTourFirstText = '<?= __("Select a tour first");?>';
 
 		function sendReserveAddForm() {
-			var button = $( '#reserve-add-submit-button' ).ladda();
+			var button = $('#reserve-add-submit-button').ladda();
 			button.ladda( 'start' ); //Show loader in button
 
 			var targeturl = $('#reserve-add-form').attr('action');
@@ -438,6 +438,80 @@
 						//Reset form
 						$('#reserve-add-form')[0].reset();
 						$('#tour-selector').trigger('change');
+
+					}
+					if (response.error) {
+						swal({
+							title: 'Error',
+							text: response.error,
+							type: "error",
+							confirmButtonText: "<?= __('Ok') ?>"
+						});
+					}
+				},
+				error: function(e) {
+					swal({
+						title: 'Error',
+						text: 'Ajax Error',
+						type: "error",
+						confirmButtonText: "<?= __('Ok') ?>"
+					});
+					console.log(e.responseText.message);
+				},
+				complete: function(){
+					button.ladda( 'stop' ); //Hide loader in button
+				}
+			});
+		};
+
+		function sendReserveEditForm() {
+			var button = $('#reserve-edit-submit-button').ladda();
+			button.ladda( 'start' ); //Show loader in button
+
+			var targeturl = $('#reserve-edit-form').attr('action');
+			var formData = $('#reserve-edit-form').serializeArray();
+
+
+
+			$.ajax({
+				type: 'put',
+				cache: false,
+				url: targeturl,
+				data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					if (response.content) {
+						//Ocultar modal
+						$('#reserve-details').modal('hide');
+						//Bring the modified reserve
+						modReserve = $('#calendar').fullCalendar('clientEvents', response.reserve.id)[0];
+						//Update the content
+						modReserve.title = response.reserve.title;
+						modReserve.start = response.reserve.start;
+						modReserve.tour = response.reserve.tour;
+						modReserve.language = response.reserve.language;
+						modReserve.date = response.reserve.date;
+						modReserve.time = response.reserve.time;
+						modReserve.clientEmail = response.reserve.clientEmail;
+						modReserve.clientName = response.reserve.clientName;
+						modReserve.clientBirthDate = response.reserve.clientBirthDate;
+						modReserve.clientCountry = response.reserve.clientCountry;
+						modReserve.clientPhone = response.reserve.clientPhone;
+						modReserve.numberOfAdults = response.reserve.numberOfAdults;
+						modReserve.numberOfMinors = response.reserve.numberOfMinors;
+						//Aply the changes on calendar
+						$('#calendar').fullCalendar('updateEvent', modReserve);
+						//Show sweetalert
+						swal({
+							title: response.content.title,
+							text: response.content.text,
+							type: "success",
+							confirmButtonText: "<?= __('Ok') ?>"
+						});
 
 					}
 					if (response.error) {
