@@ -298,6 +298,65 @@
 </div>
 <!-- END CALENDAR PORTLET-->
 
+<!-- RESERVE DETAILS MODAL -->
+<div id="reserve-details" class="modal fade" tabindex="-1" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+				<h4 class="modal-title"><?= __('Reserve Details') ?></h4>
+			</div>
+			<div class="modal-body form">
+				<div class="scroller" style="height:500px" data-always-visible="1" data-rail-visible1="1">
+					<?php echo $this->Form->create('Reserve', array(
+						'enctype' => 'multipart/form-data',
+						'action' => 'add',
+						'inputDefaults' => array(
+							'format' => array('before','label','between','input','error','after'),
+							'autocomplete' => 'off',
+							'div' => array(
+								'class' => 'form-group',
+							),
+							'label' => array(
+								'class' => 'control-label col-md-3'
+							),
+							'class' => 'form-control',
+							'between' => '<div class="col-md-9">',
+							'after' => '</div>',
+							'error' => array('attributes' => array(
+								'class' => 'help-block',
+								'wrap' => 'span',
+							))
+						),
+						'class' => 'form-horizontal form-bordered form-row-stripped',
+						'id' => 'reserve-edit-form',
+					)); ?>
+						<?php
+							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name-modal'));
+							echo $this->Form->input('Client.country',array('id' => 'client-country-modal', 'type' => 'select', 'options' => $countryList, 'empty' => ''));
+							echo $this->Form->input('number_of_adults', array('id' => 'number-of-adults-modal'));
+							echo $this->Form->input('number_of_minors', array('id' => 'number-of-minors-modal'));
+							echo $this->Form->input('Client.email', array('id' => 'client-email-modal'));
+							echo $this->Form->input('Client.phone', array('id' => 'client-phone-modal'));
+							echo $this->Form->input('Client.birth_date', array('id' => 'client-birth-date-modal','type' => 'text', 'class' => 'birth-date-picker form-control', 'placeholder' => '--/--/----'));
+							echo $this->Form->input('tour_id', array('id' => 'tour-selector-modal', 'empty' => __('Select a tour...')));
+							echo $this->Form->input('language_id', array('id' => 'language-selector-modal', 'empty' => __('Select a tour first')));
+							echo $this->Form->input('date', array('id' => 'date-modal', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
+							echo $this->Form->input('time', array('id' => 'time-selector-modal', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
+							echo $this->Form->hidden('Client.id', array('id' => 'client-id-modal'));
+						?>
+					<?php echo $this->Form->end(); ?>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn default">Close</button>
+				<?= $this->Form->button($this->Html->tag('span', __('Save Changes'), array('class' => 'ladda-label')), array('id' => 'reserve-edit-submit-button', 'class' => 'btn green ladda-button', 'data-style' => 'zoom-out'));?>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- RESERVE DETAILS MODAL -->
+
 <?php $this->append('pageStyles'); ?>
 	<?= $this->Html->css('/plugins/select2/select2');?>
 	<?= $this->Html->css('/plugins/fullcalendar/fullcalendar.min');?>
@@ -328,6 +387,7 @@
 		var toursData = <?= json_encode($toursData) ?>;
 		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
 		var placeHolderCountrySelect = '<?= __("Select a country...");?>';
+		var selecTourFirstText = '<?= __("Select a tour first");?>';
 
 		function sendReserveAddForm() {
 			var button = $( '#reserve-add-submit-button' ).ladda();
@@ -335,6 +395,8 @@
 
 			var targeturl = $('#reserve-add-form').attr('action');
 			var formData = $('#reserve-add-form').serializeArray();
+
+
 
 			$.ajax({
 				type: 'put',
@@ -348,7 +410,24 @@
 				},
 				success: function(response) {
 					if (response.content) {
-						$('#calendar').fullCalendar('refetchEvents'); //Reload reserves in calendar
+						//Prepare an add new reserve to calendar
+						var newReserve = {
+							id: response.reserve.id,
+							title: response.reserve.title,
+							start: response.reserve.start,
+							tour: response.reserve.tour,
+							language: response.reserve.language,
+							date: response.reserve.date,
+							time: response.reserve.time,
+							clientEmail: response.reserve.clientEmail,
+							clientName: response.reserve.clientName,
+							clientBirthDate: response.reserve.clientBirthDate,
+							clientCountry: response.reserve.clientCountry,
+							clientPhone: response.reserve.clientPhone,
+							numberOfAdults: response.reserve.numberOfAdults,
+							numberOfMinors: response.reserve.numberOfMinors,
+						};
+						$('#calendar').fullCalendar('renderEvent', newReserve)
 						//Show sweetalert
 						swal({
 							title: response.content.title,
@@ -356,6 +435,10 @@
 							type: "success",
 							confirmButtonText: "<?= __('Ok') ?>"
 						});
+						//Reset form
+						$('#reserve-add-form')[0].reset();
+						$('#tour-selector').trigger('change');
+
 					}
 					if (response.error) {
 						swal({
@@ -402,14 +485,12 @@
 						$('#client-full-name').val(response.content.Client.full_name);
 						$('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
 						$('#client-birth-date').datepicker('update');
-						//$('#client-country').val(response.content.Client.country);
 						$('#client-country').select2("val", response.content.Client.country);
 						$('#client-phone').val(response.content.Client.phone);
 					}
 					if (response.error) {
 						$('#client-full-name').val('');
 						$('#client-birth-date').val('');
-						//$('#client-country').val('');
 						$('#client-country').select2("val", '');
 						$('#client-phone').val('');
 					}
@@ -449,7 +530,7 @@
 				},
 				success: function(response) {
 					if (response.content) {
-						console.log(response.content);
+						//console.log(response.content);
 					}
 					if (response.error) {
 						revertFunc();

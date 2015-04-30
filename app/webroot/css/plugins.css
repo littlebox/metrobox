@@ -1,3 +1,6 @@
+/*************************************
+ LITTLEBOX TOUCHED FILE! DON'T UPDATE!
+*************************************/
 /******************************
  3RD PARTY PLUGIN CUSTOMIZATION
 ******************************/
@@ -1238,6 +1241,7 @@ Fullcalendar
 }
 .portlet.calendar .fc-event .fc-content {
   border: 0px;
+  white-space: normal;
 }
 .portlet.calendar .fc-event .fc-time {
   float: left;
@@ -1246,7 +1250,9 @@ Fullcalendar
   font-size: 13px;
   font-weight: 600;
   margin-right: 3px;
-
+}
+.portlet.calendar .fc-event .fc-time .flag{
+  margin-bottom: 2px;
 }
 .portlet.calendar .fc-event .fc-title {
   text-align: left;
