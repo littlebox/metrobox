@@ -592,6 +592,9 @@
 				}
 			];
 
+			oiginalDate = reserve.date;
+			reserve.date = reserve.start.format('YYYY-MM-DD');
+
 			$.ajax({
 				type: 'put',
 				cache: false,
@@ -608,6 +611,7 @@
 					}
 					if (response.error) {
 						revertFunc();
+						reserve.date = oiginalDate;
 						swal({
 							title: 'Error',
 							text: response.error,
@@ -618,6 +622,7 @@
 				},
 				error: function(e) {
 					revertFunc();
+					reserve.date = oiginalDate;
 					swal({
 						title: 'Error',
 						text: 'Ajax Problem',
