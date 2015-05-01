@@ -20,6 +20,7 @@ var ToursIndexTable = function () {
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
 			"aoColumns": [
+				{mData:"Tour.color", bSortable: false},
 				{mData:"Tour.name"},
 				{mData:"Tour.price"},
 				{mData:"Tour.quota"},
@@ -31,8 +32,10 @@ var ToursIndexTable = function () {
 				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.tourDeleterUrl+"/"+aData.Tour.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.tourDeleteText+'</button> ';
 				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.tourEditUrl+"/"+aData.Tour.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.tourEditText+'</a> ';
 				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.tourViewrUrl+"/"+aData.Tour.id+'" ><i class="fa fa-file"></i> '+LocalVar.tourViewText+'</a> ';
-				//Set to column 5
-				$('td:eq(4)', nRow).html(htmlContent);
+				//Set to column 6
+				$('td:eq(5)', nRow).html(htmlContent);
+				//Set to column 1
+				$('td:eq(0)', nRow).html(aData.Tour.color);
 			}
 		});
 

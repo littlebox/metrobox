@@ -426,6 +426,8 @@
 							clientPhone: response.reserve.clientPhone,
 							numberOfAdults: response.reserve.numberOfAdults,
 							numberOfMinors: response.reserve.numberOfMinors,
+							backgroundColor: response.reserve.backgroundColor,
+
 						};
 						$('#calendar').fullCalendar('renderEvent', newReserve)
 						//Show sweetalert
@@ -503,6 +505,7 @@
 						modReserve.clientPhone = response.reserve.clientPhone;
 						modReserve.numberOfAdults = response.reserve.numberOfAdults;
 						modReserve.numberOfMinors = response.reserve.numberOfMinors;
+						modReserve.backgroundColor = response.reserve.backgroundColor;
 						//Aply the changes on calendar
 						$('#calendar').fullCalendar('updateEvent', modReserve);
 						//Show sweetalert

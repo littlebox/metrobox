@@ -115,12 +115,38 @@ var TourAddEdit = {
 		})
 	},
 
+	initColorPickers: function () {
+		$("#tour-colorpicker").colorPicker({
+			colors: [
+				'#F44336', '#E91E63', '#9C27B0', '#673AB7', '#3F51B5', '#2196F3',
+				'#03A9F4', '#00BCD4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39',
+				'#FFC107', '#FF9800', '#FF5722', '#795548', '#9E9E9E', '#607D8B'
+			],
+			customcolors: [],
+			itemheight: 30,
+			itemwidth: 30,
+			insertcode: false,
+			rowitem: 6,
+			buttonclose: true,
+			buttonfullscreen: true,
+			fullscreen: false,
+			esc: true,
+			alignment: 'bl',
+			colorformat: 'hex',
+			onSelect: function(ui, color){
+				ui.find('input').val(color);
+				ui.find('button i').css('background-color', color);
+			}
+		});
+	},
+
 
 	init: function (){
 		TourAddEdit.handleTimePickers();
 		TourAddEdit.validateTour();
 		TourAddEdit.addTime();
 		TourAddEdit.removeTime();
+		TourAddEdit.initColorPickers();
 	}
 
 }

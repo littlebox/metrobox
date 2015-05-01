@@ -86,6 +86,9 @@ class ReservesController extends AppController {
 				}
 				$title = $title.')';
 
+				//Bring tour for color
+				$tour = $this->Reserve->Tour->find('first', array('fields' => array('color'), 'conditions' => array('Tour.id' => $this->request->data['Reserve']['tour_id'])));
+
 				//Prepare array to show new reserve in view
 				$data['reserve']['id'] = $this->Reserve->id;
 				$data['reserve']['title'] = $title;
@@ -101,6 +104,7 @@ class ReservesController extends AppController {
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 			} else {
 				debug($this->Reserve->validationErrors); die();
 				$data['error'] = __('The reserve could not be saved. Please, try again.');
@@ -109,57 +113,6 @@ class ReservesController extends AppController {
 
 		$this->set(compact('data')); // Pass $data to the view
 		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
-	}
-
-	//Return a JSON encode respons with reserves to show in calendar (http://fullcalendar.io/docs/event_data/events_json_feed/)
-	public function get() {
-		$this->request->allowMethod('ajax'); //Call only with .json at end on url
-
-		//Bring al IDs of user winery's tour
-		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
-		$toursIds = [];
-
-		foreach ($tours as $tour) {
-			$toursIds[] = $tour['Tour']['id'];
-		}
-
-		//Bring only reserves of those tours
-		$reserves = $this->Reserve->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client')));
-		//debug($reserves);die();
-
-		//Prepare response for fullcalendar
-		$response = [];
-		foreach ($reserves as $reserve) {
-			//Build the title for show reserve
-			$title = '';
-			$title = $title.$reserve['Client']['full_name'];
-			$title = $title.' ('.$reserve['Reserve']['number_of_adults'].'a';
-			if($reserve['Reserve']['number_of_minors'] > 0){
-				$title = $title.' '.$reserve['Reserve']['number_of_minors'].'m';
-			}
-			$title = $title.')';
-
-			$arrayToPush = array(
-				'id' => $reserve['Reserve']['id'],
-				'title' => $title,
-				'start' => $reserve['Reserve']['date'].' '.$reserve['Reserve']['time'],
-				'tour' => $reserve['Reserve']['tour_id'],
-				'language' => $reserve['Reserve']['language_id'],
-				'date' => $reserve['Reserve']['date'],
-				'time' => $reserve['Reserve']['time'],
-				'clientEmail' => $reserve['Client']['email'],
-				'clientName' => $reserve['Client']['full_name'],
-				'clientBirthDate' => $reserve['Client']['birth_date'],
-				'clientCountry' => $reserve['Client']['country'],
-				'clientPhone' => $reserve['Client']['phone'],
-				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
-				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
-			);
-			$response[] = $arrayToPush;
-		}
-
-		$this->set(compact('response')); // Pass $data to the view
-		$this->set('_serialize', 'response'); // Let the JsonView class know what variable to use
 	}
 
 	public function edit() {
@@ -209,6 +162,8 @@ class ReservesController extends AppController {
 					$title = $title.' '.$this->request->data['Reserve']['number_of_minors'].'m';
 				}
 				$title = $title.')';
+				//Bring tour for color
+				$tour = $this->Reserve->Tour->find('first', array('fields' => array('color'), 'conditions' => array('Tour.id' => $this->request->data['Reserve']['tour_id'])));
 
 				//Prepare array to show new reserve in view
 				$data['reserve']['id'] = $this->Reserve->id;
@@ -225,6 +180,8 @@ class ReservesController extends AppController {
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
+
 			}
 		} else {
 			$data['error'] = __('The reserve could not be saved. Please, try again.');
@@ -234,6 +191,60 @@ class ReservesController extends AppController {
 		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 
 	}
+
+	//Return a JSON encode respons with reserves to show in calendar (http://fullcalendar.io/docs/event_data/events_json_feed/)
+	public function get() {
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+
+		//Bring al IDs of user winery's tour
+		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		//Bring only reserves of those tours
+		$reserves = $this->Reserve->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client','Tour.color')));
+		//debug($reserves);die();
+
+		//Prepare response for fullcalendar
+		$response = [];
+		foreach ($reserves as $reserve) {
+			//Build the title for show reserve
+			$title = '';
+			$title = $title.$reserve['Client']['full_name'];
+			$title = $title.' ('.$reserve['Reserve']['number_of_adults'].'a';
+			if($reserve['Reserve']['number_of_minors'] > 0){
+				$title = $title.' '.$reserve['Reserve']['number_of_minors'].'m';
+			}
+			$title = $title.')';
+
+			$arrayToPush = array(
+				'id' => $reserve['Reserve']['id'],
+				'title' => $title,
+				'start' => $reserve['Reserve']['date'].' '.$reserve['Reserve']['time'],
+				'tour' => $reserve['Reserve']['tour_id'],
+				'language' => $reserve['Reserve']['language_id'],
+				'date' => $reserve['Reserve']['date'],
+				'time' => $reserve['Reserve']['time'],
+				'clientEmail' => $reserve['Client']['email'],
+				'clientName' => $reserve['Client']['full_name'],
+				'clientBirthDate' => $reserve['Client']['birth_date'],
+				'clientCountry' => $reserve['Client']['country'],
+				'clientPhone' => $reserve['Client']['phone'],
+				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
+				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
+				'backgroundColor' => $reserve['Tour']['color'],
+			);
+			$response[] = $arrayToPush;
+		}
+
+		$this->set(compact('response')); // Pass $data to the view
+		$this->set('_serialize', 'response'); // Let the JsonView class know what variable to use
+	}
+
+
 
 	public function delete($id = null) {
 		$this->Reserve->id = $id;

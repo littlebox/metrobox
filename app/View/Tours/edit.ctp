@@ -68,6 +68,18 @@
 							</div>
 						</div>
 					</div>
+
+					<div class="form-group">
+						<label for="TourColor" class="control-label col-md-3">Color</label>
+						<div class="col-md-9">
+							<div id="tour-colorpicker" class="input-group color" data-color-format="rgba">
+								<span class="input-group-btn">
+									<button class="btn default" type="button"><i style="background-color: <?= $this->request->data['Tour']['color'];?>;"></i>&nbsp;</button>
+								</span>
+								<input name="data[Tour][color]" type="text" class="form-control" value="<?= $this->request->data['Tour']['color'];?>" readonly="">
+							</div>
+						</div>
+					</div>
 				<?php
 					echo $this->Form->input('description', array('placeholder' => 'Ej: Viví una experiencia inolvidable en tu visita por la bodega. Los visitantes degustarán vino desde un tanque de fermentación y desde una barrica de roble llegando hasta nuestra cava tradicional, donde serán protagonistas al elegir y descorchar su propia botella de vino en estiba.'));
 				?>
@@ -104,6 +116,7 @@
 	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
 	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
 	<?= $this->Html->css('/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min');?>
+	<?= $this->Html->css('/plugins/colorpicker/colorPicker.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -113,6 +126,7 @@
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
 	<?= $this->Html->script('/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min');?>
+	<?= $this->Html->script('/plugins/colorpicker/colorPicker.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>

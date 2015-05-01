@@ -556,7 +556,6 @@ var reserves = {
 		reserves.validateEditReserve();
 		reserves.intiSelects2();
 		reserves.intiFindCLientListener();
-
 	}
 
 }

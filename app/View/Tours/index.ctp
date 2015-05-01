@@ -43,6 +43,7 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="tours_table">
 			<thead>
+				<th><?= __('Color') ?></th>
 				<th><?= __('Name') ?></th>
 				<th><?= __('Price') ?></th>
 				<th><?= __('Quota') ?></th>
