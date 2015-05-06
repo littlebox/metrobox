@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-12-03 00:21+0100\n"
+"POT-Creation-Date: 2015-05-06 01:21-0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,89 +14,1837 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Controller/UsersController.php:19;40;64
+#: Controller/ClientsController.php:39
+msgid "No client found with that email."
+msgstr ""
+
+#: Controller/ClientsController.php:55;89;116
+msgid "Invalid client"
+msgstr ""
+
+#: Controller/ClientsController.php:70;93
+msgid "The client has been saved."
+msgstr ""
+
+#: Controller/ClientsController.php:73;96
+msgid "The client could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ClientsController.php:120
+msgid "The client has been deleted."
+msgstr ""
+
+#: Controller/ClientsController.php:122
+msgid "The client could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/EstatesController.php:47;80;105;136;168;193
+msgid "Invalid estate"
+msgstr ""
+
+#: Controller/EstatesController.php:63;84;151;172
+msgid "The estate has been saved."
+msgstr ""
+
+#: Controller/EstatesController.php:66;87;154;175
+msgid "The estate could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/EstatesController.php:109;197
+msgid "The estate has been deleted."
+msgstr ""
+
+#: Controller/EstatesController.php:111;199
+msgid "The estate could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/GroupsController.php:42;74;99
+msgid "Invalid group"
+msgstr ""
+
+#: Controller/GroupsController.php:57;78
+msgid "The group has been saved."
+msgstr ""
+
+#: Controller/GroupsController.php:60;81
+msgid "The group could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/GroupsController.php:103
+msgid "The group has been deleted."
+msgstr ""
+
+#: Controller/GroupsController.php:105
+msgid "The group could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ImagesController.php:38;72;99
+msgid "Invalid image"
+msgstr ""
+
+#: Controller/ImagesController.php:53;76
+msgid "The image has been saved."
+msgstr ""
+
+#: Controller/ImagesController.php:56;79
+msgid "The image could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ImagesController.php:103
+msgid "The image has been deleted."
+msgstr ""
+
+#: Controller/ImagesController.php:105
+msgid "The image could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ReservesController.php:17
+msgid "Missed Winery ID in Argument"
+msgstr ""
+
+#: Controller/ReservesController.php:22
+#: Controller/WineriesController.php:106
+msgid "Invalid Winery"
+msgstr ""
+
+#: Controller/ReservesController.php:42;126;252
+msgid "Invalid reserve"
+msgstr ""
+
+#: Controller/ReservesController.php:55
+#: Controller/ToursController.php:204;220
+msgid "Invalid Tour"
+msgstr ""
+
+#: Controller/ReservesController.php:77;152
+msgid "Good."
+msgstr ""
+
+#: Controller/ReservesController.php:78;153
+msgid "The reserve has been saved."
+msgstr ""
+
+#: Controller/ReservesController.php:110;187
+msgid "The reserve could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ReservesController.php:122
+msgid "Only POST or PUT methods allowed."
+msgstr ""
+
+#: Controller/ReservesController.php:256
+msgid "The reserve has been deleted."
+msgstr ""
+
+#: Controller/ReservesController.php:258
+msgid "The reserve could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/ToursController.php:46;130
+msgid "Invalid tour"
+msgstr ""
+
+#: Controller/ToursController.php:102;168
+msgid "The tour has been saved."
+msgstr ""
+
+#: Controller/ToursController.php:105;171
+msgid "The tour could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/ToursController.php:207;223
+msgid "Tour deleted"
+msgstr ""
+
+#: Controller/ToursController.php:209;226
+msgid "Tour was not deleted"
+msgstr ""
+
+#: Controller/UsersController.php:72;84;194;249;265
 msgid "Invalid user"
 msgstr ""
 
-#: Controller/UsersController.php:28;44
+#: Controller/UsersController.php:100;220
 msgid "The user has been saved"
 msgstr ""
 
-#: Controller/UsersController.php:32;48
+#: Controller/UsersController.php:106;223
 msgid "The user could not be saved. Please, try again."
 msgstr ""
 
-#: Controller/UsersController.php:67
+#: Controller/UsersController.php:133
+msgid "Invalid user."
+msgstr ""
+
+#: Controller/UsersController.php:139
+msgid "You can't edit this user."
+msgstr ""
+
+#: Controller/UsersController.php:159
+msgid "Incorrect current password"
+msgstr ""
+
+#: Controller/UsersController.php:174
+msgid "The changes has been saved"
+msgstr ""
+
+#: Controller/UsersController.php:176
+msgid "The changes could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/UsersController.php:184
+msgid "Invalid request type (has to be post or put)"
+msgstr ""
+
+#: Controller/UsersController.php:252;268
 msgid "User deleted"
 msgstr ""
 
-#: Controller/UsersController.php:70
+#: Controller/UsersController.php:254;271
 msgid "User was not deleted"
 msgstr ""
 
-#: Controller/UsersController.php:86
+#: Controller/UsersController.php:329
 msgid "Invalid username or password, try again"
 msgstr ""
 
-#: View/Layouts/login.ctp:18
-#: View/Users/login.ctp:49
-msgid "Login"
+#: Controller/UsersController.php:383
+msgid "Please provide email adress that you used to register"
 msgstr ""
 
-#: View/Layouts/login.ctp:63
+#: Controller/UsersController.php:408
+msgid "Reset Your Password"
+msgstr ""
+
+#: Controller/UsersController.php:416
+msgid "Mail sended"
+msgstr ""
+
+#: Controller/UsersController.php:417
+msgid "Check your email to reset your password"
+msgstr ""
+
+#: Controller/UsersController.php:422
+msgid "Error generating reset link"
+msgstr ""
+
+#: Controller/UsersController.php:426
+msgid "User with this email does not exist"
+msgstr ""
+
+#: Controller/UsersController.php:446
+msgid "No reset token provided."
+msgstr ""
+
+#: Controller/UsersController.php:454
+msgid "The token has been used or is not valid."
+msgstr ""
+
+#: Controller/UsersController.php:460
+msgid "The token has expired."
+msgstr ""
+
+#: Controller/UsersController.php:480
+msgid "Your password has been updated!"
+msgstr ""
+
+#: Controller/WineriesController.php:40;64;82;122
+msgid "Invalid winery"
+msgstr ""
+
+#: Controller/WineriesController.php:53;68
+msgid "The winery has been saved."
+msgstr ""
+
+#: Controller/WineriesController.php:56;71
+msgid "The winery could not be saved. Please, try again."
+msgstr ""
+
+#: Controller/WineriesController.php:86
+msgid "The winery has been deleted."
+msgstr ""
+
+#: Controller/WineriesController.php:88
+msgid "The winery could not be deleted. Please, try again."
+msgstr ""
+
+#: Controller/WineriesController.php:109;125
+msgid "Winery deleted"
+msgstr ""
+
+#: Controller/WineriesController.php:111;128
+msgid "Winery was not deleted"
+msgstr ""
+
+#: Model/User.php:86;94
+msgid "Please upload jpg, png or gif files with size 5MB or less."
+msgstr ""
+
+#: Model/User.php:90
+msgid "Please upload an image."
+msgstr ""
+
+#: Model/User.php:98
+msgid "Please select file in gif, jpeg, png format."
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:80
+msgid "Plugin to process"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:83
+msgid "Better manage, and easily synchronize you application's ACO tree"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:88
+msgid "Add new ACOs for new controllers and actions. Does not remove nodes from the ACO table."
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:93
+msgid "Perform a full sync on the ACO table.Will create new ACOs or missing controllers and actions.Will also remove orphaned entries that no longer have a matching controller/action"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:97
+msgid "Verify the tree structure of either your Aco or Aro Trees"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:102
+msgid "The type of tree to verify"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:108
+msgid "Recover a corrupted Tree"
+msgstr ""
+
+#: Plugin/AclExtras/Console/Command/AclExtrasShell.php:113
+msgid "The type of tree to recover"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:123
+msgid "<error>Plugin %s not found or not activated</error>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:136
+msgid "<success>Aco Update Complete</success>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:181
+msgid "Deleted %s and all children"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:222
+msgid "Created Aco node: <success>%s</success>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:275
+msgid "Unable to get methods for \"%s\""
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:296
+msgid "Deleted Aco node: <warning>%s</warning>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:315
+msgid "<success>Tree is valid and strong</success>"
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:333
+msgid "Tree has been recovered, or tree did not need recovery."
+msgstr ""
+
+#: Plugin/AclExtras/Lib/AclExtras.php:335
+msgid "<error>Tree recovery failed.</error>"
+msgstr ""
+
+#: View/Elements/metrobox/footer.ctp:3
+#: View/Layouts/metrobox_login.ctp:67
 msgid "Admin Dashboard"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:25
+#: View/Pages/home.ctp:161
+msgid "New"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:30
+msgid "New Winery"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:37
+#: View/Groups/add.ctp:17
+#: View/Groups/edit.ctp:19
+#: View/Groups/index.ctp:48
+#: View/Groups/view.ctp:34;80
+#: View/Users/index_bkp.ctp:62
+#: View/Users/view_bkp.ctp:67
+msgid "New User"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:58
+msgid "Tenes"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:58
+msgid "Mensajes"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:59
+msgid "ver todo"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:152
+msgid "My profile"
+msgstr ""
+
+#: View/Elements/metrobox/header.ctp:161
+msgid "Log Out"
+msgstr ""
+
+#: View/Errors/metrobox/error400.ctp:6
+msgid "Your client has issued a malformed or illegal request."
+msgstr ""
+
+#: View/Errors/metrobox/error400.ctp:8
+msgid "That's all we know."
+msgstr ""
+
+#: View/Errors/metrobox/error400.ctp:11
+#: View/Errors/metrobox/error404.ctp:11
+msgid "Return home"
+msgstr ""
+
+#: View/Errors/metrobox/error403.ctp:6
+msgid "You shall not pass!"
+msgstr ""
+
+#: View/Errors/metrobox/error403.ctp:8
+msgid "You don't have permission to get this."
+msgstr ""
+
+#: View/Errors/metrobox/error404.ctp:6
+msgid "Houston, we have a problem."
+msgstr ""
+
+#: View/Errors/metrobox/error404.ctp:8
+msgid "Actually, the page you are looking for does not exist."
+msgstr ""
+
+#: View/Errors/metrobox/error405.ctp:6
+msgid "Method not allowed."
+msgstr ""
+
+#: View/Errors/metrobox/error405.ctp:8
+msgid "A request was made of a resource using a request method not supported by that resource."
+msgstr ""
+
+#: View/Errors/metrobox/error500.ctp:6
+msgid "Oops! Something went wrong."
+msgstr ""
+
+#: View/Errors/metrobox/error500.ctp:8
+msgid "We are fixing it! Please come back in a while."
+msgstr ""
+
+#: View/Estates/add.ctp:13
+msgid "Añadir una propiedad"
+msgstr ""
+
+#: View/Estates/add.ctp:18
+msgid "Titulo"
+msgstr ""
+
+#: View/Estates/add.ctp:24
+msgid "Precio"
+msgstr ""
+
+#: View/Estates/add.ctp:33
+msgid "Descripción"
+msgstr ""
+
+#: View/Estates/add.ctp:37
+msgid "Dirección"
+msgstr ""
+
+#: View/Estates/add.ctp:39
+msgid "Arrastrá el marcador del mapa hasta el lugar exacto de la propiedad"
+msgstr ""
+
+#: View/Estates/add.ctp:44
+msgid "Habitaciones"
+msgstr ""
+
+#: View/Estates/add.ctp:50
+msgid "Baños"
+msgstr ""
+
+#: View/Estates/add.ctp:56
+msgid "Area cubierta"
+msgstr ""
+
+#: View/Estates/add.ctp:59
+msgid "m2"
+msgstr ""
+
+#: View/Estates/add.ctp:65
+msgid "Tipo"
+msgstr ""
+
+#: View/Estates/add.ctp:67
+msgid "Venta"
+msgstr ""
+
+#: View/Estates/add.ctp:68
+msgid "Alquiler"
+msgstr ""
+
+#: View/Estates/add.ctp:76
+msgid "Galeria de imágenes"
+msgstr ""
+
+#: View/Estates/add.ctp:77
+msgid "Buscar Imágenes"
+msgstr ""
+
+#: View/Estates/add.ctp:78
+msgid "Podés seleccionar varias imagenes"
+msgstr ""
+
+#: View/Estates/add.ctp:85
+msgid "Comodidades"
+msgstr ""
+
+#: View/Estates/add.ctp:86
+msgid "Garage"
+msgstr ""
+
+#: View/Estates/add.ctp:87
+msgid "Alarma"
+msgstr ""
+
+#: View/Estates/add.ctp:88
+msgid "Aire acondicionado"
+msgstr ""
+
+#: View/Estates/add.ctp:89
+msgid "Balcon"
+msgstr ""
+
+#: View/Estates/add.ctp:95
+msgid "Piscina"
+msgstr ""
+
+#: View/Estates/add.ctp:96
+msgid "Internet"
+msgstr ""
+
+#: View/Estates/add.ctp:97
+msgid "Calefacción"
+msgstr ""
+
+#: View/Estates/add.ctp:98
+msgid "TV por cable/satelite"
+msgstr ""
+
+#: View/Estates/add.ctp:104
+msgid "Jardín"
+msgstr ""
+
+#: View/Estates/add.ctp:105
+msgid "Teléfono"
+msgstr ""
+
+#: View/Estates/add.ctp:106
+msgid "Sotano"
+msgstr ""
+
+#: View/Estates/add.ctp:107
+msgid "Patio interno"
+msgstr ""
+
+#: View/Estates/add.ctp:112
+msgid "Añadir propiedad"
+msgstr ""
+
+#: View/Estates/edit.ctp:4
+#: View/Estates/view.ctp:99
+msgid "Edit Estate"
+msgstr ""
+
+#: View/Estates/edit.ctp:26
+#: View/Groups/add.ctp:9
+#: View/Groups/edit.ctp:10
+#: View/Users/add_bkp.ctp:12
+#: View/Users/edit_bkp.ctp:13
+#: View/Users/login.ctp:72
+#: View/Users/reset_password.ctp:32
+msgid "Submit"
+msgstr ""
+
+#: View/Estates/edit.ctp:29
+#: View/Estates/index.ctp:50
+#: View/Estates/view.ctp:97
+#: View/Groups/add.ctp:12
+#: View/Groups/edit.ctp:13
+#: View/Groups/index.ctp:10;44
+#: View/Groups/view.ctp:27;53
+#: View/Tours/index.ctp:51
+#: View/Users/add_bkp.ctp:15
+#: View/Users/admin_index.ctp:49
+#: View/Users/edit_bkp.ctp:16
+#: View/Users/index_bkp.ctp:17;60
+#: View/Users/view_bkp.ctp:62
+#: View/Wineries/admin_index.ctp:48
+msgid "Actions"
+msgstr ""
+
+#: View/Estates/edit.ctp:32
+#: View/Estates/index.ctp:84
+#: View/Groups/edit.ctp:16
+#: View/Groups/index.ctp:23
+#: View/Groups/view.ctp:71
+#: View/Tours/index.ctp:85
+#: View/Users/admin_index.ctp:83
+#: View/Users/edit_bkp.ctp:19
+#: View/Users/index_bkp.ctp:39
+#: View/Wineries/admin_index.ctp:82
+msgid "Delete"
+msgstr ""
+
+#: View/Estates/edit.ctp:32
+#: View/Estates/view.ctp:100
+#: View/Groups/edit.ctp:16
+#: View/Groups/index.ctp:23
+#: View/Groups/view.ctp:30;71
+#: View/Users/edit_bkp.ctp:19
+#: View/Users/index_bkp.ctp:39
+#: View/Users/view_bkp.ctp:65
+msgid "Are you sure you want to delete # %s?"
+msgstr ""
+
+#: View/Estates/edit.ctp:33
+#: View/Estates/view.ctp:101
+msgid "List Estates"
+msgstr ""
+
+#: View/Estates/edit.ctp:34
+#: View/Estates/view.ctp:103
+msgid "List Estate Operations"
+msgstr ""
+
+#: View/Estates/edit.ctp:35
+#: View/Estates/view.ctp:104
+msgid "New Operation"
+msgstr ""
+
+#: View/Estates/edit.ctp:36
+#: View/Estates/view.ctp:105
+msgid "List Estate Types"
+msgstr ""
+
+#: View/Estates/edit.ctp:37
+#: View/Estates/view.ctp:106
+msgid "New Type"
+msgstr ""
+
+#: View/Estates/index.ctp:6
+#: View/Tours/index.ctp:6
+#: View/Users/admin_index.ctp:6
+#: View/Wineries/admin_index.ctp:6
+msgid "List"
+msgstr ""
+
+#: View/Estates/index.ctp:7
+#: View/Users/admin_add.ctp:6
+#: View/Users/admin_edit.ctp:6
+#: View/Users/admin_index.ctp:7
+#: View/Users/index_bkp.ctp:2
+msgid "Users"
+msgstr ""
+
+#: View/Estates/index.ctp:19
+#: View/Tours/index.ctp:19
+#: View/Users/admin_index.ctp:19
+#: View/Wineries/admin_index.ctp:19
+msgid "Add New"
+msgstr ""
+
+#: View/Estates/index.ctp:24
+#: View/Tours/index.ctp:24
+#: View/Users/admin_index.ctp:24
+#: View/Wineries/admin_index.ctp:24
+msgid "Tools"
+msgstr ""
+
+#: View/Estates/index.ctp:29
+#: View/Tours/index.ctp:29
+#: View/Users/admin_index.ctp:29
+#: View/Wineries/admin_index.ctp:29
+msgid "Print"
+msgstr ""
+
+#: View/Estates/index.ctp:33
+#: View/Tours/index.ctp:33
+#: View/Users/admin_index.ctp:33
+#: View/Wineries/admin_index.ctp:33
+msgid "Save as PDF"
+msgstr ""
+
+#: View/Estates/index.ctp:37
+#: View/Tours/index.ctp:37
+#: View/Users/admin_index.ctp:37
+#: View/Wineries/admin_index.ctp:37
+msgid "Export to Excel"
+msgstr ""
+
+#: View/Estates/index.ctp:46
+msgid "id"
+msgstr ""
+
+#: View/Estates/index.ctp:47
+msgid "street_number"
+msgstr ""
+
+#: View/Estates/index.ctp:48
+msgid "street_name"
+msgstr ""
+
+#: View/Estates/index.ctp:49
+msgid "type"
+msgstr ""
+
+#: View/Estates/index.ctp:83
+#: View/Groups/index.ctp:22
+#: View/Groups/view.ctp:70
+#: View/Tours/edit.ctp:5
+#: View/Tours/index.ctp:84
+#: View/Users/admin_edit.ctp:5
+#: View/Users/admin_index.ctp:82
+#: View/Users/index_bkp.ctp:38
+#: View/Users/view.ctp:88
+#: View/Wineries/admin_index.ctp:81
+msgid "Edit"
+msgstr ""
+
+#: View/Estates/index.ctp:85
+#: View/Tours/index.ctp:86
+#: View/Users/admin_index.ctp:84
+#: View/Wineries/admin_index.ctp:83
+msgid "Details"
+msgstr ""
+
+#: View/Estates/index.ctp:94
+#: View/Tours/index.ctp:95
+#: View/Users/admin_index.ctp:93
+#: View/Wineries/admin_index.ctp:92
+msgid "Are you sure?"
+msgstr ""
+
+#: View/Estates/index.ctp:95
+msgid "You will not be able to recover this imaginary file!"
+msgstr ""
+
+#: View/Estates/index.ctp:99
+#: View/Tours/index.ctp:100
+#: View/Users/admin_index.ctp:98
+#: View/Wineries/admin_index.ctp:97
+msgid "Yes, delete it!"
+msgstr ""
+
+#: View/Estates/index.ctp:116
+#: View/Tours/index.ctp:117
+#: View/Users/admin_index.ctp:115
+#: View/Wineries/admin_index.ctp:114
+msgid "Deleted!"
+msgstr ""
+
+#: View/Estates/index.ctp:125;129
+#: View/Tours/index.ctp:126;130
+#: View/Users/admin_index.ctp:124;128
+#: View/Wineries/admin_index.ctp:123;127
+#: View/Errors/error400.ctp:19
+#: View/Errors/error500.ctp:19
+msgid "Error"
+msgstr ""
+
+#: View/Estates/index.ctp:129
+#: View/Users/admin_index.ctp:128
+msgid "User hasn't been deleted."
+msgstr ""
+
+#: View/Estates/view.ctp:2
+msgid "Estate"
+msgstr ""
+
+#: View/Estates/view.ctp:4;113;133
+#: View/Groups/view.ctp:4;42
+#: View/Users/view_bkp.ctp:4
+msgid "Id"
+msgstr ""
+
+#: View/Estates/view.ctp:9
+msgid "Id Image"
+msgstr ""
+
+#: View/Estates/view.ctp:14
+msgid "Id Type"
+msgstr ""
+
+#: View/Estates/view.ctp:19
+msgid "Id Operation"
+msgstr ""
+
+#: View/Estates/view.ctp:24
+msgid "Street Number"
+msgstr ""
+
+#: View/Estates/view.ctp:29
+msgid "Street Name"
+msgstr ""
+
+#: View/Estates/view.ctp:34
+msgid "Province"
+msgstr ""
+
+#: View/Estates/view.ctp:39
+msgid "City"
+msgstr ""
+
+#: View/Estates/view.ctp:44
+msgid "Postal Code"
+msgstr ""
+
+#: View/Estates/view.ctp:49
+msgid "Latitude"
+msgstr ""
+
+#: View/Estates/view.ctp:54
+msgid "Longitude"
+msgstr ""
+
+#: View/Estates/view.ctp:59
+msgid "Surface Total"
+msgstr ""
+
+#: View/Estates/view.ctp:64
+msgid "Surface Covered"
+msgstr ""
+
+#: View/Estates/view.ctp:69
+msgid "Rooms"
+msgstr ""
+
+#: View/Estates/view.ctp:74
+msgid "Expenses"
+msgstr ""
+
+#: View/Estates/view.ctp:79
+msgid "Currency"
+msgstr ""
+
+#: View/Estates/view.ctp:84
+msgid "Description"
+msgstr ""
+
+#: View/Estates/view.ctp:89
+msgid "Antiqueness"
+msgstr ""
+
+#: View/Estates/view.ctp:100
+msgid "Delete Estate"
+msgstr ""
+
+#: View/Estates/view.ctp:102
+msgid "New Estate"
+msgstr ""
+
+#: View/Estates/view.ctp:110
+msgid "Related Estate Operations"
+msgstr ""
+
+#: View/Estates/view.ctp:117
+msgid "Operation"
+msgstr ""
+
+#: View/Estates/view.ctp:125
+msgid "Edit Operation"
+msgstr ""
+
+#: View/Estates/view.ctp:130
+msgid "Related Estate Types"
+msgstr ""
+
+#: View/Estates/view.ctp:137
+msgid "Type"
+msgstr ""
+
+#: View/Estates/view.ctp:145
+msgid "Edit Type"
+msgstr ""
+
+#: View/Groups/add.ctp:4
+msgid "Add Group"
+msgstr ""
+
+#: View/Groups/add.ctp:15
+#: View/Groups/edit.ctp:17
+#: View/Groups/view.ctp:31
+#: View/Users/add_bkp.ctp:19
+#: View/Users/edit_bkp.ctp:21
+#: View/Users/index_bkp.ctp:63
+#: View/Users/view_bkp.ctp:68
+msgid "List Groups"
+msgstr ""
+
+#: View/Groups/add.ctp:16
+#: View/Groups/edit.ctp:18
+#: View/Groups/index.ctp:47
+#: View/Groups/view.ctp:33
+#: View/Users/add_bkp.ctp:18
+#: View/Users/edit_bkp.ctp:20
+#: View/Users/view_bkp.ctp:66
+msgid "List Users"
+msgstr ""
+
+#: View/Groups/edit.ctp:4
+#: View/Groups/view.ctp:29
+msgid "Edit Group"
+msgstr ""
+
+#: View/Groups/index.ctp:2
+msgid "Groups"
+msgstr ""
+
+#: View/Groups/index.ctp:21
+#: View/Groups/view.ctp:69
+#: View/Users/index_bkp.ctp:37
+msgid "View"
+msgstr ""
+
+#: View/Groups/index.ctp:32
+#: View/Users/index_bkp.ctp:48
+msgid "Page {:page} of {:pages}, showing {:current} records out of {:count} total, starting on record {:start}, ending on {:end}"
+msgstr ""
+
+#: View/Groups/index.ctp:37
+#: View/Users/index_bkp.ctp:53
+msgid "previous"
+msgstr ""
+
+#: View/Groups/index.ctp:39
+#: View/Users/index_bkp.ctp:55
+msgid "next"
+msgstr ""
+
+#: View/Groups/index.ctp:46
+#: View/Groups/view.ctp:32
+#: View/Users/add_bkp.ctp:20
+#: View/Users/edit_bkp.ctp:22
+#: View/Users/index_bkp.ctp:64
+#: View/Users/view_bkp.ctp:69
+msgid "New Group"
+msgstr ""
+
+#: View/Groups/view.ctp:2
+#: View/Users/view_bkp.ctp:24
+msgid "Group"
+msgstr ""
+
+#: View/Groups/view.ctp:9
+#: View/Tours/index.ctp:47
+#: View/Wineries/admin_index.ctp:46
+msgid "Name"
+msgstr ""
+
+#: View/Groups/view.ctp:14;51
+#: View/Users/admin_index.ctp:48
+#: View/Users/view_bkp.ctp:49
+#: View/Wineries/admin_index.ctp:47
+msgid "Created"
+msgstr ""
+
+#: View/Groups/view.ctp:19;52
+#: View/Users/view_bkp.ctp:54
+msgid "Modified"
+msgstr ""
+
+#: View/Groups/view.ctp:30
+msgid "Delete Group"
+msgstr ""
+
+#: View/Groups/view.ctp:38
+msgid "Related Users"
+msgstr ""
+
+#: View/Groups/view.ctp:43
+#: View/Users/admin_index.ctp:46
+#: View/Users/view_bkp.ctp:9
+msgid "Username"
+msgstr ""
+
+#: View/Groups/view.ctp:44
+#: View/Users/admin_index.ctp:47
+#: View/Users/login.ctp:25;69
+#: View/Users/view_bkp.ctp:14
+msgid "Email"
+msgstr ""
+
+#: View/Groups/view.ctp:45
+#: View/Users/login.ctp:26
+#: View/Users/reset_password.ctp:28
+#: View/Users/view_bkp.ctp:19
+msgid "Password"
+msgstr ""
+
+#: View/Groups/view.ctp:46
+msgid "Group Id"
+msgstr ""
+
+#: View/Groups/view.ctp:47
+#: View/Users/view_bkp.ctp:29
+msgid "Reset Password Token"
+msgstr ""
+
+#: View/Groups/view.ctp:48
+#: View/Users/view_bkp.ctp:34
+msgid "Reset Password Token Created"
+msgstr ""
+
+#: View/Groups/view.ctp:49
+#: View/Users/view_bkp.ctp:39
+msgid "Login Last Attempt"
+msgstr ""
+
+#: View/Groups/view.ctp:50
+#: View/Users/view_bkp.ctp:44
+msgid "Login Last Attempts Count"
+msgstr ""
+
+#: View/Pages/index.ctp:2
+msgid "Ohhhh yeah :) "
 msgstr ""
 
 #: View/Pages/test.ctp:2
 msgid "So far, so good :) "
 msgstr ""
 
-#: View/Users/add.ctp:4
+#: View/Reserves/index.ctp:251
+msgid "New Reserve"
+msgstr ""
+
+#: View/Reserves/index.ctp:275;342
+msgid "Select a tour..."
+msgstr ""
+
+#: View/Reserves/index.ctp:276;278;343;345;390
+msgid "Select a tour first"
+msgstr ""
+
+#: View/Reserves/index.ctp:287
+#: View/Tours/add.ctp:5
+#: View/Users/admin_add.ctp:5
+#: View/Wineries/admin_add.ctp:5
+msgid "Add"
+msgstr ""
+
+#: View/Reserves/index.ctp:307
+msgid "Reserve Details"
+msgstr ""
+
+#: View/Reserves/index.ctp:352
+msgid "Close"
+msgstr ""
+
+#: View/Reserves/index.ctp:353
+#: View/Users/view.ctp:90
+msgid "Save Changes"
+msgstr ""
+
+#: View/Reserves/index.ctp:389
+msgid "Select a country..."
+msgstr ""
+
+#: View/Reserves/index.ctp:438;450;459;516;525;534;622;633
+#: View/Users/login.ctp:103
+msgid "Ok"
+msgstr ""
+
+#: View/Tours/add.ctp:6
+#: View/Tours/edit.ctp:6
+msgid "Tour"
+msgstr ""
+
+#: View/Tours/add.ctp:52;60
+#: View/Tours/edit.ctp:52;61
+msgid "Remove"
+msgstr ""
+
+#: View/Tours/add.ctp:65
+#: View/Tours/edit.ctp:67
+msgid "Add Time"
+msgstr ""
+
+#: View/Tours/add.ctp:91
+#: View/Tours/edit.ctp:93
+#: View/Users/admin_add.ctp:86
+#: View/Users/admin_edit.ctp:92
+#: View/Users/view.ctp:89
+#: View/Wineries/admin_add.ctp:45
+msgid "Cancel"
+msgstr ""
+
+#: View/Tours/add.ctp:96
+#: View/Tours/edit.ctp:98
+#: View/Users/admin_add.ctp:91
+#: View/Users/admin_edit.ctp:97
+#: View/Wineries/admin_add.ctp:50
+msgid "Save"
+msgstr ""
+
+#: View/Tours/index.ctp:7
+msgid "Tours"
+msgstr ""
+
+#: View/Tours/index.ctp:46
+msgid "Color"
+msgstr ""
+
+#: View/Tours/index.ctp:48
+msgid "Price"
+msgstr ""
+
+#: View/Tours/index.ctp:49
+msgid "Quota"
+msgstr ""
+
+#: View/Tours/index.ctp:50
+msgid "Lenght"
+msgstr ""
+
+#: View/Tours/index.ctp:96
+#: View/Users/admin_index.ctp:94
+#: View/Wineries/admin_index.ctp:93
+msgid "You will not be able to recover this!"
+msgstr ""
+
+#: View/Tours/index.ctp:130
+msgid "Tour hasn't been deleted."
+msgstr ""
+
+#: View/Users/add_bkp.ctp:4
 msgid "Add User"
 msgstr ""
 
-#: View/Users/add.ctp:12
-#: View/Users/login.ctp:67
-msgid "Submit"
+#: View/Users/admin_add.ctp:45
+#: View/Users/admin_edit.ctp:45
+msgid "Profile picture"
 msgstr ""
 
-#: View/Users/login.ctp:6
-msgid "Please enter your email and password"
+#: View/Users/admin_add.ctp:55
+#: View/Users/admin_edit.ctp:61
+#: View/Users/view.ctp:117
+msgid "Select image"
 msgstr ""
 
-#: View/Users/login.ctp:29
-msgid "Sign In"
+#: View/Users/admin_add.ctp:56
+#: View/Users/admin_edit.ctp:62
+#: View/Users/view.ctp:137
+msgid "Change"
 msgstr ""
 
-#: View/Users/login.ctp:38
-msgid "Enter any username and password."
+#: View/Users/edit_bkp.ctp:4
+#: View/Users/view_bkp.ctp:64
+msgid "Edit User"
 msgstr ""
 
-#: View/Users/login.ctp:43
-msgid "Email"
+#: View/Users/login.ctp:13;19;43
+#: View/Users/reset_password.ctp:13
+msgid "Login"
 msgstr ""
 
-#: View/Users/login.ctp:44
-msgid "Password"
-msgstr ""
-
-#: View/Users/login.ctp:51
+#: View/Users/login.ctp:45
 msgid "Remember"
 msgstr ""
 
-#: View/Users/login.ctp:52
+#: View/Users/login.ctp:47
 msgid "Forgot Password?"
 msgstr ""
 
-#: View/Users/login.ctp:58
+#: View/Users/login.ctp:53
 msgid "Forget Password?"
 msgstr ""
 
-#: View/Users/login.ctp:60
-msgid "Enter your e-mail address below to reset your password."
+#: View/Users/login.ctp:67
+msgid "Enter your e-mail address to reset your password"
 msgstr ""
 
-#: View/Users/login.ctp:66
+#: View/Users/login.ctp:71
+#: View/Users/reset_password.ctp:36
 msgid "Back"
+msgstr ""
+
+#: View/Users/login.ctp:113
+msgid "An error ocurred, please try later."
+msgstr ""
+
+#: View/Users/reset_password.ctp:19
+msgid "Reset Password"
+msgstr ""
+
+#: View/Users/reset_password.ctp:26
+msgid "Hi %s! Please enter a new password:"
+msgstr ""
+
+#: View/Users/reset_password.ctp:29
+msgid "Repeat Password"
+msgstr ""
+
+#: View/Users/view.ctp:25
+msgid "Something"
+msgstr ""
+
+#: View/Users/view.ctp:33
+msgid "Something Else"
+msgstr ""
+
+#: View/Users/view.ctp:41
+msgid "Thing"
+msgstr ""
+
+#: View/Users/view.ctp:60
+msgid "Profile Account"
+msgstr ""
+
+#: View/Users/view.ctp:64
+msgid "Personal Info"
+msgstr ""
+
+#: View/Users/view.ctp:67
+msgid "Change Avatar"
+msgstr ""
+
+#: View/Users/view.ctp:70;154
+msgid "Change Password"
+msgstr ""
+
+#: View/Users/view.ctp:73
+msgid "Account Settings"
+msgstr ""
+
+#: View/Users/view.ctp:118
+msgid "Change image"
+msgstr ""
+
+#: View/Users/view.ctp:165
+msgid "I want recive newslwtter."
+msgstr ""
+
+#: View/Users/view_bkp.ctp:2
+msgid "User"
+msgstr ""
+
+#: View/Users/view_bkp.ctp:65
+msgid "Delete User"
+msgstr ""
+
+#: View/Wineries/admin_add.ctp:6
+#: View/Wineries/admin_index.ctp:7
+msgid "Wineries"
+msgstr ""
+
+#: View/Wineries/admin_index.ctp:127
+msgid "Winery hasn't been deleted."
+msgstr ""
+
+#: Model/Client.php:validation for field full_name;validation for field birth_date;validation for field email;validation for field birthplace;validation for field phone
+#: Model/Group.php:validation for field name
+#: Model/Image.php:validation for field winery_id;validation for field name
+#: Model/Reserve.php:validation for field tour_id;validation for field client_id;validation for field language_id;validation for field date;validation for field time;validation for field number_of_adults;validation for field number_of_minors
+#: Model/Tour.php:validation for field winery_id;validation for field name;validation for field length;validation for field quota
+#: Model/Winery.php:validation for field name
+msgid "notEmpty"
+msgstr ""
+
+#: Model/Client.php:validation for field email
+msgid "email"
+msgstr ""
+
+#: Model/Group.php:validation for field name
+msgid "alphaNumeric"
+msgstr ""
+
+#: Model/Reserve.php:validation for field date
+msgid "date"
+msgstr ""
+
+#: Model/Reserve.php:validation for field time
+#: Model/Tour.php:validation for field length
+msgid "time"
+msgstr ""
+
+#: Model/Reserve.php:validation for field number_of_adults;validation for field number_of_minors
+#: Model/Tour.php:validation for field quota
+msgid "numeric"
+msgstr ""
+
+#: Model/Tour.php:validation for field price
+msgid "money"
+msgstr ""
+
+#: Model/User.php:validation for field email
+msgid "An email is required"
+msgstr ""
+
+#: Model/User.php:validation for field email
+msgid "Must be an email"
+msgstr ""
+
+#: Model/User.php:validation for field email
+msgid "Email already exist"
+msgstr ""
+
+#: Model/User.php:validation for field full_name
+msgid "A name is required"
+msgstr ""
+
+#: Model/User.php:validation for field password
+msgid "A password is required"
+msgstr ""
+
+#: Model/User.php:validation for field password_confirm
+msgid "Please confirm your password"
+msgstr ""
+
+#: Model/User.php:validation for field password_confirm
+msgid "Passwords don't match."
+msgstr ""
+
+#: Model/User.php:validation for field profile_picture
+msgid "rule"
+msgstr ""
+
+#: Model/User.php:validation for field profile_picture
+msgid "required"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:41
+msgid "-> Testing :url"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:67
+msgid "Total Requests made: :requests"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:68
+msgid "Total Time elapsed: :duration (seconds)"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:72
+msgid "Requests/Second: :rps req/sec"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:76
+msgid "Average request time: :average-time seconds"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:80
+msgid "Standard deviation of average request time: :std-dev"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:84
+msgid "Longest/shortest request: :longest sec/:shortest sec"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:134
+msgid "Allows you to obtain some rough benchmarking statisticsabout a fully qualified URL."
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:139
+msgid "The URL to request."
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:144
+msgid "Number of iterations to perform."
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:148
+msgid "Maximum total time for all iterations, in seconds.If a single iteration takes more than the timeout, only one request will be made"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/BenchmarkShell.php:152
+msgid "Example Use: `cake benchmark --n 10 --t 100 http://localhost/testsite`. <info>Note:</info> this benchmark does not include browser render times."
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:159
+msgid "Component initialization"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:281
+msgid "Controller action"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:284
+msgid "Controller action start"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:304
+msgid "Processing toolbar state"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:327
+msgid "Processing toolbar data"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:362
+msgid "Controller render start"
+msgstr ""
+
+#: Plugin/DebugKit/Controller/Component/ToolbarComponent.php:446
+msgid "Could not load DebugToolbar panel %s"
+msgstr ""
+
+#: Plugin/DebugKit/Lib/DebugTimer.php:128
+msgid "Core Processing (Derived from $_SERVER[\"REQUEST_TIME\"])"
+msgstr ""
+
+#: Plugin/DebugKit/Lib/FireCake.php:310
+msgid "Headers already sent in %s on line %s. Cannot send log data to FirePHP."
+msgstr ""
+
+#: Plugin/DebugKit/Lib/FireCake.php:331
+msgid "Incorrect parameter count for FireCake::fb()"
+msgstr ""
+
+#: Plugin/DebugKit/Lib/FireCake.php:410
+msgid "Maximum number (99,999) of messages reached!"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/debug_toolbar.ctp:23
+msgid "There are no active panels. You must enable a panel to see its output."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:20
+msgid "App Constants"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:36
+msgid "CakePHP Constants"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:52
+msgid "PHP Environment"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/environment_panel.ctp:70
+msgid "Hidef Environment"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:19
+msgid "Request History"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:21
+msgid "No previous requests logged."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:23
+msgid "previous requests available"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/history_panel.ctp:25
+msgid "Restore to current request"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/include_panel.ctp:19
+msgid "Included Files"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:19
+msgid "Logs"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:27
+msgid "Time"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:27
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:42;66
+msgid "Message"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/log_panel.ctp:38
+msgid "There were no log entries made this request"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:19
+msgid "Request"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:27
+msgid "No post data."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:36
+msgid "No querystring data."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/request_panel.ctp:49
+msgid "Current Route"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/session_panel.ctp:19
+msgid "Session"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:24
+msgid "Sql Logs"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:39
+msgid "No query logs when debug < 2."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:41
+msgid "No query logs."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:45
+msgid "Total Time: %s ms <br />Total Queries: %s queries"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:54
+msgid "Query Explain:"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:57
+msgid "Click an \"Explain\" link above, to see the query explanation."
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/sql_log_panel.ctp:63
+msgid "No active database connections"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:35
+msgid "Memory"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:38
+msgid "Peak Memory Use"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:42
+msgid "Memory use"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:55
+msgid "Timers"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:57
+msgid "%s (ms)"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:58
+msgid "Total Request Time:"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:67
+msgid "Time in ms"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/timer_panel.ctp:68
+msgid "Graph"
+msgstr ""
+
+#: Plugin/DebugKit/View/Elements/variables_panel.ctp:19
+msgid "View Variables"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/DebugTimerHelper.php:45
+msgid "Rendering View"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/DebugTimerHelper.php:60
+msgid "Rendering %s"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/DebugTimerHelper.php:86
+msgid "View render complete"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/HtmlToolbarHelper.php:230
+msgid "Explain"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/SimpleGraphHelper.php:80
+msgid "Starting %sms into the request, taking %sms"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/TidyHelper.php:99
+msgid "No markup errors found"
+msgstr ""
+
+#: Plugin/DebugKit/View/Helper/ToolbarHelper.php:189
+msgid "maybe slow"
+msgstr ""
+
+#: Plugin/DebugKit/Console/Command/WhitespaceShell.php:90
+msgid "Absolute path or relative to APP."
+msgstr ""
+
+#: Plugin/Recaptcha/Controller/Component/RecaptchaComponent.php:111
+msgid "You must set your private Recaptcha key using Configure::write('Recaptcha.privateKey', 'your-key');!"
+msgstr ""
+
+#: Plugin/Recaptcha/Controller/Component/RecaptchaComponent.php:153
+msgid "Invalid API response, please contact the site admin."
+msgstr ""
+
+#: Plugin/Recaptcha/Controller/Component/RecaptchaComponent.php:162
+msgid "Incorrect captcha"
+msgstr ""
+
+#: Plugin/Recaptcha/View/Helper/RecaptchaHelper.php:185
+msgid "To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed."
+msgstr ""
+
+#: Plugin/Recaptcha/View/Helper/RecaptchaHelper.php:217
+msgid "You need to set a private and public mail hide key. Please visit http://mailhide.recaptcha.net/apikey"
+msgstr ""
+
+#: View/Errors/error400.ctp:21
+msgid "The requested address %s was not found on this server."
+msgstr ""
+
+#: View/Errors/error500.ctp:20
+msgid "An Internal Error Has Occurred."
+msgstr ""
+
+#: View/Layouts/default.ctp:17
+#: View/Layouts/error.ctp:17
+msgid "CakePHP: the rapid development php framework"
+msgstr ""
+
+#: View/Layouts/default.ctp:18
+msgid "CakePHP %s"
+msgstr ""
+
+#: View/Pages/home.ctp:14
+msgid "Release Notes for CakePHP %s."
+msgstr ""
+
+#: View/Pages/home.ctp:16
+msgid "Read the changelog"
+msgstr ""
+
+#: View/Pages/home.ctp:25
+msgid "URL rewriting is not properly configured on your server."
+msgstr ""
+
+#: View/Pages/home.ctp:34
+msgid "Your version of PHP is 5.2.8 or higher."
+msgstr ""
+
+#: View/Pages/home.ctp:38
+msgid "Your version of PHP is too low. You need PHP 5.2.8 or higher to use CakePHP."
+msgstr ""
+
+#: View/Pages/home.ctp:47
+msgid "Your tmp directory is writable."
+msgstr ""
+
+#: View/Pages/home.ctp:51
+msgid "Your tmp directory is NOT writable."
+msgstr ""
+
+#: View/Pages/home.ctp:61
+msgid "The %s is being used for core caching. To change the config edit %s"
+msgstr ""
+
+#: View/Pages/home.ctp:65
+msgid "Your cache is NOT working. Please check the settings in %s"
+msgstr ""
+
+#: View/Pages/home.ctp:75
+msgid "Your database configuration file is present."
+msgstr ""
+
+#: View/Pages/home.ctp:80
+msgid "Your database configuration file is NOT present."
+msgstr ""
+
+#: View/Pages/home.ctp:82
+msgid "Rename %s to %s"
+msgstr ""
+
+#: View/Pages/home.ctp:107
+msgid "CakePHP is able to connect to the database."
+msgstr ""
+
+#: View/Pages/home.ctp:111
+msgid "CakePHP is NOT able to connect to the database."
+msgstr ""
+
+#: View/Pages/home.ctp:124
+msgid "PCRE has not been compiled with Unicode support."
+msgstr ""
+
+#: View/Pages/home.ctp:126
+msgid "Recompile PCRE with Unicode support by adding <code>--enable-unicode-properties</code> when configuring"
+msgstr ""
+
+#: View/Pages/home.ctp:135
+msgid "DebugKit plugin is present"
+msgstr ""
+
+#: View/Pages/home.ctp:139
+msgid "DebugKit is not installed. It will help you inspect and debug different aspects of your application."
+msgstr ""
+
+#: View/Pages/home.ctp:141
+msgid "You can install it from %s"
+msgstr ""
+
+#: View/Pages/home.ctp:147
+msgid "Editing this Page"
+msgstr ""
+
+#: View/Pages/home.ctp:150
+msgid "To change the content of this page, edit: %s.<br />\nTo change its layout, edit: %s.<br />\nYou can also add some CSS styles for your pages at: %s."
+msgstr ""
+
+#: View/Pages/home.ctp:157
+msgid "Getting Started"
+msgstr ""
+
+#: View/Pages/home.ctp:161
+msgid "CakePHP 2.0 Docs"
+msgstr ""
+
+#: View/Pages/home.ctp:170
+msgid "The 15 min Blog Tutorial"
+msgstr ""
+
+#: View/Pages/home.ctp:177
+msgid "Official Plugins"
+msgstr ""
+
+#: View/Pages/home.ctp:182
+msgid "provides a debugging toolbar and enhanced debugging tools for CakePHP applications."
+msgstr ""
+
+#: View/Pages/home.ctp:186
+msgid "contains various localized validation classes and translations for specific countries"
+msgstr ""
+
+#: View/Pages/home.ctp:191
+msgid "More about CakePHP"
+msgstr ""
+
+#: View/Pages/home.ctp:193
+msgid "CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC."
+msgstr ""
+
+#: View/Pages/home.ctp:196
+msgid "Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility."
+msgstr ""
+
+#: View/Pages/home.ctp:201
+msgid "The Rapid Development Framework"
+msgstr ""
+
+#: View/Pages/home.ctp:202
+msgid "CakePHP Documentation"
+msgstr ""
+
+#: View/Pages/home.ctp:203
+msgid "Your Rapid Development Cookbook"
+msgstr ""
+
+#: View/Pages/home.ctp:204
+msgid "CakePHP API"
+msgstr ""
+
+#: View/Pages/home.ctp:205
+msgid "Quick API Reference"
+msgstr ""
+
+#: View/Pages/home.ctp:206
+msgid "The Bakery"
+msgstr ""
+
+#: View/Pages/home.ctp:207
+msgid "Everything CakePHP"
+msgstr ""
+
+#: View/Pages/home.ctp:208
+msgid "CakePHP Plugins"
+msgstr ""
+
+#: View/Pages/home.ctp:209
+msgid "A comprehensive list of all CakePHP plugins created by the community"
+msgstr ""
+
+#: View/Pages/home.ctp:210
+msgid "CakePHP Community Center"
+msgstr ""
+
+#: View/Pages/home.ctp:211
+msgid "Everything related to the CakePHP community in one place"
+msgstr ""
+
+#: View/Pages/home.ctp:212
+msgid "CakePHP Google Group"
+msgstr ""
+
+#: View/Pages/home.ctp:213
+msgid "Community mailing list"
+msgstr ""
+
+#: View/Pages/home.ctp:215
+msgid "Live chat about CakePHP"
+msgstr ""
+
+#: View/Pages/home.ctp:216
+msgid "CakePHP Code"
+msgstr ""
+
+#: View/Pages/home.ctp:217
+msgid "Find the CakePHP code on GitHub and contribute to the framework"
+msgstr ""
+
+#: View/Pages/home.ctp:218;219
+msgid "CakePHP Issues"
+msgstr ""
+
+#: View/Pages/home.ctp:220;221
+msgid "CakePHP Roadmaps"
+msgstr ""
+
+#: View/Pages/home.ctp:222
+msgid "Training"
+msgstr ""
+
+#: View/Pages/home.ctp:223
+msgid "Join a live session and get skilled with the framework"
+msgstr ""
+
+#: View/Pages/home.ctp:224
+msgid "CakeFest"
+msgstr ""
+
+#: View/Pages/home.ctp:225
+msgid "Don't miss our annual CakePHP conference"
+msgstr ""
+
+#: View/Pages/home.ctp:226
+msgid "Cake Software Foundation"
+msgstr ""
+
+#: View/Pages/home.ctp:227
+msgid "Promoting development related to CakePHP"
+msgstr ""
+
+#: webroot/test.php:93
+msgid "Debug setting does not allow access to this url."
 msgstr ""
 

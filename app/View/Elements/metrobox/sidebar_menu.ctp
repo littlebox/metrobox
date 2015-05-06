@@ -12,11 +12,6 @@
 
 			$menu = array(
 				array(
-					'title'=>'Inicio',
-					'href' =>array('controller'=>'pages','action'=>'index'),
-					'icon'=>'home'
-					),
-				array(
 					'title'=>'Reservas',
 					'href'=> array('controller'=>'reserves','action'=>'index'),
 					'icon'=>'book-open',

@@ -1214,7 +1214,7 @@ Fullcalendar
   font-size: 16px;
 }
 .portlet.calendar .fc-button .fc-icon-left-single-arrow:after {
-  content: "";
+  /*content: "";*/
 }
 .portlet.calendar .fc-button .fc-icon-left-single-arrow:before {
   content: "\f104";
@@ -1224,7 +1224,7 @@ Fullcalendar
   font-size: 16px;
 }
 .portlet.calendar .fc-button .fc-icon-right-single-arrow:after {
-  content: "";
+  /*content: "";*/
 }
 .portlet.calendar .fc-button .fc-icon-right-single-arrow:before {
   content: "\f105";

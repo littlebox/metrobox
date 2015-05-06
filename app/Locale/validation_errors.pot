@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-12-03 00:21+0100\n"
+"POT-Creation-Date: 2015-05-05 14:33-0300\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,19 +14,74 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: Model/User.php:validation for field email
-msgid "A username is required"
+#: Model/Client.php:validation for field full_name;validation for field birth_date;validation for field email;validation for field birthplace;validation for field phone
+#: Model/Group.php:validation for field name
+#: Model/Image.php:validation for field winery_id;validation for field name
+#: Model/Reserve.php:validation for field tour_id;validation for field client_id;validation for field language_id;validation for field date;validation for field time;validation for field number_of_adults;validation for field number_of_minors
+#: Model/Tour.php:validation for field winery_id;validation for field name;validation for field length;validation for field quota
+#: Model/Winery.php:validation for field name
+msgid "notEmpty"
+msgstr ""
+
+#: Model/Client.php:validation for field email
+msgid "email"
+msgstr ""
+
+#: Model/Group.php:validation for field name
+msgid "alphaNumeric"
+msgstr ""
+
+#: Model/Reserve.php:validation for field date
+msgid "date"
+msgstr ""
+
+#: Model/Reserve.php:validation for field time
+#: Model/Tour.php:validation for field length
+msgid "time"
+msgstr ""
+
+#: Model/Reserve.php:validation for field number_of_adults;validation for field number_of_minors
+#: Model/Tour.php:validation for field quota
+msgid "numeric"
+msgstr ""
+
+#: Model/Tour.php:validation for field price
+msgid "money"
 msgstr ""
 
 #: Model/User.php:validation for field email
-msgid "Username must be an email"
+msgid "An email is required"
+msgstr ""
+
+#: Model/User.php:validation for field email
+msgid "Must be an email"
+msgstr ""
+
+#: Model/User.php:validation for field email
+msgid "Email already exist"
+msgstr ""
+
+#: Model/User.php:validation for field full_name
+msgid "A name is required"
 msgstr ""
 
 #: Model/User.php:validation for field password
 msgid "A password is required"
 msgstr ""
 
-#: Model/User.php:validation for field role
-msgid "Please enter a valid role"
+#: Model/User.php:validation for field password_confirm
+msgid "Please confirm your password"
+msgstr ""
+
+#: Model/User.php:validation for field password_confirm
+msgid "Passwords don't match."
+msgstr ""
+
+#: Model/User.php:validation for field profile_picture
+msgid "rule"
+msgstr ""
+
+#: Model/User.php:validation for field profile_picture
+msgid "required"
 msgstr ""
 

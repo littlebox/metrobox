@@ -27,7 +27,7 @@
 /**
  * General routes
  */
-	Router::connect('/', array('controller' => 'pages', 'action' => 'index'));
+	Router::connect('/', array('controller' => 'reserves', 'action' => 'index'));
 	Router::connect('/test', array('controller' => 'pages', 'action' => 'test'));
 
 /**

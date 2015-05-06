@@ -49,7 +49,7 @@
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 					<li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-						<i class="icon-envelope-open"></i>
+						<i class="icon-calendar"></i>
 						<span class="badge badge-default">
 						4 </span>
 						</a>
