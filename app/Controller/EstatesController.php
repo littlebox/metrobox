@@ -37,13 +37,67 @@ class EstatesController extends AppController {
 		$this->set('_serialize','response');
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
+	//Return a JSON encode respons with reserves to show in calendar (http://fullcalendar.io/docs/event_data/events_json_feed/)
+	public function get() {
+
+		debug($this->name);
+		//$this->request->allowMethod('ajax'); //Call only with .json at end on url
+
+		$query = $this->distanceQuery(array(
+			'latitude' => -34.6158527,
+			'longitude' => -58.4333203
+		));
+		debug($query);
+		$query['contain'] = false;
+		$results = $this->Estate->find('all', $query);
+		debug($results);
+		$log = $this->Estate->getDataSource()->getLog(false, false); debug($log);die();
+
+		//Prepare conditions with filters recived
+		$conditions = array(
+
+		);
+
+		//Bring al Estates
+		$estates = $this->Estate->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client','Tour.color')));
+		//debug($reserves);die();
+
+		//Prepare response for fullcalendar
+		$response = [];
+		foreach ($reserves as $reserve) {
+			//Build the title for show reserve
+			$title = '';
+			$title = $title.$reserve['Client']['full_name'];
+			$title = $title.' ('.$reserve['Reserve']['number_of_adults'].'a';
+			if($reserve['Reserve']['number_of_minors'] > 0){
+				$title = $title.' '.$reserve['Reserve']['number_of_minors'].'m';
+			}
+			$title = $title.')';
+
+			$arrayToPush = array(
+				'id' => $reserve['Reserve']['id'],
+				'title' => $title,
+				'start' => $reserve['Reserve']['date'].' '.$reserve['Reserve']['time'],
+				'tour' => $reserve['Reserve']['tour_id'],
+				'language' => $reserve['Reserve']['language_id'],
+				'date' => $reserve['Reserve']['date'],
+				'time' => $reserve['Reserve']['time'],
+				'clientEmail' => $reserve['Client']['email'],
+				'clientName' => $reserve['Client']['full_name'],
+				'clientBirthDate' => $reserve['Client']['birth_date'],
+				'clientCountry' => $reserve['Client']['country'],
+				'clientPhone' => $reserve['Client']['phone'],
+				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
+				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
+				'backgroundColor' => $reserve['Tour']['color'],
+			);
+			$response[] = $arrayToPush;
+		}
+
+		$this->set(compact('response')); // Pass $data to the view
+		$this->set('_serialize', 'response'); // Let the JsonView class know what variable to use
+	}
+
 	public function view($id = null) {
 		if (!$this->Estate->exists($id)) {
 			throw new NotFoundException(__('Invalid estate'));
@@ -166,7 +220,7 @@ class EstatesController extends AppController {
  * @return void
  */
 	public function delete($id = null) {
-		$this->request->allowMethod('post');
+		//$this->request->allowMethod('post');
 
 		if($this->request->is('ajax')){
 			$data = array(
@@ -291,5 +345,76 @@ class EstatesController extends AppController {
 			$this->Session->setFlash(__('The estate could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+/**
+ * @author Reed Dadoune
+ * distanceQuery
+ * A genral case distance query builder
+ * Pass a number of options to this function and recieve a query
+ * you can pass to either the find or paginate functions to get
+ * objects back by distance
+ *
+ * Example:
+ * $query = $this->Model->distanceQuery(array(
+ *	'latitude' => 34.2746405,
+ *	'longitude' => -119.2290053
+ * ));
+ * $query['conditions']['published'] = true;
+ * $results = $this->Model->find('all', $query);
+ *
+ * @param array $opts Options
+ *		- latitude The latitude coordinate of the center point
+ *		- longitude The longitude coordinate of the center point
+ *		- alias The model name of the query this is for
+ *			defaults to the current model alias
+ *		- radius The distance to at which to find objects at
+ *			defaults to false in which case distance is calculated
+ *			only for the sort order
+ * @return array A query that can be modified and passed to find or paginate
+ */
+	public function distanceQuery($opts = array()) {
+		$defaults = array(
+			'latitude' => 0,
+			'longitude' => 0,
+			'alias' => $this->modelClass,
+			'radius' => false
+		);
+
+		debug($defaults);
+		$opts = Set::merge($defaults, $opts);
+		debug($opts);
+		$query = array(
+			'fields' => array(
+				'*',
+				String::insert(
+					//Haversine formula to calculate distance between two points
+					'6371 * acos(cos( radians(:latitude) ) * cos( radians(:alias.latitude) ) * cos( radians(:alias.longitude) - radians(:longitude) ) + sin( radians(:latitude) ) * sin( radians(:alias.latitude) ) ) AS distance', //6371 is to convert to kilometers
+					array('alias' => $opts['alias'], 'latitude' => $opts['latitude'], 'longitude' => $opts['longitude'])
+				)
+			),
+			'order' => array('distance' => 'ASC')
+		);
+
+		if ($opts['radius']) {
+			$longitudeLower = $opts['longitude'] - $opts['radius'] / abs(cos(deg2rad($opts['latitude'])) * 69);
+			$longitudeUpper = $opts['longitude'] + $opts['radius'] / abs(cos(deg2rad($opts['latitude'])) * 69);
+			$latitudeLower = $opts['latitude'] - ($opts['radius'] / 69);
+			$latitudeUpper = $opts['latitude'] + ($opts['radius'] / 69);
+			$query['conditions'] = array(
+				String::insert(':alias.latitude BETWEEN ? AND ?', array('alias' => $opts['alias'])) => array($latitudeLower, $latitudeUpper),
+				String::insert(':alias.longitude BETWEEN ? AND ?', array('alias' => $opts['alias'])) => array($longitudeLower, $longitudeUpper)
+			);
+			$query['group'] = sprintf('%s.id HAVING distance < %f', $opts['alias'], $opts['radius']);
+		}
+
+		return $query;
+	}
+
+	public function afterDelete() {
+		//Delete all images asociated
+		// debug($this->data);die();
+		// $file = new File($this->data['Image']['name']);
+		// $file->delete();
 	}
 }
