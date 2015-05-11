@@ -39,19 +39,22 @@ class EstatesController extends AppController {
 
 	//Return a JSON encode respons with reserves to show in calendar (http://fullcalendar.io/docs/event_data/events_json_feed/)
 	public function get() {
-
-		debug($this->name);
 		//$this->request->allowMethod('ajax'); //Call only with .json at end on url
+		$this->layout = 'Ajax';
 
 		$query = $this->distanceQuery(array(
-			'latitude' => -34.6158527,
-			'longitude' => -58.4333203
+			'latitude' => -32.891908,
+			'longitude' => -68.8465069,
+			'radius' => 50
 		));
-		debug($query);
+		//debug($query);
 		$query['contain'] = false;
-		$results = $this->Estate->find('all', $query);
-		debug($results);
-		$log = $this->Estate->getDataSource()->getLog(false, false); debug($log);die();
+		// $results = $this->Estate->find('all', $query);
+		$this->Paginator->settings['limit'] = 1;
+		$this->Paginator->settings = $query;
+		$results = $this->Paginator->paginate('Estate');
+		//debug($results);
+		//$log = $this->Estate->getDataSource()->getLog(false, false); debug($log);die();
 
 		//Prepare conditions with filters recived
 		$conditions = array(
@@ -59,43 +62,11 @@ class EstatesController extends AppController {
 		);
 
 		//Bring al Estates
-		$estates = $this->Estate->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client','Tour.color')));
+		// $estates = $this->Estate->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client','Tour.color')));
 		//debug($reserves);die();
 
-		//Prepare response for fullcalendar
-		$response = [];
-		foreach ($reserves as $reserve) {
-			//Build the title for show reserve
-			$title = '';
-			$title = $title.$reserve['Client']['full_name'];
-			$title = $title.' ('.$reserve['Reserve']['number_of_adults'].'a';
-			if($reserve['Reserve']['number_of_minors'] > 0){
-				$title = $title.' '.$reserve['Reserve']['number_of_minors'].'m';
-			}
-			$title = $title.')';
-
-			$arrayToPush = array(
-				'id' => $reserve['Reserve']['id'],
-				'title' => $title,
-				'start' => $reserve['Reserve']['date'].' '.$reserve['Reserve']['time'],
-				'tour' => $reserve['Reserve']['tour_id'],
-				'language' => $reserve['Reserve']['language_id'],
-				'date' => $reserve['Reserve']['date'],
-				'time' => $reserve['Reserve']['time'],
-				'clientEmail' => $reserve['Client']['email'],
-				'clientName' => $reserve['Client']['full_name'],
-				'clientBirthDate' => $reserve['Client']['birth_date'],
-				'clientCountry' => $reserve['Client']['country'],
-				'clientPhone' => $reserve['Client']['phone'],
-				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
-				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
-				'backgroundColor' => $reserve['Tour']['color'],
-			);
-			$response[] = $arrayToPush;
-		}
-
-		$this->set(compact('response')); // Pass $data to the view
-		$this->set('_serialize', 'response'); // Let the JsonView class know what variable to use
+		$this->set(compact('results')); // Pass $data to the view
+		$this->set('_serialize', 'results'); // Let the JsonView class know what variable to use
 	}
 
 	public function view($id = null) {
@@ -381,9 +352,7 @@ class EstatesController extends AppController {
 			'radius' => false
 		);
 
-		debug($defaults);
 		$opts = Set::merge($defaults, $opts);
-		debug($opts);
 		$query = array(
 			'fields' => array(
 				'*',
@@ -397,15 +366,23 @@ class EstatesController extends AppController {
 		);
 
 		if ($opts['radius']) {
-			$longitudeLower = $opts['longitude'] - $opts['radius'] / abs(cos(deg2rad($opts['latitude'])) * 69);
-			$longitudeUpper = $opts['longitude'] + $opts['radius'] / abs(cos(deg2rad($opts['latitude'])) * 69);
-			$latitudeLower = $opts['latitude'] - ($opts['radius'] / 69);
-			$latitudeUpper = $opts['latitude'] + ($opts['radius'] / 69);
+			$earthRadio = 6371; //in Km
+
+			//Diferential distances in radians
+			$dLatitude = $opts['radius']/$earthRadio;
+			$dLongitude = $opts['radius']/($earthRadio * cos(pi()*$opts['latitude']/180));
+
+			//Limit coordenates in degrees
+			$latitudeLower = $opts['latitude'] - $dLatitude * 180/pi();
+			$latitudeUpper = $opts['latitude'] + $dLatitude * 180/pi();
+			$longitudeLower = $opts['longitude'] - $dLongitude * 180/pi();
+			$longitudeUpper = $opts['longitude'] + $dLongitude * 180/pi();
+
 			$query['conditions'] = array(
 				String::insert(':alias.latitude BETWEEN ? AND ?', array('alias' => $opts['alias'])) => array($latitudeLower, $latitudeUpper),
 				String::insert(':alias.longitude BETWEEN ? AND ?', array('alias' => $opts['alias'])) => array($longitudeLower, $longitudeUpper)
 			);
-			$query['group'] = sprintf('%s.id HAVING distance < %f', $opts['alias'], $opts['radius']);
+			$query['group'] = sprintf('%s.id HAVING distance < %f', $opts['alias'], $opts['radius']); //For search in a circle not in a square
 		}
 
 		return $query;
