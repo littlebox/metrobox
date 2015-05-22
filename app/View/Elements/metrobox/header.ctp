@@ -26,16 +26,26 @@
 				</button>
 				<ul class="dropdown-menu" role="menu">
 					<li>
-						<a href="#">
-						<i class="icon-directions"></i> <?= __('New Winery') ?> </a>
+						<a href="<?= $this->Html->Url(array('controller' => 'tours', 'action' => 'add')); ?>">
+						<i class="icon-direction"></i> <?= __('New Tour') ?> </a>
 					</li>
+
 					<?php //Admin Part ?>
+					<?php if(AuthComponent::user('Group.id') == 1): ?>
+
 					<li class="divider">
 					</li>
 					<li>
-						<a href="#">
+						<a href="<?= $this->Html->Url(array('controller' => 'wineries', 'action' => 'add', 'admin' => 'true')); ?>">
+						<i class="icon-directions"></i> <?= __('New Winery') ?> </a>
+					</li>
+					<li>
+						<a href="<?= $this->Html->Url(array('controller' => 'users', 'action' => 'add', 'admin' => 'true')); ?>">
 						<i class="icon-user"></i> <?= __('New User') ?> </a>
 					</li>
+
+					<?php endif; ?>
+
 				</ul>
 			</div>
 		</div>
@@ -45,8 +55,7 @@
 			<!-- BEGIN TOP NAVIGATION MENU -->
 			<div class="top-menu">
 				<ul class="nav navbar-nav pull-right">
-					<!-- BEGIN INBOX DROPDOWN -->
-					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
+					<!-- BEGIN INBOX DROPDOWN
 					<li class="dropdown dropdown-extended dropdown-inbox" id="header_inbox_bar">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
 						<i class="icon-calendar"></i>
@@ -135,7 +144,8 @@
 							</li>
 						</ul>
 					</li>
-					<!-- END INBOX DROPDOWN -->
+					 END INBOX DROPDOWN -->
+
 					<!-- BEGIN USER LOGIN DROPDOWN -->
 					<!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
 					<li class="dropdown dropdown-user">

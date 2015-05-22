@@ -838,9 +838,6 @@ msgstr ""
 msgid "Currency"
 msgstr ""
 
-#: View/Estates/view.ctp:84
-msgid "Description"
-msgstr ""
 
 #: View/Estates/view.ctp:89
 msgid "Antiqueness"
@@ -1036,6 +1033,10 @@ msgstr "Reservas"
 msgid "New Reserve"
 msgstr "Nueva Reserva"
 
+#: View/Tours/index.ctp:251
+msgid "New Tour"
+msgstr "Nuevo Tour"
+
 #: View/Reserves/index.ctp:275;342
 msgid "Select a tour..."
 msgstr "Seleccione un tour..."
@@ -1086,6 +1087,24 @@ msgstr "Tour"
 #: View/Tours/edit.ctp:52;61
 msgid "Remove"
 msgstr "Eliminar"
+
+#: View/Tours/add.ctp:52;60
+#: View/Tours/edit.ctp:52;61
+msgid "Length"
+msgstr "Duración"
+
+#: View/Tours/add.ctp:52;60
+#: View/Tours/edit.ctp:52;61
+msgid "Day"
+msgstr "Día"
+
+#: View/Tours/add.ctp:52;60
+#: View/Tours/edit.ctp:52;61
+msgid "Days"
+msgstr "Días"
+
+msgid "Description"
+msgstr "Descripción"
 
 #: View/Tours/add.ctp:65
 #: View/Tours/edit.ctp:67
@@ -1274,7 +1293,11 @@ msgstr "Fecha"
 
 #: Reserve Model
 msgid "Time"
-msgstr "Hora"
+msgstr "Horario"
+
+#: Reserve Model
+msgid "Times"
+msgstr "Horarios"
 
 #: Reserve Model
 msgid "Full Name"

@@ -21,22 +21,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="btn-group pull-right">
-						<button class="btn dropdown-toggle" data-toggle="dropdown"><?= __('Tools') ?> <i class="fa fa-angle-down"></i>
-						</button>
-						<ul class="dropdown-menu pull-right">
-							<li>
-								<a href="#">
-								<?= __('Print') ?> </a>
-							</li>
-							<li>
-								<a href="#">
-								<?= __('Save as PDF') ?> </a>
-							</li>
-							<li>
-								<a href="#">
-								<?= __('Export to Excel') ?> </a>
-							</li>
-						</ul>
+
 					</div>
 				</div>
 			</div>

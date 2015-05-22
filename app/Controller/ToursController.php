@@ -21,6 +21,7 @@ class ToursController extends AppController {
  * @return void
  */
 	public function index() {
+		//debug($this->Auth->user('Group.id'));die();
 		$this->layout = 'metrobox';
 
 		$this->paginate = array(

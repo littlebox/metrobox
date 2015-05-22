@@ -35,7 +35,7 @@ var ToursIndexTable = function () {
 				//Set to column 6
 				$('td:eq(5)', nRow).html(htmlContent);
 				//Set to column 1
-				$('td:eq(0)', nRow).html(aData.Tour.color);
+				$('td:eq(0)', nRow).html('<div style="width: 28px;height: 28px;background-color: '+aData.Tour.color+';"></div>');
 			}
 		});
 

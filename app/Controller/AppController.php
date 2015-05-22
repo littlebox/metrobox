@@ -47,7 +47,7 @@ class AppController extends Controller {
 		'Acl',
 		'Auth' => array(
 			'loginRedirect' => array(
-				'controller' => 'pages',
+				'controller' => 'reserves',
 				'action' => 'index'
 			),
 			'logoutRedirect' => array(

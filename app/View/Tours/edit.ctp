@@ -38,10 +38,10 @@
 					echo $this->Form->input('quota', array('placeholder' => '25'));
 					echo $this->Form->input('price', array('placeholder' => '150'));
 					echo $this->Form->input('Language', array('multiple' => 'checkbox', 'class' => ''));
-					echo $this->Form->input('Day', array('multiple' => 'checkbox', 'class' => ''));
+					echo $this->Form->input('Day', array('label' => array('class' => 'control-label col-md-3', 'text' => __('Days')), 'multiple' => 'checkbox', 'class' => ''));
 				?>
 					<div class="form-group">
-						<label for="TimeTime" class="control-label col-md-3">Time</label>
+						<label for="TimeTime" class="control-label col-md-3"><?= __('Times') ?></label>
 						<div class="col-md-9">
 							<div id="all-timepickers-div">
 								<div class="timepicker-div" style="display:none;">
