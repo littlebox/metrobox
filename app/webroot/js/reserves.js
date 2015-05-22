@@ -472,54 +472,34 @@ var reserves = {
 			eventDrop: function(reserve, delta, revertFunc) {
 				changeReserveDate(reserve, revertFunc);
 			},
-			events: getReservesUrl,
+			eventSources: getReservesUrl,
 			eventRender: function(reserve, element, view) {
 				addModalInitializers(element);
 				addLanguageFlag(reserve, element);
-			},
+			}
+		});
 
-			// events: [{
-			//	title: 'Reserve',
-			//	start: new Date(y, m, 1, 10, 30),
-			//	backgroundColor: Metrobox.getBrandColor('yellow'),
-			//	allDay: false,
+		//Add tour filter selector
+		$('.fc-button-group').append(filterByTourSelect);
 
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, d - 5, 10, 30),
-			//	backgroundColor: Metrobox.getBrandColor('green'),
-			//	allDay: false,
+		//Set tour filter change action
+		var currentSource = getReservesUrl;
+		var newSource = '';
+		$('#tour-filter').on('change', function(){
+			//If tour filter has value ("All tours" has not value)
+			if ($('#tour-filter').val()){
+				newSource = getReservesUrl+'?tour='+$('#tour-filter').val();
+			} else {
+				newSource = getReservesUrl;
+			}
 
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, d - 3, 16, 0),
-			//	backgroundColor: Metrobox.getBrandColor('red'),
-			//	allDay: false,
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, d + 4, 16, 0),
-			//	backgroundColor: Metrobox.getBrandColor('green'),
-			//	allDay: false,
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, d, 10, 30),
-			//	allDay: false,
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, d, 12, 0),
-			//	backgroundColor: Metrobox.getBrandColor('grey'),
-			//	allDay: false,
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, d + 1, 19, 0),
-			//	backgroundColor: Metrobox.getBrandColor('purple'),
-			//	allDay: false,
-			// }, {
-			//	title: 'Reserve',
-			//	start: new Date(y, m, 28, 17, 30),
-			//	backgroundColor: Metrobox.getBrandColor('yellow'),
-			//	allDay: false,
-			// }]
+			//remove the old eventSources and remove events
+			$('#calendar').fullCalendar('removeEventSource', currentSource);
+			$('#calendar').fullCalendar('removeEvents');
+			//attach the new eventSources and bring events
+			$('#calendar').fullCalendar('addEventSource', newSource);
+
+			currentSource = newSource;
 		});
 
 		//Add attributes to all reserve events, needed to open reserve details modal view

@@ -1,4 +1,5 @@
 <?php
+	//debug($toursData);die();
 	$countryList = array(
 		'AF' => 'Afghanistan',
 		'AL' => 'Albania',
@@ -241,13 +242,20 @@
 <div class="portlet box purple-plum calendar">
 	<div class="portlet-title">
 		<div class="caption">
-			<i class="fa fa-book"></i>Reserves
+			<i class="fa fa-book"></i><?= __('Reserves') ?>
 		</div>
 	</div>
 	<div class="portlet-body">
 		<div class="row">
-			<div class="col-md-3 col-sm-12">
-				<!-- BEGIN DRAGGABLE EVENTS PORTLET-->
+			<!-- CALENDAR -->
+			<div class="col-md-9 col-md-push-3 col-sm-12">
+				<div id="calendar" class="has-toolbar">
+				</div>
+			</div>
+			<!-- END CALENDAR -->
+
+			<!-- NEW RESERVE FORM -->
+			<div class="col-md-3 col-md-pull-9 col-sm-12">
 				<h3 class="form-section" style="margin-top:3px;"><?= __('New Reserve') ?></h3>
 				<div id="external-events">
 					<?php echo $this->Form->create('Reserve', array(
@@ -287,12 +295,8 @@
 						<?= $this->Form->button($this->Html->tag('span', __('Add'), array('class' => 'ladda-label')), array('id' => 'reserve-add-submit-button', 'class' => 'btn default ladda-button', 'data-style' => 'zoom-out'));?>
 					<?php echo $this->Form->end(); ?>
 				</div>
-				<!-- END DRAGGABLE EVENTS PORTLET-->
 			</div>
-			<div class="col-md-9 col-sm-12">
-				<div id="calendar" class="has-toolbar">
-				</div>
-			</div>
+			<!-- END NEW RESERVE FORM -->
 		</div>
 	</div>
 </div>
@@ -388,6 +392,29 @@
 		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
 		var placeHolderCountrySelect = '<?= __("Select a country...");?>';
 		var selecTourFirstText = '<?= __("Select a tour first");?>';
+
+		<?php
+			//Prepare select element for tour filter
+			// $tours[-1] = __('All Tours'); //Add show all tours option
+			// ksort($tours);// Sort array by key (to show "All Tours" first)
+			$filterByTourSelect = $this->Form->input('tour_id', array(
+				'id' => 'tour-filter',
+				'empty' => __('All Tours'),
+				'style' => 'position: absolute; right: 15px; top: -4px; width: auto;',
+				'div' => false,
+				'label' => false,
+				'class' => 'form-control tour-filter',
+				'between' => '',
+				'after' => '',
+				'error' => false,
+				'name' => 'tour-filter',
+				'options' => $tours
+			));
+
+			$filterByTourSelect = eregi_replace("[\n|\r|\n\r]", " ", $filterByTourSelect);
+		?>
+
+		var filterByTourSelect = '<?= $filterByTourSelect ?>';
 
 		function sendReserveAddForm() {
 			var button = $('#reserve-add-submit-button').ladda();

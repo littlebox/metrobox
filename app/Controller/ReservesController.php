@@ -194,7 +194,7 @@ class ReservesController extends AppController {
 
 	//Return a JSON encode respons with reserves to show in calendar (http://fullcalendar.io/docs/event_data/events_json_feed/)
 	public function get() {
-		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+		//$this->request->allowMethod('ajax'); //Call only with .json at end on url
 
 		//Bring al IDs of user winery's tour
 		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
@@ -204,8 +204,33 @@ class ReservesController extends AppController {
 			$toursIds[] = $tour['Tour']['id'];
 		}
 
-		//Bring only reserves of those tours
-		$reserves = $this->Reserve->find('all', array('conditions' => array('Reserve.tour_id' => $toursIds), 'contain' => array('Client','Tour.color')));
+		//If tour filter is seted
+		if(!empty($this->params['url']['tour'])){
+			//Bring only reserves of those tours
+			$conditions = array(
+				'Reserve.tour_id' => $this->params['url']['tour']
+			);
+		} else{
+			//Bring only reserves of winery's tours
+			$conditions = array(
+				'Reserve.tour_id' => $toursIds
+			);
+		}
+
+		//Get GET request parameters (start and end date)
+		if(!empty($this->params['url']['start']) && !empty($this->params['url']['end'])){
+			//If start and end exist in the request, set between dates conditions
+			$startEndConditions = array(
+				'Reserve.date BETWEEN ? AND ?' => array(
+					$this->params['url']['start'],
+					$this->params['url']['end'],
+				)
+			);
+			$conditions = array_merge($conditions, $startEndConditions);
+		}
+
+		//Bring reserves from DB
+		$reserves = $this->Reserve->find('all', array('conditions' => $conditions, 'contain' => array('Client','Tour.color')));
 		//debug($reserves);die();
 
 		//Prepare response for fullcalendar

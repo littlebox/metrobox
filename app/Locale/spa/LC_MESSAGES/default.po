@@ -1025,12 +1025,20 @@ msgid "So far, so good :) "
 msgstr "Hasta aquí, todo bien :)"
 
 #: View/Reserves/index.ctp:251
+msgid "Reserve"
+msgstr "Reserva"
+
+#: View/Reserves/index.ctp:251
+msgid "Reserves"
+msgstr "Reservas"
+
+#: View/Reserves/index.ctp:251
 msgid "New Reserve"
 msgstr "Nueva Reserva"
 
 #: View/Reserves/index.ctp:275;342
 msgid "Select a tour..."
-msgstr "Seleccione un tour"
+msgstr "Seleccione un tour..."
 
 #: View/Reserves/index.ctp:276;278;343;345;390
 msgid "Select a tour first"
@@ -1059,6 +1067,10 @@ msgstr "Guardar Cambios"
 #: View/Reserves/index.ctp:389
 msgid "Select a country..."
 msgstr "Seleccione un país"
+
+#: View/Reserves/index.ctp:389
+msgid "All Tours"
+msgstr "Todos los Tours"
 
 #: View/Reserves/index.ctp:438;450;459;516;525;534;622;633
 #: View/Users/login.ctp:103
@@ -1252,3 +1264,42 @@ msgstr "Bodegas"
 msgid "Winery hasn't been deleted."
 msgstr "La bodega no ha sido eliminada"
 
+#: Reserve Model
+msgid "Language"
+msgstr "Idioma"
+
+#: Reserve Model
+msgid "Date"
+msgstr "Fecha"
+
+#: Reserve Model
+msgid "Time"
+msgstr "Hora"
+
+#: Reserve Model
+msgid "Full Name"
+msgstr "Nombre Completo"
+
+#: Reserve Model
+msgid "Birth Date"
+msgstr "Fecha de Nacimiento"
+
+#: Reserve Model
+msgid "Birth Date"
+msgstr "Fecha de Nacimiento"
+
+#: Reserve Model
+msgid "Number Of Adults"
+msgstr "Cantidad de Adultos"
+
+#: Reserve Model
+msgid "Number Of Minors"
+msgstr "Cantidad de Menores"
+
+#: Reserve Model
+msgid "Country"
+msgstr "País de Origen"
+
+#: Reserve Model
+msgid "Phone"
+msgstr "Teléfono"
