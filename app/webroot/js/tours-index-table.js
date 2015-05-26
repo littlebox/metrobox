@@ -19,6 +19,10 @@ var ToursIndexTable = function () {
 			"bProcessing": true,
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
+			"aaSorting": [[1,'desc']], //Ordenar por nombre
+			"columnDefs": [
+				{ "width": "36px", "targets": 0 } //First row at 36px
+			],
 			"aoColumns": [
 				{mData:"Tour.color", bSortable: false},
 				{mData:"Tour.name"},
@@ -35,7 +39,7 @@ var ToursIndexTable = function () {
 				//Set to column 6
 				$('td:eq(5)', nRow).html(htmlContent);
 				//Set to column 1
-				$('td:eq(0)', nRow).html('<div style="width: 28px;height: 28px;background-color: '+aData.Tour.color+';"></div>');
+				$('td:eq(0)', nRow).html('<div style="width: 100%;height: 28px;background-color: '+aData.Tour.color+';"></div>');
 			}
 		});
 
