@@ -272,16 +272,44 @@ class ReservesController extends AppController {
 
 
 	public function delete($id = null) {
-		$this->Reserve->id = $id;
-		if (!$this->Reserve->exists()) {
-			throw new NotFoundException(__('Invalid reserve'));
+		$this->request->allowMethod('post');
+
+		if($this->request->is('ajax')){
+			$data = array(
+				'content' => '',
+				'error' => '',
+			);
+
+			//$this->autoRender = $this->layout = false;
+
+			$this->Reserve->id = $id;
+			if (!$this->Reserve->exists()) {
+				$data['error'] = __('Invalid Reserve');
+			} else {
+				if ($this->Reserve->delete()) {
+					$data['content'] = __('Reserve deleted');
+				} else {
+					$data['error'] = __('Reserve was not deleted');
+				}
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+		}else{
+
+			$this->Reserve->id = $id;
+			if (!$this->Reserve->exists()) {
+				throw new NotFoundException(__('Invalid Reserve'));
+			}
+			if ($this->Reserve->delete()) {
+				$this->Session->setFlash(__('Reserve deleted'), 'metrobox/flash_success');
+				return $this->redirect(array('action' => 'index'));
+			}
+			$this->Session->setFlash(__('Reserve was not deleted'), 'metrobox/flash_danger');
+			return $this->redirect(array('action' => 'index'));
 		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->Reserve->delete()) {
-			$this->Session->setFlash(__('The reserve has been deleted.'));
-		} else {
-			$this->Session->setFlash(__('The reserve could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
 	}
+
+
 }

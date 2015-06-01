@@ -736,7 +736,7 @@ msgstr "Detalles"
 #: View/Users/admin_index.ctp:93
 #: View/Wineries/admin_index.ctp:92
 msgid "Are you sure?"
-msgstr "¿Está seguro?"
+msgstr "¿Seguro?"
 
 #: View/Estates/index.ctp:95
 msgid "You will not be able to recover this imaginary file!"
@@ -747,14 +747,14 @@ msgstr "No podrá recuperar este archivo imaginario!"
 #: View/Users/admin_index.ctp:98
 #: View/Wineries/admin_index.ctp:97
 msgid "Yes, delete it!"
-msgstr "Si, eliminalo!"
+msgstr "¡Si, quiero borrarlo!"
 
 #: View/Estates/index.ctp:116
 #: View/Tours/index.ctp:117
 #: View/Users/admin_index.ctp:115
 #: View/Wineries/admin_index.ctp:114
 msgid "Deleted!"
-msgstr "Eliminado!"
+msgstr "Eliminado"
 
 #: View/Estates/index.ctp:125;129
 #: View/Tours/index.ctp:126;130
@@ -1152,7 +1152,10 @@ msgstr "Duración"
 #: View/Users/admin_index.ctp:94
 #: View/Wineries/admin_index.ctp:93
 msgid "You will not be able to recover this!"
-msgstr "No podrá recuperar esto!"
+msgstr "¡No se podrá recuperar esto!"
+
+msgid "Reserve deleted"
+msgstr "La reserva fué eliminada correctamente"
 
 #: View/Tours/index.ctp:130
 msgid "Tour hasn't been deleted."

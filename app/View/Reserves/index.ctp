@@ -353,6 +353,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
+				<button type="button" class="btn red" onclick="confirmAlert();" style="float: left;"><?= __('Delete') ?></button>
 				<button type="button" data-dismiss="modal" class="btn default"><?= __('Close') ?></button>
 				<?= $this->Form->button($this->Html->tag('span', __('Save Changes'), array('class' => 'ladda-label')), array('id' => 'reserve-edit-submit-button', 'class' => 'btn green ladda-button', 'data-style' => 'zoom-out', 'form' => 'reserve-edit-form'));?>
 			</div>
@@ -663,6 +664,71 @@
 				}
 			});
 		};
+
+		isDeleting = false;
+		reserveDeleterUrl = ('<?= $this->Html->url(array('controller'=>'reserves', 'action' => 'delete')) ?>');
+		function confirmAlert(){
+			//Hide modal to show swal
+			$('#reserve-details').modal('hide');
+
+			swal(
+				{
+					title: "<?= __('Are you sure?') ?>",
+					text: "<?= __('You will not be able to recover this!') ?>",
+					type: "warning",
+					showCancelButton: true,
+					confirmButtonColor: "#DD6B55",
+					confirmButtonText: "<?= __('Yes, delete it!') ?>",
+					cancelButtonText: "<?= __('Cancel') ?>",
+					closeOnConfirm: false
+				},
+				function(isConfirm){
+					if(isConfirm){
+						if(!isDeleting){
+							reserveId = $('#id-modal').val();
+							isDeleting = true;
+							$.ajax({
+								type: 'post',
+								cache: false,
+								url: reserveDeleterUrl+'/'+reserveId+'.json',
+								beforeSend: function(xhr) {
+									xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+									xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+								},
+								success: function(response) {
+
+									if (response.content) {
+										swal({
+											title: "<?= __('Deleted!') ?>",
+											text: response.content,
+											type: "success",
+										},
+										function(){
+											//Remove reserve from calendar
+											$('#calendar').fullCalendar('removeEvents', reserveId);
+										})
+									}
+									if (response.error) {
+										swal("<?= __('Error') ?>", response.error, "error");
+									}
+								},
+								error: function(e) {
+									swal("<?= __('Error') ?>", "<?= __('Reserve hasn\'t been deleted.') ?>", "error");
+								},
+								complete: function() {
+									isDeleting = false;
+								}
+							});
+						}
+					}else{
+						//Show modal again
+						$('#reserve-details').modal('show');
+					}
+
+
+
+				});
+		}
 
 		jQuery(document).ready(function() {
 			reserves.init();
