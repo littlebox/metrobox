@@ -91,10 +91,15 @@ var TourAddEdit = {
 			});
 
 			// Hide widgew on lost focus
-			// $('.timepicker').on('blur', function(e){
-			// 	e.preventDefault();
-			// 	$(this).timepicker('hideWidget');
-			// });
+			$('.timepicker').on('blur', function(e){
+				var container = $('.bootstrap-timepicker-widget').first();
+
+				if (!container.is(e.relatedTarget) // if the destination of blur isn't the container...
+					&& container.has(e.relatedTarget).length === 0) // ... nor a descendant of the container
+				{
+					$(this).timepicker('hideWidget');
+				}
+			});
 
 		}
 	},

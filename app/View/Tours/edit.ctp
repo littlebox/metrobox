@@ -49,7 +49,7 @@
 										<input name="data[Time][Time][]" autocomplete="off" class="timepicker timepicker-time form-control" placeholder="--:--" style="margin-bottom:10px;" type="text" id="TimeTime">
 									</div>
 									<div class="col-md-2">
-										<button type="button" class="btn red remove-time-button"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
+										<button type="button" class="btn red remove-time-button" tabindex="-1"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
 									</div>
 								</div>
 								<?php foreach($this->request->data['Time'] as $time):?>
@@ -58,7 +58,7 @@
 											<input name="data[Time][Time][]" autocomplete="off" class="timepicker timepicker-time form-control" placeholder="--:--" style="margin-bottom:10px;" type="text" id="TimeTime" value="<?= $time['hour'];?>">
 										</div>
 										<div class="col-md-2">
-											<button type="button" class="btn red remove-time-button"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
+											<button type="button" class="btn red remove-time-button" tabindex="-1"><?= __('Remove') ?> <i class="fa fa-trash-o"></i></button>
 										</div>
 									</div>
 								<?php endforeach;?>
