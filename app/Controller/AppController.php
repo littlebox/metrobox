@@ -37,7 +37,7 @@ class AppController extends Controller {
 		'RequestHandler',
 		'Email',
 		'Recaptcha.Recaptcha',
-		'DebugKit.Toolbar',
+		//'DebugKit.Toolbar',
 		'Session',
 		'Cookie' => array(
 			'key' => 'mt]09u7!6Z#@|#4MKg>s&5=6y0lazuPPn4Z3G238g37V50xBIwUnv8kE1K7kvD8',
