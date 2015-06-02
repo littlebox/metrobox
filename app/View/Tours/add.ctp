@@ -37,6 +37,7 @@
 					echo $this->Form->input('length', array('type' => 'text', 'class' => 'timepicker timepicker-length form-control', 'placeholder' => '--:--'));
 					echo $this->Form->input('quota', array('placeholder' => '25'));
 					echo $this->Form->input('price', array('placeholder' => '150'));
+					echo $this->Form->input('minors_price', array('placeholder' => '0'));
 					echo $this->Form->input('Language', array('multiple' => 'checkbox', 'class' => ''));
 					echo $this->Form->input('Day', array('label' => array('class' => 'control-label col-md-3', 'text' => __('Days')), 'multiple' => 'checkbox', 'class' => ''));
 				?>

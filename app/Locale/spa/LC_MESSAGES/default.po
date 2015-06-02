@@ -1140,6 +1140,10 @@ msgstr "Color"
 msgid "Price"
 msgstr "Precio"
 
+#: View/Tours/index.ctp:48
+msgid "Minors Price"
+msgstr "Precio para Menores"
+
 #: View/Tours/index.ctp:49
 msgid "Quota"
 msgstr "Cupos"

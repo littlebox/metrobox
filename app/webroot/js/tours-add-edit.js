@@ -21,6 +21,9 @@ var TourAddEdit = {
 				'data[Tour][price]': {
 					required: true
 				},
+				'data[Tour][minors_price]': {
+					required: true
+				},
 				'data[Time][Time][]': {
 					required: true
 				},
