@@ -37,6 +37,8 @@
 *.eot binary
 *.ttf binary
 *.wof binary
+*.woff binary
+*.woff2 binary
 *.ai binary
 *.eps binary
 *.bat binary
