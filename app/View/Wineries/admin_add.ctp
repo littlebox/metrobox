@@ -36,26 +36,49 @@
 					echo $this->Form->input('name');
 				?>
 
-			</div>
-
-			<div class="form-actions">
-				<div class="row">
-					<div class="col-md-offset-10 col-md-2">
-						<?php
-							echo $this->Form->Button(__('Cancel'),array(
-								'div' => false,
-								'class' => 'btn default',
-								'type' => 'button'
-							));
-							echo $this->Form->Button(__('Save'),array(
-								'div' => false,
-								'class' => 'btn green',
-								'type' => 'submit'
-							));
-
-						?>
+				<div class="form-group" id="gmap_geocoding_form">
+					<label class="control-label col-md-3"><?= __('Address') ?></label>
+					<div class="input-group col-md-9 row row-izq-padding">
+						<input type="hidden" name="data[Winery][latitude]" value="" id="WineryLatitude"/>
+						<input type="hidden" name="data[Winery][longitude]" value="" id="WineryLongitude"/>
+						<div class="col-md-4" style="padding-left: 0px;">
+							<input type="text" class="form-control" id="gmap_geocoding_city" name="data[Winery][city]" placeholder="<?= __('City') ?>">
+							</span>
+						</div>
+						<div class="col-md-6" style="padding-left: 0px;">
+							<input type="text" class="form-control" id="gmap_geocoding_address" name="data[Winery][address]" placeholder="<?= __('Address') ?>">
+							</span>
+						</div>
+						<div class="col-md-2" style="padding-left: 0px; padding-right: 0px;">
+							<button class="btn blue" id="gmap_geocoding_btn" style="width: 100%;"><i class="fa fa-search"></i> <?= __('Search') ?> </button>
+						</div>
+						<div class="col-md-12"><span id="marker-help-text" style="display:none;" class="help-block">Podés corregir la posición arrastrando el marcador!</span></div>
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label class="control-label col-md-3"><?= __('Map') ?></label>
+					<div class="col-md-9">
+						<div id="gmap_geocoding" class="gmaps"></div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="form-actions right">
+				<?php
+					echo $this->Form->Button(__('Cancel'),array(
+						'div' => false,
+						'class' => 'btn default',
+						'type' => 'button'
+					));
+					echo $this->Form->Button(__('Save'),array(
+						'div' => false,
+						'class' => 'btn green',
+						'type' => 'submit'
+					));
+
+				?>
 			</div>
 		<?= $this->Form->end(); ?>
 		<!-- END FORM-->
@@ -76,6 +99,8 @@
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
+	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false&libraries=places'); //Para los mapas de google ?>
+	<?= $this->Html->script('/plugins/gmaps/gmaps'); //Para los mapas de google ?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
