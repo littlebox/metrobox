@@ -1286,6 +1286,58 @@ msgstr "Eliminar usuario"
 msgid "Wineries"
 msgstr "Bodegas"
 
+#: View/Wineries/admin_index.ctp:7
+msgid "Winery"
+msgstr "Bodega"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Address"
+msgstr "Dirección"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "City"
+msgstr "Ciudad"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Coordenates"
+msgstr "Coordenadas"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Latitude"
+msgstr "Latitud"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Longitude"
+msgstr "Longitud"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Search"
+msgstr "Buscar"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Map"
+msgstr "Mapa"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "You can change the location dragging the marker!"
+msgstr "Podés corregir la posición arrastrando el marcador!"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Localize"
+msgstr "Localizar"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Description"
+msgstr "Descripción"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Priority"
+msgstr "Prioridad"
+
+#: View/Wineries/admin_index.ctp:7
+msgid "Visible"
+msgstr "Visible en Web"
+
 #: View/Wineries/admin_index.ctp:127
 msgid "Winery hasn't been deleted."
 msgstr "La bodega no ha sido eliminada"

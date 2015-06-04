@@ -44,6 +44,8 @@
 		<table class="table table-striped table-bordered table-hover" id="wineries_table">
 			<thead>
 				<th><?= __('Name') ?></th>
+				<th><?= __('Priority') ?></th>
+				<th><?= __('Visible') ?></th>
 				<th><?= __('Created') ?></th>
 				<th><?= __('Actions') ?></th>
 			</thead>

@@ -27,6 +27,7 @@ class ToursController extends AppController {
 		$this->paginate = array(
 			'conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')),
 			'fields' => array('Tour.color', 'Tour.name', 'Tour.price', 'Tour.quota', 'Tour.length', 'Tour.id'),
+			'order' => array('Tour.name' => 'asc'),
 			'contain' => false
 		);
 

@@ -19,7 +19,7 @@ var ToursIndexTable = function () {
 			"bProcessing": true,
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
-			"aaSorting": [[1,'desc']], //Ordenar por nombre
+			"aaSorting": [[1,'asc']], //Ordenar por nombre
 			"columnDefs": [
 				{ "width": "36px", "targets": 0 } //First row at 36px
 			],

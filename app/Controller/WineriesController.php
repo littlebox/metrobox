@@ -14,17 +14,13 @@ class WineriesController extends AppController {
 		'Form' => array('className' => 'BootstrapForm')
 	);
 
-	public function index() {
-		$this->Winery->recursive = 0;
-		$this->set('wineries', $this->Paginator->paginate());
-	}
-
 	public function admin_index(){
 		$this->layout = 'metrobox';
-		$this->Winery->recursive = 0;
 
 		$this->paginate = array(
-			'fields' => array('Winery.name', 'Winery.created', 'Winery.id'),
+			'fields' => array('Winery.name', 'Winery.priority', 'Winery.visible', 'Winery.created', 'Winery.id'),
+			'order' => array('Winery.created' => 'desc'),
+			'contain' => false,
 		);
 
 		$this->DataTable->mDataProp = true;
@@ -59,11 +55,14 @@ class WineriesController extends AppController {
 	}
 
 
-	public function edit($id = null) {
+	public function admin_edit($id = null) {
+		$this->layout = 'metrobox';
+
 		if (!$this->Winery->exists($id)) {
 			throw new NotFoundException(__('Invalid winery'));
 		}
 		if ($this->request->is(array('post', 'put'))) {
+			$this->Winery->id = $id;
 			if ($this->Winery->save($this->request->data)) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
@@ -71,7 +70,7 @@ class WineriesController extends AppController {
 				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		} else {
-			$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id));
+			$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id), 'contain' => array('Image'));
 			$this->request->data = $this->Winery->find('first', $options);
 		}
 	}

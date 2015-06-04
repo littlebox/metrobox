@@ -1,9 +1,11 @@
+<?php //debug($this->request->data);die();?>
+
 <div class="portlet light bordered form-fit">
 	<div class="portlet-title">
 		<div class="caption">
 			<i class="icon-plus font-blue-hoki"></i>
-			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Add')?></span>
-			<span class="caption-helper"><?= __('Winery')?></span>
+			<span class="caption-subject font-blue-hoki bold uppercase"><?= __('Edit')?></span>
+			<span class="caption-helper"><?= __('Winerie')?></span>
 		</div>
 	</div>
 	<div class="portlet-body form">
@@ -35,17 +37,16 @@
 				<?php
 					echo $this->Form->input('name');
 				?>
-
 				<div id="gmap_geocoding_all">
 					<div class="form-group" id="gmap_geocoding_form">
 						<label class="control-label col-md-3"><?= __('Address') ?></label>
 						<div class="col-md-9">
 							<div class="row">
 								<div class="col-md-4">
-										<input type="text" class="form-control" id="gmap_geocoding_city" name="data[Winery][city]" placeholder="<?= __('City') ?>" value="">
+										<input type="text" class="form-control" id="gmap_geocoding_city" name="data[Winery][city]" placeholder="<?= __('City') ?>" value="<?= $this->request->data['Winery']['city'] ?>">
 								</div>
 								<div class="col-md-6">
-									<input type="text" class="form-control" id="gmap_geocoding_address" name="data[Winery][address]" placeholder="<?= __('Address') ?>" value="">
+									<input type="text" class="form-control" id="gmap_geocoding_address" name="data[Winery][address]" placeholder="<?= __('Address') ?>" value="<?= $this->request->data['Winery']['address'] ?>">
 								</div>
 								<div class="col-md-2">
 										<button class="btn blue" id="gmap_geocoding_btn" style="width: 100%;"><i class="fa fa-search"></i> <?= __('Search') ?> </button>
@@ -59,10 +60,10 @@
 						<div class="col-md-9">
 							<div class="row">
 								<div class="col-md-5">
-									<input type="text" class="form-control" name="data[Winery][latitude]" placeholder="<?= __('Latitude') ?>" value="" id="WineryLatitude"/>
+									<input type="text" class="form-control" name="data[Winery][latitude]" placeholder="<?= __('Latitude') ?>" value="<?= $this->request->data['Winery']['latitude'] ?>" id="WineryLatitude"/>
 								</div>
 								<div class="col-md-5">
-									<input type="text" class="form-control" name="data[Winery][longitude]" placeholder="<?= __('Longitude') ?>" value="" id="WineryLongitude"/>
+									<input type="text" class="form-control" name="data[Winery][longitude]" placeholder="<?= __('Longitude') ?>" value="<?= $this->request->data['Winery']['longitude'] ?>" id="WineryLongitude"/>
 								</div>
 
 								<div class="col-md-2">
@@ -81,13 +82,11 @@
 					</div>
 				</div>
 
-
 			</div>
 
 			<?php
-
-				echo $this->Form->input('description', array('placeholder' => 'Ej: Fundada en 1897, Bodega Lagarde fue adquirida en el año 1969 por la familia Pescarmona, quien le imprimió un sello que marcaría su identidad de bodega familiar productora de vinos de alta gama, tanto en la Argentina como en el resto del mundo. Entre las décadas del ‘80 y del ‘90 Lagarde se dedicó a profundizar el estilo y la calidad de sus vinos. La innovación siempre fue un pilar fundamental, resultando en ser los primeros productores en plantar en Latinoamérica cepas no tradicionales como el Viognier ó el Moscato Bianco, con el objetivo de lograr vinos con un estilo propio de la bodega. Desde entonces se elaboran vinos con un toque artístico y creativo por parte de nuestro enólogo, Juan Roby, quien junto a los dueños hacen del proceso productivo un verdadero culto al vino.'));
-				echo $this->Form->input('priority', array('value' => 0));
+				echo $this->Form->input('description');
+				echo $this->Form->input('priority');
 				echo $this->Form->input('visible');
 			?>
 
@@ -133,6 +132,9 @@
 	<?= $this->Html->script('global-setups');?>
 	<?= $this->Html->script('wineries-admin-add-edit.js');?>
 	<script>
+		initialLatitude = $('#WineryLatitude').val();
+		initialLongitude = $('#WineryLongitude').val();
+
 		jQuery(document).ready(function() {
 			WineryAdminAddEdit.init();
 		});

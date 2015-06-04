@@ -19,18 +19,29 @@ var WineriesIndexTable = function () {
 			"bProcessing": true,
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
+			"aaSorting": [[3,'desc']], //Ordenar por nombre
 			"aoColumns": [
 				{mData:"Winery.name"},
+				{mData:"Winery.priority"},
+				{mData:"Winery.visible"},
 				{mData:"Winery.created"},
 				{mData:"Winery.id", bSortable: false}
 			],
 			"fnCreatedRow": function(nRow, aData, iDataIndex){ //callback function after create a row for add action buttons en column 3
-				$('td:eq(2)', nRow).html('<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.wineryDeleterUrl+"/"+aData.Winery.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.wineryDeleteText+'</button> <a class="btn btn-sm blue" href="'+LocalVar.wineryEditUrl+"/"+aData.Winery.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.wineryEditText+'</a> <a class="btn btn-sm green" href="'+LocalVar.wineryViewrUrl+"/"+aData.Winery.id+'" ><i class="fa fa-file"></i> '+LocalVar.wineryViewText+'</a>');
+				//Is Visible
+				htmlVisible = aData.Winery.visible ? '<i class="fa fa-check font-green"></i>' : '<i class="fa fa-times font-red"></i>'
+				$('td:eq(2)', nRow).html(htmlVisible);
+
+				//Buttons
+				htmlContent = '';
+				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.wineryDeleterUrl+"/"+aData.Winery.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.wineryDeleteText+'</button> ';
+				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.wineryEditUrl+"/"+aData.Winery.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.wineryEditText+'</a> ';
+				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.wineryViewrUrl+"/"+aData.Winery.id+'" ><i class="fa fa-file"></i> '+LocalVar.wineryViewText+'</a> ';
+				$('td:eq(4)', nRow).html(htmlContent);
+
+
 			}
 		});
-
-		//Sort the table afer load [TODO do it after first load! it bring data twice]
-		table.fnSort([[2, 'des']]);
 
 		var tableWrapper = jQuery('#wineries_table_old_wrapper');
 

@@ -288,7 +288,7 @@
 							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name'));
 							echo $this->Form->input('Client.birth_date', array('type' => 'text', 'id' => 'client-birth-date', 'class' => 'birth-date-picker form-control', 'placeholder' => '--/--/----'));
 							echo $this->Form->input('number_of_adults');
-							echo $this->Form->input('number_of_minors');
+							echo $this->Form->input('number_of_minors', array('value' => 0));
 							echo $this->Form->input('Client.country',array('type' => 'select', 'id' => 'client-country', 'options' => $countryList, 'empty' => ''));
 							echo $this->Form->input('Client.phone', array('id' => 'client-phone'));
 						?>
@@ -373,6 +373,11 @@
 
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');?>
+	<?php
+		if(strtolower(substr(Configure::read('Config.language'), 0, 2)) == 'es'){
+			echo $this->Html->script('/plugins/jquery-validation/js/localization/messages_es.js');
+		}
+	?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/spin.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-buttons-loader/dist/ladda.jquery.min');?>
