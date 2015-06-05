@@ -121,6 +121,11 @@
 
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');?>
+	<?php
+		if(strtolower(substr(Configure::read('Config.language'), 0, 2)) == 'es'){
+			echo $this->Html->script('/plugins/jquery-validation/js/localization/messages_es.js');
+		}
+	?>
 	<?= $this->Html->script('/plugins/jquery-validation/js/additional-methods.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
