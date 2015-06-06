@@ -256,6 +256,62 @@ var reserves = {
 
 	},
 
+	editReserveButtons: function(){
+		//Edit Reserve Functions
+		$('#edit-modal-btn').on('click', function(){
+			reserves.editReserveModalFunctions.editModeOn();
+			reserves.editReserveModalFunctions.savePrevValues();
+		});
+
+		$('#cancel-edit-modal-btn').on('click', function(){
+			reserves.editReserveModalFunctions.editModeOff();
+			reserves.editReserveModalFunctions.restorePrevValues();
+		});
+
+		$('#attended-modal').on('click', function() {
+			checkAttend();
+		});
+	},
+
+	editReserveModalFunctions: {
+
+		editModeOn: function(){
+			$('#edit-modal-btn').hide();
+			$('#reserve-delete-modal-btn').hide();
+			$('#cancel-edit-modal-btn').show();
+			$('#reserve-edit-submit-button').show();
+			$('#reserve-details .form-control').prop('disabled', false);
+		},
+
+		editModeOff: function(){
+			$('#cancel-edit-modal-btn').hide();
+			$('#reserve-edit-submit-button').hide();
+			$('#edit-modal-btn').show();
+			$('#reserve-delete-modal-btn').show();
+			$('#reserve-details .form-control').prop('disabled', true);
+		},
+
+		prevValues: [],
+
+		savePrevValues: function(){
+			$("#reserve-details .form-control").each(function(){
+				var input = $(this); // This is the jquery object of the input, do what you will
+				reserves.editReserveModalFunctions.prevValues[input.attr('name')] = input.val();
+			})
+		},
+
+		restorePrevValues: function(){
+			$("#reserve-details .form-control").each(function(){
+				var input = $(this); // This is the jquery object of the input, do what you will
+				input.val(reserves.editReserveModalFunctions.prevValues[input.attr('name')]);
+				if(input.hasClass('select2-offscreen')){ //is select2 selector?
+					input.select2('val', reserves.editReserveModalFunctions.prevValues[input.attr('name')]);
+				}
+			});
+		}
+	},
+
+
 	//Validations
 	validateAddReserve: function(){
 		var thisForm = $('#reserve-add-form');
@@ -467,6 +523,16 @@ var reserves = {
 				$('#number-of-minors-modal').val(reserve.numberOfMinors);
 				$('#client-country-modal').select2("val", reserve.clientCountry);
 				$('#client-phone-modal').val(reserve.clientPhone);
+				//Mark or not Attended checkbox
+				if(reserve.attended){
+					$('#attended-modal')[0].checked = true;
+					$('#attended-modal').trigger('change');
+				}else{
+					$('#attended-modal')[0].checked = false;
+					$('#attended-modal').trigger('change');
+				}
+				//Put edit mode off
+				reserves.editReserveModalFunctions.editModeOff();
 
 			},
 			eventDrop: function(reserve, delta, revertFunc) {
@@ -536,6 +602,7 @@ var reserves = {
 		reserves.validateEditReserve();
 		reserves.intiSelects2();
 		reserves.intiFindCLientListener();
+		reserves.editReserveButtons();
 	}
 
 }

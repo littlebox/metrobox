@@ -766,7 +766,7 @@ msgstr "Error"
 #: View/Estates/index.ctp:129
 #: View/Users/admin_index.ctp:128
 msgid "User hasn't been deleted."
-msgstr "El usuario ha sido eliminado"
+msgstr "No se pudo eliminar usuario."
 
 #: View/Estates/view.ctp:2
 msgid "Estate"
@@ -1163,7 +1163,7 @@ msgstr "La reserva fué eliminada correctamente"
 
 #: View/Tours/index.ctp:130
 msgid "Tour hasn't been deleted."
-msgstr "El tour no se ha eliminado"
+msgstr "No se pudo eliminar Tour."
 
 #: View/Users/add_bkp.ctp:4
 msgid "Add User"
@@ -1340,7 +1340,7 @@ msgstr "Visible en Web"
 
 #: View/Wineries/admin_index.ctp:127
 msgid "Winery hasn't been deleted."
-msgstr "La bodega no ha sido eliminada"
+msgstr "No se pudo eliminar la Bodega."
 
 #: Reserve Model
 msgid "Language"
@@ -1385,3 +1385,17 @@ msgstr "País de Origen"
 #: Reserve Model
 msgid "Phone"
 msgstr "Teléfono"
+
+#: Reserve Model
+msgid "Attended"
+msgstr "Asistió"
+
+#: Reserve Model
+msgid "Hasn't been change attended state: "
+msgstr "No se pudo cambiar la asistencia de la reserva: "
+
+#: Reserve Model
+msgid "Hasn't been change attended state."
+msgstr "No se pudo cambiar la asistencia de la reserva."
+
+

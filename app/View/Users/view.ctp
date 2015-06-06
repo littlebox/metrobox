@@ -13,7 +13,11 @@
 			<div class="profile-usertitle-name" id="profile-usertitle-name">
 				<?= $user['User']['full_name'];?>
 			</div>
+			<div class="profile-usertitle-job">
+				<?= $user['Winery']['name'];?>
+			</div>
 		</div>
+
 		<!-- END SIDEBAR USER TITLE -->
 		<!-- USER STATS -->
 		<div class="row list-separated profile-stat">

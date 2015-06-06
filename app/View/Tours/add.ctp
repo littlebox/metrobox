@@ -85,24 +85,20 @@
 
 			</div>
 
-			<div class="form-actions">
-				<div class="row">
-					<div class="col-md-offset-10 col-md-2">
-						<?php
-							echo $this->Form->Button(__('Cancel'),array(
-								'div' => false,
-								'class' => 'btn default',
-								'type' => 'button'
-							));
-							echo $this->Form->Button(__('Save'),array(
-								'div' => false,
-								'class' => 'btn green',
-								'type' => 'submit'
-							));
+			<div class="form-actions right">
+				<?php
+					echo $this->Form->Button(__('Cancel'),array(
+						'div' => false,
+						'class' => 'btn default',
+						'type' => 'button'
+					));
+					echo $this->Form->Button(__('Save'),array(
+						'div' => false,
+						'class' => 'btn green',
+						'type' => 'submit'
+					));
 
-						?>
-					</div>
-				</div>
+				?>
 			</div>
 		<?= $this->Form->end(); ?>
 		<!-- END FORM-->

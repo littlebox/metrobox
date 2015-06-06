@@ -336,26 +336,31 @@
 						'id' => 'reserve-edit-form',
 					)); ?>
 						<?php
-							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name-modal'));
-							echo $this->Form->input('Client.country',array('id' => 'client-country-modal', 'type' => 'select', 'options' => $countryList, 'empty' => ''));
-							echo $this->Form->input('number_of_adults', array('id' => 'number-of-adults-modal'));
-							echo $this->Form->input('number_of_minors', array('id' => 'number-of-minors-modal'));
-							echo $this->Form->input('Client.email', array('id' => 'client-email-modal'));
-							echo $this->Form->input('Client.phone', array('id' => 'client-phone-modal'));
-							echo $this->Form->input('Client.birth_date', array('id' => 'client-birth-date-modal','type' => 'text', 'class' => 'birth-date-picker form-control', 'placeholder' => '--/--/----'));
-							echo $this->Form->input('tour_id', array('id' => 'tour-selector-modal', 'empty' => __('Select a tour...')));
-							echo $this->Form->input('language_id', array('id' => 'language-selector-modal', 'empty' => __('Select a tour first')));
-							echo $this->Form->input('date', array('id' => 'date-modal', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
-							echo $this->Form->input('time', array('id' => 'time-selector-modal', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
+							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name-modal', 'disabled' => 'disabled'));
+							echo $this->Form->input('Client.country',array('id' => 'client-country-modal', 'type' => 'select', 'options' => $countryList, 'empty' => '', 'disabled' => 'disabled'));
+							echo $this->Form->input('number_of_adults', array('id' => 'number-of-adults-modal', 'disabled' => 'disabled'));
+							echo $this->Form->input('number_of_minors', array('id' => 'number-of-minors-modal', 'disabled' => 'disabled'));
+							echo $this->Form->input('Client.email', array('id' => 'client-email-modal', 'disabled' => 'disabled'));
+							echo $this->Form->input('Client.phone', array('id' => 'client-phone-modal', 'disabled' => 'disabled'));
+							echo $this->Form->input('Client.birth_date', array('id' => 'client-birth-date-modal','type' => 'text', 'class' => 'birth-date-picker form-control', 'placeholder' => '--/--/----', 'disabled' => 'disabled'));
+							echo $this->Form->input('tour_id', array('id' => 'tour-selector-modal', 'empty' => __('Select a tour...'), 'disabled' => 'disabled'));
+							echo $this->Form->input('language_id', array('id' => 'language-selector-modal', 'empty' => __('Select a tour first'), 'disabled' => 'disabled'));
+							echo $this->Form->input('date', array('id' => 'date-modal', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----', 'disabled' => 'disabled'));
+							echo $this->Form->input('time', array('id' => 'time-selector-modal', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first'), 'disabled' => 'disabled'));
 							echo $this->Form->hidden('id', array('id' => 'id-modal'));
 						?>
 					<?php echo $this->Form->end(); ?>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn red" onclick="confirmAlert();" style="float: left;"><?= __('Delete') ?></button>
-				<button type="button" data-dismiss="modal" class="btn default"><?= __('Close') ?></button>
-				<?= $this->Form->button($this->Html->tag('span', __('Save Changes'), array('class' => 'ladda-label')), array('id' => 'reserve-edit-submit-button', 'class' => 'btn green ladda-button', 'data-style' => 'zoom-out', 'form' => 'reserve-edit-form'));?>
+				<div id="attended-modal-div" class="ac-custom ac-checkbox ac-checkmark" style="float: left;">
+					<input type="hidden" name="data[Reserve][attended]" id="ReserveAttended_" value="0">
+					<input id="attended-modal" name="data[Reserve][attended]" type="checkbox" value="1"><label><?= __('Attended') ?></label>
+				</div>
+				<button type="button" class="btn red" id="reserve-delete-modal-btn" onclick="confirmAlert();"><?= __('Delete') ?></button>
+				<button type="button" class="btn blue" id="edit-modal-btn"><?= __('Edit') ?></button>
+				<button type="button" class="btn default" id="cancel-edit-modal-btn" style="display: none;"><?= __('Cancel') ?></button>
+				<?= $this->Form->button($this->Html->tag('span', __('Save Changes'), array('class' => 'ladda-label')), array('id' => 'reserve-edit-submit-button', 'class' => 'btn green ladda-button', 'data-style' => 'zoom-out', 'form' => 'reserve-edit-form', 'style' => 'display: none;'));?>
 			</div>
 		</div>
 	</div>
@@ -369,6 +374,7 @@
 	<?= $this->Html->css('/plugins/bootstrap-buttons-loader/dist/ladda-themeless.min');?>
 	<?= $this->Html->css('/plugins/bootstrap-timepicker/css/bootstrap-timepicker.min');?>
 	<?= $this->Html->css('/plugins/bootstrap-datepicker/css/datepicker3');?>
+	<?= $this->Html->css('/plugins/animated-checkboxes/css/component');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -389,6 +395,7 @@
 	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/bootstrap-datepicker');?>
 	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es');?>
 	<?= $this->Html->script('/plugins/bootstrap-timepicker/js/bootstrap-timepicker.min');?>
+	<?= $this->Html->script('/plugins/animated-checkboxes/js/svgcheckbx');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
@@ -506,8 +513,6 @@
 			var targeturl = $('#reserve-edit-form').attr('action');
 			var formData = $('#reserve-edit-form').serializeArray();
 
-
-
 			$.ajax({
 				type: 'put',
 				cache: false,
@@ -520,7 +525,7 @@
 				},
 				success: function(response) {
 					if (response.content) {
-						//Ocultar modal
+						//Hide modal to view swal
 						$('#reserve-details').modal('hide');
 						//Bring the modified reserve
 						modReserve = $('#calendar').fullCalendar('clientEvents', response.reserve.id)[0];
@@ -595,13 +600,13 @@
 						$('#client-full-name').val(response.content.Client.full_name);
 						$('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
 						$('#client-birth-date').datepicker('update');
-						$('#client-country').select2("val", response.content.Client.country);
+						$('#client-country').select2('val', response.content.Client.country);
 						$('#client-phone').val(response.content.Client.phone);
 					}
 					if (response.error) {
 						$('#client-full-name').val('');
 						$('#client-birth-date').val('');
-						$('#client-country').select2("val", '');
+						$('#client-country').select2('val', '');
 						$('#client-phone').val('');
 					}
 				},
@@ -733,9 +738,56 @@
 
 
 				});
+		};
+
+		reserveCheckAttendUrl = ('<?= $this->Html->url(array('controller'=>'reserves', 'action' => 'checkAttend')) ?>');
+		function checkAttend(){
+			reserveId = $('#id-modal').val();
+			//Bring the modified reserve
+			modReserve = $('#calendar').fullCalendar('clientEvents', reserveId)[0];
+			//Save previous value
+			prevVal = modReserve.attended;
+			//Update the content
+			modReserve.attended = $('#attended-modal')[0].checked;
+
+			var formData = $('#attended-modal-div input').serializeArray();
+			$.ajax({
+				type: 'post',
+				cache: false,
+				data: formData,
+				url: reserveCheckAttendUrl+'/'+reserveId+'.json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+
+					if (response.content) {
+						//All ok, nothing to do
+					}
+					if (response.error) {
+						//Load previous value
+						modReserve.attended = prevVal;
+						//Hide modal to view swal
+						$('#reserve-details').modal('hide');
+						swal("<?= __('Error') ?>", "<?= __('Hasn\'t been change attended state: ') ?>"+response.error, "error");
+					}
+				},
+				error: function(e) {
+					//Load previous value
+					modReserve.attended = prevVal;
+					//Hide modal to view swal
+					$('#reserve-details').modal('hide');
+					swal("<?= __('Error') ?>", "<?= __('Hasn\'t been change attended state.') ?>", "error");
+				},
+				complete: function() {
+
+				}
+			});
 		}
 
 		jQuery(document).ready(function() {
+			$.uniform.restore($("input[name='data[Reserve][attended]']")); //Brings back checkbox to normality
 			reserves.init();
 		});
 

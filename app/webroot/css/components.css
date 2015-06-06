@@ -1,3 +1,4 @@
+
 /*********************************
  METRONIC SQUARE STYLE COMPONENTS
 *********************************/
@@ -2346,6 +2347,11 @@ Form Layouts
 .form .form-horizontal.form-bordered.form-row-stripped .form-control {
   background: #fff !important;
 }
+
+.form .form-horizontal.form-bordered.form-row-stripped .form-control[disabled] {
+  background: #eeeeee !important;
+}
+
 .form .form-horizontal.form-bordered.form-label-stripped .form-group:nth-child(even) {
   background-color: #fcfcfc;
 }
@@ -2390,7 +2396,7 @@ Forms
   box-shadow: none;
 }
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-  cursor: not-allowed;
+  cursor: auto;
   background-color: #eeeeee;
 }
 .form-control.height-auto {

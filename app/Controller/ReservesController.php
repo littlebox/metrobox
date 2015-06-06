@@ -261,6 +261,7 @@ class ReservesController extends AppController {
 				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
 				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
 				'backgroundColor' => $reserve['Tour']['color'],
+				'attended' => $reserve['Reserve']['attended'],
 			);
 			$response[] = $arrayToPush;
 		}
@@ -269,7 +270,33 @@ class ReservesController extends AppController {
 		$this->set('_serialize', 'response'); // Let the JsonView class know what variable to use
 	}
 
+	public function checkAttend($id = null) {
+		$this->request->allowMethod('ajax'); //Call only with .json at end on url
 
+		if (!$this->request->is(array('post', 'put'))) {
+			throw new MethodNotAllowedException(__('Only POST or PUT methods allowed.'));
+		}
+
+		if (!$this->Reserve->exists($id)) {
+			throw new NotFoundException(__('Invalid reserve'));
+		}
+
+		$this->request->data['Reserve']['id'] = $id;
+
+		$data = array(
+			'content' => '',
+			'error' => '',
+		);
+
+		if ($this->Reserve->save($this->request->data)) {
+			$data['content'] = __('The reserve has been modified.');
+		} else {
+			$data['error'] = __('The reserve could not be modified. Please, try again.');
+		}
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+	}
 
 	public function delete($id = null) {
 		$this->request->allowMethod('post');
