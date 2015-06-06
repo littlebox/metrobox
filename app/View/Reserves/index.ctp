@@ -469,7 +469,7 @@
 							backgroundColor: response.reserve.backgroundColor,
 
 						};
-						$('#calendar').fullCalendar('renderEvent', newReserve)
+						$('#calendar').fullCalendar('renderEvent', newReserve);
 						//Show sweetalert
 						swal({
 							title: response.content.title,
@@ -749,6 +749,8 @@
 			prevVal = modReserve.attended;
 			//Update the content
 			modReserve.attended = $('#attended-modal')[0].checked;
+			//Rerender event
+			$('#calendar').fullCalendar('renderEvent', modReserve);
 
 			var formData = $('#attended-modal-div input').serializeArray();
 			$.ajax({
@@ -768,6 +770,8 @@
 					if (response.error) {
 						//Load previous value
 						modReserve.attended = prevVal;
+						//Rerender event
+						$('#calendar').fullCalendar('renderEvent', modReserve);
 						//Hide modal to view swal
 						$('#reserve-details').modal('hide');
 						swal("<?= __('Error') ?>", "<?= __('Hasn\'t been change attended state: ') ?>"+response.error, "error");
@@ -776,12 +780,16 @@
 				error: function(e) {
 					//Load previous value
 					modReserve.attended = prevVal;
+					//Rerender event
+					$('#calendar').fullCalendar('renderEvent', modReserve);
 					//Hide modal to view swal
 					$('#reserve-details').modal('hide');
 					swal("<?= __('Error') ?>", "<?= __('Hasn\'t been change attended state.') ?>", "error");
+
 				},
 				complete: function() {
-
+					//Rerender event
+					$('#calendar').fullCalendar('renderEvent', modReserve);
 				}
 			});
 		}

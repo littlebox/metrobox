@@ -542,6 +542,7 @@ var reserves = {
 			eventRender: function(reserve, element, view) {
 				addModalInitializers(element);
 				addLanguageFlag(reserve, element);
+				addCheckOnAttended(reserve, element);
 			}
 		});
 
@@ -585,6 +586,14 @@ var reserves = {
 				case 3:
 					element.find('.fc-time').append(" <img class='flag' src='/img/flags/pt.png'/>");
 					break;
+			}
+		}
+
+		addCheckOnAttended
+		//Add green check icon on attended reserve events
+		function addCheckOnAttended(reserve, element){
+			if(reserve.attended){
+				element.find('.fc-content').prepend("<i class='fa fa-check font-green' style='float: left;'></i>");
 			}
 		}
 
