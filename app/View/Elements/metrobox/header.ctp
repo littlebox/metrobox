@@ -4,7 +4,7 @@
 	<div class="page-header-inner">
 		<!-- BEGIN LOGO -->
 		<div class="page-logo">
-			<a href="index.html">
+			<a href="/">
 				<?= $this->Html->image('logo-default.png', array('alt' => 'logo', 'class' => 'logo-default'));?>
 			</a>
 			<div class="menu-toggler sidebar-toggler">
