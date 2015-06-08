@@ -19,8 +19,8 @@ Like: www.facebook.com/littlefacebox
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-	<meta content="" name="description"/>
-	<meta content="" name="author"/>
+	<meta content="Wineobs" name="description"/>
+	<meta content="littlebox" name="author"/>
 	<!-- BEGIN GLOBAL MANDATORY STYLES -->
 	<?php
 		echo $this->Html->css('googlefonts');
@@ -43,7 +43,8 @@ Like: www.facebook.com/littlefacebox
 		echo $this->Html->css('custom');
 	?>
 	<!-- END THEME STYLES -->
-	<link rel="shortcut icon" href="/favicon.ico"/>
+	<link rel="icon" href="/img/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
 </head>
 <!-- END HEAD -->
 

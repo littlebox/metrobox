@@ -12,12 +12,12 @@
 
 			$menu = array(
 				array(
-					'title'=>'Reservas',
+					'title'=>__('Reserves'),
 					'href'=> array('controller'=>'reserves','action'=>'index'),
 					'icon'=>'book-open',
 					),
 				array(
-					'title'=>'Tours',
+					'title'=>__('Tours'),
 					'href'=> array('controller'=>'tours','action'=>'index'),
 					'icon'=>'direction',
 					),
@@ -34,27 +34,27 @@
 				$menuAdmin = array(
 					//Admin Menu
 					array(
-						'title'=>'Administrar',
+						'title'=>__('Administrate'),
 						'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 						'icon'=>'layers',
 						'submenu' => array(
 							array(
-								'title'=>'Bodegas',
-								'href'=>array('controller'=>'wineries', 'action' => 'index', 'admin' => true),
-								'icon'=>'directions',
-							),
-							array(
-								'title'=>'Usuarios',
+								'title'=>__('Users'),
 								'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 								'icon'=>'users',
 							),
 							array(
-								'title'=>'Sitio',
+								'title'=>__('Wineries'),
+								'href'=>array('controller'=>'wineries', 'action' => 'index', 'admin' => true),
+								'icon'=>'directions',
+							),
+							array(
+								'title'=>__('Site'),
 								'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),
 								'icon'=>'equalizer',
 							),
 							array(
-								'title'=>'Estadisticas del Sitio',
+								'title'=>__('Site Statistics'),
 								'href'=>array('controller'=>'pages', 'action' => 'site_stats', 'admin' => true),
 								'icon'=>'bar-chart',
 							),
