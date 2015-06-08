@@ -44,11 +44,15 @@ class ToursController extends AppController {
  * @return void
  */
 	public function view($id = null) {
+		$this->layout = 'metrobox';
+
 		if (!$this->Tour->exists($id)) {
 			throw new NotFoundException(__('Invalid tour'));
 		}
-		$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id));
+		$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id), 'contain' => array('Language', 'Day', 'Time'));
 		$this->set('tour', $this->Tour->find('first', $options));
+
+		//debug($this->Tour->find('first', $options));die();
 	}
 
 /**

@@ -665,7 +665,7 @@ msgstr "Usuarios"
 #: View/Users/admin_index.ctp:19
 #: View/Wineries/admin_index.ctp:19
 msgid "Add New"
-msgstr "Añadir nuevo"
+msgstr "Añadir Nuevo"
 
 #: View/Estates/index.ctp:24
 #: View/Tours/index.ctp:24
