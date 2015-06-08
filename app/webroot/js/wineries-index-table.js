@@ -36,7 +36,7 @@ var WineriesIndexTable = function () {
 				htmlContent = '';
 				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.wineryDeleterUrl+"/"+aData.Winery.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.wineryDeleteText+'</button> ';
 				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.wineryEditUrl+"/"+aData.Winery.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.wineryEditText+'</a> ';
-				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.wineryViewrUrl+"/"+aData.Winery.id+'" ><i class="fa fa-file"></i> '+LocalVar.wineryViewText+'</a> ';
+				//htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.wineryViewrUrl+"/"+aData.Winery.id+'" ><i class="fa fa-file"></i> '+LocalVar.wineryViewText+'</a> ';
 				$('td:eq(4)', nRow).html(htmlContent);
 
 

@@ -380,6 +380,7 @@
 <?php $this->append('pagePlugins'); ?>
 	<?= $this->Html->script('/plugins/jquery-validation/js/jquery.validate.min');?>
 	<?php
+		//Translate Validations if Language is Spanish
 		if(strtolower(substr(Configure::read('Config.language'), 0, 2)) == 'es'){
 			echo $this->Html->script('/plugins/jquery-validation/js/localization/messages_es.js');
 		}
@@ -390,7 +391,12 @@
 	<?= $this->Html->script('/plugins/select2/select2.min');?>
 	<?= $this->Html->script('/plugins/moment.min');?>
 	<?= $this->Html->script('/plugins/fullcalendar/fullcalendar.min');?>
-	<?= $this->Html->script('/plugins/fullcalendar/lang/es');?>
+	<?php
+		//Translate Calendar if Language is Spanish
+		if(strtolower(substr(Configure::read('Config.language'), 0, 2)) == 'es'){
+			echo $this->Html->script('/plugins/fullcalendar/lang/es');
+		}
+	?>
 	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/bootstrap-datepicker');?>
 	<?= $this->Html->script('/plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.es');?>
