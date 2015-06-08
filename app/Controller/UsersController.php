@@ -70,6 +70,7 @@ class UsersController extends AppController {
 
 	public function view($id = null) {
 		$this->layout = 'metrobox';
+
 		$this->User->id = $id;
 		if (!$this->User->exists()) {
 			throw new NotFoundException(__('Invalid user'));
@@ -78,6 +79,30 @@ class UsersController extends AppController {
 		$this->request->data = $this->User->read(null, $id);
 		unset($this->request->data['User']['password']); //To don't show password on edit
 		$this->set('user', $this->User->read(null, $id));
+
+		$this->loadModel('Reserve');
+
+		//Bring al IDs of user winery's tour
+		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		$countTours = $this->Reserve->Tour->find('count', array(
+			'conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id'))
+		));
+		$countReserves = $this->Reserve->find('count', array(
+			'conditions' => array('Reserve.tour_id' => $toursIds)
+		));
+		$countReservesAttended = $this->Reserve->find('count', array(
+			'conditions' => array('Reserve.tour_id' => $toursIds, 'Reserve.attended' => true)
+		));
+		$this->set('countTours', $countTours);
+		$this->set('countReserves', $countReserves);
+		$this->set('countReservesAttended', $countReservesAttended);
+
+
 	}
 
 	public function admin_view($id = null) {

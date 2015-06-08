@@ -62,6 +62,9 @@ class MenuHelper extends AppHelper{
 			foreach ($item['submenu'] as $it) {
 
 				$response = ($this->Html->url($it['href']) == $this->Html->url()) ? true : $this->submenuActive($it);
+				if ($response == true) {
+					break;
+				}
 
 			}
 

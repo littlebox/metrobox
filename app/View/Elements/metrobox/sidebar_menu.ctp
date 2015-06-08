@@ -39,25 +39,25 @@
 						'icon'=>'layers',
 						'submenu' => array(
 							array(
-								'title'=>__('Users'),
-								'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
-								'icon'=>'users',
-							),
-							array(
 								'title'=>__('Wineries'),
 								'href'=>array('controller'=>'wineries', 'action' => 'index', 'admin' => true),
 								'icon'=>'directions',
 							),
 							array(
-								'title'=>__('Site'),
-								'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),
-								'icon'=>'equalizer',
+								'title'=>__('Users'),
+								'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
+								'icon'=>'users',
 							),
-							array(
-								'title'=>__('Site Statistics'),
-								'href'=>array('controller'=>'pages', 'action' => 'site_stats', 'admin' => true),
-								'icon'=>'bar-chart',
-							),
+							// array(
+							// 	'title'=>__('Site'),
+							// 	'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),
+							// 	'icon'=>'equalizer',
+							// ),
+							// array(
+							// 	'title'=>__('Site Statistics'),
+							// 	'href'=>array('controller'=>'pages', 'action' => 'site_stats', 'admin' => true),
+							// 	'icon'=>'bar-chart',
+							// ),
 						)
 					)
 

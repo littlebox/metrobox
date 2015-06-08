@@ -23,26 +23,26 @@
 		<div class="row list-separated profile-stat">
 			<div class="col-md-4 col-sm-4 col-xs-6">
 				<div class="uppercase profile-stat-title">
-					37
+					<?= $countTours ?>
 				</div>
 				<div class="uppercase profile-stat-text">
-					<?= __('Something') ?>
+					<?= __('Tours') ?>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-6">
 				<div class="uppercase profile-stat-title">
-					51
+					<?= $countReserves ?>
 				</div>
 				<div class="uppercase profile-stat-text">
-					<?= __('Something Else') ?>
+					<?= __('Reserves') ?>
 				</div>
 			</div>
 			<div class="col-md-4 col-sm-4 col-xs-6">
 				<div class="uppercase profile-stat-title">
-					61
+					<?= $countReservesAttended ?>
 				</div>
 				<div class="uppercase profile-stat-text">
-					<?= __('Thing') ?>
+					<?= __('Attended Reserves') ?>
 				</div>
 			</div>
 		</div>
@@ -170,16 +170,14 @@
 									</td>
 									<td>
 										<label class="uniform-inline">
-										<input type="checkbox" value=""/> Yes </label>
+										<input type="checkbox" value=""/> <?= __('Yes') ?> </label>
 									</td>
 								</tr>
 								</table>
 								<!--end profile-settings-->
 								<div class="margin-top-10">
 									<a href="#" class="btn green-haze">
-									Save Changes </a>
-									<a href="#" class="btn default">
-									Cancel </a>
+									<?= __('Save Changes') ?> </a>
 								</div>
 							</form>
 						</div>

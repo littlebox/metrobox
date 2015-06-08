@@ -20,7 +20,7 @@
 					</div>
 				</div>
 				<div class="col-md-6">
-					<div class="btn-group pull-right">
+					<!-- <div class="btn-group pull-right">
 						<button class="btn dropdown-toggle" data-toggle="dropdown"><?= __('Tools') ?> <i class="fa fa-angle-down"></i>
 						</button>
 						<ul class="dropdown-menu pull-right">
@@ -37,7 +37,7 @@
 								<?= __('Export to Excel') ?> </a>
 							</li>
 						</ul>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>

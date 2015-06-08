@@ -1246,16 +1246,9 @@ msgid "Repeat Password"
 msgstr "Repetir contraseña"
 
 #: View/Users/view.ctp:25
-msgid "Something"
-msgstr "Algo"
+msgid "Attended Reserves"
+msgstr "Reservas Asistidas"
 
-#: View/Users/view.ctp:33
-msgid "Something Else"
-msgstr "Otra cosa"
-
-#: View/Users/view.ctp:41
-msgid "Thing"
-msgstr "Cosa"
 
 #: View/Users/view.ctp:60
 msgid "Profile Account"
@@ -1263,19 +1256,27 @@ msgstr "Perfil de la cuenta"
 
 #: View/Users/view.ctp:64
 msgid "Personal Info"
-msgstr "Información Personaal"
+msgstr "Información Personal"
 
 #: View/Users/view.ctp:67
 msgid "Change Avatar"
-msgstr "Cambiar Avatar"
+msgstr "Cambiar Foto de Perfil"
 
 #: View/Users/view.ctp:70;154
 msgid "Change Password"
-msgstr "Cambiar contraseña"
+msgstr "Cambiar Contraseña"
+
+#: View/Users/view.ctp:70;154
+msgid "Current Password"
+msgstr "Contraseña Actual"
+
+#: View/Users/view.ctp:70;154
+msgid "Password Confirm"
+msgstr "Confirmar Contraseña"
 
 #: View/Users/view.ctp:73
 msgid "Account Settings"
-msgstr "Configuración de la cuenta"
+msgstr "Configuración de la Cuenta"
 
 #: View/Users/view.ctp:118
 msgid "Change image"
@@ -1283,7 +1284,10 @@ msgstr "Cambiar imagen"
 
 #: View/Users/view.ctp:165
 msgid "I want recive newslwtter."
-msgstr "Quiero recibier el newsletter"
+msgstr "Quiero recibir el newsletter."
+
+msgid "Yes"
+msgstr "Si"
 
 #: View/Users/view_bkp.ctp:2
 msgid "User"
