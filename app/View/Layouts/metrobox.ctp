@@ -145,6 +145,7 @@ echo $this->Html->script('layout');
 		Metrobox.init(); // init metronic core components
 		Layout.init(); // init current layout
 		<?php if(AuthComponent::user('Group.id') == 1): ?>
+		$("#winery-to-manage-selector").show();
 		$("#winery-to-manage-selector").select2({
 			placeholder: "<?= __('Select a Winery to Manage...') ?>",
 			allowClear: true,

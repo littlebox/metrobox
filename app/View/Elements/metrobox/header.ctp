@@ -50,7 +50,7 @@
 			</div>
 			<?php
 			if(AuthComponent::user('Group.id') == 1) {
-				echo $this->Form->select('WineryToManage.winery_id', $wineriesList, array('id' => 'winery-to-manage-selector', 'class' => 'form-control', 'style' => 'width: 220px;'));
+				echo $this->Form->select('WineryToManage.winery_id', $wineriesList, array('id' => 'winery-to-manage-selector', 'class' => 'form-control', 'style' => 'width: 220px; display: none;'));
 			}
 			?>
 
