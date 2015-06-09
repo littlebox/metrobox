@@ -55,11 +55,19 @@ class ReservesController extends AppController {
 				throw new NotFoundException(__('Invalid Tour'));
 			}
 
-			$data = array(
-				'content' => '',
-				'reserve' => '',
-				'error' => '',
-			);
+			$this->requestAction(Router::url(array('controller'=>'tours', 'action'=>'tourSecurityCheck')).'/'.$this->request->data['Reserve']['tour_id']);
+
+			// # this is cakes way of running required
+			// App::import('controller', 'tours');
+			// $tourController = new TourController;
+			// # now you can reference your controller like any other PHP class
+			// $tourController->tourSecurityCheck($this->request->data['Reserve']['tour_id']);
+
+			// $data = array(
+			// 	'content' => '',
+			// 	'reserve' => '',
+			// 	'error' => '',
+			// );
 
 			//Convert date d/m/Y to Y-m-d format tosave in DB
 			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
@@ -283,6 +291,8 @@ class ReservesController extends AppController {
 			throw new NotFoundException(__('Invalid reserve'));
 		}
 
+		$this->reserveSecurityCheck($id);
+
 		$this->request->data['Reserve']['id'] = $id;
 
 		$data = array(
@@ -353,10 +363,10 @@ class ReservesController extends AppController {
 
 		//Bring al IDs of user winery's tour
 		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
-		$toursIds = [];
+		$toursAllowedIds = [];
 
 		foreach ($tours as $tour) {
-			$toursIds[] = $tour['Tour']['id'];
+			$toursAllowedIds[] = $tour['Tour']['id'];
 		}
 
 		$reserveToModify = $this->Reserve->find('first', array(
@@ -367,8 +377,8 @@ class ReservesController extends AppController {
 			'contain' => false)
 		);
 
-		if ((AuthComponent::user('Group.id') != 1) && !in_array($reserveToModify['Reserve']['tour_id'], $toursIds)) {
-			throw new ForbiddenException(__('Not allowed to edit this'));
+		if ((AuthComponent::user('Group.id') != 1) && !in_array($reserveToModify['Reserve']['tour_id'], $toursAllowedIds)) {
+			throw new ForbiddenException(__('Not allowed to touch this reserve.'));
 		}
 
 	}

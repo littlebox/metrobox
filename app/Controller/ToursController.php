@@ -49,6 +49,8 @@ class ToursController extends AppController {
 		if (!$this->Tour->exists($id)) {
 			throw new NotFoundException(__('Invalid tour'));
 		}
+		$this->tourSecurityCheck($id);
+
 		$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id), 'contain' => array('Language', 'Day', 'Time'));
 		$this->set('tour', $this->Tour->find('first', $options));
 
@@ -241,27 +243,18 @@ class ToursController extends AppController {
 
 	/* SECURITY CHECK */
 	/* Verify if the logged user isn't admin and the reserve atempted to modify is inside a winery that he manages */
-	private function tourSecurityCheck($tourId){
-
+	public function tourSecurityCheck($tourToModifyId){
 
 		//Bring al IDs of user winery's tour
 		$tours = $this->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
-		$toursIds = [];
+		$toursAllowedIds = [];
 
 		foreach ($tours as $tour) {
-			$toursIds[] = $tour['Tour']['id'];
+			$toursAllowedIds[] = $tour['Tour']['id'];
 		}
 
-		$tourToModify = $this->Tour->find('first', array(
-			'conditions' => array(
-				'Tour.id' => $tourId,
-			),
-			'fields' => array('id'),
-			'contain' => false)
-		);
-
-		if ((AuthComponent::user('Group.id') != 1) && !in_array($tourToModify['Tour']['id'], $toursIds)) {
-			throw new ForbiddenException(__('Not allowed to edit this'));
+		if ((AuthComponent::user('Group.id') != 1) && !in_array($tourToModifyId, $toursAllowedIds)) {
+			throw new ForbiddenException(__('Not allowed to touch this tour.'));
 		}
 
 	}
