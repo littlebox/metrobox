@@ -87,6 +87,13 @@ class AppController extends Controller {
 
 	public function beforeFilter() {
 		// debug(Configure::read('Config.language'));die();
+
+		//Load all wineries names (only if logged user is admin) for selectWineryToManage
+		if (AuthComponent::user('Group.id') == 1){
+			$this->loadModel('Winery');
+			$wineriesList = $this->Winery->find('list', array('contain' => false, 'fields' => array('Winery.id', 'Winery.name')));
+			$this->set('wineriesList', $wineriesList);
+		}
 	}
 
 }

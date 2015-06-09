@@ -26,6 +26,11 @@ msgstr "Estadísticas del Sitio"
 msgid "Statistics"
 msgstr "Estadísticas"
 
+msgid "Select a Winery to Manage..."
+msgstr "Bodega a Administrar..."
+
+
+
 #: Controller/ClientsController.php:39
 msgid "No client found with that email."
 msgstr "No existe ningún cliente con ese email."

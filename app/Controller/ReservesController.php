@@ -31,19 +31,19 @@ class ReservesController extends AppController {
 		//debug($toursData);die();
 	}
 
-	public function admin_index() {
-		$this->layout = 'metrobox';
-		$this->Reserve->recursive = 0;
-		$this->set('reserves', $this->Paginator->paginate());
-	}
+	// public function admin_index() {
+	// 	$this->layout = 'metrobox';
+	// 	$this->Reserve->recursive = 0;
+	// 	$this->set('reserves', $this->Paginator->paginate());
+	// }
 
-	public function view($id = null) {
-		if (!$this->Reserve->exists($id)) {
-			throw new NotFoundException(__('Invalid reserve'));
-		}
-		$options = array('conditions' => array('Reserve.' . $this->Reserve->primaryKey => $id));
-		$this->set('reserve', $this->Reserve->find('first', $options));
-	}
+	// public function view($id = null) {
+	// 	if (!$this->Reserve->exists($id)) {
+	// 		throw new NotFoundException(__('Invalid reserve'));
+	// 	}
+	// 	$options = array('conditions' => array('Reserve.' . $this->Reserve->primaryKey => $id));
+	// 	$this->set('reserve', $this->Reserve->find('first', $options));
+	// }
 
 	public function add() {
 		$this->request->allowMethod('ajax'); //Call only with .json at end on url

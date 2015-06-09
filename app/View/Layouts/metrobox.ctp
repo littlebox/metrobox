@@ -32,6 +32,11 @@ Like: www.facebook.com/littlefacebox
 	?>
 	<!-- END GLOBAL MANDATORY STYLES -->
 	<!-- BEGIN PAGE LEVEL STYLES -->
+	<?php
+	if(AuthComponent::user('Group.id') == 1) {
+		echo $this->Html->css('/plugins/select2/select2');
+	}
+	?>
 	<?php echo $this->fetch('pageStyles'); ?>
 	<!-- END PAGE LEVEL STYLES -->
 	<!-- BEGIN THEME STYLES -->
@@ -122,6 +127,11 @@ echo $this->Html->script('/plugins/bootstrap-switch/js/bootstrap-switch.min');
 ?>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE PLUGINS -->
+<?php
+if(AuthComponent::user('Group.id') == 1) {
+	echo $this->Html->script('/plugins/select2/select2.min');
+}
+?>
 <?php echo $this->fetch('pagePlugins'); ?>
 <!-- END PAGE PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
@@ -130,9 +140,24 @@ echo $this->Html->script('metrobox');
 echo $this->Html->script('layout');
 ?>
 <script>
+
 	jQuery(document).ready(function() {
 		Metrobox.init(); // init metronic core components
 		Layout.init(); // init current layout
+		<?php if(AuthComponent::user('Group.id') == 1): ?>
+		$("#winery-to-manage-selector").select2({
+			placeholder: "<?= __('Select a Winery to Manage...') ?>",
+			allowClear: true,
+		});
+
+		$('#winery-to-manage-selector').select2('val', <?= AuthComponent::user('winery_id');?>);
+
+		$("#winery-to-manage-selector").on('change', function(){
+			if($("#winery-to-manage-selector").val()){
+				window.location.href = "<?= $this->Html->Url(array('controller' => 'users', 'action' => 'selectWineryToManage', 'admin' => true))?>" + "/" +$("#winery-to-manage-selector").val();
+			}
+		})
+		<?php endif; ?>
 	});
 </script>
 

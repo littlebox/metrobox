@@ -245,6 +245,14 @@ class UsersController extends AppController {
 				if($profile){
 					$this->setProfilePicture($this->request->data['User']['profile_picture'], $this->User->id);
 				}
+
+				//If the user modified is the user actually logged, change the session varible of winery id and others
+				if($id == $this->Auth->user('id')){
+					$this->Session->write('Auth.User.winery_id', $this->request->data['User']['winery_id']);
+					$this->Session->write('Auth.User.full_name', $this->request->data['User']['full_name']);
+					$this->Session->write('Auth.User.email', $this->request->data['User']['email']);
+				}
+
 				$this->Session->setFlash(__('The user has been saved'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			}
@@ -589,6 +597,19 @@ class UsersController extends AppController {
 		imagedestroy($dst_r);
 
 		ini_set('memory_limit', $oml);
+
+	}
+
+	public function admin_selectWineryToManage($wineryId){
+		$this->loadModel('Winery');
+		$this->Winery->id = $wineryId;
+		if (!$this->Winery->exists()) {
+			throw new NotFoundException(__('Invalid winery'));
+		}
+
+		$this->Session->write('Auth.User.winery_id', $wineryId);
+
+		return $this->redirect($this->referer());
 
 	}
 

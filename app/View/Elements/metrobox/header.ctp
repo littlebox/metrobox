@@ -48,6 +48,8 @@
 
 				</ul>
 			</div>
+			<?= $this->Form->select('WineryToManage.winery_id', $wineriesList, array('id' => 'winery-to-manage-selector', 'class' => 'form-control', 'style' => 'width: 220px;')); ?>
+
 		</div>
 		<!-- END PAGE ACTIONS -->
 		<!-- BEGIN PAGE TOP -->
