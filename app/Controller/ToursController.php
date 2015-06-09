@@ -135,6 +135,9 @@ class ToursController extends AppController {
 		if (!$this->Tour->exists($id)) {
 			throw new NotFoundException(__('Invalid tour'));
 		}
+
+		$this->tourSecurityCheck($id);
+
 		if ($this->request->is(array('post', 'put'))) {
 
 			$this->request->data['Tour']['id'] = $id;
@@ -209,6 +212,7 @@ class ToursController extends AppController {
 			if (!$this->Tour->exists()) {
 				$data['error'] = __('Invalid Tour');
 			} else {
+				$this->tourSecurityCheck($id);
 				if ($this->Tour->delete()) {
 					$data['content'] = __('Tour deleted');
 				} else {
@@ -225,6 +229,7 @@ class ToursController extends AppController {
 			if (!$this->Tour->exists()) {
 				throw new NotFoundException(__('Invalid Tour'));
 			}
+			$this->tourSecurityCheck($id);
 			if ($this->Tour->delete()) {
 				$this->Session->setFlash(__('Tour deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
@@ -232,5 +237,32 @@ class ToursController extends AppController {
 			$this->Session->setFlash(__('Tour was not deleted', 'metrobox/flash_danger'));
 			return $this->redirect(array('action' => 'index'));
 		}
+	}
+
+	/* SECURITY CHECK */
+	/* Verify if the logged user isn't admin and the reserve atempted to modify is inside a winery that he manages */
+	private function tourSecurityCheck($tourId){
+
+
+		//Bring al IDs of user winery's tour
+		$tours = $this->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		$tourToModify = $this->Tour->find('first', array(
+			'conditions' => array(
+				'Tour.id' => $tourId,
+			),
+			'fields' => array('id'),
+			'contain' => false)
+		);
+
+		if ((AuthComponent::user('Group.id') != 1) && !in_array($tourToModify['Tour']['id'], $toursIds)) {
+			throw new ForbiddenException(__('Not allowed to edit this'));
+		}
+
 	}
 }

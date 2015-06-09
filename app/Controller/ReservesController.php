@@ -126,6 +126,8 @@ class ReservesController extends AppController {
 			throw new NotFoundException(__('Invalid reserve'));
 		}
 
+		$this->reserveSecurityCheck($this->request->data['Reserve']['id']);
+
 		$data = array(
 			'content' => '',
 			'reserve' => '',
@@ -313,6 +315,9 @@ class ReservesController extends AppController {
 			if (!$this->Reserve->exists()) {
 				$data['error'] = __('Invalid Reserve');
 			} else {
+
+				$this->reserveSecurityCheck($id);
+
 				if ($this->Reserve->delete()) {
 					$data['content'] = __('Reserve deleted');
 				} else {
@@ -329,6 +334,9 @@ class ReservesController extends AppController {
 			if (!$this->Reserve->exists()) {
 				throw new NotFoundException(__('Invalid Reserve'));
 			}
+
+			$this->reserveSecurityCheck($id);
+
 			if ($this->Reserve->delete()) {
 				$this->Session->setFlash(__('Reserve deleted'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
@@ -337,6 +345,34 @@ class ReservesController extends AppController {
 			return $this->redirect(array('action' => 'index'));
 		}
 	}
+
+	/* SECURITY CHECK */
+	/* Verify if the logged user isn't admin and the reserve atempted to modify is inside a winery that he manages */
+	private function reserveSecurityCheck($reserveId){
+
+
+		//Bring al IDs of user winery's tour
+		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		$reserveToModify = $this->Reserve->find('first', array(
+			'conditions' => array(
+				'Reserve.id' => $reserveId,
+			),
+			'fields' => array('id', 'tour_id'),
+			'contain' => false)
+		);
+
+		if ((AuthComponent::user('Group.id') != 1) && !in_array($reserveToModify['Reserve']['tour_id'], $toursIds)) {
+			throw new ForbiddenException(__('Not allowed to edit this'));
+		}
+
+	}
+
 
 
 }

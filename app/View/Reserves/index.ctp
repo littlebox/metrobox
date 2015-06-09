@@ -530,9 +530,9 @@
 					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 				},
 				success: function(response) {
+					//Hide modal to view swal
+					$('#reserve-details').modal('hide');
 					if (response.content) {
-						//Hide modal to view swal
-						$('#reserve-details').modal('hide');
 						//Bring the modified reserve
 						modReserve = $('#calendar').fullCalendar('clientEvents', response.reserve.id)[0];
 						//Update the content
@@ -571,6 +571,8 @@
 					}
 				},
 				error: function(e) {
+					//Hide modal to view swal
+					$('#reserve-details').modal('hide');
 					swal({
 						title: 'Error',
 						text: 'Ajax Error',
