@@ -543,6 +543,13 @@ var reserves = {
 				addModalInitializers(element);
 				addLanguageFlag(reserve, element);
 				addCheckOnAttended(reserve, element);
+			},
+			loading: function( isLoading, view ) {
+				if(isLoading){
+					$('.fc-button-group').prepend('<button id="fc-ajax-spinner" type="button" class="fc-prev-button fc-button fc-state-default fc-corner-left"><span class="fa fa-spinner fa-pulse" display="font-size: 18px"></span></button>');
+				}else{
+					$('#fc-ajax-spinner').remove();
+				}
 			}
 		});
 
