@@ -71,7 +71,7 @@ class ToursController extends AppController {
 			//Set the winery of user logged in
 			$this->request->data['Tour']['winery_id'] = $this->Auth->user('winery_id');
 
-			debug($this->request->data);
+			//debug($this->request->data);
 
 			//Make length field "hh:mm:ss formated" to save in DB
 			list($h, $m) = split(':', $this->request->data['Tour']['length']);
