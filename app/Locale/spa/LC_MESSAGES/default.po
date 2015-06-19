@@ -29,8 +29,6 @@ msgstr "Estadísticas"
 msgid "Select a Winery to Manage..."
 msgstr "Bodega a Administrar..."
 
-
-
 #: Controller/ClientsController.php:39
 msgid "No client found with that email."
 msgstr "No existe ningún cliente con ese email."
@@ -1410,6 +1408,10 @@ msgstr "País de Origen"
 #: Reserve Model
 msgid "Phone"
 msgstr "Teléfono"
+
+#: Reserve Model
+msgid "Note"
+msgstr "Nota"
 
 #: Reserve Model
 msgid "Attended"

@@ -112,6 +112,7 @@ class ReservesController extends AppController {
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 			} else {
 				debug($this->Reserve->validationErrors); die();
@@ -190,6 +191,7 @@ class ReservesController extends AppController {
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 
 			}
@@ -270,6 +272,7 @@ class ReservesController extends AppController {
 				'clientPhone' => $reserve['Client']['phone'],
 				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
 				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
+				'note' => $reserve['Reserve']['note'],
 				'backgroundColor' => $reserve['Tour']['color'],
 				'attended' => $reserve['Reserve']['attended'],
 			);

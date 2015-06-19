@@ -291,6 +291,7 @@
 							echo $this->Form->input('number_of_minors', array('value' => 0));
 							echo $this->Form->input('Client.country',array('type' => 'select', 'id' => 'client-country', 'options' => $countryList, 'empty' => ''));
 							echo $this->Form->input('Client.phone', array('id' => 'client-phone'));
+							echo $this->Form->input('note');
 						?>
 						<?= $this->Form->button($this->Html->tag('span', __('Add'), array('class' => 'ladda-label')), array('id' => 'reserve-add-submit-button', 'class' => 'btn default ladda-button', 'data-style' => 'zoom-out'));?>
 					<?php echo $this->Form->end(); ?>
@@ -347,6 +348,7 @@
 							echo $this->Form->input('language_id', array('id' => 'language-selector-modal', 'empty' => __('Select a tour first'), 'disabled' => 'disabled'));
 							echo $this->Form->input('date', array('id' => 'date-modal', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----', 'disabled' => 'disabled'));
 							echo $this->Form->input('time', array('id' => 'time-selector-modal', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first'), 'disabled' => 'disabled'));
+							echo $this->Form->input('note', array('id' => 'note-modal', 'disabled' => 'disabled'));
 							echo $this->Form->hidden('id', array('id' => 'id-modal'));
 						?>
 					<?php echo $this->Form->end(); ?>
@@ -472,6 +474,7 @@
 							clientPhone: response.reserve.clientPhone,
 							numberOfAdults: response.reserve.numberOfAdults,
 							numberOfMinors: response.reserve.numberOfMinors,
+							note: response.reserve.note,
 							backgroundColor: response.reserve.backgroundColor,
 
 						};
@@ -549,6 +552,7 @@
 						modReserve.clientPhone = response.reserve.clientPhone;
 						modReserve.numberOfAdults = response.reserve.numberOfAdults;
 						modReserve.numberOfMinors = response.reserve.numberOfMinors;
+						modReserve.note = response.reserve.note;
 						modReserve.backgroundColor = response.reserve.backgroundColor;
 						//Aply the changes on calendar
 						$('#calendar').fullCalendar('updateEvent', modReserve);

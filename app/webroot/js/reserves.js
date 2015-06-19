@@ -339,6 +339,9 @@ var reserves = {
 				'data[Reserve][number_of_minors]': {
 					required: true
 				},
+				'data[Reserve][note]': {
+					required: false
+				},
 				'data[Client][full_name]': {
 					required: true
 				},
@@ -414,6 +417,9 @@ var reserves = {
 				},
 				'data[Reserve][number_of_minors]': {
 					required: true
+				},
+				'data[Reserve][note]': {
+					required: false
 				},
 				'data[Client][full_name]': {
 					required: true
@@ -521,6 +527,7 @@ var reserves = {
 				$('#client-birth-date-modal').datepicker('update');
 				$('#number-of-adults-modal').val(reserve.numberOfAdults);
 				$('#number-of-minors-modal').val(reserve.numberOfMinors);
+				$('#note-modal').val(reserve.note);
 				$('#client-country-modal').select2("val", reserve.clientCountry);
 				$('#client-phone-modal').val(reserve.clientPhone);
 				//Mark or not Attended checkbox
