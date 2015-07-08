@@ -269,7 +269,7 @@ msgstr "Bodega incorrecta"
 
 #: Controller/WineriesController.php:53;68
 msgid "The winery has been saved."
-msgstr "La bodega ha sido guardad."
+msgstr "La bodega ha sido guardada."
 
 #: Controller/WineriesController.php:56;71
 msgid "The winery could not be saved. Please, try again."

@@ -18,7 +18,7 @@ class WineriesController extends AppController {
 		$this->layout = 'metrobox';
 
 		$this->paginate = array(
-			'fields' => array('Winery.name', 'Winery.priority', 'Winery.visible', 'Winery.created', 'Winery.id'),
+			'fields' => array('Winery.name', 'Winery.priority', 'Winery.visible', 'Winery.created', 'Winery.id', 'Winery.reserve_count'),
 			'order' => array('Winery.created' => 'desc'),
 			'contain' => false,
 		);

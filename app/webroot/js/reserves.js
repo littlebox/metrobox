@@ -352,7 +352,7 @@ var reserves = {
 					required: true
 				},
 				'data[Client][phone]': {
-					required: true
+					required: false
 				}
 			},
 
@@ -431,7 +431,7 @@ var reserves = {
 					required: true
 				},
 				'data[Client][phone]': {
-					required: true
+					required: false
 				}
 			},
 

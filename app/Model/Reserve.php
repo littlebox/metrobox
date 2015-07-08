@@ -138,7 +138,8 @@ class Reserve extends AppModel {
 			'foreignKey' => 'tour_id',
 			'conditions' => '',
 			'fields' => '',
-			'order' => ''
+			'order' => '',
+			'counterCache' => true,
 		),
 		'Client' => array(
 			'className' => 'Client',

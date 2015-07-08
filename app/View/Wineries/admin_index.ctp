@@ -46,6 +46,7 @@
 				<th><?= __('Name') ?></th>
 				<th><?= __('Priority') ?></th>
 				<th><?= __('Visible') ?></th>
+				<th><?= __('Reserves') ?></th>
 				<th><?= __('Created') ?></th>
 				<th><?= __('Actions') ?></th>
 			</thead>
