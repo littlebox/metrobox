@@ -14,6 +14,11 @@ class WineriesController extends AppController {
 		'Form' => array('className' => 'BootstrapForm')
 	);
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('get');
+	}
+
 	public function admin_index(){
 		$this->layout = 'metrobox';
 
@@ -37,6 +42,81 @@ class WineriesController extends AppController {
 		}
 		$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id));
 		$this->set('winery', $this->Winery->find('first', $options));
+	}
+
+	public function get() {
+
+		if (empty($this->request['named']['date'])){
+			throw new NotFoundException(__('Invalid Date'));
+		}
+
+		$date = $this->request['named']['date']; //Has to be AAAA-MM-DD
+		$language = !empty($this->request['named']['language']) ? $this->request['named']['language'] : 1; //Has to be a language id(if not setted, set to 1 (spanish)
+
+		$this->Winery->Tour->setDateForQuotaAvailable($date);
+
+		$this->Winery->recursive = -1;
+
+		$options = array(
+			'fields' => array(
+				'id',
+				'name',
+				'latitude',
+				'longitude',
+				'address',
+				'description',
+				'priority',
+			),
+			'joins'=>array(
+				array(
+					'table'=>'tours',
+					'alias'=>'Tour',
+					'type'=>'inner',
+					'conditions'=>array(
+						'Tour.winery_id = Winery.id'
+					)
+				),
+				array(
+					'table'=>'tours_languages',
+					'alias'=>'ToursLanguage',
+					'type'=>'inner',
+					'conditions'=>array(
+						'ToursLanguage.tour_id = Tour.id',
+						'ToursLanguage.language_id = 2'
+					)
+				),
+			),
+			'contain' => array(
+				'Image' => array(
+					'id',
+					'name',
+				),
+				'Tour' => array(
+					'id',
+					'name',
+					'length',
+					'quota',
+					'quota_available',
+					'price',
+					'minors_price',
+					'description',
+					'Time' => array(
+						'id',
+						'hour',
+					),
+					'Language'=> array(
+						// 'conditions' => array('Language.id =' => '2')
+					)
+				),
+			),
+
+		);
+		$wineries = $this->Winery->find('all', $options);
+		$log = $this->Winery->getDataSource()->getLog(false, false);debug($log);
+
+		debug($wineries);die();
+		// echo json_encode($wineries);
+		// die();
 	}
 
 

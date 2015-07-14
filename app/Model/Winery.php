@@ -10,7 +10,7 @@ App::uses('AppModel', 'Model');
 class Winery extends AppModel {
 
 	public $virtualFields = array(
-		'reserve_count' => 'SELECT IF(SUM(tours.reserve_count) > 0,SUM(tours.reserve_count),0) FROM tours WHERE tours.winery_id = Winery.id'
+		'reserve_count' => 'SELECT COALESCE(SUM(tours.reserve_count), 0) FROM tours WHERE tours.winery_id = Winery.id'
 	);
 
 /**

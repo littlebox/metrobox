@@ -17,6 +17,15 @@ class Tour extends AppModel {
  */
 	public $displayField = 'name';
 
+
+	public $virtualFields = array(
+		'quota_available' => 'SELECT "No date selected"',
+	);
+
+	public function setDateForQuotaAvailable($date){
+		$this->virtualFields['quota_available'] = 'SELECT quota - (SELECT COALESCE(SUM(number_of_adults)+SUM(number_of_minors), 0) FROM reserves WHERE tour_id = Tour.id AND date="'.$date.'") FROM tours WHERE id = Tour.id';
+	}
+
 /**
  * Validation rules
  *
