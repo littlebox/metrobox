@@ -14,8 +14,9 @@ class Time extends AppModel {
  */
 	public $displayField = 'hour';
 
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
+	public $virtualFields = array(
+		'quota_available' => 'SELECT "Not setted"', //Set this field in controller
+	);
 
 /**
  * hasAndBelongsToMany associations
