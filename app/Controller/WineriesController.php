@@ -142,6 +142,9 @@ class WineriesController extends AppController {
 				),
 			),
 			'group' => 'Winery.id',
+			'conditions'=> array(
+				'Winery.visible' => true,
+			),
 			'order' => array(
 				'Winery.priority DESC'
 			),
