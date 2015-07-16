@@ -90,13 +90,21 @@
 				echo $this->Form->input('visible');
 			?>
 
+			<div class="form-group" id="gmap_geocoding_form">
+				<label class="control-label col-md-3"><?= __('Add Photos') ?></label>
+				<div class="col-md-9">
+					<div class="dropzone" id="imagesDropzone"></div>
+					<div id="hiddenImagesInputs"></div>
+				</div>
+			</div>
+
 			<div class="form-actions right">
 				<?php
-					echo $this->Form->Button(__('Cancel'),array(
-						'div' => false,
-						'class' => 'btn default',
-						'type' => 'button'
-					));
+					// echo $this->Form->Button(__('Cancel'),array(
+					// 	'div' => false,
+					// 	'class' => 'btn default',
+					// 	'type' => 'button'
+					// ));
 					echo $this->Form->Button(__('Save'),array(
 						'div' => false,
 						'class' => 'btn green',
@@ -114,8 +122,7 @@
 	<?= $this->Html->css('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->css('/plugins/bootstrap-switch/css/bootstrap-switch.min');?>
 	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
-	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
-	<?= $this->Html->css('image-crop.css');?>
+	<?= $this->Html->css('/plugins/dropzone/dropzone');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -128,9 +135,15 @@
 	<?= $this->Html->script('/plugins/jquery-validation/js/additional-methods.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
-	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
 	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false&libraries=places'); //Para los mapas de google ?>
 	<?= $this->Html->script('/plugins/gmaps/gmaps'); //Para los mapas de google ?>
+	<?= $this->Html->script('/plugins/dropzone/dropzone'); //Dropzone para las imagesnes ?>
+	<style>
+		#dropzone { margin-bottom: 3rem; }
+		.dropzone { border: 2px dashed #9f4b55; border-radius: 5px; background: white; }
+		.dropzone .dz-message { font-weight: 400; color: #8877a9; font-size: 1.5em;}
+		.dropzone .dz-message .dz-note { font-size: 0.8em; font-weight: 200; display: block; margin-top: 1.4rem; }
+	</style>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
@@ -139,6 +152,12 @@
 	<script>
 		initialLatitude = $('#WineryLatitude').val();
 		initialLongitude = $('#WineryLongitude').val();
+
+		//drop zone variables
+		imageCounter = 0;
+		imagesIdArray = []; //This array will contain all IDs of images to asociate with the estate
+		Dropzone.autoDiscover = false; //Prevent auto init dropzone
+		wineryAddImageUrl = '<?= $this->Html->Url(array("action" => "add_image"));?>';
 
 		jQuery(document).ready(function() {
 			WineryAdminAddEdit.init();

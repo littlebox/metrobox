@@ -25,7 +25,7 @@ var WineryAdminAddEdit = {
 					required: true
 				},
 				'data[Winery][description]': {
-					required: true
+					required: false
 				},
 				'data[Winery][priority]': {
 					required: true
@@ -55,6 +55,17 @@ var WineryAdminAddEdit = {
 			},
 
 			submitHandler: function(form) {
+
+				//For each element in imagesIdArray, we add an input hidden field in hiddenImagesInputs div, to asociate the estate to this images
+				var i = 0;
+				for (var key in imagesIdArray){
+					if (imagesIdArray.hasOwnProperty(key)) {
+						htmlHiddenInput = '<input type="hidden" name="data[Image]['+i+'][id]" value="'+imagesIdArray[key]+'"/>';
+						document.getElementById('hiddenImagesInputs').insertAdjacentHTML('beforeend', htmlHiddenInput);
+						i++;
+					}
+				}
+
 				form.submit();
 			}
 		});
@@ -243,10 +254,46 @@ var WineryAdminAddEdit = {
 
 	},
 
+	imagesDropzone: function (){
+
+		var dropzone = new Dropzone('#imagesDropzone', {
+			// previewTemplate: document.querySelector('#preview-template').innerHTML,
+			url: wineryAddImageUrl,
+			dictDefaultMessage: 'Arrastra o clickea para subir fotos<span class="dz-note">(Podés subir hasta 10 fotos. Las fotos se cortarán al tamaño predefinido.)</span>',
+			acceptedFiles:'.jpg,.jpeg,.png',
+			addRemoveLinks: true,
+			parallelUploads: 2,
+			thumbnailHeight: 120,
+			thumbnailWidth: 120,
+			maxFilesize: 3,
+			filesizeBase: 1000,
+		})
+
+		//Set Callback Success
+		dropzone.on("success", function(file, response) {
+			//Set identifier for local file in case we want remove a file from the imagesIdArray
+			file.tempId = 'id'+imageCounter;
+			imageCounter++;
+			imagesIdArray[file.tempId] = parseInt(response.content.id);
+			console.log(file.tempId+' added -> id:' + response.content.id);
+		});
+
+
+		//Set Callback Remove
+		dropzone.on("removedfile", function(file) {
+			//Remove the id from the asociated images array
+			delete imagesIdArray[file.tempId];
+			console.log(file.tempId+' removed');
+
+		});
+
+	},
+
 
 	init: function (){
 		WineryAdminAddEdit.validateWinery();
 		WineryAdminAddEdit.mapGeocoding();
+		WineryAdminAddEdit.imagesDropzone();
 	}
 
 }

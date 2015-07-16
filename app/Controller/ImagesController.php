@@ -16,36 +16,7 @@ class ImagesController extends AppController {
  */
 	public $components = array('Paginator', 'Session');
 
-/**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$this->Image->recursive = 0;
-		$this->set('images', $this->Paginator->paginate());
-	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->Image->exists($id)) {
-			throw new NotFoundException(__('Invalid image'));
-		}
-		$options = array('conditions' => array('Image.' . $this->Image->primaryKey => $id));
-		$this->set('image', $this->Image->find('first', $options));
-	}
-
-/**
- * add method
- *
- * @return void
- */
 	public function add() {
 		if ($this->request->is('post')) {
 			$this->Image->create();
@@ -60,39 +31,6 @@ class ImagesController extends AppController {
 		$this->set(compact('wineries'));
 	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->Image->exists($id)) {
-			throw new NotFoundException(__('Invalid image'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->Image->save($this->request->data)) {
-				$this->Session->setFlash(__('The image has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The image could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('Image.' . $this->Image->primaryKey => $id));
-			$this->request->data = $this->Image->find('first', $options);
-		}
-		$wineries = $this->Image->Winery->find('list');
-		$this->set(compact('wineries'));
-	}
-
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
 	public function delete($id = null) {
 		$this->Image->id = $id;
 		if (!$this->Image->exists()) {
@@ -105,5 +43,24 @@ class ImagesController extends AppController {
 			$this->Session->setFlash(__('The image could not be deleted. Please, try again.'));
 		}
 		return $this->redirect(array('action' => 'index'));
+	}
+
+	public function clean() {
+		$imagesPath = WWW_ROOT.'img'.DS.'wineries'.DS;
+		$imagesToDelete = $this->Image->find('all', array('contain' => false,'conditions' => array('Image.winery_id IS NULL')));
+		if(empty($imagesToDelete)){
+			die(__('Nothing to clean.'));
+		}
+		foreach ($imagesToDelete as $image) {
+			$this->Image->id = $image['Image']['id'];
+			if ($this->Image->delete()) {
+				//Delete image from disk
+				unlink($imagesPath.$image['Image']['id'].'.jpg');
+				echo 'Image id: '.$image['Image']['id'].' deleted<br>';
+			} else {
+				echo 'Image id: '.$image['Image']['id'].' NOT deleted!<br>';
+			}
+		}
+		die(__('All cleaned!'));
 	}
 }

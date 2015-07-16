@@ -181,13 +181,72 @@ class WineriesController extends AppController {
 
 		if ($this->request->is('post')) {
 			$this->Winery->create();
-			if ($this->Winery->save($this->request->data)) {
+			if ($this->Winery->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		}
+	}
+
+	public function add_image() {
+
+		$this->request->allowMethod('ajax');
+
+
+
+		$data = array(
+			'content' => [],
+			'error' => '',
+		);
+
+		// $this->params->form['file']
+
+		//Check if image has been uploaded
+		if(!empty($this->params->form['file']['name'])){
+			$file = $this->params->form['file']; //put the data into a var for easy use
+
+			$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+			$arr_ext = array('jpg', 'jpeg', 'png'); //set allowed extensions
+
+			//only process if the extension is valid
+			if(in_array($ext, $arr_ext)){
+				//do the actual uploading of the file. First arg is the tmp name, second arg is
+				//where we are putting it
+
+				//Create new image model
+				$this->Winery->Image->create();
+				$imageData = array('winery_id' => NULL);
+				//Save the image model in DB and get the ID
+				if ($this->Winery->Image->save($imageData)) {
+					//Rezize and crop image at 16:9 (960x540)
+					$imagickImage = new Imagick($file['tmp_name']);
+					$imagickImage->cropThumbnailImage(800, 600);
+					unlink($file['tmp_name']);
+					$imagickImage->setImageFormat("jpg");
+					$imagickImage->writeImage($file['tmp_name']);
+
+					//Save image on disk
+					$imagesPath = WWW_ROOT.'img'.DS.'wineries'.DS;
+					move_uploaded_file($file['tmp_name'], $imagesPath.$this->Winery->Image->id.'.jpg');
+					$data['content']['msg'] = __('The image has been saved.');
+					$data['content']['id'] = $this->Winery->Image->id;
+				} else {
+					// $data['error'] = $this->Winery->Image->validationErrors;
+					throw new InternalErrorException(__('The image could not be saved.'));
+				}
+			}else{
+				// $data['error'] = __('Invalid file extension.');
+				throw new ForbiddenException(__('Invalid file extension.'));
+			}
+
+		}else{
+			$data['error'] = __('No Data Sended');
+		}
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
 
@@ -199,7 +258,7 @@ class WineriesController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			$this->Winery->id = $id;
-			if ($this->Winery->save($this->request->data)) {
+			if ($this->Winery->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
 			} else {
