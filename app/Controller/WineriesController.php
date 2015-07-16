@@ -33,9 +33,6 @@ class WineriesController extends AppController {
 		$this->set('_serialize','response');
 	}
 
-
-
-
 	public function view($id = null) {
 		if (!$this->Winery->exists($id)) {
 			throw new NotFoundException(__('Invalid winery'));
