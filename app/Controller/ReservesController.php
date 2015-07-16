@@ -225,7 +225,8 @@ class ReservesController extends AppController {
 		} else{
 			//Bring only reserves of winery's tours
 			$conditions = array(
-				'Reserve.tour_id' => $toursIds
+				'Reserve.tour_id' => $toursIds,
+				'Reserve.tour_id IS NOT NULL',
 			);
 		}
 
