@@ -47,7 +47,6 @@ class WineriesController extends AppController {
 		header('Access-Control-Allow-Origin:*');
 		header('Access-Control-Allow-Methods:*');
 		header('Access-Control-Allow-Headers:X-Requested-With');
-		header('X-pennesi-puto?:si!!!');
 
 		//Render always as json
 		$this->RequestHandler->renderAs($this, 'json');
@@ -142,6 +141,7 @@ class WineriesController extends AppController {
 					)
 				),
 			),
+			'group' => 'Winery.id',
 			'order' => array(
 				'Winery.priority DESC'
 			),
