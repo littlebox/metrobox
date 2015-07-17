@@ -35,7 +35,7 @@
 					//Admin Menu
 					array(
 						'title'=>__('Administrate'),
-						'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
+						'href'=>array('controller'=>'wineries', 'action' => 'index', 'admin' => true),
 						'icon'=>'layers',
 						'submenu' => array(
 							array(

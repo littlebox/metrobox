@@ -120,7 +120,6 @@ class WineriesController extends AppController {
 			'contain' => array(
 				'Image' => array(
 					'id',
-					'name',
 				),
 				'Tour' => array(
 					'id',
