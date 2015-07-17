@@ -19,7 +19,7 @@ var WineriesIndexTable = function () {
 			"bProcessing": true,
 			"bServerSide": true,
 			"sAjaxSource": LocalVar.ajaxSource, //set in view
-			"aaSorting": [[3,'desc']], //Ordenar por nombre
+			"aaSorting": [[4,'desc']], //Ordr by created date
 			"aoColumns": [
 				{mData:"Winery.name"},
 				{mData:"Winery.priority"},

@@ -29,6 +29,9 @@ var WineryAdminAddEdit = {
 				},
 				'data[Winery][priority]': {
 					required: true
+				},
+				'data[Winery][logo]': {
+					accept: "image/x-png, image/png",
 				}
 			},
 
@@ -47,7 +50,7 @@ var WineryAdminAddEdit = {
 			},
 
 			errorPlacement: function(error, element) {
-				if (element.attr('id') == 'profile_picture') {
+				if (element.attr('id') == 'upload-logo') {
 					error.insertAfter('.fileinput.fileinput-exists');
 				} else {
 					error.insertAfter(element);

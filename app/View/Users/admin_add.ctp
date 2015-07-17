@@ -67,7 +67,7 @@
 								<input id="profile_picture_ow" type="hidden" name="profile_picture_ow">
 								<input id="profile_picture_oh" type="hidden" name="profile_picture_oh">
 								</span>
-								<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput">Remove</a>
+								<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput"><?= __('Remove');?></a>
 							</div>
 						</div>
 

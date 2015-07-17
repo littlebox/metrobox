@@ -90,6 +90,36 @@
 				echo $this->Form->input('visible');
 			?>
 
+			<div class="form-group last">
+				<label class="control-label col-md-3"><?= __('Logo');?></label>
+				<div class="col-md-9">
+					<div class="fileinput fileinput-new" data-provides="fileinput">
+						<div class="fileinput-new thumbnail" style="width:310px; height:160px; background-color:#9F4B55;">
+							<?= $this->Html->image('wineries/logos/'.$this->request->data['Winery']['id'].'.png', array('alt' => ''));?>
+						</div>
+						<div class="fileinput-preview fileinput-exists thumbnail" style="width:310px; height:160px; background-color:#9F4B55;">
+						</div>
+						<div>
+							<span class="btn default btn-file">
+								<span class="fileinput-new"><?= __('Select image');?></span>
+								<span class="fileinput-exists"><?= __('Change');?></span>
+								<?php echo $this->Form->file('logo', array(
+									'id' => 'upload-logo',
+									'required' => false)
+								);?>
+							</span>
+							<a href="#" class="btn red fileinput-exists" data-dismiss="fileinput"><?= __('Remove');?></a>
+						</div>
+					</div>
+					<span class="help-block"><?= __('The image has to be 300x150 px. PNG Only.') ?></span>
+
+					<?php if ($this->Form->isFieldError('logo')) {
+						echo $this->Form->error('logo');
+					}?>
+
+				</div>
+			</div>
+
 			<div class="form-group" id="gmap_geocoding_form">
 				<label class="control-label col-md-3"><?= __('Add Photos') ?></label>
 				<div class="col-md-9">

@@ -181,9 +181,39 @@ class WineriesController extends AppController {
 
 		if ($this->request->is('post')) {
 			$this->Winery->create();
+
 			if ($this->Winery->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
+
+				//Check if image has been uploaded
+				if(!empty($this->data['Winery']['logo'])){
+					$file = $this->data['Winery']['logo']; //put the data into a var for easy use
+
+					$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+					$arr_ext = array('png'); //set allowed extensions
+
+					//only process if the extension is valid
+					if(in_array($ext, $arr_ext)){
+						//do the actual uploading of the file. First arg is the tmp name, second arg is
+
+						//Rezize and crop image at 300x150
+						$imagickImage = new Imagick($file['tmp_name']);
+						$imagickImage->cropThumbnailImage(300, 150);
+						unlink($file['tmp_name']);
+						$imagickImage->writeImage($file['tmp_name']);
+
+						//Save image on disk
+						$imagesPath = WWW_ROOT.'img'.DS.'wineries'.DS.'logos'.DS;
+						move_uploaded_file($file['tmp_name'], $imagesPath.$this->Winery->id.'.png');
+
+					}else{
+						$this->Session->setFlash(__('The logo could not be saved. Invalid file extension.'), 'metrobox/flash_danger');
+					}
+
+				}
+
 				return $this->redirect(array('action' => 'index'));
+
 			} else {
 				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
@@ -220,7 +250,7 @@ class WineriesController extends AppController {
 				$imageData = array('winery_id' => NULL);
 				//Save the image model in DB and get the ID
 				if ($this->Winery->Image->save($imageData)) {
-					//Rezize and crop image at 16:9 (960x540)
+					//Rezize and crop image at 4:3 (800x600)
 					$imagickImage = new Imagick($file['tmp_name']);
 					$imagickImage->cropThumbnailImage(800, 600);
 					unlink($file['tmp_name']);
@@ -258,8 +288,36 @@ class WineriesController extends AppController {
 		}
 		if ($this->request->is(array('post', 'put'))) {
 			$this->Winery->id = $id;
+			$this->request->data['Winery']['id'] = $id;
 			if ($this->Winery->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
+
+				//Check if image has been uploaded
+				if(!empty($this->data['Winery']['logo'])){
+					$file = $this->data['Winery']['logo']; //put the data into a var for easy use
+
+					$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
+					$arr_ext = array('png'); //set allowed extensions
+
+					//only process if the extension is valid
+					if(in_array($ext, $arr_ext)){
+						//do the actual uploading of the file. First arg is the tmp name, second arg is
+
+						//Rezize and crop image at 300x150
+						$imagickImage = new Imagick($file['tmp_name']);
+						$imagickImage->cropThumbnailImage(300, 150);
+						unlink($file['tmp_name']);
+						$imagickImage->writeImage($file['tmp_name']);
+
+						//Save image on disk
+						$imagesPath = WWW_ROOT.'img'.DS.'wineries'.DS.'logos'.DS;
+						move_uploaded_file($file['tmp_name'], $imagesPath.$this->Winery->id.'.png');
+
+					}else{
+						$this->Session->setFlash(__('The logo could not be saved. Invalid file extension.'), 'metrobox/flash_danger');
+					}
+				}
+
 				return $this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
