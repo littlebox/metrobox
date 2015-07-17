@@ -23,8 +23,8 @@ var WineriesIndexTable = function () {
 			"aoColumns": [
 				{mData:"Winery.name"},
 				{mData:"Winery.priority"},
-				{mData:"Winery.visible"},
-				{mData:"Winery.reserve_count"},
+				{mData:"Winery.visible", searchable: false},
+				{mData:"Winery.reserve_count", searchable: false},
 				{mData:"Winery.created"},
 				{mData:"Winery.id", bSortable: false}
 			],
