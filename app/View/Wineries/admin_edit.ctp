@@ -97,7 +97,7 @@
 						<div class="fileinput-new thumbnail" style="width:310px; height:160px; background-color:#9F4B55;">
 							<?php if(file_exists('/img/wineries/logos/'.$this->request->data['Winery']['id'].'.png')) : ?>
 								<?= $this->Html->image('wineries/logos/'.$this->request->data['Winery']['id'].'.png', array('alt' => ''));?>
-							<?php else; ?>
+							<?php else : ?>
 								<?= $this->Html->image('wineries/logos/noimage.png', array('alt' => ''));?>
 							<?php endif; ?>
 						</div>
