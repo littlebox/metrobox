@@ -550,6 +550,8 @@ var reserves = {
 				addModalInitializers(element);
 				addLanguageFlag(reserve, element);
 				addCheckOnAttended(reserve, element);
+				addWineobsLogo(reserve, element);
+				addPaidMark(reserve, element);
 			},
 			loading: function( isLoading, view ) {
 				if(isLoading){
@@ -603,18 +605,28 @@ var reserves = {
 			}
 		}
 
-		addCheckOnAttended
-		//Add green check icon on attended reserve events
+		//Add check icon on attended reserve events
 		function addCheckOnAttended(reserve, element){
 			if(reserve.attended){
-				element.find('.fc-content').prepend("<i class='fa fa-check font-green' style='float: left;'></i>");
+				element.find('.fc-content').prepend("<i class='fa fa-check' style='float: left;'></i>");
+			}
+		}
+
+		//Add wineobs icon on reserves made from web
+		function addWineobsLogo(reserve, element){
+			if(reserve.from_web){
+				element.find('.fc-time').append(" <img class='flag' src='/img/wineobs_mark.png'/>");
+			}
+		}
+
+		//Add dollar icon forpaid reserves made from web
+		function addPaidMark(reserve, element){
+			if(reserve.paid){
+				element.find('.fc-time').append(" <i class='fa fa-credit-card'></i>");
 			}
 		}
 
 	},
-
-
-
 
 	init: function (){
 		reserves.initCalendar();
