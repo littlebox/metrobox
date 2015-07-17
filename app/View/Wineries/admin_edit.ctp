@@ -1,5 +1,3 @@
-<?php //debug($images);die();?>
-
 <div class="portlet light bordered form-fit">
 	<div class="portlet-title">
 		<div class="caption">
@@ -95,7 +93,7 @@
 				<div class="col-md-9">
 					<div class="fileinput fileinput-new" data-provides="fileinput">
 						<div class="fileinput-new thumbnail" style="width:310px; height:160px; background-color:#9F4B55;">
-							<?php if(file_exists('/img/wineries/logos/'.$this->request->data['Winery']['id'].'.png')) : ?>
+							<?php if(file_exists(WWW_ROOT.'img'.DS.'wineries'.DS.'logos'.DS.$this->request->data['Winery']['id'].'.png')) : ?>
 								<?= $this->Html->image('wineries/logos/'.$this->request->data['Winery']['id'].'.png', array('alt' => ''));?>
 							<?php else : ?>
 								<?= $this->Html->image('wineries/logos/noimage.png', array('alt' => ''));?>
