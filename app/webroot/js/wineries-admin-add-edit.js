@@ -144,43 +144,47 @@ var WineryAdminAddEdit = {
 				address: text,
 				callback: function (results, status) {
 					if (status == 'OK') {
-						//Centra el mapa en la latitud y longitu encontrada y pone el zoom en 16
 						var latlng = results[0].geometry.location;
-						map.setCenter(latlng.lat(), latlng.lng());
-						map.setZoom(16);
-
-						map.removeMarkers();
-
-						locationMarker = map.addMarker({
-							lat: latlng.lat(),
-							lng: latlng.lng(),
-							draggable: true,
-							animation: google.maps.Animation.DROP,
-							icon: new google.maps.MarkerImage(
-								'/img/marker-wineobs.png',
-								null,
-								null,
-								// new google.maps.Point(0,0),
-								null,
-								new google.maps.Size(36, 36)
-							),
-						});
-
-						//muestro el texto de ayuda
-						$('#marker-help-text').show();
-
-						//Seteo la latitud y longitud en los inpus ocultos correspondientes
-						$('#WineryLatitude').val(latlng.lat());
-						$('#WineryLongitude').val(latlng.lng());
-
-						//Seteamos un listener para que cada vez que se mueva el marcador, se actualice la latitud y la longitud en los inpus ocultos correspondientes
-						google.maps.event.addListener(locationMarker, "mouseup", function(event) {
-							$('#WineryLatitude').val(this.position.lat());
-							$('#WineryLongitude').val(this.position.lng());
-						});
-
-						//Metrobox.scrollTo($('#gmap_geocoding'));
+					}else{
+						//Si no encuentra la dirección correcta, setea por defecto la Plaza Independencia
+						var latlng = new google.maps.LatLng(-32.8897586,-68.8445271);
 					}
+
+					//Centra el mapa en la latitud y longitu encontrada y pone el zoom en 16
+					map.setCenter(latlng.lat(), latlng.lng());
+					map.setZoom(16);
+
+					map.removeMarkers();
+
+					locationMarker = map.addMarker({
+						lat: latlng.lat(),
+						lng: latlng.lng(),
+						draggable: true,
+						animation: google.maps.Animation.DROP,
+						icon: new google.maps.MarkerImage(
+							'/img/marker-wineobs.png',
+							null,
+							null,
+							// new google.maps.Point(0,0),
+							null,
+							new google.maps.Size(36, 36)
+						),
+					});
+
+					//muestro el texto de ayuda
+					$('#marker-help-text').show();
+
+					//Seteo la latitud y longitud en los inpus ocultos correspondientes
+					$('#WineryLatitude').val(latlng.lat());
+					$('#WineryLongitude').val(latlng.lng());
+
+					//Seteamos un listener para que cada vez que se mueva el marcador, se actualice la latitud y la longitud en los inpus ocultos correspondientes
+					google.maps.event.addListener(locationMarker, "mouseup", function(event) {
+						$('#WineryLatitude').val(this.position.lat());
+						$('#WineryLongitude').val(this.position.lng());
+					});
+
+					//Metrobox.scrollTo($('#gmap_geocoding'));
 				}
 			});
 		}
@@ -263,6 +267,9 @@ var WineryAdminAddEdit = {
 			// previewTemplate: document.querySelector('#preview-template').innerHTML,
 			url: wineryAddImageUrl,
 			dictDefaultMessage: 'Arrastra o clickea para subir fotos<span class="dz-note">(Podés subir hasta 10 fotos. Las fotos se cortarán al tamaño predefinido.)</span>',
+			dictCancelUpload: 'Cancelar subida',
+			dictCancelUploadConfirmation: '¿Seguro que desea cancelar la subida?',
+			dictRemoveFile: 'Eliminar',
 			acceptedFiles:'.jpg,.jpeg,.png',
 			addRemoveLinks: true,
 			parallelUploads: 2,
@@ -278,7 +285,7 @@ var WineryAdminAddEdit = {
 			file.tempId = 'id'+imageCounter;
 			imageCounter++;
 			imagesIdArray[file.tempId] = parseInt(response.content.id);
-			console.log(file.tempId+' added -> id:' + response.content.id);
+			//console.log(file.tempId+' added -> id:' + response.content.id);
 		});
 
 
@@ -286,10 +293,26 @@ var WineryAdminAddEdit = {
 		dropzone.on("removedfile", function(file) {
 			//Remove the id from the asociated images array
 			delete imagesIdArray[file.tempId];
-			console.log(file.tempId+' removed');
+			//console.log(file.tempId+' removed');
 
 		});
 
+		//If already exist images, show in the dropzone
+		//console.log(existingImages);
+		if (typeof existingImages !== 'undefined') {
+			$.each(existingImages, function(index, val) {
+
+				var mockFile = {name: 'existente', tempId: 'id'+imageCounter, size: 10000};
+				imageCounter++;
+
+				dropzone.options.addedfile.call(dropzone, mockFile);
+				dropzone.options.thumbnail.call(dropzone, mockFile, "/img/wineries/" + val.id + "-120x120.jpg");
+				dropzone.emit("complete", mockFile);//To hide load bar
+
+				imagesIdArray[mockFile.tempId] = parseInt(val.id);
+
+			});
+		}
 	},
 
 

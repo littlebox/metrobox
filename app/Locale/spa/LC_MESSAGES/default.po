@@ -29,6 +29,14 @@ msgstr "Estadísticas"
 msgid "Select a Winery to Manage..."
 msgstr "Bodega a Administrar..."
 
+msgid "The image has to be 300x150 px. PNG Only."
+msgstr "El logo debe ser de 300x1500 pixels. Solo formato PNG."
+
+msgid "Add Photos"
+msgstr "Agregar Fotos"
+
+
+
 #: Controller/ClientsController.php:39
 msgid "No client found with that email."
 msgstr "No existe ningún cliente con ese email."

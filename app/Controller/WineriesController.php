@@ -250,16 +250,21 @@ class WineriesController extends AppController {
 				$imageData = array('winery_id' => NULL);
 				//Save the image model in DB and get the ID
 				if ($this->Winery->Image->save($imageData)) {
+					$imagesPath = WWW_ROOT.'img'.DS.'wineries'.DS;
 					//Rezize and crop image at 4:3 (800x600)
 					$imagickImage = new Imagick($file['tmp_name']);
-					$imagickImage->cropThumbnailImage(800, 600);
+
 					unlink($file['tmp_name']);
 					$imagickImage->setImageFormat("jpg");
+					$imagickImage->cropThumbnailImage(800, 600);
 					$imagickImage->writeImage($file['tmp_name']);
-
 					//Save image on disk
-					$imagesPath = WWW_ROOT.'img'.DS.'wineries'.DS;
-					move_uploaded_file($file['tmp_name'], $imagesPath.$this->Winery->Image->id.'.jpg');
+					copy($file['tmp_name'], $imagesPath.$this->Winery->Image->id.'.jpg');
+
+					$imagickImage->cropThumbnailImage(120, 120);
+					$imagickImage->writeImage($file['tmp_name']);
+					move_uploaded_file($file['tmp_name'], $imagesPath.$this->Winery->Image->id.'-120x120.jpg');
+
 					$data['content']['msg'] = __('The image has been saved.');
 					$data['content']['id'] = $this->Winery->Image->id;
 				} else {
@@ -289,11 +294,15 @@ class WineriesController extends AppController {
 		if ($this->request->is(array('post', 'put'))) {
 			$this->Winery->id = $id;
 			$this->request->data['Winery']['id'] = $id;
-			if ($this->Winery->saveAssociated($this->request->data)) {
+
+			//Removeall previous relationships
+			$this->Winery->Image->updateAll(array('winery_id' => null), array('winery_id' => $id));
+
+			if ($this->Winery->saveAssociated($this->request->data, array('deep' => true))) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 
 				//Check if image has been uploaded
-				if(!empty($this->data['Winery']['logo'])){
+				if(!empty($this->data['Winery']['logo']['name'])){
 					$file = $this->data['Winery']['logo']; //put the data into a var for easy use
 
 					$ext = substr(strtolower(strrchr($file['name'], '.')), 1); //get the extension
@@ -323,8 +332,11 @@ class WineriesController extends AppController {
 				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		} else {
-			$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id), 'contain' => array('Image'));
+			$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id), 'contain' => array('Image.id'));
 			$this->request->data = $this->Winery->find('first', $options);
+
+			$this->set('images', json_encode($this->request->data['Image']));
+
 		}
 	}
 

@@ -1,4 +1,4 @@
-<?php //debug($this->request->data);die();?>
+<?php //debug($images);die();?>
 
 <div class="portlet light bordered form-fit">
 	<div class="portlet-title">
@@ -188,6 +188,7 @@
 		imagesIdArray = []; //This array will contain all IDs of images to asociate with the estate
 		Dropzone.autoDiscover = false; //Prevent auto init dropzone
 		wineryAddImageUrl = '<?= $this->Html->Url(array("action" => "add_image"));?>';
+		existingImages = <?= $images;?>;
 
 		jQuery(document).ready(function() {
 			WineryAdminAddEdit.init();

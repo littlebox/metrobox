@@ -56,6 +56,8 @@ class ImagesController extends AppController {
 			if ($this->Image->delete()) {
 				//Delete image from disk
 				unlink($imagesPath.$image['Image']['id'].'.jpg');
+				unlink($imagesPath.$image['Image']['id'].'-120x120.jpg');
+
 				echo 'Image id: '.$image['Image']['id'].' deleted<br>';
 			} else {
 				echo 'Image id: '.$image['Image']['id'].' NOT deleted!<br>';
