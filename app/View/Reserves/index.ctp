@@ -746,10 +746,8 @@
 						//Show modal again
 						$('#reserve-details').modal('show');
 					}
-
-
-
-				});
+				}
+			);
 		};
 
 		reserveCheckAttendUrl = ('<?= $this->Html->url(array('controller'=>'reserves', 'action' => 'checkAttend')) ?>');

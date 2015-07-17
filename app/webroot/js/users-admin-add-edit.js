@@ -83,7 +83,27 @@ var UserAdminAddEdit = {
 			},
 
 			submitHandler: function(form) {
-				form.submit();
+				if($('#UserGroupId').val() == 1){
+					swal(
+						{
+							title: "Estás agregando/editando un administrador del sistema!",
+							text: "¿Seguro que querés hacer esto?",
+							type: "warning",
+							showCancelButton: true,
+							confirmButtonColor: "#DD6B55",
+							confirmButtonText: "Si",
+							cancelButtonText: "Cancelar",
+							closeOnConfirm: true
+						},
+						function(isConfirm){
+							if(isConfirm){
+								form.submit();
+							}
+						}
+					);
+				}else{
+					form.submit();
+				}
 			}
 		});
 

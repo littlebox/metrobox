@@ -105,6 +105,7 @@
 	<?= $this->Html->css('/plugins/jquery-tags-input/jquery.tagsinput');?>
 	<?= $this->Html->css('/plugins/jcrop/css/jquery.Jcrop.min');?>
 	<?= $this->Html->css('image-crop.css');?>
+	<?= $this->Html->css('/plugins/sweetalert/lib/sweet-alert');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pagePlugins'); ?>
@@ -118,6 +119,7 @@
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.Jcrop.min.js');?>
+	<?= $this->Html->script('/plugins/sweetalert/lib/sweet-alert.min');?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
