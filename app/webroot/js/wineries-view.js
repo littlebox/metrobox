@@ -19,8 +19,17 @@ var WineryView = {
 					required: true
 				},
 				'data[Winery][description]': {
-					required: false
+					required: false,
+					maxlength: 1000
 				},
+				'data[Winery][english_description]': {
+					required: false,
+					maxlength: 1000
+				},
+				'data[Winery][portuguese_description]': {
+					required: false,
+					maxlength: 1000
+				}
 			},
 
 			invalidHandler: function(event, validator) { //display error alert on form submit

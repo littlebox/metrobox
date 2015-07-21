@@ -25,7 +25,16 @@ var WineryAdminAddEdit = {
 					required: true
 				},
 				'data[Winery][description]': {
-					required: false
+					required: false,
+					maxlength: 1000
+				},
+				'data[Winery][english_description]': {
+					required: false,
+					maxlength: 1000
+				},
+				'data[Winery][portuguese_description]': {
+					required: false,
+					maxlength: 1000
 				},
 				'data[Winery][priority]': {
 					required: true

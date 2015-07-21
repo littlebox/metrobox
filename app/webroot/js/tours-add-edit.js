@@ -27,9 +27,19 @@ var TourAddEdit = {
 				'data[Time][Time][]': {
 					required: true
 				},
-				'data[Tour][description]': {
-					required: true
+				'data[Winery][description]': {
+					required: false,
+					maxlength: 1000
+				},
+				'data[Winery][english_description]': {
+					required: false,
+					maxlength: 1000
+				},
+				'data[Winery][portuguese_description]': {
+					required: false,
+					maxlength: 1000
 				}
+
 			},
 
 			invalidHandler: function(event, validator) { //display error alert on form submit
