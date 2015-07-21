@@ -170,6 +170,13 @@
 									array('escape' => false)
 								); ?>
 							</li>
+							<li>
+								<?= $this->Html->link(
+									'<i class="icon-directions"></i> '.__('Winery profile').' ',
+									array('controller' => 'wineries', 'action' => 'view'),
+									array('escape' => false)
+								); ?>
+							</li>
 							<li class="divider">
 							</li>
 							<li>

@@ -83,6 +83,8 @@
 					</div>
 				<?php
 					echo $this->Form->input('description', array('placeholder' => 'Ej: Viví una experiencia inolvidable en tu visita por la bodega. Los visitantes degustarán vino desde un tanque de fermentación y desde una barrica de roble llegando hasta nuestra cava tradicional, donde serán protagonistas al elegir y descorchar su propia botella de vino en estiba.'));
+					echo $this->Form->input('english_description', array('placeholder' => 'Ej: Live an unforgettable experience in your visit to the winery. Visitors will taste wine from a fermentation tank and from an oak barrel reaching our traditional cava, which will be protagonists to choose and uncorked his own bottle of wine in bottle.'));
+					echo $this->Form->input('portuguese_description', array('placeholder' => 'Ej: Uma experiência inesquecível durante a sua visita à vinícola. Os visitantes poderão provar o vinho a partir de um tanque de fermentação e de um barril de carvalho alcançar o nosso cava tradicional, que serão protagonistas para escolher e desarrolhou sua própria garrafa de vinho em garrafa.'));
 				?>
 
 			</div>

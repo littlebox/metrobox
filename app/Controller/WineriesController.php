@@ -33,12 +33,62 @@ class WineriesController extends AppController {
 		$this->set('_serialize','response');
 	}
 
-	public function view($id = null) {
+	public function view() {
+		$this->layout = 'metrobox';
+
+		$id = $this->Auth->user('winery_id');
 		if (!$this->Winery->exists($id)) {
 			throw new NotFoundException(__('Invalid winery'));
 		}
-		$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id));
-		$this->set('winery', $this->Winery->find('first', $options));
+		$options = array('conditions' => array('Winery.' . $this->Winery->primaryKey => $id), 'contain' => false);
+		$winery = $this->Winery->find('first', $options);
+		unset($winery['Winery']['id']);//For no generating parameter (id) in url of form helper in view
+		$this->request->data = $winery;
+		$this->set('winery', $this->request->data);
+
+		$this->loadModel('Reserve');
+		//Bring al IDs of user winery's tour
+		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		$countTours = $this->Reserve->Tour->find('count', array(
+			'conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id'))
+		));
+		$countReserves = $this->Reserve->find('count', array(
+			'conditions' => array('Reserve.tour_id' => $toursIds)
+		));
+		$countReservesAttended = $this->Reserve->find('count', array(
+			'conditions' => array('Reserve.tour_id' => $toursIds, 'Reserve.attended' => true)
+		));
+		$this->set('countTours', $countTours);
+		$this->set('countReserves', $countReserves);
+		$this->set('countReservesAttended', $countReservesAttended);
+	}
+
+	public function edit() {
+		$this->layout = 'metrobox';
+
+		$id = $this->Auth->user('winery_id');
+
+		if (!$this->Winery->exists($id)) {
+			throw new NotFoundException(__('Invalid winery'));
+		}
+		if ($this->request->is(array('post', 'put'))) {
+			$this->Winery->id = $id;
+			$this->request->data['Winery']['id'] = $id;
+
+			if ($this->Winery->saveAssociated($this->request->data, array('deep' => true))) {
+				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
+			} else {
+				$this->Session->setFlash(__('The winery could not be saved. Please, try again.'), 'metrobox/flash_danger');
+			}
+		} else {
+			throw new MethodNotAllowedException(__('Only POST or PUT.'));
+		}
+		return $this->redirect(array('action' => 'view'));
 	}
 
 	public function get() {

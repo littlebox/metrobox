@@ -35,6 +35,21 @@ msgstr "El logo debe ser de 300x1500 pixels. Solo formato PNG."
 msgid "Add Photos"
 msgstr "Agregar Fotos"
 
+msgid "Winery profile"
+msgstr "Perfil de bodega"
+
+msgid "Winery Profile"
+msgstr "Perfil de Bodega"
+
+msgid "Winery Info"
+msgstr "Información de Bodega"
+
+msgid "English Description"
+msgstr "Descripción (en inglés)"
+
+msgid "Portuguese Description"
+msgstr "Descripción (en portugués)"
+
 
 
 #: Controller/ClientsController.php:39

@@ -83,7 +83,9 @@
 			</div>
 
 			<?php
-				echo $this->Form->input('description');
+				echo $this->Form->input('description', array('placeholder' => 'Ej: Fundada en 1897, Bodega Lagarde fue adquirida en el año 1969 por la familia Pescarmona, quien le imprimió un sello que marcaría su identidad de bodega familiar productora de vinos de alta gama, tanto en la Argentina como en el resto del mundo. Entre las décadas del ‘80 y del ‘90 Lagarde se dedicó a profundizar el estilo y la calidad de sus vinos. La innovación siempre fue un pilar fundamental, resultando en ser los primeros productores en plantar en Latinoamérica cepas no tradicionales como el Viognier ó el Moscato Bianco, con el objetivo de lograr vinos con un estilo propio de la bodega. Desde entonces se elaboran vinos con un toque artístico y creativo por parte de nuestro enólogo, Juan Roby, quien junto a los dueños hacen del proceso productivo un verdadero culto al vino.'));
+				echo $this->Form->input('english_description', array('placeholder' => 'Ej: Lagarde preserves its original winery that was built in 1897. It is a true reflection of what we wish to convey through our wines: a harmonious balance between past and future.'));
+				echo $this->Form->input('portuguese_description', array('placeholder' => 'Ej: Lagarde conserva sua bodega original construída em 1897. A mesma é um fiel reflexo da imagem que queremos transmitir através de nossos vinhos: o equilíbrio harmônico entre o passado e a inovação.'));
 				echo $this->Form->input('priority');
 				echo $this->Form->input('visible');
 			?>

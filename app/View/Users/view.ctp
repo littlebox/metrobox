@@ -21,7 +21,7 @@
 		<!-- END SIDEBAR USER TITLE -->
 		<!-- USER STATS -->
 		<div class="row list-separated profile-stat">
-			<div class="col-md-4 col-sm-4 col-xs-6">
+			<!-- <div class="col-md-4 col-sm-4 col-xs-6">
 				<div class="uppercase profile-stat-title">
 					<?= $countTours ?>
 				</div>
@@ -44,7 +44,7 @@
 				<div class="uppercase profile-stat-text">
 					<?= __('Attended Reserves') ?>
 				</div>
-			</div>
+			</div> -->
 		</div>
 		<!-- END USER STATS -->
 	</div>
