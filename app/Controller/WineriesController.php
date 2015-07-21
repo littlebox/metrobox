@@ -152,6 +152,8 @@ class WineriesController extends AppController {
 
 		$wineries = $this->Winery->find('all', $options);
 
+
+
 		foreach ($wineries as &$winery) {
 			foreach ($winery['Tour'] as &$tour) {
 				foreach ($tour['Time'] as &$time) {
@@ -160,7 +162,11 @@ class WineriesController extends AppController {
 					//Query to calculate quota available of tour un specific date y specific
 					$query = $this->Winery->Tour->Time->query("SELECT (tours.quota - (SELECT COALESCE(SUM(reserves.number_of_adults)+SUM(reserves.number_of_minors), 0) FROM reserves WHERE reserves.tour_id = $tourId AND reserves.date = '$date' AND reserves.time = '$timeHour')) AS quota_available FROM tours WHERE tours.id = $tourId");
 					$time['quota_available'] = $query[0][0]['quota_available'];
+					//And Remove Seconds From Time
+					$time['hour'] = date('H:i', strtotime($time['hour']));
 				}
+				//And Remove Seconds From Time
+				$tour['length'] = date('H:i', strtotime($tour['length']));
 			}
 		}
 
