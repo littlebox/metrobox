@@ -58,10 +58,10 @@ class WineriesController extends AppController {
 			'conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id'))
 		));
 		$countReserves = $this->Reserve->find('count', array(
-			'conditions' => array('Reserve.tour_id' => $toursIds)
+			'conditions' => array('Reserve.tour_id' => $toursIds, 'Reserve.tour_id IS NOT NULL')
 		));
 		$countReservesAttended = $this->Reserve->find('count', array(
-			'conditions' => array('Reserve.tour_id' => $toursIds, 'Reserve.attended' => true)
+			'conditions' => array('Reserve.tour_id' => $toursIds, 'Reserve.attended' => true, 'Reserve.tour_id IS NOT NULL')
 		));
 		$this->set('countTours', $countTours);
 		$this->set('countReserves', $countReserves);
