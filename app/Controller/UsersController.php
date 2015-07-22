@@ -22,6 +22,8 @@ class UsersController extends AppController {
 		$this->Acl->allow($group, 'controllers/Reserves');
 		$this->Acl->allow($group, 'controllers/Tours');
 		$this->Acl->allow($group, 'controllers/Clients');
+		$this->Acl->allow($group, 'controllers/Wineries/edit');
+		$this->Acl->allow($group, 'controllers/Wineries/view');
 		// $this->Acl->allow($group, 'controllers/Widgets');
 
 		// allow users to only add and edit on posts and widgets
