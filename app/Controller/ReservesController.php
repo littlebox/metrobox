@@ -31,19 +31,24 @@ class ReservesController extends AppController {
 		//debug($toursData);die();
 	}
 
-	// public function admin_index() {
-	// 	$this->layout = 'metrobox';
-	// 	$this->Reserve->recursive = 0;
-	// 	$this->set('reserves', $this->Paginator->paginate());
-	// }
+	public function getQuotaAvailable($date, $tourId){
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
 
-	// public function view($id = null) {
-	// 	if (!$this->Reserve->exists($id)) {
-	// 		throw new NotFoundException(__('Invalid reserve'));
-	// 	}
-	// 	$options = array('conditions' => array('Reserve.' . $this->Reserve->primaryKey => $id));
-	// 	$this->set('reserve', $this->Reserve->find('first', $options));
-	// }
+		$options = array('conditions' => array('Tour.id' => $tourId), 'contain' => array('Time'), 'fields' => array('id'));
+		$tour = $this->Winery->Tour->find('first', $options);
+
+		foreach ($tour['Time'] as &$time) {
+			$timeHour = $time['hour'];
+			//Query to calculate quota available of tour un specific date y specific
+			$query = $this->Winery->Tour->Time->query("SELECT (tours.quota - (SELECT COALESCE(SUM(reserves.number_of_adults)+SUM(reserves.number_of_minors), 0) FROM reserves WHERE reserves.tour_id = $tourId AND reserves.date = '$date' AND reserves.time = '$timeHour')) AS quota_available FROM tours WHERE tours.id = $tourId");
+			$time['quota_available'] = $query[0][0]['quota_available'];
+		}
+
+		$this->set(compact('tour')); // Pass $data to the view
+		$this->set('_serialize', 'tour'); // Let the JsonView class know what variable to use
+
+	}
 
 	public function add() {
 		$this->request->allowMethod('ajax'); //Call only with .json at end on url
@@ -71,7 +76,11 @@ class ReservesController extends AppController {
 
 			//Convert date d/m/Y to Y-m-d format tosave in DB
 			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
-			$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
+
+			if(!empty($this->request->data['Client']['birth_date'])){
+				$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
+			}
+
 
 			//if the client exist, put the id in the request data array
 			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
@@ -156,7 +165,9 @@ class ReservesController extends AppController {
 		//Convert date d/m/Y to Y-m-d format tosave in DB
 		$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
 		if($hasClientData){
-			$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
+			if(!empty($this->request->data['Client']['birth_date'])){
+				$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
+			}
 		}
 
 		if ($this->Reserve->saveAssociated($this->request->data)) {

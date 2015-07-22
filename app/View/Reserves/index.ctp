@@ -282,7 +282,7 @@
 						<?php
 							echo $this->Form->input('tour_id', array('id' => 'tour-selector', 'empty' => __('Select a tour...')));
 							echo $this->Form->input('language_id', array('id' => 'language-selector', 'empty' => __('Select a tour first')));
-							echo $this->Form->input('date', array('type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
+							echo $this->Form->input('date', array('id' => 'date-selector', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
 							echo $this->Form->input('time', array('id' => 'time-selector', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
 							echo $this->Form->input('Client.email', array('id' => 'client-email', 'between' => '<div class="input-icon right"><i id="client-email-spinner" class="fa fa-cog fa-spin" style="display:none;transform-origin: 8px 6px;"></i>', 'after' => '</div>'));
 							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name'));
@@ -591,6 +591,9 @@
 			});
 		};
 
+		//For setQuotaAvailable function in reserves.js
+		var getQuotaAvailable = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'getQuotaAvailable')); ?>/";
+
 		function findClient() {
 			var targeturl = "<?= $this->Html->Url(array('controller' => 'clients', 'action' => 'find')); ?>/"+$('#client-email').val();
 			//var formData = $('#client-email').serializeArray();
@@ -610,7 +613,7 @@
 				success: function(response) {
 					if (response.content) {
 						$('#client-full-name').val(response.content.Client.full_name);
-						$('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
+						if (response.content.Client.birth_date != null) $('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
 						$('#client-birth-date').datepicker('update');
 						$('#client-country').select2('val', response.content.Client.country);
 						$('#client-phone').val(response.content.Client.phone);

@@ -479,7 +479,7 @@ var reserves = {
 					required: true
 				},
 				'data[Client][country]': {
-					required: true
+					required: false
 				},
 				'data[Client][birth_date]': {
 					required: false
@@ -580,7 +580,7 @@ var reserves = {
 				$('#time-selector-modal').val(reserve.time);
 				$('#client-email-modal').val(reserve.clientEmail);
 				$('#client-full-name-modal').val(reserve.clientName);
-				$('#client-birth-date-modal').val(reserve.clientBirthDate.split('-').reverse().join('/'));
+				if(reserve.clientBirthDate != null) $('#client-birth-date-modal').val(reserve.clientBirthDate.split('-').reverse().join('/'));
 				$('#client-birth-date-modal').datepicker('update');
 				$('#number-of-adults-modal').val(reserve.numberOfAdults);
 				$('#number-of-minors-modal').val(reserve.numberOfMinors);
