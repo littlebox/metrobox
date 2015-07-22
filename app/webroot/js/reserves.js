@@ -169,6 +169,57 @@ var reserves = {
 		}
 	},
 
+	setQuotaAvailable: function(){
+		$('#tour-selector, #date-selector').on('change', function(ev){
+			if($('#tour-selector').val() != "" && $('#date-selector').val() != ""){
+
+				dateToFormat = [];
+				dateToFormat = $('#date-selector').val().split('/');
+				formatedDate = dateToFormat[2]+'-'+dateToFormat[1]+'-'+dateToFormat[0]
+
+				$.ajax({
+					type: 'get',
+					cache: false,
+					url: getQuotaAvailable+formatedDate+'/'+$('#tour-selector').val(),
+					//data: formData,
+					dataType: 'json',
+					beforeSend: function(xhr) {
+						xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+						xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					},
+					success: function(response) {
+						console.log(response);
+						//SET TIMES
+						var selectTimes = document.getElementById("time-selector");
+						//Empty actual Times Selector
+						while (selectTimes.firstChild) {
+							selectTimes.removeChild(selectTimes.firstChild);
+						}
+						//Put each tour's time as select's option
+						for(var i = 0, n = response.Time.length; i < n; i++ ){
+							var opt = document.createElement('option');
+							opt.setAttribute('value',response.Time[i].hour);
+							opt.textContent = response.Time[i].hour.substring(0, 5) + ' ('+response.Time[i].quota_available+' cupos disponibles)'; //substring function is for cut the seconds in time string
+							selectTimes.appendChild(opt)
+						}
+						if(tour.Time.length <= 0){
+							var opt = document.createElement('option');
+							selectTimes.appendChild(opt)
+							opt.textContent = 'No hay horarios asignados al tour.';
+						}
+						//tour.select.times = selectTimes.innerHTML;
+					},
+					error: function(e) {
+						console.log('Ajax error: '+e.responseText.message);
+					},
+					complete: function(){
+						//$('#client-email-spinner').hide();
+					}
+				});
+			}
+		})
+	},
+
 	handleDatePickers: function () {
 
 		if (jQuery().datepicker) {
@@ -346,7 +397,10 @@ var reserves = {
 					required: true
 				},
 				'data[Client][country]': {
-					required: true
+					required: false
+				},
+				'data[Client][birth_date]': {
+					required: false
 				},
 				'data[Client][email]': {
 					required: true
@@ -426,6 +480,9 @@ var reserves = {
 				},
 				'data[Client][country]': {
 					required: true
+				},
+				'data[Client][birth_date]': {
+					required: false
 				},
 				'data[Client][email]': {
 					required: true
@@ -638,6 +695,7 @@ var reserves = {
 		reserves.intiSelects2();
 		reserves.intiFindCLientListener();
 		reserves.editReserveButtons();
+		reserves.setQuotaAvailable();
 	}
 
 }
