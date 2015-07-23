@@ -282,7 +282,7 @@
 						<?php
 							echo $this->Form->input('tour_id', array('id' => 'tour-selector', 'empty' => __('Select a tour...')));
 							echo $this->Form->input('language_id', array('id' => 'language-selector', 'empty' => __('Select a tour first')));
-							echo $this->Form->input('date', array('id' => 'date-selector', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----'));
+							echo $this->Form->input('date', array('id' => 'date-selector', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----', 'between' => '<div class="input-icon right"><i id="date-selector-spinner" class="fa fa-cog fa-spin" style="display:none;transform-origin: 8px 6px;"></i>', 'after' => '</div>'));
 							echo $this->Form->input('time', array('id' => 'time-selector', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first')));
 							echo $this->Form->input('Client.email', array('id' => 'client-email', 'between' => '<div class="input-icon right"><i id="client-email-spinner" class="fa fa-cog fa-spin" style="display:none;transform-origin: 8px 6px;"></i>', 'after' => '</div>'));
 							echo $this->Form->input('Client.full_name', array('id' => 'client-full-name'));

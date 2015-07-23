@@ -20,11 +20,11 @@ var reserves = {
 						var opt = document.createElement('option');
 						opt.setAttribute('value',tour.Language[i].id);
 						opt.textContent = tour.Language[i].name;
-						selectLanguages.appendChild(opt)
+						selectLanguages.appendChild(opt);
 					}
 					if(tour.Language.length <= 0){
 						var opt = document.createElement('option');
-						selectLanguages.appendChild(opt)
+						selectLanguages.appendChild(opt);
 						opt.textContent = 'No hay lenguajes asignados al tour.';
 					}
 					tour.select.languages = selectLanguages.innerHTML;
@@ -40,11 +40,11 @@ var reserves = {
 						var opt = document.createElement('option');
 						opt.setAttribute('value',tour.Time[i].hour);
 						opt.textContent = tour.Time[i].hour.substring(0, 5); //substring function is for cut the seconds in time string
-						selectTimes.appendChild(opt)
+						selectTimes.appendChild(opt);
 					}
 					if(tour.Time.length <= 0){
 						var opt = document.createElement('option');
-						selectTimes.appendChild(opt)
+						selectTimes.appendChild(opt);
 						opt.textContent = 'No hay horarios asignados al tour.';
 					}
 					tour.select.times = selectTimes.innerHTML;
@@ -65,7 +65,7 @@ var reserves = {
 				var opt = document.createElement('option');
 				opt.setAttribute('value','');
 				opt.textContent = selecTourFirstText;
-				selectLanguages.appendChild(opt)
+				selectLanguages.appendChild(opt);
 				//SET TIMES
 				var selectTimes = document.getElementById("time-selector");
 				//Empty actual Language Selector
@@ -76,7 +76,7 @@ var reserves = {
 				var opt = document.createElement('option');
 				opt.setAttribute('value','');
 				opt.textContent = selecTourFirstText;
-				selectTimes.appendChild(opt)
+				selectTimes.appendChild(opt);
 			}
 		});
 
@@ -97,13 +97,13 @@ var reserves = {
 					//Put each tour's language as select's option
 					for(var i = 0, n = tour.Language.length; i < n; i++ ){
 						var opt = document.createElement('option');
-						selectLanguages.appendChild(opt)
+						selectLanguages.appendChild(opt);
 						opt.setAttribute('value',tour.Language[i].id);
 						opt.textContent = tour.Language[i].name;
 					}
 					if(tour.Language.length <= 0){
 						var opt = document.createElement('option');
-						selectLanguages.appendChild(opt)
+						selectLanguages.appendChild(opt);
 						opt.textContent = 'No hay lenguajes asignados al tour.';
 					}
 					tour.select.languages = selectLanguages.innerHTML;
@@ -117,13 +117,13 @@ var reserves = {
 					//Put each tour's time as select's option
 					for(var i = 0, n = tour.Time.length; i < n; i++ ){
 						var opt = document.createElement('option');
-						selectTimes.appendChild(opt)
+						selectTimes.appendChild(opt);
 						opt.setAttribute('value',tour.Time[i].hour);
 						opt.textContent = tour.Time[i].hour.substring(0, 5); //substring function is for cut the seconds in time string
 					}
 					if(tour.Time.length <= 0){
 						var opt = document.createElement('option');
-						selectTimes.appendChild(opt)
+						selectTimes.appendChild(opt);
 						opt.textContent = 'No hay horarios asignados al tour.';
 					}
 					tour.select.times = selectTimes.innerHTML;
@@ -143,7 +143,7 @@ var reserves = {
 				var opt = document.createElement('option');
 				opt.setAttribute('value','');
 				opt.textContent = selecTourFirstText;
-				selectLanguages.appendChild(opt)
+				selectLanguages.appendChild(opt);
 				//SET TIMES
 				var selectTimes = document.getElementById("time-selector-modal");
 				//Empty actual Language Selector
@@ -154,7 +154,7 @@ var reserves = {
 				var opt = document.createElement('option');
 				opt.setAttribute('value','');
 				opt.textContent = selecTourFirstText;
-				selectTimes.appendChild(opt)
+				selectTimes.appendChild(opt);
 			}
 
 		});
@@ -172,7 +172,9 @@ var reserves = {
 	setQuotaAvailable: function(){
 		$('#tour-selector, #date-selector').on('change', function(ev){
 			if($('#tour-selector').val() != "" && $('#date-selector').val() != ""){
-
+				$('#time-selector').prop('disabled', true);
+				$('#date-selector-spinner').show();
+				prevVal = $('#time-selector').val();
 				dateToFormat = [];
 				dateToFormat = $('#date-selector').val().split('/');
 				formatedDate = dateToFormat[2]+'-'+dateToFormat[1]+'-'+dateToFormat[0]
@@ -188,7 +190,7 @@ var reserves = {
 						xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 					},
 					success: function(response) {
-						console.log(response);
+						//console.log(response);
 						//SET TIMES
 						var selectTimes = document.getElementById("time-selector");
 						//Empty actual Times Selector
@@ -199,12 +201,13 @@ var reserves = {
 						for(var i = 0, n = response.Time.length; i < n; i++ ){
 							var opt = document.createElement('option');
 							opt.setAttribute('value',response.Time[i].hour);
+							if (prevVal == response.Time[i].hour) opt.setAttribute('selected', 'selected');
 							opt.textContent = response.Time[i].hour.substring(0, 5) + ' ('+response.Time[i].quota_available+' cupos disponibles)'; //substring function is for cut the seconds in time string
-							selectTimes.appendChild(opt)
+							selectTimes.appendChild(opt);
 						}
 						if(tour.Time.length <= 0){
 							var opt = document.createElement('option');
-							selectTimes.appendChild(opt)
+							selectTimes.appendChild(opt);
 							opt.textContent = 'No hay horarios asignados al tour.';
 						}
 						//tour.select.times = selectTimes.innerHTML;
@@ -213,6 +216,8 @@ var reserves = {
 						console.log('Ajax error: '+e.responseText.message);
 					},
 					complete: function(){
+						$('#time-selector').prop('disabled', false);
+						$('#date-selector-spinner').hide();
 						//$('#client-email-spinner').hide();
 					}
 				});
