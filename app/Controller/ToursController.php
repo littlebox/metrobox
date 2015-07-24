@@ -114,7 +114,7 @@ class ToursController extends AppController {
 				//debug($this->Tour->validationErrors); die();
 			}
 		}
-		//To show wineries, days and languages avaiables in view
+		//To show wineries, days and languages availables in view
 		$wineries = $this->Tour->Winery->find('list');
 		$days = $this->Tour->Day->find('list');
 		$languages = $this->Tour->Language->find('list');
@@ -185,7 +185,7 @@ class ToursController extends AppController {
 			$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id), 'contain' => array('Day', 'Language', 'Time'));
 			$this->request->data = $this->Tour->find('first', $options);
 		}
-		//To show wineries, days and languages avaiables in view
+		//To show wineries, days and languages availables in view
 		$wineries = $this->Tour->Winery->find('list');
 		$days = $this->Tour->Day->find('list');
 		$languages = $this->Tour->Language->find('list');
