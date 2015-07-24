@@ -126,7 +126,7 @@ msgstr "La imagen ha sido guardada."
 
 #: Controller/ImagesController.php:56;79
 msgid "The image could not be saved. Please, try again."
-msgstr "La imagen no pudo ser guardad. Por favor, intente de nuevo."
+msgstr "La imagen no pudo ser guardada. Por favor, intente de nuevo."
 
 #: Controller/ImagesController.php:103
 msgid "The image has been deleted."
@@ -164,7 +164,7 @@ msgstr "La reserva ha sido guardada."
 
 #: Controller/ReservesController.php:110;187
 msgid "The reserve could not be saved. Please, try again."
-msgstr "La reserva no pudo ser guardad. Por favor, intente de nuevo."
+msgstr "La reserva no pudo ser guardada. Por favor, intente de nuevo."
 
 #: Controller/ReservesController.php:122
 msgid "Only POST or PUT methods allowed."
@@ -296,7 +296,7 @@ msgstr "La bodega ha sido guardada."
 
 #: Controller/WineriesController.php:56;71
 msgid "The winery could not be saved. Please, try again."
-msgstr "La bodega no pudo ser guardad. Por favor, intente de nuevo."
+msgstr "La bodega no pudo ser guardada. Por favor, intente de nuevo."
 
 #: Controller/WineriesController.php:86
 msgid "The winery has been deleted."
