@@ -195,7 +195,7 @@ class WineriesController extends AppController {
 				'Winery.visible' => true,
 			),
 			'order' => array(
-				'Winery.priority DESC'
+				'Winery.priority ASC'
 			),
 
 		);
