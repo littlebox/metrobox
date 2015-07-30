@@ -57,7 +57,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('tours-index-table');?>
+	<?= $this->Html->script('tours-index-table.js?20150730');?>
 	<script>
 		var LocalVar = {};
 		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2) ?>';
