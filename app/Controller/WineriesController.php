@@ -145,7 +145,8 @@ class WineriesController extends AppController {
 					'alias'=>'Tour',
 					'type'=>'inner',
 					'conditions'=>array(
-						'Tour.winery_id = Winery.id'
+						'Tour.winery_id = Winery.id',
+						// 'Tour.visible = true'
 					)
 				),
 				array(

@@ -10,6 +10,12 @@ class ReservesController extends AppController {
 
 	public $components = array('Paginator');
 
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->Auth->allow('api_add');
+
+	}
+
 
 	public function index() {
 		$this->layout = 'metrobox';
@@ -131,6 +137,98 @@ class ReservesController extends AppController {
 
 		$this->set(compact('data')); // Pass $data to the view
 		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+	}
+
+	public function api_add() {
+		// $this->request->allowMethod('ajax'); //Only Ajax
+		// $this->Security->csrfCheck = false;
+		header('Access-Control-Allow-Origin:*');
+		header('Access-Control-Allow-Methods:*');
+		header('Access-Control-Allow-Headers:X-Requested-With');
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		//Check if request is post or put
+		if ($this->request->is('post') || $this->request->is('put')) {
+
+			if (!$this->Reserve->Tour->exists($this->request->data['Reserve']['tour_id'])) {
+				throw new NotFoundException(__('Invalid Tour'));
+			}
+
+			$this->requestAction(Router::url(array('controller'=>'tours', 'action'=>'tourSecurityCheck')).'/'.$this->request->data['Reserve']['tour_id']);
+
+			// # this is cakes way of running required
+			// App::import('controller', 'tours');
+			// $tourController = new TourController;
+			// # now you can reference your controller like any other PHP class
+			// $tourController->tourSecurityCheck($this->request->data['Reserve']['tour_id']);
+
+			// $data = array(
+			// 	'content' => '',
+			// 	'reserve' => '',
+			// 	'error' => '',
+			// );
+
+			//Convert date d/m/Y to Y-m-d format tosave in DB
+			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
+
+			if(!empty($this->request->data['Client']['birth_date'])){
+				$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
+			}
+
+
+			//if the client exist, put the id in the request data array
+			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
+				//WARING!! All Client data will be overwritten!!
+				$this->request->data['Client']['id'] = $client['Client']['id'];
+			}
+
+			//debug($this->request->data);debug($client);die();
+			$this->Reserve->create();
+			if ($this->Reserve->saveAssociated($this->request->data)) {
+				$data['content']['title'] = __('Good.');
+				$data['content']['text'] = __('The reserve has been saved.');
+
+				//Build the title for show reserve
+				$title = '';
+				$title = $title.$this->request->data['Client']['full_name'];
+				$title = $title.' ('.$this->request->data['Reserve']['number_of_adults'].'a';
+				if($this->request->data['Reserve']['number_of_minors'] > 0){
+					$title = $title.' '.$this->request->data['Reserve']['number_of_minors'].'m';
+				}
+				$title = $title.')';
+
+				//Bring tour for color
+				$tour = $this->Reserve->Tour->find('first', array('fields' => array('color'), 'conditions' => array('Tour.id' => $this->request->data['Reserve']['tour_id'])));
+
+				//Prepare array to show new reserve in view
+				$data['reserve']['id'] = $this->Reserve->id;
+				$data['reserve']['title'] = $title;
+				$data['reserve']['start'] = $this->request->data['Reserve']['date'].' '.$this->request->data['Reserve']['time'];
+				$data['reserve']['tour'] = $this->request->data['Reserve']['tour_id'];
+				$data['reserve']['language'] = $this->request->data['Reserve']['language_id'];
+				$data['reserve']['date'] = $this->request->data['Reserve']['date'];
+				$data['reserve']['time'] = $this->request->data['Reserve']['time'];
+				$data['reserve']['clientEmail'] = $this->request->data['Client']['email'];
+				$data['reserve']['clientName'] = $this->request->data['Client']['full_name'];
+				$data['reserve']['clientBirthDate'] = $this->request->data['Client']['birth_date'];
+				$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
+				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
+				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
+				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
+				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
+			} else {
+				debug($this->Reserve->validationErrors); die();
+				$data['error'] = __('The reserve could not be saved. Please, try again.');
+			}
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+		}else{
+			throw new MethodNotAllowedException(__('Only POST or PUT'));
+		}
+
 	}
 
 	public function edit() {

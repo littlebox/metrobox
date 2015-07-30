@@ -33,6 +33,7 @@
 				<th><?= __('Price') ?></th>
 				<th><?= __('Quota') ?></th>
 				<th><?= __('Lenght') ?></th>
+				<th><?= __('Visible') ?></th>
 				<th><?= __('Actions') ?></th>
 			</thead>
 			<tbody>

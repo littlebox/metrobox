@@ -29,6 +29,7 @@ var ToursIndexTable = function () {
 				{mData:"Tour.price"},
 				{mData:"Tour.quota"},
 				{mData:"Tour.length"},
+				{mData:"Tour.visible", searchable: false},
 				{mData:"Tour.id", bSortable: false}
 			],
 			"fnCreatedRow": function(nRow, aData, iDataIndex){ //callback function after create a row for add action buttons en column 3
@@ -36,10 +37,13 @@ var ToursIndexTable = function () {
 				htmlContent += '<button class="btn btn-sm red" onclick="confirmAlert(\''+LocalVar.tourDeleterUrl+"/"+aData.Tour.id+'\');" ><i class="fa fa-times"></i> '+LocalVar.tourDeleteText+'</button> ';
 				htmlContent += '<a class="btn btn-sm blue" href="'+LocalVar.tourEditUrl+"/"+aData.Tour.id+'" ><i class="fa fa-pencil"></i> '+LocalVar.tourEditText+'</a> ';
 				htmlContent += '<a class="btn btn-sm green" href="'+LocalVar.tourViewrUrl+"/"+aData.Tour.id+'" ><i class="fa fa-file"></i> '+LocalVar.tourViewText+'</a> ';
-				//Set to column 6
-				$('td:eq(5)', nRow).html(htmlContent);
-				//Set to column 1
+				//Set Actiones to column 7
+				$('td:eq(6)', nRow).html(htmlContent);
+				//Set Color to column 1
 				$('td:eq(0)', nRow).html('<div style="width: 100%;height: 28px;background-color: '+aData.Tour.color+';"></div>');
+				//Is Visible
+				htmlVisible = aData.Tour.visible ? '<i class="fa fa-check font-green"></i>' : '<i class="fa fa-times font-red"></i>'
+				$('td:eq(5)', nRow).html(htmlVisible);
 			}
 		});
 
