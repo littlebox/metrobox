@@ -408,7 +408,7 @@ var reserves = {
 					required: false
 				},
 				'data[Client][email]': {
-					required: true
+					required: false
 				},
 				'data[Client][phone]': {
 					required: false
@@ -478,6 +478,9 @@ var reserves = {
 					required: true
 				},
 				'data[Reserve][note]': {
+					required: false
+				},
+				'data[Reserve][referer]': {
 					required: false
 				},
 				'data[Client][full_name]': {
@@ -591,6 +594,7 @@ var reserves = {
 				$('#number-of-minors-modal').val(reserve.numberOfMinors);
 				$('#note-modal').val(reserve.note);
 				$('#client-country-modal').select2("val", reserve.clientCountry);
+				$('#referer-modal').val(reserve.referer);
 				$('#client-phone-modal').val(reserve.clientPhone);
 				//Mark or not Attended checkbox
 				if(reserve.attended){
@@ -698,7 +702,7 @@ var reserves = {
 		reserves.validateAddReserve();
 		reserves.validateEditReserve();
 		reserves.intiSelects2();
-		reserves.intiFindCLientListener();
+		//reserves.intiFindCLientListener();
 		reserves.editReserveButtons();
 		reserves.setQuotaAvailable();
 	}

@@ -50,6 +50,12 @@ msgstr "Descripción (en inglés)"
 msgid "Portuguese Description"
 msgstr "Descripción (en portugués)"
 
+msgid "Select a referer..."
+msgstr "Seleccione un referido..."
+
+msgid "Referer"
+msgstr "Referido"
+
 
 
 #: Controller/ClientsController.php:39

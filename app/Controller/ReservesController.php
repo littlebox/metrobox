@@ -89,10 +89,10 @@ class ReservesController extends AppController {
 
 
 			//if the client exist, put the id in the request data array
-			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
-				//WARING!! All Client data will be overwritten!!
-				$this->request->data['Client']['id'] = $client['Client']['id'];
-			}
+			// if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
+			// 	//WARING!! All Client data will be overwritten!!
+			// 	$this->request->data['Client']['id'] = $client['Client']['id'];
+			// }
 
 			//debug($this->request->data);debug($client);die();
 			$this->Reserve->create();
@@ -128,6 +128,7 @@ class ReservesController extends AppController {
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
 				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
+				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 			} else {
 				debug($this->Reserve->validationErrors); die();
@@ -150,6 +151,8 @@ class ReservesController extends AppController {
 
 		//Check if request is post or put
 		if ($this->request->is('post') || $this->request->is('put')) {
+
+			debug($this->request);die();
 
 			if (!$this->Reserve->Tour->exists($this->request->data['Reserve']['tour_id'])) {
 				throw new NotFoundException(__('Invalid Tour'));
@@ -217,6 +220,7 @@ class ReservesController extends AppController {
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
 				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
+				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 			} else {
 				debug($this->Reserve->validationErrors); die();
@@ -301,6 +305,7 @@ class ReservesController extends AppController {
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
 				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
+				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 
 			}
@@ -383,6 +388,7 @@ class ReservesController extends AppController {
 				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
 				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
 				'note' => $reserve['Reserve']['note'],
+				'referer' => $reserve['Reserve']['referer'],
 				'backgroundColor' => $reserve['Tour']['color'],
 				'attended' => $reserve['Reserve']['attended'],
 				'from_web' => $reserve['Reserve']['from_web'],

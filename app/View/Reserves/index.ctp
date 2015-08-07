@@ -235,7 +235,16 @@
 		'YE' => 'Yemen',
 		'ZM' => 'Zambia',
 		'ZW' => 'Zimbabwe'
-	)
+	);
+
+	$refererList = array(
+		'Directo Mail' => 'Directo Mail',
+		'Directo Teléfono' => 'Directo Teléfono',
+		'Agencias' => 'Agencias',
+		'Hoteles' => 'Hoteles',
+		'Choferes' => 'Choferes',
+		'Otros' => 'Otros',
+	);
 ?>
 
 <!-- CALENDAR PORTLET-->
@@ -292,6 +301,8 @@
 							echo $this->Form->input('Client.country',array('type' => 'select', 'id' => 'client-country', 'options' => $countryList, 'empty' => ''));
 							echo $this->Form->input('Client.phone', array('id' => 'client-phone'));
 							echo $this->Form->input('note');
+							echo $this->Form->input('referer',array('id' => 'referer', 'type' => 'select', 'options' => $refererList, 'empty' => __('Select a referer...')));
+
 						?>
 						<?= $this->Form->button($this->Html->tag('span', __('Add'), array('class' => 'ladda-label')), array('id' => 'reserve-add-submit-button', 'class' => 'btn default ladda-button', 'data-style' => 'zoom-out'));?>
 					<?php echo $this->Form->end(); ?>
@@ -349,6 +360,7 @@
 							echo $this->Form->input('date', array('id' => 'date-modal', 'type' => 'text', 'class' => 'date-picker form-control', 'placeholder' => '--/--/----', 'disabled' => 'disabled'));
 							echo $this->Form->input('time', array('id' => 'time-selector-modal', 'type' => 'select', 'placeholder' => '--:--', 'empty' => __('Select a tour first'), 'disabled' => 'disabled'));
 							echo $this->Form->input('note', array('id' => 'note-modal', 'disabled' => 'disabled'));
+							echo $this->Form->input('referer',array('id' => 'referer-modal', 'type' => 'select', 'options' => $refererList, 'empty' => __('Select a referer...'), 'disabled' => 'disabled'));
 							echo $this->Form->hidden('id', array('id' => 'id-modal'));
 						?>
 					<?php echo $this->Form->end(); ?>
@@ -475,6 +487,7 @@
 							numberOfAdults: response.reserve.numberOfAdults,
 							numberOfMinors: response.reserve.numberOfMinors,
 							note: response.reserve.note,
+							referer: response.reserve.referer,
 							backgroundColor: response.reserve.backgroundColor,
 
 						};
@@ -553,6 +566,7 @@
 						modReserve.numberOfAdults = response.reserve.numberOfAdults;
 						modReserve.numberOfMinors = response.reserve.numberOfMinors;
 						modReserve.note = response.reserve.note;
+						modReserve.referer = response.reserve.referer;
 						modReserve.backgroundColor = response.reserve.backgroundColor;
 						//Aply the changes on calendar
 						$('#calendar').fullCalendar('updateEvent', modReserve);
@@ -594,45 +608,45 @@
 		//For setQuotaAvailable function in reserves.js
 		var getQuotaAvailable = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'getQuotaAvailable')); ?>/";
 
-		function findClient() {
-			var targeturl = "<?= $this->Html->Url(array('controller' => 'clients', 'action' => 'find')); ?>/"+$('#client-email').val();
-			//var formData = $('#client-email').serializeArray();
+		// function findClient() {
+		// 	var targeturl = "<?= $this->Html->Url(array('controller' => 'clients', 'action' => 'find')); ?>/"+$('#client-email').val();
+		// 	//var formData = $('#client-email').serializeArray();
 
-			$('#client-email-spinner').show();
+		// 	$('#client-email-spinner').show();
 
-			$.ajax({
-				type: 'get',
-				cache: false,
-				url: targeturl,
-				//data: formData,
-				dataType: 'json',
-				beforeSend: function(xhr) {
-					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-				},
-				success: function(response) {
-					if (response.content) {
-						$('#client-full-name').val(response.content.Client.full_name);
-						if (response.content.Client.birth_date != null) $('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
-						$('#client-birth-date').datepicker('update');
-						$('#client-country').select2('val', response.content.Client.country);
-						$('#client-phone').val(response.content.Client.phone);
-					}
-					if (response.error) {
-						$('#client-full-name').val('');
-						$('#client-birth-date').val('');
-						$('#client-country').select2('val', '');
-						$('#client-phone').val('');
-					}
-				},
-				error: function(e) {
-					console.log('Ajax error: '+e.responseText.message);
-				},
-				complete: function(){
-					$('#client-email-spinner').hide();
-				}
-			});
-		};
+		// 	$.ajax({
+		// 		type: 'get',
+		// 		cache: false,
+		// 		url: targeturl,
+		// 		//data: formData,
+		// 		dataType: 'json',
+		// 		beforeSend: function(xhr) {
+		// 			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+		// 			xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+		// 		},
+		// 		success: function(response) {
+		// 			if (response.content) {
+		// 				$('#client-full-name').val(response.content.Client.full_name);
+		// 				if (response.content.Client.birth_date != null) $('#client-birth-date').val(response.content.Client.birth_date.split('-').reverse().join('/'));
+		// 				$('#client-birth-date').datepicker('update');
+		// 				$('#client-country').select2('val', response.content.Client.country);
+		// 				$('#client-phone').val(response.content.Client.phone);
+		// 			}
+		// 			if (response.error) {
+		// 				// $('#client-full-name').val('');
+		// 				// $('#client-birth-date').val('');
+		// 				// $('#client-country').select2('val', '');
+		// 				// $('#client-phone').val('');
+		// 			}
+		// 		},
+		// 		error: function(e) {
+		// 			console.log('Ajax error: '+e.responseText.message);
+		// 		},
+		// 		complete: function(){
+		// 			$('#client-email-spinner').hide();
+		// 		}
+		// 	});
+		// };
 
 		function changeReserveDate(reserve, revertFunc) {
 
