@@ -158,7 +158,7 @@ class ReservesController extends AppController {
 
 			//Decode all data recived
 			$json = json_decode($this->request->data['json'], true);
-			debug($json);die();
+			// debug($json);die();
 
 
 			$this->request->data['Client'] = [];
@@ -174,7 +174,6 @@ class ReservesController extends AppController {
 			$this->request->data['Reserve']['language_id'] = $json['reserves']['language'];
 			$this->request->data['Reserve']['number_of_adults'] = $json['reserves']['adults'];
 			$this->request->data['Reserve']['number_of_minors'] = $json['reserves']['minors'];
-			$this->request->data['Reserve']['note'] = $json['reserves']['phone'];
 			$this->request->data['Reserve']['referer'] = 'Web Wineobs';
 			$this->request->data['Reserve']['from_web'] = true;
 
@@ -191,9 +190,9 @@ class ReservesController extends AppController {
 					//debug($this->Reserve->validationErrors); die();
 					$hasError = true;
 					$data['error'][] = array(
-						'tour' => $tour['id'];
-						'time' => $tour['time'];
-						'text' => __('The reserve could not be saved.');
+						'tour' => $tour['id'],
+						'time' => $tour['time'],
+						'text' => __('The reserve could not be saved.')
 					);
 				}
 				if(!$hasError){
