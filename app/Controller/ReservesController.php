@@ -184,10 +184,11 @@ class ReservesController extends AppController {
 				$this->request->data['Reserve']['time'] = $tour['time'];
 
 				$this->Reserve->create();
+
 				if ($this->Reserve->saveAssociated($this->request->data)) {
 					//Nothing
 				}else{
-					//debug($this->Reserve->validationErrors); die();
+					// debug($this->Reserve->validationErrors); die();
 					$hasError = true;
 					$data['error'][] = array(
 						'tour' => $tour['id'],
@@ -197,7 +198,7 @@ class ReservesController extends AppController {
 				}
 				if(!$hasError){
 					$data['content']['title'] = __('Good.');
-					$data['content']['text'] = __('The reserves has been realized.');
+					$data['content']['text'] = __('The reserves were been realized.');
 				}
 			}
 
