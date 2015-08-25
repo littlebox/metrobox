@@ -357,7 +357,7 @@ class WineriesController extends AppController {
 			if ($this->Winery->saveAssociated($this->request->data, array('deep' => true))) {
 				$this->Session->setFlash(__('The winery has been saved.'), 'metrobox/flash_success');
 
-				//Check if image has been uploaded
+				//Check if image for logo has been uploaded
 				if(!empty($this->data['Winery']['logo']['name'])){
 					$file = $this->data['Winery']['logo']; //put the data into a var for easy use
 

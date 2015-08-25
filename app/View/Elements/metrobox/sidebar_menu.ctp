@@ -15,12 +15,17 @@
 					'title'=>__('Reserves'),
 					'href'=> array('controller'=>'reserves','action'=>'index'),
 					'icon'=>'book-open',
-					),
+				),
 				array(
 					'title'=>__('Tours'),
 					'href'=> array('controller'=>'tours','action'=>'index'),
 					'icon'=>'direction',
-					),
+				),
+				array(
+					'title'=>__('Winery profile'),
+					'href'=> array('controller' => 'wineries', 'action' => 'view'),
+					'icon'=>'directions',
+				),
 				// array(
 				// 	'title'=>'Estadisticas',
 				// 	'href'=>array('controller'=>'pages', 'action' => 'stats'),
