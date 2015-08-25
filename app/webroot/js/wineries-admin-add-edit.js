@@ -133,6 +133,12 @@ var WineryAdminAddEdit = {
 			});
 			//muestro el texto de ayuda
 			$('#marker-help-text').show();
+
+			//Seteamos un listener para que cada vez que se mueva el marcador, se actualice la latitud y la longitud en los inpus ocultos correspondientes
+			google.maps.event.addListener(locationMarker, "mouseup", function(event) {
+				$('#WineryLatitude').val(this.position.lat());
+				$('#WineryLongitude').val(this.position.lng());
+			});
 		}
 
 		autocomplete = new google.maps.places.Autocomplete((document.getElementById('gmap_geocoding_city')),{
