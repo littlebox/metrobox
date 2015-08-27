@@ -67,17 +67,11 @@ class ReservesController extends AppController {
 
 			$this->requestAction(Router::url(array('controller'=>'tours', 'action'=>'tourSecurityCheck')).'/'.$this->request->data['Reserve']['tour_id']);
 
-			// # this is cakes way of running required
-			// App::import('controller', 'tours');
-			// $tourController = new TourController;
-			// # now you can reference your controller like any other PHP class
-			// $tourController->tourSecurityCheck($this->request->data['Reserve']['tour_id']);
-
-			// $data = array(
-			// 	'content' => '',
-			// 	'reserve' => '',
-			// 	'error' => '',
-			// );
+			$data = array(
+				'content' => '',
+				'reserve' => '',
+				'error' => '',
+			);
 
 			//Convert date d/m/Y to Y-m-d format tosave in DB
 			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
