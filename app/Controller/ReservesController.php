@@ -124,7 +124,7 @@ class ReservesController extends AppController {
 				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 			} else {
-				debug($this->Reserve->validationErrors); die();
+				// debug($this->Reserve->validationErrors); die();
 				$data['error'] = __('The reserve could not be saved. Please, try again.');
 			}
 		}

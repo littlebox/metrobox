@@ -138,6 +138,7 @@ class WineriesController extends AppController {
 				'address',
 				'description',
 				'priority',
+				'has_logo',
 			),
 			'joins'=>array( //Estos Joins descartan las bodegas que no tienen ningun tour en el idioma especificado o no tienen tour en el día especificado, pero de las bodegas que no descarta trae todos los tours, icluso los que no tienen el idioma o el día
 				array(
@@ -202,8 +203,6 @@ class WineriesController extends AppController {
 		);
 
 		$wineries = $this->Winery->find('all', $options);
-
-
 
 		foreach ($wineries as &$winery) {
 			foreach ($winery['Tour'] as &$tour) {
