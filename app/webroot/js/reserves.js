@@ -169,59 +169,140 @@ var reserves = {
 		}
 	},
 
-	setQuotaAvailable: function(){
-		$('#tour-selector, #date-selector').on('change', function(ev){
-			if($('#tour-selector').val() != "" && $('#date-selector').val() != ""){
-				$('#time-selector').prop('disabled', true);
-				$('#date-selector-spinner').show();
-				prevVal = $('#time-selector').val();
-				dateToFormat = [];
-				dateToFormat = $('#date-selector').val().split('/');
-				formatedDate = dateToFormat[2]+'-'+dateToFormat[1]+'-'+dateToFormat[0]
+	setQuotaAvailableEvent: function(){
+		$('#tour-selector').on('change', reserves.setQuotaAvailable)
+	},
 
-				$.ajax({
-					type: 'get',
-					cache: false,
-					url: getQuotaAvailable+formatedDate+'/'+$('#tour-selector').val(),
-					//data: formData,
-					dataType: 'json',
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-						xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
-					},
-					success: function(response) {
-						//console.log(response);
-						//SET TIMES
-						var selectTimes = document.getElementById("time-selector");
-						//Empty actual Times Selector
-						while (selectTimes.firstChild) {
-							selectTimes.removeChild(selectTimes.firstChild);
-						}
-						//Put each tour's time as select's option
-						for(var i = 0, n = response.Time.length; i < n; i++ ){
-							var opt = document.createElement('option');
-							opt.setAttribute('value',response.Time[i].hour);
-							if (prevVal == response.Time[i].hour) opt.setAttribute('selected', 'selected');
-							opt.textContent = response.Time[i].hour.substring(0, 5) + ' ('+response.Time[i].quota_available+' cupos disponibles)'; //substring function is for cut the seconds in time string
-							selectTimes.appendChild(opt);
-						}
-						if(tour.Time.length <= 0){
-							var opt = document.createElement('option');
-							selectTimes.appendChild(opt);
-							opt.textContent = 'No hay horarios asignados al tour.';
-						}
-						//tour.select.times = selectTimes.innerHTML;
-					},
-					error: function(e) {
-						console.log('Ajax error: '+e.responseText.message);
-					},
-					complete: function(){
-						$('#time-selector').prop('disabled', false);
-						$('#date-selector-spinner').hide();
-						//$('#client-email-spinner').hide();
-					}
-				});
+	setQuotaAvailable: function(){
+
+
+		if($('#tour-selector').val() == ""){
+			var selectTimes = document.getElementById("time-selector");
+			//Empty actual Times Selector
+			while (selectTimes.firstChild) {
+				selectTimes.removeChild(selectTimes.firstChild);
 			}
+
+			var opt = document.createElement('option');
+			opt.textContent = 'Primero seleccione un tour';
+			selectTimes.appendChild(opt);
+		}
+
+
+		if($('#tour-selector').val() != "" && $('#date-selector').val() != ""){
+			$('#time-selector').prop('disabled', true);
+			$('#date-selector-spinner').show();
+			prevVal = $('#time-selector').val();
+			dateToFormat = [];
+			dateToFormat = $('#date-selector').val().split('/');
+			formatedDate = dateToFormat[2]+'-'+dateToFormat[1]+'-'+dateToFormat[0]
+
+			$.ajax({
+				type: 'get',
+				cache: false,
+				url: getQuotaAvailable+formatedDate+'/'+$('#tour-selector').val(),
+				//data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					//console.log(response);
+					//SET TIMES
+					var selectTimes = document.getElementById("time-selector");
+					//Empty actual Times Selector
+					while (selectTimes.firstChild) {
+						selectTimes.removeChild(selectTimes.firstChild);
+					}
+					//Put each tour's time as select's option
+					for(var i = 0, n = response.Time.length; i < n; i++ ){
+						var opt = document.createElement('option');
+						opt.setAttribute('value',response.Time[i].hour);
+						if (prevVal == response.Time[i].hour) opt.setAttribute('selected', 'selected');
+						opt.textContent = response.Time[i].hour.substring(0, 5) + ' ('+response.Time[i].quota_available+' cupos disponibles)'; //substring function is for cut the seconds in time string
+						selectTimes.appendChild(opt);
+					}
+					if(tour.Time.length <= 0){
+						var opt = document.createElement('option');
+						selectTimes.appendChild(opt);
+						opt.textContent = 'No hay horarios asignados al tour.';
+					}
+					//tour.select.times = selectTimes.innerHTML;
+				},
+				error: function(e) {
+					console.log('Ajax error: '+e.responseText.message);
+				},
+				complete: function(){
+					$('#time-selector').prop('disabled', false);
+					$('#date-selector-spinner').hide();
+					//$('#client-email-spinner').hide();
+				}
+			});
+		}
+	},
+
+	setToursAvailablesInSelectedDate: function(){
+		$('#date-selector').on('change', function(ev){
+
+			$('#time-selector').prop('disabled', true);
+			$('#date-selector-spinner').show();
+			prevVal = $('#tour-selector').val();
+			dateToFormat = [];
+			dateToFormat = $('#date-selector').val().split('/');
+			formatedDate = dateToFormat[2]+'-'+dateToFormat[1]+'-'+dateToFormat[0]
+
+			$.ajax({
+				type: 'get',
+				cache: false,
+				url: getToursAvailablesInSelectedDate+formatedDate,
+				//data: formData,
+				dataType: 'json',
+				beforeSend: function(xhr) {
+					xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
+				},
+				success: function(response) {
+					console.log(response);
+					//SET TIMES
+					var tourSelector = document.getElementById("tour-selector");
+					//Empty actual Times Selector
+					while (tourSelector.firstChild) {
+						tourSelector.removeChild(tourSelector.firstChild);
+					}
+
+					if(response.length > 0){
+						var opt = document.createElement('option');
+						opt.textContent = 'Seleccione un tour...';
+						opt.setAttribute('value','');
+						tourSelector.appendChild(opt);
+						//Put each tour's time as select's option
+						for(var i = 0, n = response.length; i < n; i++ ){
+							var opt = document.createElement('option');
+							opt.setAttribute('value',response[i].Tour.id);
+							if (prevVal == response[i].Tour.id) opt.setAttribute('selected', 'selected');
+							opt.textContent = response[i].Tour.name; //substring function is for cut the seconds in time string
+							tourSelector.appendChild(opt);
+						}
+						reserves.setQuotaAvailable();
+					}else{
+						var opt = document.createElement('option');
+						tourSelector.appendChild(opt);
+						opt.textContent = 'No hay tours disponibles en el días seleccionado.';
+					}
+				},
+				error: function(e) {
+					console.log('Ajax error: '+e.responseText.message);
+					$('#time-selector').prop('disabled', false);
+					$('#date-selector-spinner').hide();
+				},
+				complete: function(){
+					$('#time-selector').prop('disabled', false);
+					$('#date-selector-spinner').hide();
+					//$('#client-email-spinner').hide();
+				}
+			});
+
 		})
 	},
 
@@ -704,7 +785,8 @@ var reserves = {
 		reserves.intiSelects2();
 		//reserves.intiFindCLientListener();
 		reserves.editReserveButtons();
-		reserves.setQuotaAvailable();
+		reserves.setQuotaAvailableEvent();
+		reserves.setToursAvailablesInSelectedDate();
 	}
 
 }

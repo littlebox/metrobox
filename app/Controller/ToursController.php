@@ -241,6 +241,40 @@ class ToursController extends AppController {
 		}
 	}
 
+	public function getToursAvailablesInSelectedDate($date){
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		//Set day of week number (1-7) from date
+		$dateObject = DateTime::createFromFormat('Y-m-d', $date);
+		$dayOfWeek = $dateObject->format('N');
+
+		$options = array(
+			'conditions' => array(
+				'Tour.winery_id' => $this->Auth->user('winery_id')
+			),
+			'fields' => array('id', 'name'),
+			'joins'=>array( //Estos Joins descartan los tours que no tienen ningun tour en el día especificado
+				array(
+					'table'=>'tours_days',
+					'alias'=>'ToursDay',
+					'type'=>'inner',
+					'conditions'=>array(
+						'ToursDay.tour_id = Tour.id',
+						'ToursDay.day_id = ' . $dayOfWeek
+					)
+				),
+			),
+			'contain' => false
+		);
+
+		$tours = $this->Tour->find('all', $options);
+
+		$this->set(compact('tours')); // Pass $data to the view
+		$this->set('_serialize', 'tours'); // Let the JsonView class know what variable to use
+
+	}
+
 	/* SECURITY CHECK */
 	/* Verify if the logged user isn't admin and the reserve atempted to modify is inside a winery that he manages */
 	public function tourSecurityCheck($tourToModifyId){
