@@ -246,8 +246,20 @@ class ReservesController extends AppController {
 	}
 
 	public function mp_notification(){
+		require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 		$this->autoRender = false;
-		file_put_contents(APP.'/mp_notification.txt', json_encode($_GET), FILE_APPEND);
+
+		$reserve = $this->Reserve->find('first',array(
+			'conditions' => array(
+				'mp_id' => $_GET['id'],
+			)
+		))
+		$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
+
+		$payment_info = $mp->get_payment_info($_GET["id"]);
+		if ($payment_info["status"] == 200) {
+			file_put_contents(APP.'mp_notification.txt',json_encode($payment_info));
+		}
 	}
 
 	public function edit() {
