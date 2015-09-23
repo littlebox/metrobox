@@ -253,7 +253,7 @@ class ReservesController extends AppController {
 			'conditions' => array(
 				'mp_id' => $_GET['id'],
 			)
-		))
+		));
 		$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
 
 		if($_GET["topic"] == 'payment'){
