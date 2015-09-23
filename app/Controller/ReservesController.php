@@ -263,9 +263,11 @@ class ReservesController extends AppController {
 		} else if($_GET["topic"] == 'merchant_order'){
 			$merchant_order_info = $mp->get("/merchant_orders/" . $_GET["id"]);
 		}
-		file_put_contents(APP.'/mp_notifications.txt', json_encode($merchant_order_info));
+		file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info));
 
 		if ($merchant_order_info["status"] == 200) {
+			$reserve['Reserve']['mp_status'] = $payment['status'];
+			$this->Reserve->save($reserve);
 			// If the payment's transaction amount is equal (or bigger) than the merchant_order's amount you can release your items
 			/*$paid_amount = 0;
 
