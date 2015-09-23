@@ -240,7 +240,7 @@ class ReservesController extends AppController {
 
 	public function mp_notification(){
 		$this->autoRender = false;
-		file_put_contents(APP.'/mp_notification.txt', json_encode($_POST));
+		file_put_contents(APP.'/mp_notification.txt', json_encode($_GET), FILE_APPEND);
 	}
 
 	public function edit() {
