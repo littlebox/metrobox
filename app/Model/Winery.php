@@ -113,7 +113,6 @@ class Winery extends AppModel {
 		//Check if winery has logo
 		foreach ($results as &$result) {
 			if (isset($result['Winery']['has_logo']) && isset($result['Winery']['id']) ) {
-				debug('ENTRO');
 				$result['Winery']['has_logo'] = file_exists(WWW_ROOT.'img'.DS.'wineries'.DS.'logos'.DS.$result['Winery']['id'].'.png');
 			}
 		}
