@@ -175,9 +175,43 @@ class ReservesController extends AppController {
 
 			// debug($json['reserves']);die();
 
+
+
 			$items = [];
 			require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 			$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
+
+			foreach($json['reserves']['tours'] as $tour){
+				$tourData = $this->Reserve->Tour->find('first',array(
+					'conditions' => array(
+						'Tour.id' => $tour['id'],
+					),
+					'contains' => false,
+				));
+
+				$price = $json['reserves']['adults']*$tourData['Tour']['price'] + $json['reserves']['minors']*$tourData['Tour']['minors_price'];
+
+				array_push($items, array(
+					"title" => $tourData['Tour']['name'],
+					"currency_id" => "ARS", // Available currencies at: https://api.mercadopago.com/currencies
+					"unit_price" => $price,
+					"quantity" => 1,
+				));
+
+			}
+
+			$preference_data = array(
+				'items' => $items,
+				'payer' => array(
+					'name' => $this->request->data['Client']['full_name'],
+					'email' => $this->request->data['Client']['email'],
+				),
+				'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
+			);
+			$preference = $mp->create_preference($preference_data);
+			$data['mp_url'] = $preference['response']['sandbox_init_point'];
+
+			$this->request->data['Reserve']['mp_id'] = $preference['response']['id'];
 
 			foreach ($json['reserves']['tours'] as $tour) {
 				$this->request->data['Reserve']['tour_id'] = $tour['id'];
@@ -200,35 +234,8 @@ class ReservesController extends AppController {
 					$data['content']['title'] = __('Good.');
 					$data['content']['text'] = __('The reserves were been realized.');
 
-					$tourData = $this->Reserve->Tour->find('first',array(
-						'conditions' => array(
-							'Tour.id' => $tour['id'],
-						),
-						'contains' => false,
-					));
-
-					$price = $json['reserves']['adults']*$tourData['Tour']['price'] + $json['reserves']['minors']*$tourData['Tour']['minors_price'];
-
-					array_push($items, array(
-						"title" => $tourData['Tour']['name'],
-						"currency_id" => "ARS", // Available currencies at: https://api.mercadopago.com/currencies
-						"unit_price" => $price,
-						"quantity" => 1,
-					));
-
 				}
 			}
-
-			$preference_data = array(
-				'items' => $items,
-				'payer' => array(
-					'name' => $this->request->data['Client']['full_name'],
-					'email' => $this->request->data['Client']['email'],
-				),
-				'notification_url' => 'https://reservas.wineobs.com/reserves/mp_notification',
-			);
-			$preference = $mp->create_preference($preference_data);
-			$data['mp_url'] = $preference['response']['sandbox_init_point'];
 
 			$this->set(compact('data')); // Pass $data to the view
 			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
