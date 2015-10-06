@@ -174,6 +174,7 @@ class WineriesController extends AppController {
 					'id',
 				),
 				'Tour' => array(
+					'order' => 'Tour.price ASC',
 					'id',
 					'name',
 					'length',
