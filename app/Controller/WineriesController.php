@@ -120,7 +120,7 @@ class WineriesController extends AppController {
 						'className' => 'Tour',
 						'foreignKey' => 'winery_id',
 						'dependent' => false,
-						'finderQuery' => "SELECT Tour.* FROM tours AS Tour INNER JOIN tours_languages AS ToursLanguage ON ToursLanguage.tour_id = Tour.id AND ToursLanguage.language_id = '$language' INNER JOIN tours_days AS ToursDay ON ToursDay.tour_id = Tour.id AND ToursDay.day_id = '$dayOfWeek'"
+						'finderQuery' => "SELECT Tour.* FROM tours AS Tour INNER JOIN tours_languages AS ToursLanguage ON ToursLanguage.tour_id = Tour.id AND ToursLanguage.language_id = '$language' INNER JOIN tours_days AS ToursDay ON ToursDay.tour_id = Tour.id AND ToursDay.day_id = '$dayOfWeek' ORDER BY Tour.price ASC"
 					)
 				)
 			)
@@ -174,14 +174,15 @@ class WineriesController extends AppController {
 					'id',
 				),
 				'Tour' => array(
-					'order' => 'Tour.price ASC',
-					'id',
-					'name',
-					'length',
-					'quota',
-					'price',
-					'minors_price',
-					'description',
+					'fields' => array(
+						'id',
+						'name',
+						'length',
+						'quota',
+						'price',
+						'minors_price',
+						'description'
+					),
 					'Time' => array(
 						'id',
 						'hour',
