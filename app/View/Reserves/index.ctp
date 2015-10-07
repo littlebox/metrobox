@@ -243,7 +243,6 @@
 		'Agencias' => 'Agencias',
 		'Hoteles' => 'Hoteles',
 		'Choferes' => 'Choferes',
-		'Web Wineobs' => 'Web Wineobs',
 		'Otros' => 'Otros',
 	);
 ?>
