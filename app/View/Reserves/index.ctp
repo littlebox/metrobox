@@ -419,7 +419,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('reserves.js?20150916');?>
+	<?= $this->Html->script('reserves.js?20151008');?>
 	<script>
 		var toursData = <?= json_encode($toursData) ?>;
 		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
