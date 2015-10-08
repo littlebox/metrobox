@@ -243,7 +243,6 @@
 		'Agencias' => 'Agencias',
 		'Hoteles' => 'Hoteles',
 		'Choferes' => 'Choferes',
-		'Web Wineobs' => 'Web Wineobs',
 		'Otros' => 'Otros',
 	);
 ?>
@@ -420,7 +419,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('reserves.js?20150916');?>
+	<?= $this->Html->script('reserves.js?20151008');?>
 	<script>
 		var toursData = <?= json_encode($toursData) ?>;
 		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
@@ -779,6 +778,7 @@
 			//Update the content
 			modReserve.attended = $('#attended-modal')[0].checked;
 			//Rerender event
+			$('#calendar').fullCalendar('removeEvents', modReserve._id);
 			$('#calendar').fullCalendar('renderEvent', modReserve);
 
 			var formData = $('#attended-modal-div input').serializeArray();
@@ -800,6 +800,7 @@
 						//Load previous value
 						modReserve.attended = prevVal;
 						//Rerender event
+						$('#calendar').fullCalendar('removeEvents', modReserve._id);
 						$('#calendar').fullCalendar('renderEvent', modReserve);
 						//Hide modal to view swal
 						$('#reserve-details').modal('hide');
@@ -810,6 +811,7 @@
 					//Load previous value
 					modReserve.attended = prevVal;
 					//Rerender event
+					$('#calendar').fullCalendar('removeEvents', modReserve._id);
 					$('#calendar').fullCalendar('renderEvent', modReserve);
 					//Hide modal to view swal
 					$('#reserve-details').modal('hide');
@@ -818,6 +820,7 @@
 				},
 				complete: function() {
 					//Rerender event
+					$('#calendar').fullCalendar('removeEvents', modReserve._id);
 					$('#calendar').fullCalendar('renderEvent', modReserve);
 				}
 			});
