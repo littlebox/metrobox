@@ -778,6 +778,7 @@
 			//Update the content
 			modReserve.attended = $('#attended-modal')[0].checked;
 			//Rerender event
+			$('#calendar').fullCalendar('removeEvents', modReserve._id);
 			$('#calendar').fullCalendar('renderEvent', modReserve);
 
 			var formData = $('#attended-modal-div input').serializeArray();
@@ -799,6 +800,7 @@
 						//Load previous value
 						modReserve.attended = prevVal;
 						//Rerender event
+						$('#calendar').fullCalendar('removeEvents', modReserve._id);
 						$('#calendar').fullCalendar('renderEvent', modReserve);
 						//Hide modal to view swal
 						$('#reserve-details').modal('hide');
@@ -809,6 +811,7 @@
 					//Load previous value
 					modReserve.attended = prevVal;
 					//Rerender event
+					$('#calendar').fullCalendar('removeEvents', modReserve._id);
 					$('#calendar').fullCalendar('renderEvent', modReserve);
 					//Hide modal to view swal
 					$('#reserve-details').modal('hide');
@@ -817,6 +820,7 @@
 				},
 				complete: function() {
 					//Rerender event
+					$('#calendar').fullCalendar('removeEvents', modReserve._id);
 					$('#calendar').fullCalendar('renderEvent', modReserve);
 				}
 			});
