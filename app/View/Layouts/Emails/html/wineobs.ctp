@@ -42,21 +42,21 @@
 									<tr>
 										<td width="1"></td>
 										<td>
-											<table class="nremail-inner" cellpadding="0" cellspacing="0" border="0" bgcolor="#EE3C23" width="600">
+
+											<table class="nremail-inner" cellpadding="0" cellspacing="0" border="0" bgcolor="#9F4B55" width="600">
 												<tbody>
 													<tr>
-														<td colspan="4" height="25">&nbsp;</td>
+														<td colspan="3" height="25">&nbsp;</td>
 													</tr>
 													<tr>
 														<td width="25"></td>
-														<td class="mktEditable hero_upper" id="main-content-image1" valign="middle" bgcolor="#EE3C23" width="300">
-															<a href="http://wineobs.com" title="wineobs.com"><img src="http://reservas.wineobs.com/img/logo-big.png" width="200" border="0"></a>
+														<td valign="middle" bgcolor="#9F4B55" width="550" style="text-align: center;">
+															<a href="http://wineobs.com" title="wineobs.com" target="_blank"><img src="http://reservas.wineobs.com/img/logo-big.png" width="200" border="0"></a>
 														</td>
-														<td class="mktEditable hero_upper" id="main-content-text1" valign="middle" align="right" bgcolor="#EE3C23" width="300"></td>
 														<td width="25"></td>
 													</tr>
 													<tr>
-														<td colspan="4" height="25">&nbsp;</td>
+														<td colspan="3" height="25">&nbsp;</td>
 													</tr>
 												</tbody>
 											</table>
