@@ -211,8 +211,14 @@ class ReservesController extends AppController {
 
 				$price = $json['reserves']['adults']*$tourData['Tour']['price'] + $json['reserves']['minors']*$tourData['Tour']['minors_price'];
 
+				$title = $tourData['Tour']['name'].' ('.$json['reserves']['adults'].' adultos';
+				if($json['reserves']['minors'] > 0){
+					$title .=', '.$json['reserves']['minors'].' menores';
+				}
+				$title .=')';
+
 				array_push($items, array(
-					"title" => $tourData['Tour']['name'],
+					"title" => $title,
 					"currency_id" => "ARS", // Available currencies at: https://api.mercadopago.com/currencies
 					"unit_price" => $price,
 					"quantity" => 1,
@@ -263,7 +269,71 @@ class ReservesController extends AppController {
 			));
 			$reserve['Reserve']['mp_status'] = $payment_info['response']['collection']['status'];
 			$this->Reserve->save($reserve);
+			//Possibles mp_status:
+			// pending: El usuario aún no completó el proceso de pago.
+			// approved: El pago fue aprobado y acreditado.
+			// in_process: El pago está siendo revisado.
+			// in_mediation: Los usuarios tienen iniciada una disputa.
+			// rejected: El pago fue rechazado. El usuario puede intentar pagar nuevamente.
+			// cancelled: El pago fue cancelado por una de las partes, o porque el tiempo expiró.
+			// refunded: El pago fue devuelto al usuario.
+			// charged_back: Fue hecho un contracargo en la tarjeta del pagador.
 		}
+
+		//Email to agent
+		$Email = new CakeEmail();
+		$Email->config('smtp'); //read settings from config/email.php
+		$Email->emailFormat('html');
+		$Email->to($payment_info['response']['collection']['payer']['email']);
+
+		$Email->viewVars(array('estateCity' => $estate['Estate']['city']));
+		$Email->viewVars(array('estateViewUrl' => Router::url(array('controller' => 'estates', 'action' => 'view', $estate['Estate']['id']), true)));
+		$Email->viewVars(array('estateImageUrl' => $estateImageUrl));
+
+		$Email->viewVars(array('client_name' => $payment_info['response']['collection']['payer']['first_name'].$payment_info['response']['collection']['payer']['last_name']));
+		$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+
+		// $reserves = $this->Reserve
+
+		switch ($payment_info['response']['collection']['status']) {
+			case "approved":
+				//Enviar mail
+				$Email->template('wineobs_payment_approved', 'wineobs');
+				$Email->subject(__('Pago procesado'));
+				break;
+			case "pending":
+				//Enviar mail
+				$Email->template('wineobs_payment_pending', 'wineobs');
+				$Email->subject(__('Pago pendiente'));
+				break;
+			case "in_process":
+				//Enviar mail
+				$Email->template('wineobs_payment_in_process', 'wineobs');
+				$Email->subject(__('Procesando pago'));
+				break;
+			case "rejected":
+				//Enviar mail
+				$Email->template('wineobs_payment_rejected', 'wineobs');
+				$Email->subject(__('Pago rechazado'));
+				break;
+			case "cancelled":
+				//Enviar mail
+				$Email->template('wineobs_payment_cancelled', 'wineobs');
+				$Email->subject(__('Pago cancelado'));
+				break;
+			case "refunded":
+				//Enviar mail
+				$Email->template('wineobs_payment_refunded', 'wineobs');
+				$Email->subject(__('Pago reintegrado'));
+				break;
+			case "charged_back":
+				//Enviar mail
+				$Email->template('wineobs_payment_charged_back', 'wineobs');
+				$Email->subject(__('Pago reintegrado'));
+				break;
+		}
+
+		$Email->send();
 	}
 
 	public function edit() {
