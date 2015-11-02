@@ -172,6 +172,7 @@ class WineriesController extends AppController {
 			'contain' => array(
 				'Image' => array(
 					'id',
+					'order' => 'Image.created desc',
 				),
 				'Tour' => array(
 					'fields' => array(
