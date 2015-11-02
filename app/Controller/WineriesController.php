@@ -200,13 +200,32 @@ class WineriesController extends AppController {
 				'Winery.visible' => true,
 			),
 			'order' => array(
-				'Winery.priority ASC'
+				'Winery.priority ASC' //Minor priority number first
 			),
 
 		);
 
 		$wineries = $this->Winery->find('all', $options);
 
+		//Split array in base of wineries priorities
+		$priorities = [];
+		foreach ($wineries as $winery) {
+			$priorities[$winery['Winery']['priority']][] = $winery;
+		}
+		unset($wineries);
+		$wineries = [];
+		//Shuffle each priority array
+		arsort($priorities); //Sort array by keys (priority number in this case)
+		foreach ($priorities as $priority) {
+			shuffle($priority);
+			//And put each winery in $wineries array again
+			foreach ($priority as $winery) {
+				$wineries[] = $winery;
+			}
+		}
+		unset($priorities);
+
+		//Add quota available in each tour
 		foreach ($wineries as &$winery) {
 			foreach ($winery['Tour'] as &$tour) {
 				foreach ($tour['Time'] as &$time) {
