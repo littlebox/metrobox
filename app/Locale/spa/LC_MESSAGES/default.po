@@ -1456,4 +1456,37 @@ msgstr "No se pudo cambiar la asistencia de la reserva: "
 msgid "Hasn't been change attended state."
 msgstr "No se pudo cambiar la asistencia de la reserva."
 
+#: MAILS
+msgid "WineObs - Booking confirmation"
+msgstr "WineObs - Confirmación de reserva"
+
+msgid "Thank you for booking with WineObs!"
+msgstr "¡Gracias por reservar con WineObs!"
+
+msgid "Your reservations:"
+msgstr "A continuación podrá ver el detalle de su/s reserva/s:"
+
+msgid "Adults"
+msgstr "Adultos"
+
+msgid "Childs"
+msgstr "Menores"
+
+msgid "Cancel reservations"
+msgstr "Cancelar reservas"
+
+msgid "Show map"
+msgstr "Ver ubicación"
+
+msgid "GPS Coord."
+msgstr "Coordenadas GPS"
+
+msgid "Cancellation policy"
+msgstr "Política de cancelación"
+
+msgid "Full refund 3 days before the date of booking."
+msgstr "Reembolso total 3 dias antes de la fecha de la reserva."
+
+msgid "Payment method"
+msgstr "Portal del pago utilizado"
 

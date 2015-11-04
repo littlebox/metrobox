@@ -293,13 +293,19 @@ class ReservesController extends AppController {
 		$Email->viewVars(array('client_name' => $payment_info['response']['collection']['payer']['first_name'].$payment_info['response']['collection']['payer']['last_name']));
 		$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
 
-		// $reserves = $this->Reserve
+		// $reserves = $this->Reserve->find('all', array(
+		// 	'fields' => array(
+		// 		'number_of_adults',
+		// 		'number_of_minors',
+		// 	),
+		// ));
+		// file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
 
 		switch ($payment_info['response']['collection']['status']) {
 			case "approved":
 				//Enviar mail
-				$Email->template('wineobs_payment_approved', 'wineobs');
-				$Email->subject(__('Pago procesado'));
+				$Email->template('wineobs_user_reserve_confirmation', 'wineobs');
+				$Email->subject(__('WineObs - Booking confirmation'));
 				break;
 			case "pending":
 				//Enviar mail
