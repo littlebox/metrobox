@@ -1484,9 +1484,15 @@ msgstr "Coordenadas GPS"
 msgid "Cancellation policy"
 msgstr "Política de cancelación"
 
-msgid "Full refund 3 days before the date of booking."
-msgstr "Reembolso total 3 dias antes de la fecha de la reserva."
+msgid "Full refund until 3 days before booking date."
+msgstr "Reembolso total hasta 3 dias antes de la fecha de la reserva."
 
 msgid "Payment method"
 msgstr "Portal del pago utilizado"
+
+msgid "English"
+msgstr "Inglés"
+
+msgid "Spanish"
+msgstr "Español"
 

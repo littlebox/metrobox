@@ -232,11 +232,17 @@ class ReservesController extends AppController {
 					'email' => $this->request->data['Client']['email'],
 				),
 				'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
-				"external_reference" => $newIds,
-				"back_urls" => array(
-					"success" => 'http://alpha.wineobs.com/payment_success',
-					"pending" => 'http://alpha.wineobs.com/payment_pending',
-					"failure" => 'http://alpha.wineobs.com/payment_failure',
+				'external_reference' => array(
+					'reserves_ids' => $newIds,
+					'date' => $this->request->data['Reserve']['date'],
+					'language_id' => $this->request->data['Reserve']['language_id'],
+					'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
+					'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
+				),
+				'back_urls' => array(
+					'success' => 'http://alpha.wineobs.com/payment_success',
+					'pending' => 'http://alpha.wineobs.com/payment_pending',
+					'failure' => 'http://alpha.wineobs.com/payment_failure',
 				)
 			);
 			$preference = $mp->create_preference($preference_data);
@@ -252,6 +258,9 @@ class ReservesController extends AppController {
 	}
 
 	public function mp_notification(){
+
+		Configure::write('Config.language', 'spa');
+
 		require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 		$this->autoRender = false;
 
@@ -292,6 +301,11 @@ class ReservesController extends AppController {
 
 		$Email->viewVars(array('client_name' => $payment_info['response']['collection']['payer']['first_name'].$payment_info['response']['collection']['payer']['last_name']));
 		$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+		$Email->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
+		$Email->viewVars(array('language_id' => $payment_info['response']['collection']['external_reference']['language_id']));
+		$Email->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
+		$Email->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
+		$Email->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
 
 		// $reserves = $this->Reserve->find('all', array(
 		// 	'fields' => array(
@@ -299,7 +313,6 @@ class ReservesController extends AppController {
 		// 		'number_of_minors',
 		// 	),
 		// ));
-		// file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
 
 		switch ($payment_info['response']['collection']['status']) {
 			case "approved":

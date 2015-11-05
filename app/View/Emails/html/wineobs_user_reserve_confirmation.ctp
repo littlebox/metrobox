@@ -116,7 +116,7 @@
 								<?php echo __("Cancellation policy"); ?>
 							</div>
 							<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								<?php echo __("Full refund 3 days before the date of booking."); ?>
+								<?php echo __("Full refund until 3 days before booking date."); ?>
 							</div>
 						</div>
 					</div>
