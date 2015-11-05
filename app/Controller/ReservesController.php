@@ -232,13 +232,13 @@ class ReservesController extends AppController {
 					'email' => $this->request->data['Client']['email'],
 				),
 				'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
-				'external_reference' => array(
+				'external_reference' => json_encode(array(
 					'reserves_ids' => $newIds,
 					'date' => $this->request->data['Reserve']['date'],
 					'language_id' => $this->request->data['Reserve']['language_id'],
 					'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
 					'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
-				),
+				)),
 				'back_urls' => array(
 					'success' => 'http://alpha.wineobs.com/payment_success',
 					'pending' => 'http://alpha.wineobs.com/payment_pending',
