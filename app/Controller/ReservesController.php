@@ -239,11 +239,12 @@ class ReservesController extends AppController {
 					'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
 					'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
 				)),
+				// 'external_reference' => $newIds,
 				'back_urls' => array(
 					'success' => 'http://alpha.wineobs.com/payment_success',
 					'pending' => 'http://alpha.wineobs.com/payment_pending',
 					'failure' => 'http://alpha.wineobs.com/payment_failure',
-				)
+				),
 			);
 			$preference = $mp->create_preference($preference_data);
 
@@ -259,7 +260,6 @@ class ReservesController extends AppController {
 
 	public function mp_notification(){
 
-		Configure::write('Config.language', 'spa');
 
 		require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 		$this->autoRender = false;
@@ -271,7 +271,16 @@ class ReservesController extends AppController {
 
 		file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
 
-		$ids = $payment_info['response']['collection']['external_reference'];
+		//Set language
+		if ($payment_info['response']['collection']['external_reference']['language_id'] == 1) {
+			Configure::write('Config.language', 'spa');
+			$language = __('Spanish');
+		}elseif($payment_info['response']['collection']['external_reference']['language_id'] == 2){
+			Configure::write('Config.language', 'eng');
+			$language = __('English');
+		}
+
+		$ids = $payment_info['response']['collection']['external_reference']['reserves_ids'];
 		foreach ($ids as &$id) {
 			$reserve = $this->Reserve->find('first',array(
 				'conditions' => array('Reserve.id' => $id),
@@ -289,6 +298,32 @@ class ReservesController extends AppController {
 			// charged_back: Fue hecho un contracargo en la tarjeta del pagador.
 		}
 
+		$reserves = $this->Reserve->find('all', array(
+			'fields' => array(
+				'id',
+				'time',
+			),
+			'contain' => array(
+				'Tour' => array(
+					'Winery' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'adderss',
+							'latitude',
+							'longitude',
+						),
+					),
+					'fields' => array(
+						'id',
+						'name',
+					),
+				),
+			),
+		));
+
+		file_put_contents(APP.'/reserves.txt', json_encode($reserves), FILE_APPEND);
+
 		//Email to agent
 		$Email = new CakeEmail();
 		$Email->config('smtp'); //read settings from config/email.php
@@ -299,20 +334,16 @@ class ReservesController extends AppController {
 		$Email->viewVars(array('estateViewUrl' => Router::url(array('controller' => 'estates', 'action' => 'view', $estate['Estate']['id']), true)));
 		$Email->viewVars(array('estateImageUrl' => $estateImageUrl));
 
+		$Email->viewVars(array('reserves' => $reserves));
 		$Email->viewVars(array('client_name' => $payment_info['response']['collection']['payer']['first_name'].$payment_info['response']['collection']['payer']['last_name']));
 		$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
 		$Email->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
-		$Email->viewVars(array('language_id' => $payment_info['response']['collection']['external_reference']['language_id']));
+		$Email->viewVars(array('language' => $language));
 		$Email->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
 		$Email->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
 		$Email->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
 
-		// $reserves = $this->Reserve->find('all', array(
-		// 	'fields' => array(
-		// 		'number_of_adults',
-		// 		'number_of_minors',
-		// 	),
-		// ));
+
 
 		switch ($payment_info['response']['collection']['status']) {
 			case "approved":
@@ -320,21 +351,21 @@ class ReservesController extends AppController {
 				$Email->template('wineobs_user_reserve_confirmation', 'wineobs');
 				$Email->subject(__('WineObs - Booking confirmation'));
 				break;
-			case "pending":
-				//Enviar mail
-				$Email->template('wineobs_payment_pending', 'wineobs');
-				$Email->subject(__('Pago pendiente'));
-				break;
-			case "in_process":
-				//Enviar mail
-				$Email->template('wineobs_payment_in_process', 'wineobs');
-				$Email->subject(__('Procesando pago'));
-				break;
-			case "rejected":
-				//Enviar mail
-				$Email->template('wineobs_payment_rejected', 'wineobs');
-				$Email->subject(__('Pago rechazado'));
-				break;
+			// case "pending":
+			// 	//Enviar mail
+			// 	$Email->template('wineobs_payment_pending', 'wineobs');
+			// 	$Email->subject(__('Pago pendiente'));
+			// 	break;
+			// case "in_process":
+			// 	//Enviar mail
+			// 	$Email->template('wineobs_payment_in_process', 'wineobs');
+			// 	$Email->subject(__('Procesando pago'));
+			// 	break;
+			// case "rejected":
+			// 	//Enviar mail
+			// 	$Email->template('wineobs_payment_rejected', 'wineobs');
+			// 	$Email->subject(__('Pago rechazado'));
+			// 	break;
 			case "cancelled":
 				//Enviar mail
 				$Email->template('wineobs_payment_cancelled', 'wineobs');

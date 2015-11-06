@@ -22,20 +22,22 @@
 								<?php echo __("Itinerary"); ?>:
 							</div>
 							<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								<?php echo __("Date"); ?>:
+								<?php echo __("Date"); ?>: <?php echo $date; ?>
 							</strong>
 							<br>
 							<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								<?php echo __("Language"); ?>:
+								<?php echo __("Language"); ?>: <?php echo $language; ?>
 							</strong>
 							<br>
 							<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								<?php echo __("Adults"); ?>:
+								<?php echo __("Adults"); ?>: <?php echo $number_of_adults; ?>
 							</strong>
 							<br>
+							<?php if (!empty($number_of_minors)): ?>
 							<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								<?php echo __("Childs"); ?>:
+								<?php echo __("Childs"); ?>: <?php echo $number_of_minors; ?>
 							</strong>
+							<?php endif; ?>
 						</div>
 					</div>
 				</td>
@@ -44,6 +46,7 @@
 		</tbody>
 	</table>
 
+	<?php foreach ($reserves as $reserve): ?>
 	<table style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;border-spacing:0;line-height:150%;width:100%">
 		<tbody>
 			<tr style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
@@ -57,20 +60,20 @@
 										<tr style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 											<td style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-													Bodega 1
+												<?php echo $reserve['Winery']['name']; ?>
 												</strong>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Time"); ?>: <b>20Hs</b>
+												<?php echo __("Time"); ?>: <b><?php echo $reserve['Reserve']['time']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Tour"); ?>: <b>Nombre tour</b>
+												<?php echo __("Tour"); ?>: <b><?php echo $reserve['Tour']['name']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Length"); ?>: <b>1Hs</b>
+												<?php echo __("Length"); ?>: <b><?php echo $reserve['Tour']['length']; ?>Hs</b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Address"); ?>: <b>Calle 123 sin numero</b>
+												<?php echo __("Address"); ?>: <b><?php echo $reserve['Winery']['address']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("GPS Coord."); ?>: <b>Calle 123 sin numero</b>
+												<?php echo __("GPS Coord."); ?>: <b><?php echo $reserve['Winery']['latitude']; ?>, <?php echo $reserve['Winery']['longitude']; ?></b>
 												<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-													<a href="https://www.google.com/maps/@-32.8783483,-68.8773646,12.25z" style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;color:#9E4B55;text-decoration:none" target="_blank">
+													<a href="https://www.google.com/maps/@<?php echo $reserve['Winery']['latitude']; ?>,<?php echo $reserve['Winery']['longitude']; ?>,12.25z" style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;color:#9E4B55;text-decoration:none" target="_blank">
 														<?php echo __("Show map"); ?>
 													</a>
 												</div>
@@ -86,6 +89,7 @@
 			</tr>
 		</tbody>
 	</table>
+	<?php endforeach; ?>
 
 	<table style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;border-spacing:0;line-height:150%;width:100%">
 		<tbody>
@@ -94,7 +98,7 @@
 				<td style="padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;display:block!important;margin:0 auto!important;clear:both!important;max-width:610px!important">
 					<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 						<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;padding-top:15px;padding-bottom:15px;padding-left:15px;padding-right:15px;border-bottom-width:1px;background-color:#ffffff;border-style:solid;border-color:#dbdbdb;border-left-width:1px;border-right-width:1px;border-top-width:0">
-							<a href="https://es.airbnb.com/reservation/change?code=CPSKZM&amp;eluid=5&amp;email=true&amp;euid=bd00df31-0c55-9892-b235-4781a92929ad" style="margin:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;display:block;padding:10px 16px;text-decoration:none;border-radius:2px;border:1px solid;text-align:center;vertical-align:middle;font-weight:bold;white-space:nowrap;border-color:#dbdbdb;background:#ffffff;color:#565a5c" target="_blank">
+							<a href="http://reservas.wineobs.com/reserves/cancel?cancelation_code=asdasdasd" style="margin:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;display:block;padding:10px 16px;text-decoration:none;border-radius:2px;border:1px solid;text-align:center;vertical-align:middle;font-weight:bold;white-space:nowrap;border-color:#dbdbdb;background:#ffffff;color:#565a5c" target="_blank">
 								<?php echo __("Cancel reservations"); ?>
 							</a>
 						</div>
