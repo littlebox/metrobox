@@ -260,7 +260,6 @@ class ReservesController extends AppController {
 
 	public function mp_notification(){
 
-
 		require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 		$this->autoRender = false;
 
@@ -309,7 +308,7 @@ class ReservesController extends AppController {
 						'fields' => array(
 							'id',
 							'name',
-							'adderss',
+							'address',
 							'latitude',
 							'longitude',
 						),
@@ -317,8 +316,12 @@ class ReservesController extends AppController {
 					'fields' => array(
 						'id',
 						'name',
+						'length',
 					),
 				),
+			),
+			'conditions' => array(
+				'Reserve.id' => $ids
 			),
 		));
 
