@@ -60,7 +60,7 @@
 										<tr style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 											<td style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo $reserve['Winery']['name']; ?>
+												<?php echo $reserve['Tour']['Winery']['name']; ?>
 												</strong>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<?php echo __("Time"); ?>: <b><?php echo $reserve['Reserve']['time']; ?></b>
@@ -69,11 +69,11 @@
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<?php echo __("Length"); ?>: <b><?php echo $reserve['Tour']['length']; ?>Hs</b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Address"); ?>: <b><?php echo $reserve['Winery']['address']; ?></b>
+												<?php echo __("Address"); ?>: <b><?php echo $reserve['Tour']['Winery']['address']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("GPS Coord."); ?>: <b><?php echo $reserve['Winery']['latitude']; ?>, <?php echo $reserve['Winery']['longitude']; ?></b>
+												<?php echo __("GPS Coord."); ?>: <b><?php echo $reserve['Tour']['Winery']['latitude']; ?>, <?php echo $reserve['Tour']['Winery']['longitude']; ?></b>
 												<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-													<a href="https://www.google.com/maps/@<?php echo $reserve['Winery']['latitude']; ?>,<?php echo $reserve['Winery']['longitude']; ?>,12.25z" style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;color:#9E4B55;text-decoration:none" target="_blank">
+													<a href="https://www.google.com/maps/@<?php echo $reserve['Tour']['Winery']['latitude']; ?>,<?php echo $reserve['Tour']['Winery']['longitude']; ?>,12.25z" style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;color:#9E4B55;text-decoration:none" target="_blank">
 														<?php echo __("Show map"); ?>
 													</a>
 												</div>

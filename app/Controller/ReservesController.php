@@ -238,6 +238,7 @@ class ReservesController extends AppController {
 					'language_id' => $this->request->data['Reserve']['language_id'],
 					'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
 					'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
+					'client_email' => $this->request->data['Client']['email'],
 				)),
 				// 'external_reference' => $newIds,
 				'back_urls' => array(
@@ -331,7 +332,7 @@ class ReservesController extends AppController {
 		$Email = new CakeEmail();
 		$Email->config('smtp'); //read settings from config/email.php
 		$Email->emailFormat('html');
-		$Email->to($payment_info['response']['collection']['payer']['email']);
+		$Email->to($payment_info['response']['collection']['external_reference']['client_email']);
 
 		$Email->viewVars(array('estateCity' => $estate['Estate']['city']));
 		$Email->viewVars(array('estateViewUrl' => Router::url(array('controller' => 'estates', 'action' => 'view', $estate['Estate']['id']), true)));
