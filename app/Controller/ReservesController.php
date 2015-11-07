@@ -239,6 +239,10 @@ class ReservesController extends AppController {
 					'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
 					'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
 					'client_email' => $this->request->data['Client']['email'],
+					'client_name' => $this->request->data['Client']['full_name'],
+					'client_country' => $this->request->data['Client']['country'],
+					'client_phone' => $this->request->data['Client']['phone'],
+					'client_birth_date' => $this->request->data['Client']['birth_date'],
 				)),
 				// 'external_reference' => $newIds,
 				'back_urls' => array(
@@ -309,6 +313,7 @@ class ReservesController extends AppController {
 						'fields' => array(
 							'id',
 							'name',
+							'email',
 							'address',
 							'latitude',
 							'longitude',
@@ -328,66 +333,89 @@ class ReservesController extends AppController {
 
 		file_put_contents(APP.'/reserves.txt', json_encode($reserves), FILE_APPEND);
 
-		//Email to agent
-		$Email = new CakeEmail();
-		$Email->config('smtp'); //read settings from config/email.php
-		$Email->emailFormat('html');
-		$Email->to($payment_info['response']['collection']['external_reference']['client_email']);
+		//Client Email
+		$clientEmail = new CakeEmail();
+		$clientEmail->config('smtp'); //read settings from config/email.php
+		$clientEmail->emailFormat('html');
+		$clientEmail->to($payment_info['response']['collection']['external_reference']['client_email']);
 
-		$Email->viewVars(array('estateCity' => $estate['Estate']['city']));
-		$Email->viewVars(array('estateViewUrl' => Router::url(array('controller' => 'estates', 'action' => 'view', $estate['Estate']['id']), true)));
-		$Email->viewVars(array('estateImageUrl' => $estateImageUrl));
+		$clientEmail->viewVars(array('reserves' => $reserves));
+		$clientEmail->viewVars(array('client_name' => $payment_info['response']['collection']['external_reference']['client_name']));
+		$clientEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+		$clientEmail->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
+		$clientEmail->viewVars(array('language' => $language));
+		$clientEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
+		$clientEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
+		$clientEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
 
-		$Email->viewVars(array('reserves' => $reserves));
-		$Email->viewVars(array('client_name' => $payment_info['response']['collection']['payer']['first_name'].$payment_info['response']['collection']['payer']['last_name']));
-		$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
-		$Email->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
-		$Email->viewVars(array('language' => $language));
-		$Email->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
-		$Email->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
-		$Email->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
+		//Winery Email
+		$wineryEmail = new CakeEmail();
+		$wineryEmail->config('smtp'); //read settings from config/email.php
+		$wineryEmail->emailFormat('html');
 
-
+		$wineryEmail->viewVars(array('reserves' => $reserves));
+		$wineryEmail->viewVars(array('client_name' => $payment_info['response']['collection']['external_reference']['client_name']));
+		$wineryEmail->viewVars(array('client_email' => $payment_info['response']['collection']['external_reference']['client_email']));
+		$wineryEmail->viewVars(array('client_country' => $payment_info['response']['collection']['external_reference']['client_country']));
+		$wineryEmail->viewVars(array('client_phone' => $payment_info['response']['collection']['external_reference']['client_phone']));
+		$wineryEmail->viewVars(array('client_birth_date' => $payment_info['response']['collection']['external_reference']['client_birth_date']));
+		$wineryEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+		$wineryEmail->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
+		$wineryEmail->viewVars(array('language' => $language));
+		$wineryEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
+		$wineryEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
+		$wineryEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
 
 		switch ($payment_info['response']['collection']['status']) {
 			case "approved":
-				//Enviar mail
-				$Email->template('wineobs_user_reserve_confirmation', 'wineobs');
-				$Email->subject(__('WineObs - Booking confirmation'));
+				//Client Email
+				$clientEmail->template('wineobs_user_reserve_confirmation', 'wineobs');
+				$clientEmail->subject(__('WineObs - Booking confirmation'));
+				//Wineries Emails
+				$clientEmail->template('wineobs_winery_reserve_confirmation', 'wineobs');
+				$clientEmail->subject('Nueva Reserva: '.$payment_info['response']['collection']['external_reference']['client_name']);
+				foreach ($reserves as $reserve) {
+					$wineryEmail->to($reserve['Tour']['Winery']['email']);
+					$wineryEmail->viewVars(array('winery_name' => $reserve['Tour']['Winery']['name']));
+					$wineryEmail->viewVars(array('tour_name' => $reserve['Tour']['name']));
+					$wineryEmail->viewVars(array('time' => $reserve['Reserve']['time']));
+
+					$wineryEmail->send();
+				}
 				break;
 			// case "pending":
 			// 	//Enviar mail
-			// 	$Email->template('wineobs_payment_pending', 'wineobs');
-			// 	$Email->subject(__('Pago pendiente'));
+			// 	$clientEmail->template('wineobs_payment_pending', 'wineobs');
+			// 	$clientEmail->subject(__('Pago pendiente'));
 			// 	break;
 			// case "in_process":
 			// 	//Enviar mail
-			// 	$Email->template('wineobs_payment_in_process', 'wineobs');
-			// 	$Email->subject(__('Procesando pago'));
+			// 	$clientEmail->template('wineobs_payment_in_process', 'wineobs');
+			// 	$clientEmail->subject(__('Procesando pago'));
 			// 	break;
 			// case "rejected":
 			// 	//Enviar mail
-			// 	$Email->template('wineobs_payment_rejected', 'wineobs');
-			// 	$Email->subject(__('Pago rechazado'));
+			// 	$clientEmail->template('wineobs_payment_rejected', 'wineobs');
+			// 	$clientEmail->subject(__('Pago rechazado'));
 			// 	break;
 			case "cancelled":
 				//Enviar mail
-				$Email->template('wineobs_payment_cancelled', 'wineobs');
-				$Email->subject(__('Pago cancelado'));
+				$clientEmail->template('wineobs_payment_cancelled', 'wineobs');
+				$clientEmail->subject(__('Pago cancelado'));
 				break;
 			case "refunded":
 				//Enviar mail
-				$Email->template('wineobs_payment_refunded', 'wineobs');
-				$Email->subject(__('Pago reintegrado'));
+				$clientEmail->template('wineobs_payment_refunded', 'wineobs');
+				$clientEmail->subject(__('Pago reintegrado'));
 				break;
 			case "charged_back":
 				//Enviar mail
-				$Email->template('wineobs_payment_charged_back', 'wineobs');
-				$Email->subject(__('Pago reintegrado'));
+				$clientEmail->template('wineobs_payment_charged_back', 'wineobs');
+				$clientEmail->subject(__('Pago reintegrado'));
 				break;
 		}
 
-		$Email->send();
+		$clientEmail->send();
 	}
 
 	public function edit() {
