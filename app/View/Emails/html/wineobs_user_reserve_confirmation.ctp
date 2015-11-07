@@ -73,7 +73,7 @@
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<?php echo __("GPS Coord."); ?>: <b><?php echo $reserve['Tour']['Winery']['latitude']; ?>, <?php echo $reserve['Tour']['Winery']['longitude']; ?></b>
 												<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-													<a href="https://www.google.com/maps/@<?php echo $reserve['Tour']['Winery']['latitude']; ?>,<?php echo $reserve['Tour']['Winery']['longitude']; ?>,12.25z" style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;color:#9E4B55;text-decoration:none" target="_blank">
+													<a href="https://www.google.com/maps?q=loc:<?php echo $reserve['Tour']['Winery']['latitude']; ?>,<?php echo $reserve['Tour']['Winery']['longitude']; ?>" style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;color:#9E4B55;text-decoration:none" target="_blank">
 														<?php echo __("Show map"); ?>
 													</a>
 												</div>
