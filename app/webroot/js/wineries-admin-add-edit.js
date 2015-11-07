@@ -12,6 +12,10 @@ var WineryAdminAddEdit = {
 				'data[Winery][name]': {
 					required: true
 				},
+				'data[Winery][email]': {
+					required: true,
+					email: true
+				},
 				'data[Winery][city]': {
 					required: true
 				},

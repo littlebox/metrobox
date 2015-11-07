@@ -34,6 +34,7 @@
 
 				<?php
 					echo $this->Form->input('name');
+					echo $this->Form->input('email');
 				?>
 
 				<div id="gmap_geocoding_all">
@@ -181,7 +182,7 @@
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('wineries-admin-add-edit.js');?>
+	<?= $this->Html->script('wineries-admin-add-edit.js?20151107');?>
 	<script>
 		//drop zone variables
 		imageCounter = 0;
