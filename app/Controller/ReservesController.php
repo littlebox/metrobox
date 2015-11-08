@@ -273,7 +273,7 @@ class ReservesController extends AppController {
 		$params = ["access_token" => $mp->get_access_token()];
 		$payment_info = $mp->get_payment_info($_GET["id"]);
 
-		file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
+		// file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
 
 		//Set language
 		if ($payment_info['response']['collection']['external_reference']['language_id'] == 1) {
@@ -338,7 +338,7 @@ class ReservesController extends AppController {
 			),
 		));
 
-		file_put_contents(APP.'/reserves.txt', json_encode($reserves), FILE_APPEND);
+		// file_put_contents(APP.'/reserves.txt', json_encode($reserves), FILE_APPEND);
 
 		//Client Email
 		$clientEmail = new CakeEmail();
