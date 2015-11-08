@@ -30,7 +30,7 @@
 							</strong>
 							<br>
 							<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								Hora: <?php echo $time; ?>
+								Hora: <?php echo substr($time, 0, -3); ?> Hs.
 							</strong>
 							<br>
 							<strong style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
@@ -72,13 +72,13 @@
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												Nombre: <b><?php echo $client_name; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
+												Fecha de nacimiento: <b><?php echo $client_birth_date; ?></b>
+												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												País de origen: <b><?php echo $client_country; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												Email: <b><?php echo $client_email; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												Teléfono: <b><?php echo $client_phone; ?>Hs</b>
-												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												País de Origen: <b><?php echo $client_birth_date; ?></b>
+												Teléfono: <b><?php echo $client_phone; ?></b>
 											</td>
 										</tr>
 									</tbody>

@@ -63,7 +63,7 @@
 												<?php echo $reserve['Tour']['Winery']['name']; ?>
 												</strong>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Time"); ?>: <b><?php echo $reserve['Reserve']['time']; ?></b>
+												<?php echo __("Time"); ?>: <b><?php echo substr($reserve['Reserve']['time'], 0, -3); ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<?php echo __("Tour"); ?>: <b><?php echo $reserve['Tour']['name']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">

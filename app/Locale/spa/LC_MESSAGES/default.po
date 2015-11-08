@@ -1463,6 +1463,9 @@ msgstr "WineObs - Confirmación de reserva"
 msgid "Thank you for booking with WineObs!"
 msgstr "¡Gracias por reservar con WineObs!"
 
+msgid "Itinerary"
+msgstr "Itinerario"
+
 msgid "Your reservations:"
 msgstr "A continuación podrá ver el detalle de su/s reserva/s:"
 
@@ -1476,7 +1479,7 @@ msgid "Cancel reservations"
 msgstr "Cancelar reservas"
 
 msgid "Show map"
-msgstr "Ver ubicación"
+msgstr "Ver ubicación en mapa"
 
 msgid "GPS Coord."
 msgstr "Coordenadas GPS"

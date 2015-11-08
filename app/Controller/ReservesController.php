@@ -279,10 +279,17 @@ class ReservesController extends AppController {
 		if ($payment_info['response']['collection']['external_reference']['language_id'] == 1) {
 			Configure::write('Config.language', 'spa');
 			$language = __('Spanish');
+			//Convert date Y-m-d to d/m/Y format to show in frontend
+			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
 		}elseif($payment_info['response']['collection']['external_reference']['language_id'] == 2){
 			Configure::write('Config.language', 'eng');
 			$language = __('English');
+			//Convert date Y-m-d to d/m/Y format to show in frontend
+			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('m/d/Y');
 		}
+		//Spanish format date
+		$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
+		$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['client_birth_date'])->format('d/m/Y');
 
 		$ids = $payment_info['response']['collection']['external_reference']['reserves_ids'];
 		foreach ($ids as &$id) {
@@ -342,7 +349,7 @@ class ReservesController extends AppController {
 		$clientEmail->viewVars(array('reserves' => $reserves));
 		$clientEmail->viewVars(array('client_name' => $payment_info['response']['collection']['external_reference']['client_name']));
 		$clientEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
-		$clientEmail->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
+		$clientEmail->viewVars(array('date' => $formated_date));
 		$clientEmail->viewVars(array('language' => $language));
 		$clientEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
 		$clientEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
@@ -358,9 +365,9 @@ class ReservesController extends AppController {
 		$wineryEmail->viewVars(array('client_email' => $payment_info['response']['collection']['external_reference']['client_email']));
 		$wineryEmail->viewVars(array('client_country' => $payment_info['response']['collection']['external_reference']['client_country']));
 		$wineryEmail->viewVars(array('client_phone' => $payment_info['response']['collection']['external_reference']['client_phone']));
-		$wineryEmail->viewVars(array('client_birth_date' => $payment_info['response']['collection']['external_reference']['client_birth_date']));
+		$wineryEmail->viewVars(array('client_birth_date' => $spanish_formated_birth_date));
 		$wineryEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
-		$wineryEmail->viewVars(array('date' => $payment_info['response']['collection']['external_reference']['date']));
+		$wineryEmail->viewVars(array('date' => $spanish_formated_date));
 		$wineryEmail->viewVars(array('language' => $language));
 		$wineryEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
 		$wineryEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
