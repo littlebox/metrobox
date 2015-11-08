@@ -232,7 +232,7 @@ class ReservesController extends AppController {
 					'email' => $this->request->data['Client']['email'],
 				),
 				'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
-				'external_reference' => json_encode(array(
+				'external_reference' => array(
 					'reserves_ids' => $newIds,
 					'date' => $this->request->data['Reserve']['date'],
 					'language_id' => $this->request->data['Reserve']['language_id'],
@@ -243,7 +243,7 @@ class ReservesController extends AppController {
 					'client_country' => $this->request->data['Client']['country'],
 					'client_phone' => $this->request->data['Client']['phone'],
 					'client_birth_date' => $this->request->data['Client']['birth_date'],
-				)),
+				),
 				// 'external_reference' => $newIds,
 				'back_urls' => array(
 					'success' => 'http://alpha.wineobs.com/payment_success',
@@ -372,8 +372,8 @@ class ReservesController extends AppController {
 				$clientEmail->template('wineobs_user_reserve_confirmation', 'wineobs');
 				$clientEmail->subject(__('WineObs - Booking confirmation'));
 				//Wineries Emails
-				$clientEmail->template('wineobs_winery_reserve_confirmation', 'wineobs');
-				$clientEmail->subject('Nueva Reserva: '.$payment_info['response']['collection']['external_reference']['client_name']);
+				$wineryEmail->template('wineobs_winery_reserve_confirmation', 'wineobs');
+				$wineryEmail->subject('Nueva Reserva: '.$payment_info['response']['collection']['external_reference']['client_name']);
 				foreach ($reserves as $reserve) {
 					$wineryEmail->to($reserve['Tour']['Winery']['email']);
 					$wineryEmail->viewVars(array('winery_name' => $reserve['Tour']['Winery']['name']));
