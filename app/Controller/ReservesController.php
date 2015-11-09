@@ -12,7 +12,7 @@ class ReservesController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('api_add','mp_notification');
+		$this->Auth->allow('api_add','mp_notification', 'cancel');
 	}
 
 
@@ -292,6 +292,8 @@ class ReservesController extends AppController {
 		$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['client_birth_date'])->format('d/m/Y');
 
 		$ids = $payment_info['response']['collection']['external_reference']['reserves_ids'];
+		$encoded_ids = urlencode($this->encrypt_decrypt('encrypt', json_encode($ids)));
+
 		foreach ($ids as &$id) {
 			$reserve = $this->Reserve->find('first',array(
 				'conditions' => array('Reserve.id' => $id),
@@ -354,6 +356,8 @@ class ReservesController extends AppController {
 		$clientEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
 		$clientEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
 		$clientEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
+		$clientEmail->viewVars(array('encoded_ids' => $encoded_ids));
+
 
 		//Winery Email
 		$wineryEmail = new CakeEmail();
@@ -665,6 +669,40 @@ class ReservesController extends AppController {
 			$this->Session->setFlash(__('Reserve was not deleted'), 'metrobox/flash_danger');
 			return $this->redirect(array('action' => 'index'));
 		}
+	}
+
+	public function cancel() {
+		if(empty($this->request->data['code'])){
+			throw new NotFoundException(__('No parameters.'));
+		}
+
+		$decoded_array = json_decode($this->encrypt_decrypt('decrypt', urldecode($this->request->data['code'])));
+		debug($decoded_array);die();
+
+	}
+
+	private function encrypt_decrypt($action, $string) {
+		$output = false;
+
+		$encrypt_method = "AES-256-CBC";
+		$secret_key = Configure::read('Security.salt');
+		$secret_iv = Configure::read('Security.cipherSeed');
+
+		// hash
+		$key = hash('sha256', $secret_key);
+
+		// iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+		$iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+		if( $action == 'encrypt' ) {
+			$output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+			$output = base64_encode($output);
+		}
+		else if( $action == 'decrypt' ){
+			$output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+		}
+
+		return $output;
 	}
 
 	/* SECURITY CHECK */
