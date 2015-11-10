@@ -693,7 +693,7 @@ class ReservesController extends AppController {
 				'error' => array(),
 			);
 
-			$decoded_array = json_decode($this->encrypt_decrypt('decrypt', urldecode($this->request->data['code'])));
+			$decoded_array = json_decode($this->encrypt_decrypt('decrypt', urldecode($this->request->data['code'])), true);
 			// debug($decoded_array);die();
 
 			//Spanish format date
