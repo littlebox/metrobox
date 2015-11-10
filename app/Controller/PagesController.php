@@ -51,6 +51,11 @@ class PagesController extends AppController {
  */
 
 	public function send_email() {
+		// $this->request->allowMethod('ajax'); //Only Ajax
+		header('Access-Control-Allow-Origin:*');
+
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
 
 		//Render always as json
 		$this->RequestHandler->renderAs($this, 'json');
