@@ -674,12 +674,99 @@ class ReservesController extends AppController {
 	}
 
 	public function cancel() {
-		if(empty($this->request->data['code'])){
-			throw new NotFoundException(__('No parameters.'));
-		}
+		// $this->request->allowMethod('ajax'); //Only Ajax
+		header('Access-Control-Allow-Origin:*');
 
-		$decoded_array = json_decode($this->encrypt_decrypt('decrypt', urldecode($this->request->data['code'])));
-		debug($decoded_array);die();
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		//Check if request is post or put
+		if ($this->request->is('post') || $this->request->is('put')) {
+
+			if(empty($this->request->data['code'])){
+				throw new NotFoundException(__('No parameters.'));
+			}
+
+			//Prepare response array
+			$data = array(
+				'content' => '',
+				'error' => array(),
+			);
+
+			$decoded_array = json_decode($this->encrypt_decrypt('decrypt', urldecode($this->request->data['code'])));
+			debug($decoded_array);die();
+
+			//Spanish format date
+			$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $decoded_array['date'])->format('d/m/Y');
+			$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $decoded_array['client_birth_date'])->format('d/m/Y');
+
+			//Get all reserves
+			$reserves = $this->Reserve->find('all', array(
+				'fields' => array(
+					'id',
+					'time',
+				),
+				'contain' => array(
+					'Tour' => array(
+						'Winery' => array(
+							'fields' => array(
+								'id',
+								'name',
+								'email',
+								'address',
+								'latitude',
+								'longitude',
+							),
+						),
+						'fields' => array(
+							'id',
+							'name',
+							'length',
+						),
+					),
+				),
+				'conditions' => array(
+					'Reserve.id' => $decoded_array['reserves_ids'],
+				),
+			));
+
+			//Winery Email
+			$Email = new CakeEmail();
+			$Email->config('smtp'); //read settings from config/email.php
+			$Email->emailFormat('html');
+
+			$Email->viewVars(array('reserves' => $reserves));
+			$Email->viewVars(array('client_name' => $decoded_array['client_name']));
+			$Email->viewVars(array('client_email' => $decoded_array['client_email']));
+			$Email->viewVars(array('client_country' => $decoded_array['client_country']));
+			$Email->viewVars(array('client_phone' => $decoded_array['client_phone']));
+			$Email->viewVars(array('client_birth_date' => $spanish_formated_birth_date));
+			$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+			$Email->viewVars(array('date' => $spanish_formated_date));
+			$Email->viewVars(array('language' => $language));
+			$Email->viewVars(array('number_of_adults' => $decoded_array['number_of_adults']));
+			$Email->viewVars(array('number_of_minors' => $decoded_array['number_of_minors']));
+			$Email->viewVars(array('total' => $decoded_array['total']));
+
+			//Client Email
+			$clientEmail->template('wineobs_admin_reserve_cancelation', 'wineobs');
+			$clientEmail->subject();
+			//Wineries Emails
+			$Email->template('wineobs_winery_reserve_confirmation', 'wineobs');
+			$Email->subject('Nueva Reserva: '.$decoded_array['client_name']);
+			foreach ($reserves as $reserve) {
+				$Email->to($reserve['Tour']['Winery']['email']);
+				$Email->viewVars(array('winery_name' => $reserve['Tour']['Winery']['name']));
+				$Email->viewVars(array('tour_name' => $reserve['Tour']['name']));
+				$Email->viewVars(array('time' => $reserve['Reserve']['time']));
+
+				$Email->send();
+			}
+
+
+		}else{
+			throw new MethodNotAllowedException(__('Only POST or PUT'));
+		}
 
 	}
 
