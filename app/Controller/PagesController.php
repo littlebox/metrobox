@@ -57,23 +57,20 @@ class PagesController extends AppController {
 		//Render always as json
 		$this->RequestHandler->renderAs($this, 'json');
 
-		//Render always as json
-		$this->RequestHandler->renderAs($this, 'json');
-
 		if ($this->request->is('post')) {
 
-			debug($this->request->data);die();
+			// debug($this->request->data);die();
 
 			$Email = new CakeEmail();
 			$Email->config('smtp'); //read settings from config/email.php
 			$Email->template('wineobs_contact', 'wineobs');
 			$Email->emailFormat('html');
 			$Email->to('info@wineobs.com');
-			$Email->replyTo($this->request->data['email']);
+			$Email->replyTo($this->request->data['mail']['mail']);
 			$Email->subject('Mensaje desde wineobs.com');
-			$Email->viewVars(array('name' => $this->request->data['name']));
-			$Email->viewVars(array('email' => $this->request->data['email']));
-			$Email->viewVars(array('message' => $this->request->data['message']));
+			$Email->viewVars(array('name' => $this->request->data['mail']['user']));
+			$Email->viewVars(array('email' => $this->request->data['mail']['mail']));
+			$Email->viewVars(array('message' => $this->request->data['mail']['content']));
 			$Email->send(); //If this fail, internally throw an exception
 
 			$data = array(
