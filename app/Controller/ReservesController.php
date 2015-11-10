@@ -243,6 +243,7 @@ class ReservesController extends AppController {
 					'client_country' => $this->request->data['Client']['country'],
 					'client_phone' => $this->request->data['Client']['phone'],
 					'client_birth_date' => $this->request->data['Client']['birth_date'],
+					'total' => $price,
 				),
 				// 'external_reference' => $newIds,
 				'back_urls' => array(
@@ -751,7 +752,6 @@ class ReservesController extends AppController {
 			$Email->viewVars(array('client_country' => $decoded_array['client_country']));
 			$Email->viewVars(array('client_phone' => $decoded_array['client_phone']));
 			$Email->viewVars(array('client_birth_date' => $spanish_formated_birth_date));
-			$Email->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
 			$Email->viewVars(array('date' => $spanish_formated_date));
 			$Email->viewVars(array('language' => $language));
 			$Email->viewVars(array('number_of_adults' => $decoded_array['number_of_adults']));

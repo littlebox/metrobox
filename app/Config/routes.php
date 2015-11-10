@@ -28,7 +28,7 @@
  * General routes
  */
 	Router::connect('/', array('controller' => 'reserves', 'action' => 'index'));
-	Router::connect('/test', array('controller' => 'pages', 'action' => 'test'));
+	Router::connect('/send_email', array('controller' => 'pages', 'action' => 'send_email'));
 
 /**
  * Login routes
