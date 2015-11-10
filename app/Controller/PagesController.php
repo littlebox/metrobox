@@ -78,7 +78,7 @@ class PagesController extends AppController {
 				'error' => '',
 			);
 
-			$data['content'] = __('¡Gracias por colaborar con BeBusca!');
+			$data['content'] = __('¡Gracias por contactarnos, nos comunicaremos a la brevedad!');
 
 			$this->set(compact('data')); // Pass $data to the view
 			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
