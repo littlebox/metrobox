@@ -52,13 +52,15 @@ class PagesController extends AppController {
 
 		if ($this->request->is('post')) {
 
+			debug($this->request->data);die();
+
 			$Email = new CakeEmail();
 			$Email->config('smtp'); //read settings from config/email.php
-			$Email->template('bebusca_contact', 'bebusca');
+			$Email->template('wineobs_contact', 'wineobs');
 			$Email->emailFormat('html');
-			$Email->to(Configure::read('__email_admin'));
+			$Email->to('info@wineobs.com');
 			$Email->replyTo($this->request->data['email']);
-			$Email->subject('Mensaje desde BeBusca.com');
+			$Email->subject('Mensaje desde wineobs.com');
 			$Email->viewVars(array('name' => $this->request->data['name']));
 			$Email->viewVars(array('email' => $this->request->data['email']));
 			$Email->viewVars(array('message' => $this->request->data['message']));
