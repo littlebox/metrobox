@@ -694,11 +694,18 @@ class ReservesController extends AppController {
 			);
 
 			$decoded_array = json_decode($this->encrypt_decrypt('decrypt', urldecode($this->request->data['code'])));
-			debug($decoded_array);die();
+			// debug($decoded_array);die();
 
 			//Spanish format date
 			$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $decoded_array['date'])->format('d/m/Y');
 			$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $decoded_array['client_birth_date'])->format('d/m/Y');
+
+			//Set language
+			if ($decoded_array['language_id'] == 1) {
+				$language = 'Español';
+			}elseif($decoded_array['language_id'] == 2){
+				$language = 'Inglés';
+			}
 
 			//Get all reserves
 			$reserves = $this->Reserve->find('all', array(
@@ -734,6 +741,9 @@ class ReservesController extends AppController {
 			$Email = new CakeEmail();
 			$Email->config('smtp'); //read settings from config/email.php
 			$Email->emailFormat('html');
+			$Email->to('nicolaspennesi@gmail.com');
+			$Email->template('wineobs_admin_reserve_cancelation', 'wineobs');;
+			$Email->subject('Solicitud de cancelación de reserva(s)');
 
 			$Email->viewVars(array('reserves' => $reserves));
 			$Email->viewVars(array('client_name' => $decoded_array['client_name']));
@@ -748,20 +758,12 @@ class ReservesController extends AppController {
 			$Email->viewVars(array('number_of_minors' => $decoded_array['number_of_minors']));
 			$Email->viewVars(array('total' => $decoded_array['total']));
 
-			//Client Email
-			$clientEmail->template('wineobs_admin_reserve_cancelation', 'wineobs');
-			$clientEmail->subject();
-			//Wineries Emails
-			$Email->template('wineobs_winery_reserve_confirmation', 'wineobs');
-			$Email->subject('Nueva Reserva: '.$decoded_array['client_name']);
-			foreach ($reserves as $reserve) {
-				$Email->to($reserve['Tour']['Winery']['email']);
-				$Email->viewVars(array('winery_name' => $reserve['Tour']['Winery']['name']));
-				$Email->viewVars(array('tour_name' => $reserve['Tour']['name']));
-				$Email->viewVars(array('time' => $reserve['Reserve']['time']));
+			$Email->send();
 
-				$Email->send();
-			}
+			$data['content'] = __('The cancellation request was sent successfully. We will contact you soon.');
+
+			$this->set(compact('data')); // Pass $data to the view
+			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 
 
 		}else{

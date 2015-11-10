@@ -1499,3 +1499,8 @@ msgstr "Inglés"
 msgid "Spanish"
 msgstr "Español"
 
+msgid "The cancellation request was sent successfully. We will contact you soon."
+msgstr "El pedido de cancelación fué enviado con éxito. Pronto nos contactaremos con usted."
+
+
+
