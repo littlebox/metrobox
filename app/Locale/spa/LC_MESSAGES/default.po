@@ -56,7 +56,7 @@ msgstr "Seleccione un referido..."
 msgid "Referer"
 msgstr "Referido"
 
-msgid "All reserves were been realized."
+msgid "Reservations were made successfully."
 msgstr "Las reservas fueron realizadas con éxito."
 
 

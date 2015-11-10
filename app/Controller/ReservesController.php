@@ -200,7 +200,7 @@ class ReservesController extends AppController {
 				}
 				if(!$hasError){
 					$data['content']['title'] = __('Good.');
-					$data['content']['text'] = __('The reserves were been realized.');
+					$data['content']['text'] = __('Reservations were made successfully.');
 				}
 				$tourData = $this->Reserve->Tour->find('first',array(
 					'conditions' => array(
@@ -218,10 +218,10 @@ class ReservesController extends AppController {
 				$title .=')';
 
 				array_push($items, array(
-					"title" => $title,
-					"currency_id" => "ARS", // Available currencies at: https://api.mercadopago.com/currencies
-					"unit_price" => $price,
-					"quantity" => 1,
+					'title' => $title,
+					'currency_id' => 'ARS', // Available currencies at: https://api.mercadopago.com/currencies
+					'unit_price' => $price,
+					'quantity' => 1,
 				));
 			}
 
@@ -291,8 +291,10 @@ class ReservesController extends AppController {
 		$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
 		$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['client_birth_date'])->format('d/m/Y');
 
+		//Encode data for cancel button
+		$encoded_data = urlencode($this->encrypt_decrypt('encrypt', json_encode($payment_info['response']['collection']['external_reference'])));
+
 		$ids = $payment_info['response']['collection']['external_reference']['reserves_ids'];
-		$encoded_ids = urlencode($this->encrypt_decrypt('encrypt', json_encode($ids)));
 
 		foreach ($ids as &$id) {
 			$reserve = $this->Reserve->find('first',array(
@@ -356,7 +358,7 @@ class ReservesController extends AppController {
 		$clientEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
 		$clientEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
 		$clientEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
-		$clientEmail->viewVars(array('encoded_ids' => $encoded_ids));
+		$clientEmail->viewVars(array('encoded_data' => $encoded_data));
 
 
 		//Winery Email
