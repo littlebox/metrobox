@@ -412,20 +412,20 @@ class ReservesController extends AppController {
 			// 	$clientEmail->template('wineobs_payment_rejected', 'wineobs');
 			// 	$clientEmail->subject(__('Pago rechazado'));
 			// 	break;
+			// case "refunded":
+			// 	//Enviar mail
+			// 	$clientEmail->template('wineobs_payment_refunded', 'wineobs');
+			// 	$clientEmail->subject(__('Pago reintegrado'));
+			// 	break;
+			// case "charged_back":
+			// 	//Enviar mail
+			// 	$clientEmail->template('wineobs_payment_charged_back', 'wineobs');
+			// 	$clientEmail->subject(__('Pago reintegrado'));
+			// 	break;
 			case "cancelled":
 				//Enviar mail
-				$clientEmail->template('wineobs_payment_cancelled', 'wineobs');
-				$clientEmail->subject(__('Pago cancelado'));
-				break;
-			case "refunded":
-				//Enviar mail
-				$clientEmail->template('wineobs_payment_refunded', 'wineobs');
-				$clientEmail->subject(__('Pago reintegrado'));
-				break;
-			case "charged_back":
-				//Enviar mail
-				$clientEmail->template('wineobs_payment_charged_back', 'wineobs');
-				$clientEmail->subject(__('Pago reintegrado'));
+				$clientEmail->template('wineobs_user_reserve_payment_canceled', 'wineobs');
+				$clientEmail->subject(__('WineObs - Your Booking could not be confirmed'));
 				break;
 		}
 

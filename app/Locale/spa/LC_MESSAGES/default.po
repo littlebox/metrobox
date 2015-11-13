@@ -1460,6 +1460,9 @@ msgstr "No se pudo cambiar la asistencia de la reserva."
 msgid "WineObs - Booking confirmation"
 msgstr "WineObs - Confirmación de reserva"
 
+msgid "WineObs - Your Booking could not be confirmed"
+msgstr "WineObs - Su reserva no pudo ser completada"
+
 msgid "Thank you for booking with WineObs!"
 msgstr "¡Gracias por reservar con WineObs!"
 
@@ -1502,8 +1505,19 @@ msgstr "Español"
 msgid "Duartion"
 msgstr "Duarción"
 
+msgid "Dear"
+msgstr "Estimado"
+
+msgid "Regards"
+msgstr "Muchas gracias"
+
 msgid "The cancellation request was sent successfully. We will contact you soon."
 msgstr "El pedido de cancelación fué enviado con éxito. Pronto nos contactaremos con usted."
+
+msgid "Your reservation could not be confirmed. Please check your payment method and try again."
+msgstr "Su reserva no pudo ser confirmada debido a problemas con el medio de pago. Por favor intente nuevamente."
+
+
 
 
 
