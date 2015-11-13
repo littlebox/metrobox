@@ -67,7 +67,7 @@
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<?php echo __("Tour"); ?>: <b><?php echo $reserve['Tour']['name']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-												<?php echo __("Length"); ?>: <b><?php echo $reserve['Tour']['length']; ?>Hs</b>
+												<?php echo __("Duration"); ?>: <b><?php echo $reserve['Tour']['length']; ?>Hs</b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 												<?php echo __("Address"); ?>: <b><?php echo $reserve['Tour']['Winery']['address']; ?></b>
 												<br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
@@ -120,7 +120,7 @@
 								<?php echo __("Cancellation policy"); ?>
 							</div>
 							<div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-								<?php echo __("Full refund until 3 days before booking date."); ?>
+								<?php echo __("Full refund until 3 days before the booking date."); ?>
 							</div>
 						</div>
 					</div>
