@@ -80,6 +80,8 @@ class ReservesController extends AppController {
 				$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
 			}
 
+			//Generate token for review
+			$this->request->data['Reserve']['review_token'] = Security::hash(String::uuid(),'sha512',true);
 
 			//if the client exist, put the id in the request data array
 			// if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
@@ -170,6 +172,7 @@ class ReservesController extends AppController {
 			$this->request->data['Reserve']['number_of_minors'] = $json['reserves']['minors'];
 			$this->request->data['Reserve']['referer'] = 'Web Wineobs';
 			$this->request->data['Reserve']['from_web'] = true;
+			$this->request->data['Reserve']['review_token'] = Security::hash(String::uuid(),'sha512',true);
 
 			//TODO: Check quota available for each tour
 
