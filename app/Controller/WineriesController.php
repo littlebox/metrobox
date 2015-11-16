@@ -184,6 +184,9 @@ class WineriesController extends AppController {
 						'minors_price',
 						'description'
 					),
+					'conditions' => array(
+						'Tour.visible' => true,
+					);
 					'Time' => array(
 						'id',
 						'hour',
