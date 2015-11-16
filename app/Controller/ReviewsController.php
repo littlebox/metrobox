@@ -58,6 +58,10 @@ class ReviewsController extends AppController {
 			),
 		));
 
+		if(empty($reserves)){
+			throw new NotFoundException(__('No reserves to review'));
+		}
+
 		$wineries = [];
 
 		foreach ($reserves as $reserve) {
@@ -93,7 +97,43 @@ class ReviewsController extends AppController {
 
 			//Decode all data recived
 			$json = json_decode($this->request->data['json'], true);
-			// debug($json);die();
+			debug($json);die();
+
+			$this->loadModel('Reserve');
+
+			$reserves = $this->Reserve->find('all', array(
+				'conditions' => array(
+					'review_token' => $this->request['named']['token'],
+				),
+				'fields' => array(
+					'id',
+				),
+				'contain' => array(
+					'Tour' => array(
+						'fields' => array(
+							'id',
+						),
+						'Winery' => array(
+							'fields' => array(
+								'id',
+							),
+						),
+
+					),
+				),
+			));
+
+			if(empty($reserves)){
+				throw new NotFoundException(__('No reserves to review'));
+			}
+
+			$allowed_wineries_ids = [];
+
+			foreach ($reserves as $reserve) {
+				$wineries[] = $reserve['Tour']['Winery']['id'];
+			}
+
+			unset($reserves);
 
 
 		// 	$this->request->data['Client'] = [];
