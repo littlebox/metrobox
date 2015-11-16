@@ -24,11 +24,53 @@ class ReviewsController extends AppController {
 			throw new NotFoundException(__('No token'));
 		}
 
-		// $wineries = $this->Winery->find('all', $options);
+		$this->loadModel('Reserve');
+
+		$reserves = $this->Reserve->find('all', array(
+			'conditions' => array(
+				'review_token' => $this->request['named']['token'],
+			),
+			'fields' => array(
+				'id',
+			),
+			'contain' => array(
+				'Tour' => array(
+					'fields' => array(
+						'id',
+						'name',
+					),
+					'Winery' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'has_logo'
+						),
+						'Image' => array(
+							'fields' => array(
+								'id',
+							),
+							'order' => 'Image.created desc',
+							'limit' => 1,
+						),
+					),
+
+				),
+			),
+		));
+
+		$wineries = [];
+
+		foreach ($reserves as $reserve) {
+			$wineries[$reserve['Tour']['Winery']['id']] = $reserve['Tour']['Winery'];
+		}
+
+		unset($reserves);
+
+		// debug($wineries);die();
 
 
-		// $this->set(compact('wineries')); // Pass $data to the view
-		// $this->set('_serialize', 'wineries'); // Let the JsonView class know what variable to use
+		$this->set(compact('wineries')); // Pass $data to the view
+		$this->set('_serialize', 'wineries'); // Let the JsonView class know what variable to use
 
 	}
 
@@ -161,6 +203,8 @@ class ReviewsController extends AppController {
 		// }else{
 		// 	throw new MethodNotAllowedException(__('Only POST or PUT'));
 		// }
+
+		}
 
 	}
 
