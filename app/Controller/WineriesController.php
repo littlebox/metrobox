@@ -186,7 +186,7 @@ class WineriesController extends AppController {
 					),
 					'conditions' => array(
 						'Tour.visible' => true,
-					);
+					),
 					'Time' => array(
 						'id',
 						'hour',
