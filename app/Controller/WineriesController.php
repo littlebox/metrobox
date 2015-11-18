@@ -194,6 +194,7 @@ class WineriesController extends AppController {
 						'name',
 					)
 				),
+				'Review',
 			),
 			'group' => 'Winery.id',
 			'conditions'=> array(

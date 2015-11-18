@@ -10,7 +10,7 @@ class ReviewsController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('add', 'get_wineries_to_review');
+		$this->Auth->allow('add', 'get_wineries_to_review', 'send_emails');
 	}
 
 	public function get_wineries_to_review() {
@@ -157,7 +157,6 @@ class ReviewsController extends AppController {
 
 
 			$review = [];
-			$hasError = false;
 
 			foreach ($this->request->data['review'] as $key => $value) {
 				$review['Review']['winerie_id'] = $key;
@@ -185,6 +184,82 @@ class ReviewsController extends AppController {
 			}
 
 		}
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+
+	}
+
+	public function send_emails() {
+
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		$this->loadModel('Reserve');
+
+		$today = date('Y-m-j');
+		$threedaysbeforetoday = strtotime('-3 day', strtotime($today));
+		$threedaysbeforetoday = date('Y-m-j', $threedaysbeforetoday);
+
+		$reserves = $this->Reserve->find('all', array(
+			'conditions' => array(
+				'date' => $threedaysbeforetoday,
+				'review_token IS NOT NULL',
+			),
+			'fields' => array(
+				'id',
+				'review_token',
+				'language_id',
+			),
+			'contain' => array(
+				'Client' => array(
+					'fields' => array(
+						'id',
+						'full_name',
+						'email',
+					),
+				)
+			),
+		));
+
+		if(empty($reserves)){
+			throw new NotFoundException(__('No reserves to review'));
+		}
+
+		//Check if reviews are correspondent to token allowed wineries
+		$tokens = [];
+
+		foreach ($reserves as $reserve) {
+			$tokens[$reserve['Reserve']['review_token']]['client_name'] = $reserve['Client']['full_name'];
+			$tokens[$reserve['Reserve']['review_token']]['client_email'] = $reserve['Client']['email'];
+			$tokens[$reserve['Reserve']['review_token']]['language'] = $reserve['Reserve']['language_id'];
+		}
+
+		// debug($reserves);debug($tokens);die();
+
+		unset($reserves);
+
+		//Client Email
+		$Email = new CakeEmail();
+		$Email->config('smtp'); //read settings from config/email.php
+		$Email->emailFormat('html');
+
+		foreach ($tokens as $key => $value) {
+			//Set language
+			if ($value['language'] == 1) {
+				Configure::write('Config.language', 'spa');
+			}elseif($value['language'] == 2){
+				Configure::write('Config.language', 'eng');
+			}
+			$Email->template('wineobs_user_review_request', 'wineobs');
+			$Email->subject(__('WineObs - Review request'));
+			$Email->to($value['client_email']);
+			$Email->viewVars(array('client_name' => $value['client_name']));
+			$Email->viewVars(array('token' => $key));
+			$Email->send();
+		}
+
+		$data = 'Ok';
 
 		$this->set(compact('data')); // Pass $data to the view
 		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
