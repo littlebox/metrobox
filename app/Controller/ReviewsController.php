@@ -85,6 +85,8 @@ class ReviewsController extends AppController {
 		//Render always as json
 		$this->RequestHandler->renderAs($this, 'json');
 
+
+
 		//Check if request is post or put
 		if ($this->request->is('post') || $this->request->is('put')) {
 
@@ -95,15 +97,11 @@ class ReviewsController extends AppController {
 			);
 			$hasError = false;
 
-			//Decode all data recived
-			$json = json_decode($this->request->data['json'], true);
-			debug($json);die();
-
 			$this->loadModel('Reserve');
 
 			$reserves = $this->Reserve->find('all', array(
 				'conditions' => array(
-					'review_token' => $this->request['named']['token'],
+					'review_token' => $this->request->data['token'],
 				),
 				'fields' => array(
 					'id',
@@ -112,14 +110,15 @@ class ReviewsController extends AppController {
 					'Tour' => array(
 						'fields' => array(
 							'id',
-						),
-						'Winery' => array(
-							'fields' => array(
-								'id',
-							),
+							'winery_id',
 						),
 
 					),
+					'Client' => array(
+						'fields' => array(
+							'id',
+						),
+					)
 				),
 			));
 
@@ -127,124 +126,68 @@ class ReviewsController extends AppController {
 				throw new NotFoundException(__('No reserves to review'));
 			}
 
+			//Check if reviews are correspondent to token allowed wineries
 			$allowed_wineries_ids = [];
+			$reserves_ids = [];
 
 			foreach ($reserves as $reserve) {
-				$wineries[] = $reserve['Tour']['Winery']['id'];
+				$allowed_wineries_ids[] = $reserve['Tour']['winery_id'];
+				$reserves_ids[] = $reserve['Reserve']['id'];
 			}
+
+			$clientId = $reserves[0]['Client']['id'];
 
 			unset($reserves);
 
+			$wineries_ids = [];
 
-		// 	$this->request->data['Client'] = [];
-		// 	$this->request->data['Client']['email'] = $json['personalData']['email'];
-		// 	$this->request->data['Client']['full_name'] = $json['personalData']['fullName'];
-		// 	$this->request->data['Client']['birth_date'] = $json['personalData']['birthDate'];
-		// 	$this->request->data['Client']['country'] = $json['personalData']['country'];
-		// 	$this->request->data['Client']['phone'] = $json['personalData']['phone'];
-		// 	// $this->request->data['Client']['lodging'] = $json['personalData']['lodging'];
+			foreach ($this->request->data['review'] as $key => $value) {
+				$wineries_ids[] = $key;
+			}
 
-		// 	$this->request->data['Reserve'] = [];
-		// 	$this->request->data['Reserve']['date'] = $json['reserves']['date'];
-		// 	$this->request->data['Reserve']['language_id'] = $json['reserves']['language'];
-		// 	$this->request->data['Reserve']['number_of_adults'] = $json['reserves']['adults'];
-		// 	$this->request->data['Reserve']['number_of_minors'] = $json['reserves']['minors'];
-		// 	$this->request->data['Reserve']['referer'] = 'Web Wineobs';
-		// 	$this->request->data['Reserve']['from_web'] = true;
-		// 	$this->request->data['Reserve']['review_token'] = Security::hash(String::uuid(),'sha512',true);
+			$allowed_wineries_ids = array_unique($allowed_wineries_ids);
+			$wineries_ids = array_unique($wineries_ids);
 
-		// 	//TODO: Check quota available for each tour
+			sort($allowed_wineries_ids);
+			sort($wineries_ids);
+
+			if($allowed_wineries_ids != $wineries_ids){
+				throw new MethodNotAllowedException(__('Not allowed to review this wineries'));
+			}
 
 
-		// 	$items = [];
-		// 	$newIds = [];
-		// 	require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
-		// 	$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
-		// 	$mp->sandbox_mode(true);
+			$review = [];
+			$hasError = false;
 
-		// 	foreach ($json['reserves']['tours'] as $tour) {
-		// 		$this->request->data['Reserve']['tour_id'] = $tour['id'];
-		// 		$this->request->data['Reserve']['time'] = $tour['time'];
-		// 		$this->request->data['Reserve']['mp_status'] = 'pending';
+			foreach ($this->request->data['review'] as $key => $value) {
+				$review['Review']['winerie_id'] = $key;
+				$review['Review']['review'] = $value;
+				$review['Review']['client_id'] = $clientId;
 
-		// 		$this->Reserve->create();
+				if(!$this->Review->save($review)){
+					$hasError = true;
+				}
+			}
 
-		// 		if ($this->Reserve->saveAssociated($this->request->data)) {
-		// 			$newIds[] = $this->Reserve->id;
-		// 		}else{
-		// 			// debug($this->Reserve->validationErrors); die();
-		// 			$hasError = true;
-		// 			$data['error'][] = array(
-		// 				'tour' => $tour['id'],
-		// 				'time' => $tour['time'],
-		// 				'text' => __('The reserve could not be saved.')
-		// 			);
-		// 		}
-		// 		if(!$hasError){
-		// 			$data['content']['title'] = __('Good.');
-		// 			$data['content']['text'] = __('Reservations were made successfully.');
-		// 		}
-		// 		$tourData = $this->Reserve->Tour->find('first',array(
-		// 			'conditions' => array(
-		// 				'Tour.id' => $tour['id'],
-		// 			),
-		// 			'contains' => false,
-		// 		));
+			if(!$hasError){
+				$data['content']['title'] = __('Good');
+				$data['content']['text'] = __('Reviews were made successfully.');
 
-		// 		$price = $json['reserves']['adults']*$tourData['Tour']['price'] + $json['reserves']['minors']*$tourData['Tour']['minors_price'];
+				foreach ($reserves_ids as $reserve_id) {
+					$this->Reserve->create();
+					$this->Reserve->id = $reserve_id;
+					$this->Reserve->saveField('review_token', NULL);
+				}
 
-		// 		$title = $tourData['Tour']['name'].' ('.$json['reserves']['adults'].' adultos';
-		// 		if($json['reserves']['minors'] > 0){
-		// 			$title .=', '.$json['reserves']['minors'].' menores';
-		// 		}
-		// 		$title .=')';
-
-		// 		array_push($items, array(
-		// 			'title' => $title,
-		// 			'currency_id' => 'ARS', // Available currencies at: https://api.mercadopago.com/currencies
-		// 			'unit_price' => $price,
-		// 			'quantity' => 1,
-		// 		));
-		// 	}
-
-		// 	$preference_data = array(
-		// 		'items' => $items,
-		// 		'payer' => array(
-		// 			'name' => $this->request->data['Client']['full_name'],
-		// 			'email' => $this->request->data['Client']['email'],
-		// 		),
-		// 		'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
-		// 		'external_reference' => array(
-		// 			'reserves_ids' => $newIds,
-		// 			'date' => $this->request->data['Reserve']['date'],
-		// 			'language_id' => $this->request->data['Reserve']['language_id'],
-		// 			'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
-		// 			'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
-		// 			'client_email' => $this->request->data['Client']['email'],
-		// 			'client_name' => $this->request->data['Client']['full_name'],
-		// 			'client_country' => $this->request->data['Client']['country'],
-		// 			'client_phone' => $this->request->data['Client']['phone'],
-		// 			'client_birth_date' => $this->request->data['Client']['birth_date'],
-		// 			'total' => $price,
-		// 		),
-		// 		// 'external_reference' => $newIds,
-		// 		'back_urls' => array(
-		// 			'success' => 'http://alpha.wineobs.com/payment_success',
-		// 			'pending' => 'http://alpha.wineobs.com/payment_pending',
-		// 			'failure' => 'http://alpha.wineobs.com/payment_failure',
-		// 		),
-		// 	);
-		// 	$preference = $mp->create_preference($preference_data);
-
-		// 	$data['mp_url'] = $preference['response']['sandbox_init_point'];
-
-		// 	$this->set(compact('data')); // Pass $data to the view
-		// 	$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
-		// }else{
-		// 	throw new MethodNotAllowedException(__('Only POST or PUT'));
-		// }
+			}else{
+				$data['error']['title'] = __('Error');
+				$data['error']['text'] = __('Some review could not be saved.');
+			}
 
 		}
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 
 	}
 

@@ -166,6 +166,15 @@ msgstr "Tour incorrecto"
 msgid "Good."
 msgstr "Bien."
 
+msgid "Good"
+msgstr "Bien"
+
+msgid "Reviews were made successfully."
+msgstr "Sus comentarios han sido enviados."
+
+msgid "Some review could not be saved."
+msgstr "No pudimos enviar sus comentarios."
+
 #: Controller/ReservesController.php:78;153
 msgid "The reserve has been saved."
 msgstr "La reserva ha sido guardada."
