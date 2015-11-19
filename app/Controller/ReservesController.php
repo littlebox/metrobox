@@ -741,11 +741,11 @@ class ReservesController extends AppController {
 				),
 			));
 
-			//Winery Email
+			//Admin Email
 			$Email = new CakeEmail();
 			$Email->config('smtp'); //read settings from config/email.php
 			$Email->emailFormat('html');
-			$Email->to('nicolaspennesi@gmail.com');
+			$Email->to('info@wineobs.com');
 			$Email->template('wineobs_admin_reserve_cancelation', 'wineobs');;
 			$Email->subject('Solicitud de cancelación de reserva(s)');
 
