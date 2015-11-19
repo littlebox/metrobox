@@ -59,6 +59,12 @@ msgstr "Referido"
 msgid "Reservations were made successfully."
 msgstr "Las reservas fueron realizadas con éxito."
 
+msgid "Holidays has been saved."
+msgstr "Feriados guardados con éxito."
+
+msgid "Holidays could not be saved. Please, try again."
+msgstr "Hubo algún error al guardar los feriados. Por favor intenta nuevamente."
+
 
 #: Controller/ClientsController.php:39
 msgid "No client found with that email."

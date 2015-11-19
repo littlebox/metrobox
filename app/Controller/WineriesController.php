@@ -108,9 +108,17 @@ class WineriesController extends AppController {
 		$date = $this->request['named']['date']; //Has to be AAAA-MM-DD
 		$language = !empty($this->request['named']['language']) ? $this->request['named']['language'] : 1; //Has to be a language id(if not setted, set to 1 (spanish)
 
-		//Set day of week number (1-7) from date
-		$dateObject = DateTime::createFromFormat('Y-m-d', $date);
-		$dayOfWeek = $dateObject->format('N');
+		//Check if date is holiday in Argentina
+		$this->loadModel('Holiday');
+		$holidays = $this->Holiday->find('list');
+		if(in_array($date, $holidays)){
+			//Set day of week in DB holiday number: 8
+			$dayOfWeek = 8;
+		}else{
+			//Set day of week number (1-7) from date
+			$dateObject = DateTime::createFromFormat('Y-m-d', $date);
+			$dayOfWeek = $dateObject->format('N');
+		}
 
 		//This unbind and bind association allow bringing only tours that have the selected languaje and day of week
 		$this->Winery->unbindModel(array('hasMany' => array('Tour')));

@@ -7,6 +7,13 @@ App::uses('AppModel', 'Model');
 class Holiday extends AppModel {
 
 /**
+ * Display field
+ *
+ * @var string
+ */
+	public $displayField = 'day';
+
+/**
  * Validation rules
  *
  * @var array

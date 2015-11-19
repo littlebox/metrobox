@@ -24,18 +24,20 @@ class HolidaysController extends AppController {
 
 			$holiday_to_save = [];
 			foreach ($this->request->data['Holiday'] as $holiday) {
-				$this->Holiday->create();
-				//Convert date d/m/Y to Y-m-d format tosave in DB
-				$holiday_to_save['Holiday']['day'] = DateTime::createFromFormat('d/m/Y', $holiday)->format('Y-m-d');;
-				if(!$this->Holiday->save($holiday_to_save)){
-					$hasError = true;
+				if(!empty($holiday)){
+					$this->Holiday->create();
+					//Convert date d/m/Y to Y-m-d format tosave in DB
+					$holiday_to_save['Holiday']['day'] = DateTime::createFromFormat('d/m/Y', $holiday)->format('Y-m-d');;
+					if(!$this->Holiday->save($holiday_to_save)){
+						$hasError = true;
+					}
 				}
 			}
 
 			if($hasError){
 				$this->Session->setFlash(__('Holidays could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}else{
-				$this->Session->setFlash(__('Holidays has been saved'), 'metrobox/flash_success');
+				$this->Session->setFlash(__('Holidays has been saved.'), 'metrobox/flash_success');
 			}
 
 			return $this->redirect(array('action' => 'edit', 'admin' => true));
