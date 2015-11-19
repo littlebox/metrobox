@@ -189,12 +189,22 @@ class WineriesController extends AppController {
 						'hour',
 						'quota_available',
 					),
-					'Language'=> array(
+					'Language' => array(
 						'id',
 						'name',
 					)
 				),
-				'Review',
+				'Review' => array(
+					'fields' => array(
+						'review',
+					),
+					'Client' => array(
+						'fields' => array(
+							'full_name',
+							'country',
+						),
+					),
+				),
 			),
 			'group' => 'Winery.id',
 			'conditions'=> array(
