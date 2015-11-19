@@ -53,6 +53,11 @@
 								'href'=>array('controller'=>'users', 'action' => 'index', 'admin' => true),
 								'icon'=>'users',
 							),
+							array(
+								'title'=>__('Holidays'),
+								'href'=>array('controller'=>'holidays', 'action' => 'edit', 'admin' => true),
+								'icon'=>'calendar',
+							),
 							// array(
 							// 	'title'=>__('Site'),
 							// 	'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),

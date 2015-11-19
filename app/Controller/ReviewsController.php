@@ -247,7 +247,7 @@ class ReviewsController extends AppController {
 		foreach ($tokens as $key => $value) {
 			//Set language
 			if ($value['language'] == 1) {
-				Configure::write('Config.language', 'spa');
+				Configure::write('Config.language', 'es');
 			}elseif($value['language'] == 2){
 				Configure::write('Config.language', 'eng');
 			}

@@ -281,7 +281,7 @@ class ReservesController extends AppController {
 
 		//Set language
 		if ($payment_info['response']['collection']['external_reference']['language_id'] == 1) {
-			Configure::write('Config.language', 'spa');
+			Configure::write('Config.language', 'es');
 			$language = __('Spanish');
 			//Convert date Y-m-d to d/m/Y format to show in frontend
 			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');

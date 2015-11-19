@@ -32,3 +32,4 @@ Icon?
 ehthumbs.db
 Thumbs.db
 app/Config/email.php
+app/Console/bake.bat

@@ -169,6 +169,15 @@ msgstr "Bien."
 msgid "Good"
 msgstr "Bien"
 
+msgid "Holidays"
+msgstr "Feriados"
+
+msgid "Holiday"
+msgstr "Feriado"
+
+msgid "Add Holiday"
+msgstr "Agregar Feriado"
+
 msgid "Reviews were made successfully."
 msgstr "Sus comentarios han sido enviados."
 
