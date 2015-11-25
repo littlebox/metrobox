@@ -204,6 +204,7 @@ class ReviewsController extends AppController {
 		$reserves = $this->Reserve->find('all', array(
 			'conditions' => array(
 				'date' => $threedaysbeforetoday,
+				'from_web' => 1,
 				'review_token IS NOT NULL',
 			),
 			'fields' => array(

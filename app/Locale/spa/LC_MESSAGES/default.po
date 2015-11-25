@@ -1518,7 +1518,7 @@ msgid "Cancellation policy"
 msgstr "Política de cancelación"
 
 msgid "Full refund until 3 days before the booking date."
-msgstr "Reembolso total hasta 3 dias antes de la fecha de la reserva."
+msgstr "Reembolso total hasta 3 días antes de la fecha de la reserva."
 
 msgid "Payment method"
 msgstr "Portal del pago utilizado"
