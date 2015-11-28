@@ -73,6 +73,21 @@ class ReservesController extends AppController {
 				'error' => '',
 			);
 
+			//Bring prices
+			$tour_prices = $this->Reserve->Tour->find('first', array(
+				'conditions' => array(
+					'Tour.id' => $this->request->data['Reserve']['tour_id'],
+				),
+				'fields' => array(
+					'id',
+					'price',
+					'minors_price',
+				)
+			));
+			//Set actual prices in reserve
+			$this->request->data['Reserve']['price'] = $tour_prices['Tour']['price'];
+			$this->request->data['Reserve']['minors_price'] = $tour_prices['Tour']['minors_price'];
+
 			//Convert date d/m/Y to Y-m-d format tosave in DB
 			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
 
@@ -187,6 +202,21 @@ class ReservesController extends AppController {
 				$this->request->data['Reserve']['tour_id'] = $tour['id'];
 				$this->request->data['Reserve']['time'] = $tour['time'];
 				$this->request->data['Reserve']['mp_status'] = 'pending';
+
+				//Bring prices
+				$tour_prices = $this->Reserve->Tour->find('first', array(
+					'conditions' => array(
+						'Tour.id' => $this->request->data['Reserve']['tour_id'],
+					),
+					'fields' => array(
+						'id',
+						'price',
+						'minors_price',
+					)
+				));
+				//Set actual prices in reserve
+				$this->request->data['Reserve']['price'] = $tour_prices['Tour']['price'];
+				$this->request->data['Reserve']['minors_price'] = $tour_prices['Tour']['minors_price'];
 
 				$this->Reserve->create();
 
