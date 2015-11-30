@@ -320,6 +320,11 @@ class ReservesController extends AppController {
 			$language = __('English');
 			//Convert date Y-m-d to d/m/Y format to show in frontend
 			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('m/d/Y');
+		}elseif($payment_info['response']['collection']['external_reference']['language_id'] == 3){
+			Configure::write('Config.language', 'pt');
+			$language = __('Portuguese');
+			//Convert date Y-m-d to d/m/Y format to show in frontend
+			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
 		}
 		//Spanish format date
 		$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
@@ -739,6 +744,8 @@ class ReservesController extends AppController {
 				$language = 'Español';
 			}elseif($decoded_array['language_id'] == 2){
 				$language = 'Inglés';
+			}elseif($decoded_array['language_id'] == 3){
+				$language = 'Portugués';
 			}
 
 			//Get all reserves

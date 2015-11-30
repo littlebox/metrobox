@@ -1529,6 +1529,9 @@ msgstr "Inglés"
 msgid "Spanish"
 msgstr "Español"
 
+msgid "Portuguese"
+msgstr "Portugués"
+
 msgid "Duartion"
 msgstr "Duarción"
 

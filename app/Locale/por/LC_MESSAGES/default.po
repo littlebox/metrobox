@@ -1,0 +1,82 @@
+#: MAILS
+msgid "WineObs - Booking confirmation"
+msgstr "WineObs - Confirmação de Reserva"
+
+msgid "WineObs - Your Booking could not be confirmed"
+msgstr "WineObs - A sua reserva não pôde ser concluída"
+
+msgid "WineObs - Review request"
+msgstr "WineObs - Compartilhe conosco sua experiência"
+
+msgid "Thank you for booking with WineObs!"
+msgstr "Obrigado por reservar com o WineObs!"
+
+msgid "Itinerary"
+msgstr "Itinerário"
+
+msgid "Your reservations:"
+msgstr "A seguir pode ver os detalhes de sua/s reserva/s:"
+
+msgid "Adults"
+msgstr "Adultos"
+
+msgid "Childs"
+msgstr "Menores de 18 anos"
+
+msgid "Cancel reservations"
+msgstr "Cancelar reservas"
+
+msgid "Show map"
+msgstr "Ver localização no mapa"
+
+msgid "GPS Coord."
+msgstr "Coordenadas GPS"
+
+msgid "Cancellation policy"
+msgstr "Política de cancelamento"
+
+msgid "Full refund until 3 days before the booking date."
+msgstr "Reembolso completo até 3 dias antes da data da reserva."
+
+msgid "Payment method"
+msgstr "Portal de pagamento utilizado"
+
+msgid "English"
+msgstr "Inglês"
+
+msgid "Spanish"
+msgstr "Espanhol"
+
+msgid "Duartion"
+msgstr "Duração"
+
+msgid "Dear"
+msgstr "Estimado"
+"Estimado"
+
+msgid "Regards"
+msgstr "Muito obrigado"
+
+msgid "Hello"
+msgstr "Olá"
+
+msgid "Send Review"
+msgstr "Envie comentário"
+
+msgid "The cancellation request was sent successfully. We will contact you soon."
+msgstr "A ordem de cancelamento foi enviada. Em breve entraremos em contato com você."
+
+msgid "Your reservation could not be confirmed. Please check your payment method and try again."
+msgstr "A sua reserva não pode ser confirmada devido a problemas com o método de pagamento. Por favor tente novamente."
+
+msgid "Thank you for choosing WineObs! Please take a moment to share your experience with the Wine Lovers community."
+msgstr "Obrigado por escolher o WineObs! Gostaríamos que você compartilhe a sua experiência com o resto dos amantes de vinho da comuniade de Wine Lovers."
+
+msgid "Portuguese"
+msgstr "Português"
+
+msgid "English"
+msgstr "Inglês"
+
+msgid "Spanish"
+msgstr "Espanhol"
