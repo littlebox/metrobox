@@ -490,4 +490,92 @@ class WineriesController extends AppController {
 		}
 
 	}
+
+	public function admin_general_statistics(){
+
+		if ($this->request->is(array('post'))) {
+			//Render always as json
+			$this->RequestHandler->renderAs($this, 'json');
+
+			$options = array(
+				'fields' => array(
+					'Winery.name',
+					'Winery.id',
+					'Winery.reserve_count',
+				),
+				'order' => array(
+					'Winery.created' => 'desc',
+				),
+				'contain' => array(
+					'Tour' => array(
+						'fields' => array(
+							'id',
+						),
+						'Reserve' => array(
+							'fields' => array(
+								'id',
+								'mp_status',
+								'number_of_adults',
+								'number_of_minors',
+								'price',
+								'minors_price',
+								'from_web',
+							),
+						),
+					),
+				),
+			);
+
+
+			$wineries = $this->Winery->find('all', $options);
+
+			$container = new stdClass;
+			$container->data = [];
+
+			foreach($wineries as &$winery){
+				$count_reserves = 0;
+				$count_adults = 0;
+				$count_minors = 0;
+				$total_reserves = 0;
+				$count_reserves_web = 0;
+				$count_adults_web = 0;
+				$count_minors_web = 0;
+				$total_reserves_web = 0;
+
+				foreach($winery['Tour'] as $tour){
+					foreach($tour['Reserve'] as $reserve){
+						$count_reserves++;
+						$count_adults += $reserve['number_of_adults'];
+						$count_minors += $reserve['number_of_minors'];
+						$total_reserves += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+						if($reserve['from_web']){
+							$count_reserves_web++;
+							$count_adults_web += $reserve['number_of_adults'];
+							$count_minors_web += $reserve['number_of_minors'];
+							$total_reserves_web += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+						}
+					}
+				}
+				$winery['count_reserves'] = $count_reserves;
+				$winery['count_adults'] = $count_adults;
+				$winery['count_minors'] = $count_minors;
+				$winery['total_reserves'] = $total_reserves;
+				$winery['count_reserves_web'] = $count_reserves_web;
+				$winery['count_adults_web'] = $count_adults_web;
+				$winery['count_minors_web'] = $count_minors_web;
+				$winery['total_reserves_web'] = $total_reserves_web;
+
+				$container->data[] = [$winery['Winery']['name'], $winery['count_reserves'], $winery['count_reserves_web'], $winery['count_adults']+$winery['count_minors'], $winery['count_adults_web']+$winery['count_minors_web'], '100', '200', '50'];
+
+			}
+
+			// debug($wineries);die();
+
+			// $this->set('wineries', $wineries);
+			$this->set(compact('container')); // Pass $data to the view
+			$this->set('_serialize', 'container'); // Let the JsonView class know what variable to use
+		}else{
+			$this->layout = 'metrobox';
+		}
+	}
 }
