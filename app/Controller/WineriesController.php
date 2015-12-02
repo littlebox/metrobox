@@ -144,6 +144,7 @@ class WineriesController extends AppController {
 				'latitude',
 				'longitude',
 				'address',
+				'city',
 				'description',
 				'priority',
 				'has_logo',
@@ -565,7 +566,17 @@ class WineriesController extends AppController {
 				$winery['count_minors_web'] = $count_minors_web;
 				$winery['total_reserves_web'] = $total_reserves_web;
 
-				$container->data[] = [$winery['Winery']['name'], $winery['count_reserves'], $winery['count_reserves_web'], $winery['count_adults']+$winery['count_minors'], $winery['count_adults_web']+$winery['count_minors_web'], '100', '200', '50'];
+				$container->data[] = [
+					$winery['Winery']['name'], //Bodega
+					$winery['count_reserves'], //Reservas Totales
+					$winery['count_reserves_web'], //Reservas Web
+					$winery['count_adults']+$winery['count_minors'], //Personas
+					$winery['count_adults_web']+$winery['count_minors_web'], //Personas Web
+					($winery['count_reserves_web'] == 0) ? 0 : round($winery['count_reserves_web']*100/$winery['count_reserves_web'])."%", //% Web
+					$winery['total_reserves'], //Total Ingresos
+					$winery['total_reserves_web'], //Total Ingresos
+					'Detalles', //Detalles
+				];
 
 			}
 
