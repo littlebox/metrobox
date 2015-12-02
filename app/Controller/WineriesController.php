@@ -211,6 +211,7 @@ class WineriesController extends AppController {
 						'fields' => array(
 							'full_name',
 							'country',
+							'created',
 						),
 					),
 				),
