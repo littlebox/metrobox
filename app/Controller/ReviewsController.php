@@ -159,7 +159,7 @@ class ReviewsController extends AppController {
 			$review = [];
 
 			foreach ($this->request->data['review'] as $key => $value) {
-				$review['Review']['winerie_id'] = $key;
+				$review['Review']['winery_id'] = $key;
 				$review['Review']['review'] = $value;
 				$review['Review']['client_id'] = $clientId;
 
