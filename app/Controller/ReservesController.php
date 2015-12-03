@@ -280,9 +280,9 @@ class ReservesController extends AppController {
 				),
 				// 'external_reference' => $newIds,
 				'back_urls' => array(
-					'success' => 'http://alpha.wineobs.com/payment_success',
-					'pending' => 'http://alpha.wineobs.com/payment_pending',
-					'failure' => 'http://alpha.wineobs.com/payment_failure',
+					'success' => 'http://wineobs.com/payment_success',
+					'pending' => 'http://wineobs.com/payment_pending',
+					'failure' => 'http://wineobs.com/payment_failure',
 				),
 			);
 			$preference = $mp->create_preference($preference_data);

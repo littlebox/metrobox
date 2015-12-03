@@ -11,7 +11,7 @@
 <br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 <br style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 <div style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif" align="center">
-	<a href="http://alpha.wineobs.com/comentarios?token=<?php echo $token; ?>" style="margin:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;vertical-align:middle;padding:10px 16px;text-decoration:none;border-radius:2px;border:1px solid;text-align:center;font-weight:bold;white-space:nowrap;background:#ffffff;border-color:#9F4B55;background-color:#9F4B55;color:#ffffff;border-top-width:1px;display:inline-block;padding-left:40px;padding-right:40px" target="_blank">
+	<a href="http://wineobs.com/comentarios?token=<?php echo $token; ?>" style="margin:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif;vertical-align:middle;padding:10px 16px;text-decoration:none;border-radius:2px;border:1px solid;text-align:center;font-weight:bold;white-space:nowrap;background:#ffffff;border-color:#9F4B55;background-color:#9F4B55;color:#ffffff;border-top-width:1px;display:inline-block;padding-left:40px;padding-right:40px" target="_blank">
 		<?php echo __("Send Review"); ?>
 	</a>
 </div>
