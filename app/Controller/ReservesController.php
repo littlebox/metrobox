@@ -287,7 +287,7 @@ class ReservesController extends AppController {
 			);
 			$preference = $mp->create_preference($preference_data);
 
-			$data['mp_url'] = $preference['response']['sandbox_init_point'];
+			$data['mp_url'] = $preference['response']['init_point'];
 
 			$this->set(compact('data')); // Pass $data to the view
 			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
