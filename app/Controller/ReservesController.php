@@ -196,7 +196,7 @@ class ReservesController extends AppController {
 			$newIds = [];
 			require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 			$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
-			// $mp->sandbox_mode(true);
+			$mp->sandbox_mode(false);
 
 			foreach ($json['reserves']['tours'] as $tour) {
 				$this->request->data['Reserve']['tour_id'] = $tour['id'];
