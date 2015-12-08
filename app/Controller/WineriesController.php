@@ -494,100 +494,261 @@ class WineriesController extends AppController {
 	}
 
 	public function admin_general_statistics(){
+		// debug($this->params->query['from']);die();
 
-		if ($this->request->is(array('post'))) {
-			//Render always as json
-			$this->RequestHandler->renderAs($this, 'json');
+		$this->layout = 'metrobox';
 
-			$options = array(
-				'fields' => array(
-					'Winery.name',
-					'Winery.id',
-					'Winery.reserve_count',
-				),
-				'order' => array(
-					'Winery.created' => 'desc',
-				),
-				'contain' => array(
-					'Tour' => array(
+		if(empty($this->params->query['from'])){
+			$from = new DateTime('first day of last month');
+			$from = $from->format('Y-m-d');
+		}else{
+			$from = DateTime::createFromFormat('d/m/Y', $this->params->query['from'])->format('Y-m-d');
+		}
+
+		if(empty($this->params->query['to'])){
+			$to = new DateTime('last day of last month');
+			$to = $to->format('Y-m-d');
+		}else{
+			$to = DateTime::createFromFormat('d/m/Y', $this->params->query['to'])->format('Y-m-d');
+		}
+
+
+
+		// debug($from);debug($to);die();
+
+		$options = array(
+			'fields' => array(
+				'Winery.name',
+				'Winery.id',
+				'Winery.reserve_count',
+			),
+			'order' => array(
+				'Winery.created' => 'desc',
+			),
+			'contain' => array(
+				'Tour' => array(
+					'fields' => array(
+						'id',
+					),
+					'Reserve' => array(
 						'fields' => array(
 							'id',
+							'mp_status',
+							'number_of_adults',
+							'number_of_minors',
+							'price',
+							'minors_price',
+							'from_web',
 						),
-						'Reserve' => array(
-							'fields' => array(
-								'id',
-								'mp_status',
-								'number_of_adults',
-								'number_of_minors',
-								'price',
-								'minors_price',
-								'from_web',
-							),
-						),
+						'conditions' => array(
+							'Reserve.date >=' => $from,
+							'Reserve.date <=' => $to,
+						)
 					),
 				),
-			);
+			),
+		);
 
 
-			$wineries = $this->Winery->find('all', $options);
+		$wineries = $this->Winery->find('all', $options);
 
-			$container = new stdClass;
-			$container->data = [];
+		// $container = new stdClass;
+		// $container->data = [];
+		$data = [];
 
-			foreach($wineries as &$winery){
-				$count_reserves = 0;
-				$count_adults = 0;
-				$count_minors = 0;
-				$total_reserves = 0;
-				$count_reserves_web = 0;
-				$count_adults_web = 0;
-				$count_minors_web = 0;
-				$total_reserves_web = 0;
+		foreach($wineries as &$winery){
+			$count_reserves = 0;
+			$count_adults = 0;
+			$count_minors = 0;
+			$total_reserves = 0;
+			$count_reserves_web = 0;
+			$count_adults_web = 0;
+			$count_minors_web = 0;
+			$total_reserves_web = 0;
 
-				foreach($winery['Tour'] as $tour){
-					foreach($tour['Reserve'] as $reserve){
-						$count_reserves++;
-						$count_adults += $reserve['number_of_adults'];
-						$count_minors += $reserve['number_of_minors'];
-						$total_reserves += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
-						if($reserve['from_web']){
-							$count_reserves_web++;
-							$count_adults_web += $reserve['number_of_adults'];
-							$count_minors_web += $reserve['number_of_minors'];
-							$total_reserves_web += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
-						}
+			foreach($winery['Tour'] as $tour){
+				foreach($tour['Reserve'] as $reserve){
+					$count_reserves++;
+					$count_adults += $reserve['number_of_adults'];
+					$count_minors += $reserve['number_of_minors'];
+					$total_reserves += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+					if($reserve['from_web']){
+						$count_reserves_web++;
+						$count_adults_web += $reserve['number_of_adults'];
+						$count_minors_web += $reserve['number_of_minors'];
+						$total_reserves_web += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
 					}
 				}
-				$winery['count_reserves'] = $count_reserves;
-				$winery['count_adults'] = $count_adults;
-				$winery['count_minors'] = $count_minors;
-				$winery['total_reserves'] = $total_reserves;
-				$winery['count_reserves_web'] = $count_reserves_web;
-				$winery['count_adults_web'] = $count_adults_web;
-				$winery['count_minors_web'] = $count_minors_web;
-				$winery['total_reserves_web'] = $total_reserves_web;
+			}
+			$winery['count_reserves'] = $count_reserves;
+			$winery['count_adults'] = $count_adults;
+			$winery['count_minors'] = $count_minors;
+			$winery['total_reserves'] = $total_reserves;
+			$winery['count_reserves_web'] = $count_reserves_web;
+			$winery['count_adults_web'] = $count_adults_web;
+			$winery['count_minors_web'] = $count_minors_web;
+			$winery['total_reserves_web'] = $total_reserves_web;
 
-				$container->data[] = [
-					$winery['Winery']['name'], //Bodega
-					$winery['count_reserves'], //Reservas Totales
-					$winery['count_reserves_web'], //Reservas Web
-					$winery['count_adults']+$winery['count_minors'], //Personas
-					$winery['count_adults_web']+$winery['count_minors_web'], //Personas Web
-					($winery['count_reserves_web'] == 0) ? 0 : round($winery['count_reserves_web']*100/$winery['count_reserves_web'])."%", //% Web
-					$winery['total_reserves'], //Total Ingresos
-					$winery['total_reserves_web'], //Total Ingresos
-					'Detalles', //Detalles
-				];
+			// $container->data[] = [
+			$data[] = array(
+				'winery_name' => $winery['Winery']['name'], //Bodega
+				'count_reserves' => $winery['count_reserves'], //Reservas Totales
+				'count_reserves_web' => $winery['count_reserves_web'], //Reservas Web
+				'count_persons' => $winery['count_adults']+$winery['count_minors'], //Personas
+				'count_persons_web' => $winery['count_adults_web']+$winery['count_minors_web'], //Personas Web
+				'percent_persons_web' => (($winery['count_adults']+$winery['count_minors']) == 0) ? 0 : round(($winery['count_adults_web']+$winery['count_minors_web'])*100/($winery['count_adults']+$winery['count_minors']))."%", //% Web
+				'total_reserves' => $winery['total_reserves'], //Total Ingresos
+				'total_reserves_web' => $winery['total_reserves_web'], //Total Ingresos
+				'actions' => '<button onclick="showDetails('.$winery['Winery']['id'].')" href="javascript:;" class="btn btn-sm btn-outline grey-salsa"><i class="fa fa-search"></i> Detalles</button>', //Detalles
+			);
 
+		}
+
+		//Convert date Y-m-d to d/m/Y format to show in frontend
+		$dates = array(
+			'from' => DateTime::createFromFormat('Y-m-d', $from)->format('d/m/Y'),
+			'to' => DateTime::createFromFormat('Y-m-d', $to)->format('d/m/Y'),
+		);
+
+		// debug($data);die();
+		// debug($wineries);die();
+
+		// $this->set('wineries', $wineries);
+		// $this->set(compact('container')); // Pass $data to the view
+		// $this->set('_serialize', 'container'); // Let the JsonView class know what variable to use
+		$this->set('data', $data); // send variable to view
+		$this->set('dates', $dates); // send variable to view
+
+	}
+
+	public function admin_statistics($id = null){
+		// debug($this->params->query['from']);die();
+
+		if (!$this->Winery->exists($id)) {
+			throw new NotFoundException(__('Invalid winery'));
+		}
+
+		$this->layout = 'metrobox';
+
+		//Get winerie name
+		$winery = $this->Winery->find('first', array(
+			'fields' => array('name','id'),
+			'contain' => false,
+		));
+
+		if(empty($this->params->query['from'])){
+			$from = new DateTime('first day of last month');
+			$from = $from->format('Y-m-d');
+		}else{
+			$from = DateTime::createFromFormat('d/m/Y', $this->params->query['from'])->format('Y-m-d');
+		}
+
+		if(empty($this->params->query['to'])){
+			$to = new DateTime('last day of last month');
+			$to = $to->format('Y-m-d');
+		}else{
+			$to = DateTime::createFromFormat('d/m/Y', $this->params->query['to'])->format('Y-m-d');
+		}
+
+
+		$options = array(
+			'fields' => array(
+				'Tour.id',
+				'Tour.name',
+			),
+			'conditions' => array(
+				'Tour.winery_id' => $id,
+			),
+			'contain' => array(
+				'Reserve' => array(
+					'fields' => array(
+						'id',
+						'mp_status',
+						'number_of_adults',
+						'number_of_minors',
+						'price',
+						'minors_price',
+						'from_web',
+					),
+					'conditions' => array(
+						'Reserve.date >=' => $from,
+						'Reserve.date <=' => $to,
+					),
+				),
+			),
+		);
+
+
+		$tours = $this->Winery->Tour->find('all', $options);
+
+		// $container = new stdClass;
+		// $container->data = [];
+		$data = [];
+
+
+		foreach($tours as &$tour){
+			$count_reserves = 0;
+			$count_adults = 0;
+			$count_minors = 0;
+			$total_reserves = 0;
+			$count_reserves_web = 0;
+			$count_adults_web = 0;
+			$count_minors_web = 0;
+			$total_reserves_web = 0;
+
+			foreach($tour['Reserve'] as $reserve){
+				$count_reserves++;
+				$count_adults += $reserve['number_of_adults'];
+				$count_minors += $reserve['number_of_minors'];
+				$total_reserves += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+				if($reserve['from_web']){
+					$count_reserves_web++;
+					$count_adults_web += $reserve['number_of_adults'];
+					$count_minors_web += $reserve['number_of_minors'];
+					$total_reserves_web += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+				}
 			}
 
-			// debug($wineries);die();
+			$tour['count_reserves'] = $count_reserves;
+			$tour['count_adults'] = $count_adults;
+			$tour['count_minors'] = $count_minors;
+			$tour['total_reserves'] = $total_reserves;
+			$tour['count_reserves_web'] = $count_reserves_web;
+			$tour['count_adults_web'] = $count_adults_web;
+			$tour['count_minors_web'] = $count_minors_web;
+			$tour['total_reserves_web'] = $total_reserves_web;
 
-			// $this->set('wineries', $wineries);
-			$this->set(compact('container')); // Pass $data to the view
-			$this->set('_serialize', 'container'); // Let the JsonView class know what variable to use
-		}else{
-			$this->layout = 'metrobox';
+			// $container->data[] = [
+			$data[] = array(
+				'tour_name' => $tour['Tour']['name'],
+				'count_reserves' => $tour['count_reserves'],
+				'count_reserves_web' => $tour['count_reserves_web'],
+				'count_adults' => $tour['count_adults'],
+				'count_adults_web' => $tour['count_adults_web'],
+				'count_minors' => $tour['count_minors'],
+				'count_minors_web' => $tour['count_minors_web'],
+				'total_reserves' => $tour['total_reserves'],
+				'total_reserves_web' => $tour['total_reserves_web'],
+				'actions' => '<button onclick="showDetails('.$tour['Tour']['id'].')" href="javascript:;" class="btn btn-sm btn-outline grey-salsa"><i class="fa fa-search"></i> Detalles</button>',
+			);
+
 		}
+
+		//Convert date Y-m-d to d/m/Y format to show in frontend
+		$dates = array(
+			'from' => DateTime::createFromFormat('Y-m-d', $from)->format('d/m/Y'),
+			'to' => DateTime::createFromFormat('Y-m-d', $to)->format('d/m/Y'),
+		);
+
+		// debug($data);die();
+		// debug($tours);die();
+
+		// $this->set('tours', $tours);
+		// $this->set(compact('container')); // Pass $data to the view
+		// $this->set('_serialize', 'container'); // Let the JsonView class know what variable to use
+		$this->set('data', $data); // send variable to view
+		$this->set('dates', $dates); // send variable to view
+		$this->set('winery', $winery); // send variable to view
+
 	}
 }

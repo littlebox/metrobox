@@ -4,8 +4,8 @@
 	<div class="portlet-title">
 		<div class="caption font-blue-hoki">
 			<i class="icon-bar-chart font-blue-hoki"></i>
-			<span class="caption-subject bold uppercase"> <?= __('Statistics') ?></span>
-			<span class="caption-helper"><?= __('Wineries') ?></span>
+			<span class="caption-subject bold uppercase"> <?= $winery['Winery']['name']; ?></span>
+			<span class="caption-helper"><?= __('Statistics') ?></span>
 		</div>
 		<div class="actions">
 			<a href="#" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
@@ -47,12 +47,13 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="wineries_statistics_datatable">
 			<thead>
-				<th>Bodegas</th>
+				<th>Tour</th>
 				<th>Reservas T.</th>
 				<th>Reservas W.</th>
-				<th>Personas T.</th>
-				<th>Personas W.</th>
-				<th>% Pesonas W.</th>
+				<th>Adultos T.</th>
+				<th>Adultos W.</th>
+				<th>Menores T.</th>
+				<th>Menores W.</th>
 				<th>Ingresos T.</th>
 				<th>Ingresos W.</th>
 				<th>Detalles</th>
@@ -60,12 +61,13 @@
 			<tbody>
 				<?php foreach ($data as $element): ?>
 				<tr>
-					<td><?= $element['winery_name']; ?></td>
+					<td><?= $element['tour_name']; ?></td>
 					<td><?= $element['count_reserves']; ?></td>
 					<td><?= $element['count_reserves_web']; ?></td>
-					<td><?= $element['count_persons']; ?></td>
-					<td><?= $element['count_persons_web']; ?></td>
-					<td><?= $element['percent_persons_web']; ?></td>
+					<td><?= $element['count_adults']; ?></td>
+					<td><?= $element['count_adults_web']; ?></td>
+					<td><?= $element['count_minors']; ?></td>
+					<td><?= $element['count_minors_web']; ?></td>
 					<td><?= $element['total_reserves']; ?></td>
 					<td><?= $element['total_reserves_web']; ?></td>
 					<td><?= $element['actions']; ?></td>
@@ -107,14 +109,15 @@
 		});
 
 		function filterByDate(){
-			var url = '<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'general_statistics', 'admin' => true)) ?>';
+			var url = '<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'statistics', 'admin' => true)) ?>';
+			url += "/"+<?= $winery['Winery']['id']; ?>;
 			url += "?from="+$('#date_from_picker').val()+"&to="+$('#date_to_picker').val();
 			window.location.href = url;
 		}
 
 		function showDetails(id){
-			var url = '<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'statistics', 'admin' => true)) ?>';
-			url += "/"+id
+			var url = '<?= $this->Html->url(array('controller'=>'tours', 'action' => 'statistics', 'admin' => true)) ?>';
+			url += "/"+id;
 			url += "?from="+$('#date_from_picker').val()+"&to="+$('#date_to_picker').val();
 			window.location.href = url;
 		}

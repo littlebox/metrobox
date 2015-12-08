@@ -4,8 +4,8 @@
 	<div class="portlet-title">
 		<div class="caption font-blue-hoki">
 			<i class="icon-bar-chart font-blue-hoki"></i>
-			<span class="caption-subject bold uppercase"> <?= __('Statistics') ?></span>
-			<span class="caption-helper"><?= __('Wineries') ?></span>
+			<span class="caption-subject bold uppercase"> <?= $tour['Tour']['name']; ?></span>
+			<span class="caption-helper"><?= __('Statistics') ?></span>
 		</div>
 		<div class="actions">
 			<a href="#" class="btn btn-circle btn-default btn-icon-only fullscreen" data-original-title="" title=""></a>
@@ -47,28 +47,26 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="wineries_statistics_datatable">
 			<thead>
-				<th>Bodegas</th>
-				<th>Reservas T.</th>
-				<th>Reservas W.</th>
-				<th>Personas T.</th>
-				<th>Personas W.</th>
-				<th>% Pesonas W.</th>
-				<th>Ingresos T.</th>
-				<th>Ingresos W.</th>
-				<th>Detalles</th>
+				<th>Cliente</th>
+				<th>Fecha</th>
+				<th>Adultos</th>
+				<th>Precio Adultos</th>
+				<th>Menores</th>
+				<th>Precio Menores</th>
+				<th>Web</th>
+				<th>Total $</th>
 			</thead>
 			<tbody>
 				<?php foreach ($data as $element): ?>
 				<tr>
-					<td><?= $element['winery_name']; ?></td>
-					<td><?= $element['count_reserves']; ?></td>
-					<td><?= $element['count_reserves_web']; ?></td>
-					<td><?= $element['count_persons']; ?></td>
-					<td><?= $element['count_persons_web']; ?></td>
-					<td><?= $element['percent_persons_web']; ?></td>
-					<td><?= $element['total_reserves']; ?></td>
-					<td><?= $element['total_reserves_web']; ?></td>
-					<td><?= $element['actions']; ?></td>
+					<td><?= $element['client_name']; ?></td>
+					<td><?= $element['date']; ?></td>
+					<td><?= $element['count_adults']; ?></td>
+					<td><?= $element['price_adults']; ?></td>
+					<td><?= $element['count_minors']; ?></td>
+					<td><?= $element['price_minors']; ?></td>
+					<td><?= $element['from_web']; ?></td>
+					<td><?= $element['total']; ?></td>
 				</tr>
 				<?php endforeach; ?>
 			</tbody>
@@ -107,14 +105,8 @@
 		});
 
 		function filterByDate(){
-			var url = '<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'general_statistics', 'admin' => true)) ?>';
-			url += "?from="+$('#date_from_picker').val()+"&to="+$('#date_to_picker').val();
-			window.location.href = url;
-		}
-
-		function showDetails(id){
-			var url = '<?= $this->Html->url(array('controller'=>'wineries', 'action' => 'statistics', 'admin' => true)) ?>';
-			url += "/"+id
+			var url = '<?= $this->Html->url(array('controller'=>'tours', 'action' => 'statistics', 'admin' => true)) ?>';
+			url += "/"+<?= $tour['Tour']['id']; ?>;
 			url += "?from="+$('#date_from_picker').val()+"&to="+$('#date_to_picker').val();
 			window.location.href = url;
 		}

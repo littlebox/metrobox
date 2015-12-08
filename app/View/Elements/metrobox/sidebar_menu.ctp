@@ -58,6 +58,11 @@
 								'href'=>array('controller'=>'holidays', 'action' => 'edit', 'admin' => true),
 								'icon'=>'calendar',
 							),
+							array(
+								'title'=>__('Statistics'),
+								'href'=>array('controller'=>'wineries', 'action' => 'general_statistics', 'admin' => true),
+								'icon'=>'bar-chart',
+							),
 							// array(
 							// 	'title'=>__('Site'),
 							// 	'href'=>array('controller'=>'pages', 'action' => 'site_options', 'admin' => true),

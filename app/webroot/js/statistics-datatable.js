@@ -41,26 +41,28 @@ var Datatable = function() {
 				resetGroupActionInputOnSuccess: true,
 				loadingMessage: 'Loading...',
 				dataTable: {
-					"dom": "<'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'<'table-group-actions pull-right'>>r><'table-scrollable't><'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>", // datatable layout
+					// "dom": "<'row'<'col-md-7 col-sm-12'pli><'col-md-5 col-sm-12'<'table-group-actions pull-right'>f>r><'table-scrollable't><'row'<'col-md-8 col-sm-12'pli><'col-md-4 col-sm-12'>>", // datatable layout
+					"dom": "<'row' <'col-md-12'T>><'row'<'col-md-6 col-sm-12'l><'col-md-6 col-sm-12'<'table-group-actions pull-right'>f>r><'table-scrollable't><'row'<'col-md-5 col-sm-12'i><'col-md-7 col-sm-12'p>>", // horizobtal scrollable datatable
 					"pageLength": 50, // default records per page
 					"language": { // language settings
 						// metronic spesific
-						"metronicGroupActions": "_TOTAL_ registros encontrados:  ",
-						"metronicAjaxRequestGeneralError": "Could not complete request. Please check your internet connection",
+						"metronicGroupActions": "_TOTAL_ registros encontrados: ",
+						"metronicAjaxRequestGeneralError": "No se pudo comunicar con el servidor. Compruebe su conexión a internet.",
 
 						// data tables spesific
-						"lengthMenu": "<span class='seperator'>|</span>View _MENU_ registros",
-						"info": "<span class='seperator'>|</span>Found total _TOTAL_ registros",
+						"lengthMenu": "Mostrando _MENU_ registros",
+						"info": "_TOTAL_ registros",
 						"infoEmpty": "No se encontró ningún registro",
 						"emptyTable": "No hay datos para mostrar",
 						"zeroRecords": "No se encontraron resultados",
+						"search": "Filtrar",
 						"paginate": {
 							"previous": "Anterior",
 							"next": "Siguiente",
-							"last": "Ultimo",
-							"first": "First",
-							"page": "Page",
-							"pageOf": "of"
+							"last": "Última",
+							"first": "Primera",
+							"page": "Página",
+							"pageOf": "de"
 						}
 					},
 
@@ -70,7 +72,7 @@ var Datatable = function() {
 						'targets': [0]
 					}],
 
-					"pagingType": "bootstrap_extended", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
+					"pagingType": "bootstrap_full_number", // pagination type(bootstrap, bootstrap_full_number or bootstrap_extended)
 					"autoWidth": false, // disable fixed width and enable fluid table
 					"processing": false, // enable/disable display message box on record load
 					// "serverSide": true, // enable/disable server side ajax loading

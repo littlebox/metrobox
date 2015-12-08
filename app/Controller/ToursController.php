@@ -241,6 +241,99 @@ class ToursController extends AppController {
 		}
 	}
 
+	public function admin_statistics($id = null){
+		// debug($this->params->query['from']);die();
+
+		if (!$this->Tour->exists($id)) {
+			throw new NotFoundException(__('Invalid winery'));
+		}
+
+		$this->layout = 'metrobox';
+
+		//Get tour name
+		$tour = $this->Tour->find('first', array(
+			'fields' => array('name','id'),
+			'contain' => false,
+		));
+
+		if(empty($this->params->query['from'])){
+			$from = new DateTime('first day of last month');
+			$from = $from->format('Y-m-d');
+		}else{
+			$from = DateTime::createFromFormat('d/m/Y', $this->params->query['from'])->format('Y-m-d');
+		}
+
+		if(empty($this->params->query['to'])){
+			$to = new DateTime('last day of last month');
+			$to = $to->format('Y-m-d');
+		}else{
+			$to = DateTime::createFromFormat('d/m/Y', $this->params->query['to'])->format('Y-m-d');
+		}
+
+
+		$options = array(
+			'fields' => array(
+				'id',
+				'mp_status',
+				'number_of_adults',
+				'number_of_minors',
+				'price',
+				'minors_price',
+				'from_web',
+				'date',
+			),
+			'conditions' => array(
+				'Reserve.tour_id' => $id,
+				'Reserve.date >=' => $from,
+				'Reserve.date <=' => $to,
+			),
+			'contain' => array(
+				'Client' => array(
+					'fields' => array(
+						'id',
+						'full_name',
+						'country',
+					),
+				)
+			),
+		);
+
+
+		$reserves = $this->Tour->Reserve->find('all', $options);
+
+		$data = [];
+
+		foreach($reserves as $reserve){
+			$data[] = array(
+				'client_name' => $reserve['Client']['full_name'],
+				'date' => DateTime::createFromFormat('Y-m-d', $reserve['Reserve']['date'])->format('d/m/Y'),
+				'count_adults' => $reserve['Reserve']['number_of_adults'],
+				'price_adults' => $reserve['Reserve']['price'],
+				'count_minors' => $reserve['Reserve']['number_of_minors'],
+				'price_minors' => $reserve['Reserve']['minors_price'],
+				'from_web' => $reserve['Reserve']['from_web'] ? '<i class="fa fa-check font-green"></i>' : '<i class="fa fa-times font-red"></i>' ,
+				'total' => ($reserve['Reserve']['number_of_adults']*$reserve['Reserve']['price'])+($reserve['Reserve']['number_of_minors']*$reserve['Reserve']['minors_price']),
+			);
+		}
+
+		//Convert date Y-m-d to d/m/Y format to show in frontend
+		$dates = array(
+			'from' => DateTime::createFromFormat('Y-m-d', $from)->format('d/m/Y'),
+			'to' => DateTime::createFromFormat('Y-m-d', $to)->format('d/m/Y'),
+		);
+
+		// debug($data);die();
+		// debug($tours);die();
+
+		// $this->set('tours', $tours);
+		// $this->set(compact('container')); // Pass $data to the view
+		// $this->set('_serialize', 'container'); // Let the JsonView class know what variable to use
+		$this->set('data', $data); // send variable to view
+		$this->set('dates', $dates); // send variable to view
+		$this->set('tour', $tour); // send variable to view
+
+	}
+
 	public function getToursAvailablesInSelectedDate($date){
 		//Render always as json
 		$this->RequestHandler->renderAs($this, 'json');
