@@ -93,7 +93,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('wineries-statistics-datatable.js');?>
+	<?= $this->Html->script('statistics-datatable.js');?>
 	<script>
 		var LocalVar = {};
 		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2) ?>';

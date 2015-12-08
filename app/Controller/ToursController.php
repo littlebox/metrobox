@@ -282,6 +282,9 @@ class ToursController extends AppController {
 				'from_web',
 				'date',
 			),
+			'order' => array(
+				'Reserve.date' => 'asc',
+			),
 			'conditions' => array(
 				'Reserve.tour_id' => $id,
 				'Reserve.date >=' => $from,
@@ -311,7 +314,8 @@ class ToursController extends AppController {
 				'price_adults' => $reserve['Reserve']['price'],
 				'count_minors' => $reserve['Reserve']['number_of_minors'],
 				'price_minors' => $reserve['Reserve']['minors_price'],
-				'from_web' => $reserve['Reserve']['from_web'] ? '<i class="fa fa-check font-green"></i>' : '<i class="fa fa-times font-red"></i>' ,
+				// 'from_web' => $reserve['Reserve']['from_web'] ? '<i class="fa fa-check font-green"></i>' : '<i class="fa fa-times font-red"></i>',
+				'from_web' => $reserve['Reserve']['from_web'] ? 'Si' : 'No',
 				'total' => ($reserve['Reserve']['number_of_adults']*$reserve['Reserve']['price'])+($reserve['Reserve']['number_of_minors']*$reserve['Reserve']['minors_price']),
 			);
 		}

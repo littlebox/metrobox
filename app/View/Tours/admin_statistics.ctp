@@ -47,8 +47,8 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="wineries_statistics_datatable">
 			<thead>
-				<th>Cliente</th>
 				<th>Fecha</th>
+				<th>Cliente</th>
 				<th>Adultos</th>
 				<th>Precio Adultos</th>
 				<th>Menores</th>
@@ -59,8 +59,8 @@
 			<tbody>
 				<?php foreach ($data as $element): ?>
 				<tr>
-					<td><?= $element['client_name']; ?></td>
 					<td><?= $element['date']; ?></td>
+					<td><?= $element['client_name']; ?></td>
 					<td><?= $element['count_adults']; ?></td>
 					<td><?= $element['price_adults']; ?></td>
 					<td><?= $element['count_minors']; ?></td>
@@ -91,7 +91,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('wineries-statistics-datatable.js');?>
+	<?= $this->Html->script('statistics-datatable.js');?>
 	<script>
 		var LocalVar = {};
 		LocalVar.langFile = '<?= substr(Configure::read('Config.language'), 0, 2) ?>';

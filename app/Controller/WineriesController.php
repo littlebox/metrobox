@@ -523,7 +523,7 @@ class WineriesController extends AppController {
 				'Winery.reserve_count',
 			),
 			'order' => array(
-				'Winery.created' => 'desc',
+				'Winery.name' => 'asc',
 			),
 			'contain' => array(
 				'Tour' => array(
@@ -658,6 +658,9 @@ class WineriesController extends AppController {
 			),
 			'conditions' => array(
 				'Tour.winery_id' => $id,
+			),
+			'order' => array(
+				'Tour.name' => 'asc',
 			),
 			'contain' => array(
 				'Reserve' => array(
