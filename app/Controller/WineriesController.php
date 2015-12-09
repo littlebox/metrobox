@@ -634,6 +634,9 @@ class WineriesController extends AppController {
 		$winery = $this->Winery->find('first', array(
 			'fields' => array('name','id'),
 			'contain' => false,
+			'conditions' => array(
+				'Winery.id' => $id,
+			),
 		));
 
 		if(empty($this->params->query['from'])){

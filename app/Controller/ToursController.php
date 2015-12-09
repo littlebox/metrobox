@@ -254,6 +254,9 @@ class ToursController extends AppController {
 		$tour = $this->Tour->find('first', array(
 			'fields' => array('name','id'),
 			'contain' => false,
+			'conditions' => array(
+				'Tour.id' => $id,
+			),
 		));
 
 		if(empty($this->params->query['from'])){
