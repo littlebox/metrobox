@@ -284,6 +284,7 @@ class ToursController extends AppController {
 				'minors_price',
 				'from_web',
 				'date',
+				'created',
 			),
 			'order' => array(
 				'Reserve.date' => 'asc',
@@ -312,7 +313,8 @@ class ToursController extends AppController {
 		foreach($reserves as $reserve){
 			$data[] = array(
 				'client_name' => $reserve['Client']['full_name'],
-				'date' => DateTime::createFromFormat('Y-m-d', $reserve['Reserve']['date'])->format('d/m/Y'),
+				'tour_date' => DateTime::createFromFormat('Y-m-d', $reserve['Reserve']['date'])->format('d/m/Y'),
+				'reserve_date' => DateTime::createFromFormat('Y-m-d H:i:s', $reserve['Reserve']['created'])->format('d/m/Y'),
 				'count_adults' => $reserve['Reserve']['number_of_adults'],
 				'price_adults' => $reserve['Reserve']['price'],
 				'count_minors' => $reserve['Reserve']['number_of_minors'],

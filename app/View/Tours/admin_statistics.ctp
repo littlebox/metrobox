@@ -47,7 +47,8 @@
 		</div>
 		<table class="table table-striped table-bordered table-hover" id="wineries_statistics_datatable">
 			<thead>
-				<th>Fecha</th>
+				<th>Fecha Visita</th>
+				<th>Fecha Reserva</th>
 				<th>Cliente</th>
 				<th>Adultos</th>
 				<th>Precio Adultos</th>
@@ -59,7 +60,8 @@
 			<tbody>
 				<?php foreach ($data as $element): ?>
 				<tr>
-					<td><?= $element['date']; ?></td>
+					<td><?= $element['tour_date']; ?></td>
+					<td><?= $element['reserve_date']; ?></td>
 					<td><?= $element['client_name']; ?></td>
 					<td><?= $element['count_adults']; ?></td>
 					<td><?= $element['price_adults']; ?></td>
