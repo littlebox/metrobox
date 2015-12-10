@@ -246,10 +246,14 @@ class WineriesController extends AppController {
 		}
 		unset($priorities);
 
-		//Add quota available in each tour
-		foreach ($wineries as &$winery) {
-			foreach ($winery['Tour'] as &$tour) {
-				foreach ($tour['Time'] as &$time) {
+		//Remove from array, times, tours and wineries if not have quota available from requested quota
+		empty($this->request['named']['adults']) ? $adults = 0 : $adults = $this->request['named']['adults'];
+		empty($this->request['named']['minors']) ? $minors = 0 : $minors = $this->request['named']['minors'];
+		$requested_quota = $adults+$minors;
+
+		foreach ($wineries as $wineryKey => &$winery) {
+			foreach ($winery['Tour'] as $tourKey => &$tour) {
+				foreach ($tour['Time'] as $timeKey => &$time) {
 					$tourId = $tour['id'];
 					$timeHour = $time['hour'];
 					//Query to calculate quota available of tour un specific date y specific
@@ -257,9 +261,20 @@ class WineriesController extends AppController {
 					$time['quota_available'] = $query[0][0]['quota_available'];
 					//And Remove Seconds From Time
 					$time['hour'] = date('H:i', strtotime($time['hour']));
+
+					//If quota available is minor than required quota, remove this time
+					if($time['quota_available'] < $requested_quota){
+						unset($tour['Time'][$timeKey]);
+					}
 				}
 				//And Remove Seconds From Time
 				$tour['length'] = date('H:i', strtotime($tour['length']));
+				if(count($tour['Time']) == 0){
+					unset($winery['Tour'][$tourKey]);
+				}
+			}
+			if(count($winery['Tour']) == 0){
+				unset($wineries[$wineryKey]);
 			}
 		}
 
