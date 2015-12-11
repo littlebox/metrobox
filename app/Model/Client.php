@@ -84,6 +84,19 @@ class Client extends AppModel {
 				'finderQuery' => '',
 				'counterQuery' => ''
 			),
+			'Invoice' => array(
+				'className' => 'Invoice',
+				'foreignKey' => 'client_id',
+				'dependent' => false,
+				'conditions' => '',
+				'fields' => '',
+				'order' => '',
+				'limit' => '',
+				'offset' => '',
+				'exclusive' => '',
+				'finderQuery' => '',
+				'counterQuery' => ''
+			),
 
 		);
 }

@@ -1,19 +1,13 @@
 <?php
 App::uses('AppModel', 'Model');
 /**
- * Reserve Model
+ * Invoice Model
  *
- * @property Tour $Tour
  * @property Client $Client
+ * @property Language $Language
+ * @property Reserve $Reserve
  */
-class Reserve extends AppModel {
-
-/**
- * Display field
- *
- * @var string
- */
-	public $displayField = 'date';
+class Invoice extends AppModel {
 
 /**
  * Validation rules
@@ -21,29 +15,9 @@ class Reserve extends AppModel {
  * @var array
  */
 	public $validate = array(
-		'tour_id' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'client_id' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
 		'language_id' => array(
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
+			'numeric' => array(
+				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
 				//'allowEmpty' => false,
 				//'required' => false,
@@ -52,32 +26,6 @@ class Reserve extends AppModel {
 			),
 		),
 		'date' => array(
-			'date' => array(
-				'rule' => array('date'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-			'notEmpty' => array(
-				'rule' => array('notEmpty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-		'time' => array(
-			'time' => array(
-				'rule' => array('time'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -105,7 +53,7 @@ class Reserve extends AppModel {
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
-		'number_of_minors' => array(
+		'total' => array(
 			'numeric' => array(
 				'rule' => array('numeric'),
 				//'message' => 'Your custom message here',
@@ -114,6 +62,8 @@ class Reserve extends AppModel {
 				//'last' => false, // Stop validation after this rule
 				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
+		),
+		'encoded_data_for_cancel_reservations' => array(
 			'notEmpty' => array(
 				'rule' => array('notEmpty'),
 				//'message' => 'Your custom message here',
@@ -133,24 +83,9 @@ class Reserve extends AppModel {
  * @var array
  */
 	public $belongsTo = array(
-		'Tour' => array(
-			'className' => 'Tour',
-			'foreignKey' => 'tour_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'counterCache' => true,
-		),
 		'Client' => array(
 			'className' => 'Client',
 			'foreignKey' => 'client_id',
-			'conditions' => '',
-			'fields' => '',
-			'order' => ''
-		),
-		'Invoice' => array(
-			'className' => 'Invoice',
-			'foreignKey' => 'invoice_id',
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
@@ -161,6 +96,27 @@ class Reserve extends AppModel {
 			'conditions' => '',
 			'fields' => '',
 			'order' => ''
+		)
+	);
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Reserve' => array(
+			'className' => 'Reserve',
+			'foreignKey' => 'invoice_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
 		)
 	);
 

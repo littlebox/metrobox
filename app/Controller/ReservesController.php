@@ -191,6 +191,42 @@ class ReservesController extends AppController {
 
 			//TODO: Check quota available for each tour
 
+			$totalPrice = 0;
+			foreach ($json['reserves']['tours'] as $tour) {
+				$tourData = $this->Reserve->Tour->find('first',array(
+					'conditions' => array(
+						'Tour.id' => $tour['id'],
+					),
+					'contains' => false,
+				));
+
+				$totalPrice += $json['reserves']['adults']*$tourData['Tour']['price'] + $json['reserves']['minors']*$tourData['Tour']['minors_price'];
+			}
+
+			//Create Invoice
+			$invoice = [];
+			$invoice['Client'] = $this->request->data['Client'];
+			$invoice['Invoice']['language_id'] = $json['reserves']['language'];
+			$invoice['Invoice']['status'] = 'pending';
+			$invoice['Invoice']['date'] = $json['reserves']['date'];
+			$invoice['Invoice']['number_of_adults'] = $json['reserves']['adults'];
+			$invoice['Invoice']['number_of_minors'] = $json['reserves']['minors'];
+			$invoice['Invoice']['total'] = $totalPrice;
+			$invoice['Invoice']['encoded_data_for_cancel_reservations'] = 'not generated';
+
+			if ($this->Reserve->Invoice->saveAssociated($invoice)) {
+					//debug($invoice);die();
+			}else{
+				// debug($this->Reserve->validationErrors); die();
+				$hasError = true;
+				$data['error'][] = array(
+					'invoice' => 'invoice not saved',
+					'text' => __('The invoice could not be saved.')
+				);
+			}
+
+			$this->request->data['Client']['id'] = $invoice['Client']['id'];
+			$this->request->data['Reserve']['invoice_id'] = $invoice['Invoice']['id'];
 
 			$items = [];
 			$newIds = [];
@@ -258,6 +294,26 @@ class ReservesController extends AppController {
 				));
 			}
 
+			$data_for_cancel_reservations => array(
+				'reserves_ids' => $newIds,
+				'date' => $this->request->data['Reserve']['date'],
+				'language_id' => $this->request->data['Reserve']['language_id'],
+				'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
+				'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
+				'client_email' => $this->request->data['Client']['email'],
+				'client_name' => $this->request->data['Client']['full_name'],
+				'client_country' => $this->request->data['Client']['country'],
+				'client_phone' => $this->request->data['Client']['phone'],
+				'client_birth_date' => $this->request->data['Client']['birth_date'],
+				'total' => $totalPrice,
+			);
+
+			//Encode data for cancel button
+			$encoded_data_for_cancel_reservations = urlencode($this->encrypt_decrypt('encrypt', json_encode($data_for_cancel_reservations)));
+
+			$this->Reserve->Invoice->id = $invoice['Invoice']['id'];
+			$this->Reserve->Invoice->saveField('encoded_data_for_cancel_reservations', $encoded_data_for_cancel_reservations);
+
 			$preference_data = array(
 				'items' => $items,
 				'payer' => array(
@@ -265,20 +321,7 @@ class ReservesController extends AppController {
 					'email' => $this->request->data['Client']['email'],
 				),
 				'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
-				'external_reference' => array(
-					'reserves_ids' => $newIds,
-					'date' => $this->request->data['Reserve']['date'],
-					'language_id' => $this->request->data['Reserve']['language_id'],
-					'number_of_adults' => $this->request->data['Reserve']['number_of_adults'],
-					'number_of_minors' => $this->request->data['Reserve']['number_of_minors'],
-					'client_email' => $this->request->data['Client']['email'],
-					'client_name' => $this->request->data['Client']['full_name'],
-					'client_country' => $this->request->data['Client']['country'],
-					'client_phone' => $this->request->data['Client']['phone'],
-					'client_birth_date' => $this->request->data['Client']['birth_date'],
-					'total' => $price,
-				),
-				// 'external_reference' => $newIds,
+				'external_reference' => $invoice['Invoice']['id'],
 				'back_urls' => array(
 					'success' => 'http://wineobs.com/payment_success',
 					'pending' => 'http://wineobs.com/payment_pending',
@@ -309,31 +352,42 @@ class ReservesController extends AppController {
 
 		// file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
 
+		$invoice = $this->Reserve->Invoice->find('first', array(
+			'contain' => array('Reserve.id', 'Client'),
+			'conditions' => array(
+				'Invoice.id' => $payment_info['response']['collection']['external_reference'],
+			),
+		));
+
+		$ids = [];
+		foreach ($invoice['Reserve'] as $reserve) {
+			$ids[] = $reserve['id'];
+		}
+
+		$this->Reserve->Invoice->id = $invoice['Invoice']['id'];
+		$this->Reserve->Invoice->saveField('status', $payment_info['response']['collection']['status']);
+
 		//Set language
-		if ($payment_info['response']['collection']['external_reference']['language_id'] == 1) {
+		if ($invoice['Invoice']['language_id'] == 1) {
 			Configure::write('Config.language', 'es');
 			$language = __('Spanish');
 			//Convert date Y-m-d to d/m/Y format to show in frontend
-			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
-		}elseif($payment_info['response']['collection']['external_reference']['language_id'] == 2){
+			$formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('d/m/Y');
+		}elseif($invoice['Invoice']['language_id'] == 2){
 			Configure::write('Config.language', 'eng');
 			$language = __('English');
 			//Convert date Y-m-d to d/m/Y format to show in frontend
-			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('m/d/Y');
-		}elseif($payment_info['response']['collection']['external_reference']['language_id'] == 3){
+			$formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('m/d/Y');
+		}elseif($invoice['Invoice']['language_id'] == 3){
 			Configure::write('Config.language', 'pt');
 			$language = __('Portuguese');
 			//Convert date Y-m-d to d/m/Y format to show in frontend
-			$formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
+			$formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('d/m/Y');
 		}
 		//Spanish format date
-		$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['date'])->format('d/m/Y');
-		$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $payment_info['response']['collection']['external_reference']['client_birth_date'])->format('d/m/Y');
+		$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('d/m/Y');
+		$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $invoice['Client']['birth_date'])->format('d/m/Y');
 
-		//Encode data for cancel button
-		$encoded_data = urlencode($this->encrypt_decrypt('encrypt', json_encode($payment_info['response']['collection']['external_reference'])));
-
-		$ids = $payment_info['response']['collection']['external_reference']['reserves_ids'];
 
 		foreach ($ids as &$id) {
 			$reserve = $this->Reserve->find('first',array(
@@ -387,17 +441,17 @@ class ReservesController extends AppController {
 		$clientEmail = new CakeEmail();
 		$clientEmail->config('smtp'); //read settings from config/email.php
 		$clientEmail->emailFormat('html');
-		$clientEmail->to($payment_info['response']['collection']['external_reference']['client_email']);
+		$clientEmail->to($invoice['Client']['email']);
 
 		$clientEmail->viewVars(array('reserves' => $reserves));
-		$clientEmail->viewVars(array('client_name' => $payment_info['response']['collection']['external_reference']['client_name']));
+		$clientEmail->viewVars(array('client_name' => $invoice['Client']['full_name']));
 		$clientEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
 		$clientEmail->viewVars(array('date' => $formated_date));
 		$clientEmail->viewVars(array('language' => $language));
-		$clientEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
-		$clientEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
+		$clientEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
+		$clientEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
 		$clientEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
-		$clientEmail->viewVars(array('encoded_data' => $encoded_data));
+		$clientEmail->viewVars(array('encoded_data' => $invoice['Invoice']['encoded_data_for_cancel_reservations']));
 
 
 		//Winery Email
@@ -406,16 +460,16 @@ class ReservesController extends AppController {
 		$wineryEmail->emailFormat('html');
 
 		$wineryEmail->viewVars(array('reserves' => $reserves));
-		$wineryEmail->viewVars(array('client_name' => $payment_info['response']['collection']['external_reference']['client_name']));
-		$wineryEmail->viewVars(array('client_email' => $payment_info['response']['collection']['external_reference']['client_email']));
-		$wineryEmail->viewVars(array('client_country' => $payment_info['response']['collection']['external_reference']['client_country']));
-		$wineryEmail->viewVars(array('client_phone' => $payment_info['response']['collection']['external_reference']['client_phone']));
+		$wineryEmail->viewVars(array('client_name' => $invoice['Client']['full_name']));
+		$wineryEmail->viewVars(array('client_email' => $invoice['Client']['email']));
+		$wineryEmail->viewVars(array('client_country' => $invoice['Client']['country']));
+		$wineryEmail->viewVars(array('client_phone' => $invoice['Client']['phone']));
 		$wineryEmail->viewVars(array('client_birth_date' => $spanish_formated_birth_date));
 		$wineryEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
 		$wineryEmail->viewVars(array('date' => $spanish_formated_date));
 		$wineryEmail->viewVars(array('language' => $language));
-		$wineryEmail->viewVars(array('number_of_adults' => $payment_info['response']['collection']['external_reference']['number_of_adults']));
-		$wineryEmail->viewVars(array('number_of_minors' => $payment_info['response']['collection']['external_reference']['number_of_minors']));
+		$wineryEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
+		$wineryEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
 		$wineryEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
 
 		switch ($payment_info['response']['collection']['status']) {
@@ -425,7 +479,7 @@ class ReservesController extends AppController {
 				$clientEmail->subject(__('WineObs - Booking confirmation'));
 				//Wineries Emails
 				$wineryEmail->template('wineobs_winery_reserve_confirmation', 'wineobs');
-				$wineryEmail->subject('Nueva Reserva: '.$payment_info['response']['collection']['external_reference']['client_name']);
+				$wineryEmail->subject('Nueva Reserva: '.$invoice['Client']['full_name']);
 				foreach ($reserves as $reserve) {
 					$wineryEmail->to($reserve['Tour']['Winery']['email']);
 					$wineryEmail->viewVars(array('winery_name' => $reserve['Tour']['Winery']['name']));
