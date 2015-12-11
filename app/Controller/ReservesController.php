@@ -294,7 +294,7 @@ class ReservesController extends AppController {
 				));
 			}
 
-			$data_for_cancel_reservations => array(
+			$data_for_cancel_reservations = array(
 				'reserves_ids' => $newIds,
 				'date' => $this->request->data['Reserve']['date'],
 				'language_id' => $this->request->data['Reserve']['language_id'],
