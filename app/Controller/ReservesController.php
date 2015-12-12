@@ -215,7 +215,11 @@ class ReservesController extends AppController {
 			$invoice['Invoice']['encoded_data_for_cancel_reservations'] = 'not generated';
 
 			if ($this->Reserve->Invoice->saveAssociated($invoice)) {
-					//debug($invoice);die();
+					$invoice['Invoice']['id'] = $this->Reserve->Invoice->id;
+					$invoice['Client']['id'] = $this->Reserve->Invoice->Client->id;
+					$this->request->data['Reserve']['invoice_id'] = $invoice['Invoice']['id'];
+					$this->request->data['Client']['id'] = $invoice['Client']['id'];
+					// debug($this->Reserve->Invoice->Client->id);die();
 			}else{
 				// debug($this->Reserve->validationErrors); die();
 				$hasError = true;
@@ -224,9 +228,6 @@ class ReservesController extends AppController {
 					'text' => __('The invoice could not be saved.')
 				);
 			}
-
-			$this->request->data['Client']['id'] = $invoice['Client']['id'];
-			$this->request->data['Reserve']['invoice_id'] = $invoice['Invoice']['id'];
 
 			$items = [];
 			$newIds = [];
@@ -320,8 +321,8 @@ class ReservesController extends AppController {
 					'name' => $this->request->data['Client']['full_name'],
 					'email' => $this->request->data['Client']['email'],
 				),
-				// 'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
-				'notification_url' => 'http://requestb.in/wugt9jwu',
+				'notification_url' => 'http://reservas.wineobs.com/reserves/mp_notification',
+				// 'notification_url' => 'http://requestb.in/wugt9jwu',
 				'external_reference' => $invoice['Invoice']['id'],
 				'back_urls' => array(
 					'success' => 'http://wineobs.com/payment_success',
