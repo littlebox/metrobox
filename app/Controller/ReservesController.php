@@ -396,6 +396,9 @@ class ReservesController extends AppController {
 				'conditions' => array('Reserve.id' => $id),
 			));
 			$reserve['Reserve']['mp_status'] = $payment_info['response']['collection']['status'];
+			if($payment_info['response']['collection']['status'] == "approved"){
+				$reserve['Reserve']['paid'] = 1;
+			}
 			$this->Reserve->save($reserve);
 			//Possibles mp_status:
 			// pending: El usuario aún no completó el proceso de pago.
