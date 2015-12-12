@@ -278,14 +278,16 @@ class WineriesController extends AppController {
 			}
 		}
 
+		//I do this for correct secuencial array indexation because if isn't correct, json_encode dont transform this correctly
+		$wineriesToSend = [];
+		foreach ($wineries as $winery) {
+			$wineriesToSend[] = $winery;
+		}
+
 		// $log = $this->Winery->getDataSource()->getLog(false, false);debug($log);
 
-		$this->set(compact('wineries')); // Pass $data to the view
-		$this->set('_serialize', 'wineries'); // Let the JsonView class know what variable to use
-
-		// debug($wineries);die();
-		// echo json_encode($wineries);
-		// die();
+		$this->set(compact('wineriesToSend')); // Pass $data to the view
+		$this->set('_serialize', 'wineriesToSend'); // Let the JsonView class know what variable to use
 	}
 
 
