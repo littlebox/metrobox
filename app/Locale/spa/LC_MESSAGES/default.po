@@ -1554,7 +1554,7 @@ msgid "Your reservation could not be confirmed. Please check your payment method
 msgstr "Su reserva no pudo ser confirmada debido a problemas con el medio de pago. Por favor intente nuevamente."
 
 msgid "Thank you for choosing WineObs! Please take a moment to share your experience with the Wine Lovers community."
-msgstr "¡Gracias por elegir WineObs! Nos gustaría que comparta su experiencia con el resto de la comuniad de Wine Lovers."
+msgstr "¡Gracias por elegir WineObs! Nos gustaría que comparta su experiencia con el resto de la comunidad de Wine Lovers."
 
 
 
