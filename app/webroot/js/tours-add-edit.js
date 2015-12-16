@@ -158,6 +158,38 @@ var TourAddEdit = {
 		});
 	},
 
+	handleDatePickers: function () {
+
+		if (jQuery().datepicker) {
+			$('.date-picker').datepicker({
+				language: 'es',
+				format: 'dd/mm/yyyy',
+				orientation: "left",
+				weekStart: 1,
+				autoclose: true,
+				todayHighlight: true,
+			});
+		}
+
+		/* Workaround to restrict daterange past date select: http://stackoverflow.com/questions/11933173/how-to-restrict-the-selectable-date-ranges-in-bootstrap-datepicker */
+	},
+
+	addDay: function() {
+		datePickerDiv = $('#all-datepickers-div').children().first().clone(true).removeAttr('style').wrap('<div/>').parent().html();
+		$('#all-datepickers-div').children().first().remove();
+
+		$('#add-day-button').on('click', function(){
+			$('#all-datepickers-div').append(datePickerDiv);
+			TourAddEdit.handleDatePickers();
+		})
+	},
+
+	removeDay: function() {
+		$('#all-datepickers-div').on('click', '.remove-day-button', function(){
+			$(this).closest('.datepicker-div').remove();
+		})
+	},
+
 
 	init: function (){
 		TourAddEdit.handleTimePickers();
@@ -165,6 +197,9 @@ var TourAddEdit = {
 		TourAddEdit.addTime();
 		TourAddEdit.removeTime();
 		TourAddEdit.initColorPickers();
+		TourAddEdit.handleDatePickers();
+		TourAddEdit.addDay();
+		TourAddEdit.removeDay();
 	}
 
 }

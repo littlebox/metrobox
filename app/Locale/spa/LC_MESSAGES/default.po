@@ -1480,6 +1480,14 @@ msgstr "No se pudo cambiar la asistencia de la reserva: "
 msgid "Hasn't been change attended state."
 msgstr "No se pudo cambiar la asistencia de la reserva."
 
+#: Tour Model
+msgid "Disabled Days"
+msgstr "Días Desabilitados"
+
+#: Tour Model
+msgid "Add Disabled Day"
+msgstr "Agregar Día Desabilitado"
+
 #: MAILS
 msgid "WineObs - Booking confirmation"
 msgstr "WineObs - Confirmación de reserva"

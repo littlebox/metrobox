@@ -201,7 +201,11 @@ class WineriesController extends AppController {
 					'Language' => array(
 						'id',
 						'name',
-					)
+					),
+					'DisabledDay' => array(
+						'id',
+						'day',
+					),
 				),
 				'Review' => array(
 					'fields' => array(
@@ -271,6 +275,16 @@ class WineriesController extends AppController {
 				$tour['length'] = date('H:i', strtotime($tour['length']));
 				if(count($tour['Time']) == 0){
 					unset($winery['Tour'][$tourKey]);
+				}
+
+				//If selected day is one of tour's disabled days, remove tour from results
+				if(count($tour['DisabledDay']) != 0){
+					foreach ($tour['DisabledDay'] as $disabled_day) {
+						if($disabled_day['day'] == $date){
+							unset($winery['Tour'][$tourKey]);
+							break;
+						}
+					}
 				}
 			}
 			if(count($winery['Tour']) == 0){

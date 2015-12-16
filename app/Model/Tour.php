@@ -136,6 +136,19 @@ class Tour extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => '',
+		),
+		'DisabledDay' => array(
+			'className' => 'DisabledDay',
+			'foreignKey' => 'tour_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => '',
 		)
 	);
 

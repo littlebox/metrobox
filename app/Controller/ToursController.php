@@ -142,6 +142,8 @@ class ToursController extends AppController {
 
 		if ($this->request->is(array('post', 'put'))) {
 
+			// debug($this->request->data);die();
+
 			$this->request->data['Tour']['id'] = $id;
 
 			//Make length field "hh:mm:ss formated" to save in DB
@@ -175,6 +177,22 @@ class ToursController extends AppController {
 
 			}
 
+			$this->Tour->DisabledDay->deleteAll(array(
+				'DisabledDay.tour_id' => $id,
+			));
+
+			$this->request->data['DisabledDay'] = [];
+			foreach ($this->request->data['DisableDaysToFormat'] as $disabled_day_to_format) {
+				if(!empty($disabled_day_to_format)){
+					//Convert date d/m/Y to Y-m-d format tosave in DB
+					$this->request->data['DisabledDay'][]['day'] = DateTime::createFromFormat('d/m/Y', $disabled_day_to_format)->format('Y-m-d');;
+				}
+			}
+
+			unset($this->request->data['DisableDaysToFormat']);
+
+			// debug($this->request->data);die();
+
 			if ($this->Tour->saveAssociated($this->request->data)) {
 				$this->Session->setFlash(__('The tour has been saved.'), 'metrobox/flash_success');
 				return $this->redirect(array('action' => 'index'));
@@ -182,7 +200,7 @@ class ToursController extends AppController {
 				$this->Session->setFlash(__('The tour could not be saved. Please, try again.'), 'metrobox/flash_danger');
 			}
 		} else {
-			$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id), 'contain' => array('Day', 'Language', 'Time'));
+			$options = array('conditions' => array('Tour.' . $this->Tour->primaryKey => $id), 'contain' => array('Day', 'Language', 'Time', 'DisabledDay'));
 			$this->request->data = $this->Tour->find('first', $options);
 		}
 		//To show wineries, days and languages availables in view
