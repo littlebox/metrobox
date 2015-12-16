@@ -233,8 +233,8 @@ class ReservesController extends AppController {
 			$newIds = [];
 			require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 			$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
-			// $mp->sandbox_mode(false);
-			$mp->sandbox_mode(true);
+			$mp->sandbox_mode(false);
+			// $mp->sandbox_mode(true);
 
 			foreach ($json['reserves']['tours'] as $tour) {
 				$this->request->data['Reserve']['tour_id'] = $tour['id'];
@@ -333,8 +333,8 @@ class ReservesController extends AppController {
 			);
 			$preference = $mp->create_preference($preference_data);
 
-			// $data['mp_url'] = $preference['response']['init_point'];
-			$data['mp_url'] = $preference['response']['sandbox_init_point'];
+			$data['mp_url'] = $preference['response']['init_point'];
+			// $data['mp_url'] = $preference['response']['sandbox_init_point'];
 
 			$this->set(compact('data')); // Pass $data to the view
 			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
@@ -350,8 +350,8 @@ class ReservesController extends AppController {
 		$this->autoRender = false;
 
 		$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
-		$mp->sandbox_mode(true);
-		// $mp->sandbox_mode(false);
+		$mp->sandbox_mode(false);
+		// $mp->sandbox_mode(true);
 		$params = ["access_token" => $mp->get_access_token()];
 		$payment_info = $mp->get_payment_info($_GET["id"]);
 
