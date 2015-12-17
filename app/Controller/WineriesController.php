@@ -259,6 +259,12 @@ class WineriesController extends AppController {
 
 		foreach ($wineries as $wineryKey => &$winery) {
 			foreach ($winery['Tour'] as $tourKey => &$tour) {
+				//Set descriptions on array
+				$tour['description'] = array(
+					'es' => $tour['description'],
+					'en' => $tour['english_description'],
+					'pt' => $tour['portuguese_description'],
+				);
 				foreach ($tour['Time'] as $timeKey => &$time) {
 					$tourId = $tour['id'];
 					$timeHour = $time['hour'];
@@ -297,8 +303,15 @@ class WineriesController extends AppController {
 		//I do this for correct secuencial array indexation because if isn't correct, json_encode dont transform this correctly
 		$wineriesToSend = [];
 		foreach ($wineries as $winery) {
+			$winery['Winery']['description'] = array(
+				'es' => $winery['Winery']['description'],
+				'en' => $winery['Winery']['english_description'],
+				'pt' => $winery['Winery']['portuguese_description'],
+			);
 			$wineriesToSend[] = $winery;
 		}
+
+		debug($wineriesToSend);die();
 
 		// $log = $this->Winery->getDataSource()->getLog(false, false);debug($log);
 
