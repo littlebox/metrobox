@@ -80,3 +80,9 @@ msgstr "Inglês"
 
 msgid "Spanish"
 msgstr "Espanhol"
+
+msgid "Sent with"
+msgstr "Enviada com"
+
+msgid "from WineObs offices"
+msgstr "de escritórios do WineObs"

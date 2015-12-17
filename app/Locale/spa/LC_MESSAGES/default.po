@@ -1482,11 +1482,11 @@ msgstr "No se pudo cambiar la asistencia de la reserva."
 
 #: Tour Model
 msgid "Disabled Days"
-msgstr "Días Desabilitados"
+msgstr "Días Bloqueados"
 
 #: Tour Model
 msgid "Add Disabled Day"
-msgstr "Agregar Día Desabilitado"
+msgstr "Agregar Día Bloqueado"
 
 #: MAILS
 msgid "WineObs - Booking confirmation"
@@ -1564,7 +1564,9 @@ msgstr "Su reserva no pudo ser confirmada debido a problemas con el medio de pag
 msgid "Thank you for choosing WineObs! Please take a moment to share your experience with the Wine Lovers community."
 msgstr "¡Gracias por elegir WineObs! Nos gustaría que comparta su experiencia con el resto de la comunidad de Wine Lovers."
 
+msgid "Sent with"
+msgstr "Enviado con"
 
-
-
+msgid "from WineObs offices"
+msgstr "desde las oficinas de WineObs"
 
