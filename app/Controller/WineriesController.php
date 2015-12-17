@@ -212,12 +212,12 @@ class WineriesController extends AppController {
 				'Review' => array(
 					'fields' => array(
 						'review',
+						'created',
 					),
 					'Client' => array(
 						'fields' => array(
 							'full_name',
 							'country',
-							'created',
 						),
 					),
 				),
