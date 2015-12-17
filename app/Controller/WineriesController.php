@@ -146,6 +146,8 @@ class WineriesController extends AppController {
 				'address',
 				'city',
 				'description',
+				'english_description',
+				'portuguese_description',
 				'priority',
 				'has_logo',
 			),
