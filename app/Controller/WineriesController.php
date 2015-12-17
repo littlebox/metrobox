@@ -311,7 +311,7 @@ class WineriesController extends AppController {
 			$wineriesToSend[] = $winery;
 		}
 
-		debug($wineriesToSend);die();
+		// debug($wineriesToSend);die();
 
 		// $log = $this->Winery->getDataSource()->getLog(false, false);debug($log);
 
