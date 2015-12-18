@@ -182,10 +182,13 @@ class ToursController extends AppController {
 			));
 
 			$this->request->data['DisabledDay'] = [];
-			foreach ($this->request->data['DisableDaysToFormat'] as $disabled_day_to_format) {
-				if(!empty($disabled_day_to_format)){
-					//Convert date d/m/Y to Y-m-d format tosave in DB
-					$this->request->data['DisabledDay'][]['day'] = DateTime::createFromFormat('d/m/Y', $disabled_day_to_format)->format('Y-m-d');;
+
+			if(!empty($this->request->data['DisableDaysToFormat'])){
+				foreach ($this->request->data['DisableDaysToFormat'] as $disabled_day_to_format) {
+					if(!empty($disabled_day_to_format)){
+						//Convert date d/m/Y to Y-m-d format tosave in DB
+						$this->request->data['DisabledDay'][]['day'] = DateTime::createFromFormat('d/m/Y', $disabled_day_to_format)->format('Y-m-d');;
+					}
 				}
 			}
 
