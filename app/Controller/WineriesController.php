@@ -258,6 +258,12 @@ class WineriesController extends AppController {
 		$requested_quota = $adults+$minors;
 
 		foreach ($wineries as $wineryKey => &$winery) {
+			//Set descriptions on array
+			$winery['Winery']['description'] = array(
+				'es' => $winery['Winery']['description'],
+				'en' => $winery['Winery']['english_description'],
+				'pt' => $winery['Winery']['portuguese_description'],
+			);
 			foreach ($winery['Tour'] as $tourKey => &$tour) {
 				//Set descriptions on array
 				$tour['description'] = array(
@@ -279,6 +285,9 @@ class WineriesController extends AppController {
 						unset($tour['Time'][$timeKey]);
 					}
 				}
+				//Prevent reference variable reamin after foreach loop
+				unset($time);
+
 				//And Remove Seconds From Time
 				$tour['length'] = date('H:i', strtotime($tour['length']));
 				if(count($tour['Time']) == 0){
@@ -295,19 +304,21 @@ class WineriesController extends AppController {
 					}
 				}
 			}
+			//Prevent reference variable reamin after foreach loop
+			unset($tour);
+
 			if(count($winery['Tour']) == 0){
 				unset($wineries[$wineryKey]);
 			}
 		}
+		//Prevent reference variable reamin after foreach loop
+		unset($winery);
+
+		// debug($wineries);//die();
 
 		//I do this for correct secuencial array indexation because if isn't correct, json_encode dont transform this correctly
 		$wineriesToSend = [];
 		foreach ($wineries as $winery) {
-			$winery['Winery']['description'] = array(
-				'es' => $winery['Winery']['description'],
-				'en' => $winery['Winery']['english_description'],
-				'pt' => $winery['Winery']['portuguese_description'],
-			);
 			$wineriesToSend[] = $winery;
 		}
 
