@@ -357,10 +357,22 @@ class ReservesController extends AppController {
 
 		// file_put_contents(APP.'/mp_notifications.txt', json_encode($payment_info), FILE_APPEND);
 
+		//Variables
+		$invoice_id = $payment_info['response']['collection']['external_reference'];
+		$status = $payment_info['response']['collection']['status'];
+		$payment_id = $payment_info['response']['collection']['id'];
+		$total_paid_amount = $payment_info['response']['collection']['total_paid_amount'];
+
+		//Test variables
+		// $invoice_id = 25;
+		// $status = 'approved';
+		// $payment_id = 555;
+		// $total_paid_amount = 999;
+
 		$invoice = $this->Reserve->Invoice->find('first', array(
 			'contain' => array('Reserve.id', 'Client'),
 			'conditions' => array(
-				'Invoice.id' => $payment_info['response']['collection']['external_reference'],
+				'Invoice.id' => $invoice_id,
 			),
 		));
 
@@ -370,7 +382,7 @@ class ReservesController extends AppController {
 		}
 
 		$this->Reserve->Invoice->id = $invoice['Invoice']['id'];
-		$this->Reserve->Invoice->saveField('status', $payment_info['response']['collection']['status']);
+		$this->Reserve->Invoice->saveField('status', $status);
 
 		//Set language
 		if ($invoice['Invoice']['language_id'] == 1) {
@@ -398,8 +410,8 @@ class ReservesController extends AppController {
 			$reserve = $this->Reserve->find('first',array(
 				'conditions' => array('Reserve.id' => $id),
 			));
-			$reserve['Reserve']['mp_status'] = $payment_info['response']['collection']['status'];
-			if($payment_info['response']['collection']['status'] == "approved"){
+			$reserve['Reserve']['mp_status'] = $status;
+			if($status == "approved"){
 				$reserve['Reserve']['paid'] = 1;
 			}
 			$this->Reserve->save($reserve);
@@ -453,12 +465,12 @@ class ReservesController extends AppController {
 
 		$clientEmail->viewVars(array('reserves' => $reserves));
 		$clientEmail->viewVars(array('client_name' => $invoice['Client']['full_name']));
-		$clientEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+		$clientEmail->viewVars(array('payment_id' => $payment_id));
 		$clientEmail->viewVars(array('date' => $formated_date));
 		$clientEmail->viewVars(array('language' => $language));
 		$clientEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
 		$clientEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
-		$clientEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
+		$clientEmail->viewVars(array('total' => $total_paid_amount));
 		$clientEmail->viewVars(array('encoded_data' => $invoice['Invoice']['encoded_data_for_cancel_reservations']));
 
 
@@ -473,14 +485,14 @@ class ReservesController extends AppController {
 		$wineryEmail->viewVars(array('client_country' => $invoice['Client']['country']));
 		$wineryEmail->viewVars(array('client_phone' => $invoice['Client']['phone']));
 		$wineryEmail->viewVars(array('client_birth_date' => $spanish_formated_birth_date));
-		$wineryEmail->viewVars(array('payment_id' => $payment_info['response']['collection']['id']));
+		$wineryEmail->viewVars(array('payment_id' => $payment_id));
 		$wineryEmail->viewVars(array('date' => $spanish_formated_date));
 		$wineryEmail->viewVars(array('language' => $language));
 		$wineryEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
 		$wineryEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
-		$wineryEmail->viewVars(array('total' => $payment_info['response']['collection']['total_paid_amount']));
+		$wineryEmail->viewVars(array('total' => $total_paid_amount));
 
-		switch ($payment_info['response']['collection']['status']) {
+		switch ($status) {
 			case "approved":
 				//Client Email
 				$clientEmail->template('wineobs_user_reserve_confirmation', 'wineobs');
@@ -530,6 +542,8 @@ class ReservesController extends AppController {
 		}
 
 		$clientEmail->send();
+
+		echo 'ok';
 	}
 
 	public function edit() {
