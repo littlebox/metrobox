@@ -1,4 +1,12 @@
 <?php
+use PayPal\Api\Amount;
+use PayPal\Api\Details;
+use PayPal\Api\Item;
+use PayPal\Api\ItemList;
+use PayPal\Api\Payer;
+use PayPal\Api\Payment;
+use PayPal\Api\RedirectUrls;
+use PayPal\Api\Transaction;
 App::uses('AppController', 'Controller');
 /**
  * Reserves Controller
@@ -230,11 +238,29 @@ class ReservesController extends AppController {
 			}
 
 			$items = [];
+			$items_pp = [];
 			$newIds = [];
 			require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
+			require_once(APP.'Vendor/paypal-sdk/autoload.php');
+
 			$mp = new MP('8915881018899740', 'VFVdIwFOZQLabpCDnN6AvgbTzVT2mqju');
 			$mp->sandbox_mode(false);
 			// $mp->sandbox_mode(true);
+
+			// cancel($items);
+			// https://developer.paypal.com/webapps/developer/applications/myapps
+
+			$apiContext = new \PayPal\Rest\ApiContext(
+				new \PayPal\Auth\OAuthTokenCredential(
+					'Aej6N4FTTOW0jNaK_S23ipWPrSdgyluZL09oVpGuYl0VbAm5wk8ypY5h76VHv9R8kcWQ0aLnwJDOLX1h',     // ClientID
+					'EELXHrny_38jlDZqwd78pZqA6Lsge85bqkh7N5uM_hd0M1xeMZcr0NcJqJBSEKln_JDY6_jI64nNqd74'      // ClientSecret
+				)
+			);
+
+			$payer = new Payer();
+			$payer->setPaymentMethod("paypal");
+			$apiData = file_get_contents('http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=ARSUSD=X');
+			$currencyRate = explode(',', $apiData)[1];
 
 			foreach ($json['reserves']['tours'] as $tour) {
 				$this->request->data['Reserve']['tour_id'] = $tour['id'];
@@ -294,6 +320,18 @@ class ReservesController extends AppController {
 					'unit_price' => $price,
 					'quantity' => 1,
 				));
+
+				$item_pp = new Item();
+				$item_pp->setName($title)
+					->setCurrency('USD')
+					->setQuantity(1)
+					// ->setSku('sku-'.$item['id']) // Similar to `item_number` in Classic API
+					->setPrice($price * $currencyRate);
+
+
+				$items_pp[] = $item_pp;
+
+
 			}
 
 			$data_for_cancel_reservations = array(
@@ -316,6 +354,7 @@ class ReservesController extends AppController {
 			$this->Reserve->Invoice->id = $invoice['Invoice']['id'];
 			$this->Reserve->Invoice->saveField('encoded_data_for_cancel_reservations', $encoded_data_for_cancel_reservations);
 
+			//mercado pago
 			$preference_data = array(
 				'items' => $items,
 				'payer' => array(
@@ -333,7 +372,44 @@ class ReservesController extends AppController {
 			);
 			$preference = $mp->create_preference($preference_data);
 
+			//paypal
+			$itemList = new itemList();
+			$itemList->setItems($items_pp);
+
+			$amount = new Amount();
+			$amount->setCurrency("USD")
+					->setTotal($totalPrice*$currencyRate);
+					// ->setDetails($details);
+
+			$transaction = new Transaction();
+			$transaction->setAmount($amount)
+					->setItemList($itemList)
+					->setDescription("Payment description")
+					->setInvoiceNumber(uniqid());
+
+			$baseUrl = 'http://www.wineobs.com/'; //getBaseUrl();
+			$redirectUrls = new RedirectUrls();
+			$redirectUrls->setReturnUrl("$baseUrl/payment_success")
+				->setCancelUrl("$baseUrl/payment_failure");
+
+
+			$payment = new Payment();
+			$payment->setIntent("sale")
+			    ->setPayer($payer)
+			    ->setRedirectUrls($redirectUrls)
+			    ->setTransactions(array($transaction));
+
+			$request = clone $payment;
+
+			try {
+			    $payment->create($apiContext);
+			} catch (Exception $e) {
+					$data['error'] = $e;
+			}
+
+
 			$data['mp_url'] = $preference['response']['init_point'];
+			$data['pp_url'] = $payment->getApprovalLink();
 			// $data['mp_url'] = $preference['response']['sandbox_init_point'];
 
 			$this->set(compact('data')); // Pass $data to the view
