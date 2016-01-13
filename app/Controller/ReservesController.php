@@ -622,6 +622,7 @@ class ReservesController extends AppController {
 	}
 
 	public function pp_notification(){
+		$this->autoRender = false;
 
 		// CONFIG: Enable debug mode. This means we'll log requests into 'ipn.log' in the same directory.
 		// Especially useful if you encounter network errors or other intermittent problems with IPN (validation).
