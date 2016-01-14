@@ -624,78 +624,285 @@ class ReservesController extends AppController {
 	public function pp_notification(){
 		$this->autoRender = false;
 
-		define("LOG_FILE", "/ipn.log");
-
-		// tell PHP to log errors to ipn_errors.log in this directory
-		ini_set('log_errors', true);
-		ini_set('error_log', dirname(__FILE__).'/ipn_errors.log');
-
-		// intantiate the IPN listener
-		require_once(APP.'Vendor/paypalipnlistener/ipnlistener.php');
-		$listener = new IpnListener();
-
-		// tell the IPN listener to use the PayPal test sandbox
-		$listener->use_sandbox = true;
-
-		// try to process the IPN POST
-		try {
-			$listener->requirePostMethod();
-			$verified = $listener->processIpn();
-		} catch (Exception $e) {
-			error_log($e->getMessage());
-			exit(0);
+		// CONFIG: Enable debug mode. This means we'll log requests into 'ipn.log' in the same directory.
+		// Especially useful if you encounter network errors or other intermittent problems with IPN (validation).
+		// Set this to 0 once you go live or don't require logging.
+		define("DEBUG", 1);
+		// Set to 0 once you're ready to go live
+		define("USE_SANDBOX", 1);
+		define("LOG_FILE", "./ipn.log");
+		// Read POST data
+		// reading posted data directly from $_POST causes serialization
+		// issues with array data in POST. Reading raw POST data from input stream instead.
+		$raw_post_data = file_get_contents('php://input');
+		$raw_post_array = explode('&', $raw_post_data);
+		$myPost = array();
+		foreach ($raw_post_array as $keyval) {
+			$keyval = explode ('=', $keyval);
+			if (count($keyval) == 2)
+				$myPost[$keyval[0]] = urldecode($keyval[1]);
 		}
-
-		if ($verified) {
-
-			error_log("VERIFIED!", 3, LOG_FILE);
-
-			// $errmsg = '';   // stores errors from fraud checks
-
-			// // 1. Make sure the payment status is "Completed"
-			// if ($_POST['payment_status'] != 'Completed') {
-			// 	// simply ignore any IPN that is not completed
-			// 	exit(0);
-			// }
-
-			// // 2. Make sure seller email matches your primary account email.
-			// if ($_POST['receiver_email'] != 'YOUR PRIMARY PAYPAL EMAIL') {
-			// 	$errmsg .= "'receiver_email' does not match: ";
-			// 	$errmsg .= $_POST['receiver_email']."\n";
-			// }
-
-			// // 3. Make sure the amount(s) paid match
-			// if ($_POST['mc_gross'] != '9.99') {
-			// 	$errmsg .= "'mc_gross' does not match: ";
-			// 	$errmsg .= $_POST['mc_gross']."\n";
-			// }
-
-			// // 4. Make sure the currency code matches
-			// if ($_POST['mc_currency'] != 'USD') {
-			// 	$errmsg .= "'mc_currency' does not match: ";
-			// 	$errmsg .= $_POST['mc_currency']."\n";
-			// }
-
-			// // TODO: Check for duplicate txn_id
-
-			// if (!empty($errmsg)) {
-
-			// 	// manually investigate errors from the fraud checking
-			// 	$body = "IPN failed fraud checks: \n$errmsg\n\n";
-			// 	$body .= $listener->getTextReport();
-			// 	mail('YOUR EMAIL ADDRESS', 'IPN Fraud Warning', $body);
-
-			// } else {
-
-			// 	// TODO: process order here
-			// }
-
+		// read the post from PayPal system and add 'cmd'
+		$req = 'cmd=_notify-validate';
+		if(function_exists('get_magic_quotes_gpc')) {
+			$get_magic_quotes_exists = true;
+		}
+		foreach ($myPost as $key => $value) {
+			if($get_magic_quotes_exists == true && get_magic_quotes_gpc() == 1) {
+				$value = urlencode(stripslashes($value));
+			} else {
+				$value = urlencode($value);
+			}
+			$req .= "&$key=$value";
+		}
+		// Post IPN data back to PayPal to validate the IPN data is genuine
+		// Without this step anyone can fake IPN data
+		if(USE_SANDBOX == true) {
+			$paypal_url = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 		} else {
-			error_log("FAIL!", 3, LOG_FILE);
-
-			// manually investigate the invalid IPN
-			// mail('YOUR EMAIL ADDRESS', 'Invalid IPN', $listener->getTextReport());
+			$paypal_url = "https://www.paypal.com/cgi-bin/webscr";
 		}
+		$ch = curl_init($paypal_url);
+		if ($ch == FALSE) {
+			return FALSE;
+		}
+		curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+		curl_setopt($ch, CURLOPT_POST, 1);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $req);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 2);
+		curl_setopt($ch, CURLOPT_FORBID_REUSE, 1);
+		if(DEBUG == true) {
+			curl_setopt($ch, CURLOPT_HEADER, 1);
+			curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+		}
+		// CONFIG: Optional proxy configuration
+		//curl_setopt($ch, CURLOPT_PROXY, $proxy);
+		//curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
+		// Set TCP timeout to 30 seconds
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Connection: Close'));
+		// CONFIG: Please download 'cacert.pem' from "http://curl.haxx.se/docs/caextract.html" and set the directory path
+		// of the certificate as shown below. Ensure the file is readable by the webserver.
+		// This is mandatory for some environments.
+		//$cert = __DIR__ . "./cacert.pem";
+		//curl_setopt($ch, CURLOPT_CAINFO, $cert);
+		$res = curl_exec($ch);
+		if (curl_errno($ch) != 0) // cURL error
+			{
+			if(DEBUG == true) {
+				error_log(date('[Y-m-d H:i e] '). "Can't connect to PayPal to validate IPN message: " . curl_error($ch) . PHP_EOL, 3, LOG_FILE);
+			}
+			curl_close($ch);
+			exit;
+		} else {
+				// Log the entire HTTP response if debug is switched on.
+				if(DEBUG == true) {
+					error_log(date('[Y-m-d H:i e] '). "HTTP request of validation request:". curl_getinfo($ch, CURLINFO_HEADER_OUT) ." for IPN payload: $req" . PHP_EOL, 3, LOG_FILE);
+					error_log(date('[Y-m-d H:i e] '). "HTTP response of validation request: $res" . PHP_EOL, 3, LOG_FILE);
+					error_log("DATA: $_POST" . PHP_EOL, 3, LOG_FILE);
+				}
+				curl_close($ch);
+		}
+		// Inspect IPN validation result and act accordingly
+		// Split response headers and payload, a better way for strcmp
+		$tokens = explode("\r\n\r\n", trim($res));
+		$res = trim(end($tokens));
+		if (strcmp ($res, "VERIFIED") == 0) {
+			error_log("VERIFIED" . PHP_EOL, 3, LOG_FILE);
+			// check whether the payment_status is Completed
+			// check that txn_id has not been previously processed
+			// check that receiver_email is your PayPal email
+			// check that payment_amount/payment_currency are correct
+			// process payment and mark item as paid.
+			// assign posted variables to local variables
+			//$item_name = $_POST['item_name'];
+			//$item_number = $_POST['item_number'];
+			//$payment_status = $_POST['payment_status'];
+			//$payment_amount = $_POST['mc_gross'];
+			//$payment_currency = $_POST['mc_currency'];
+			//$txn_id = $_POST['txn_id'];
+			//$receiver_email = $_POST['receiver_email'];
+			//$payer_email = $_POST['payer_email'];
+
+			if(DEBUG == true) {
+				error_log(date('[Y-m-d H:i e] '). "Verified IPN: $req ". PHP_EOL, 3, LOG_FILE);
+			}
+		} else if (strcmp ($res, "INVALID") == 0) {
+			error_log("INVALID" . PHP_EOL, 3, LOG_FILE);
+			// log for manual investigation
+			// Add business logic here which deals with invalid IPN messages
+			if(DEBUG == true) {
+				error_log(date('[Y-m-d H:i e] '). "Invalid IPN: $req" . PHP_EOL, 3, LOG_FILE);
+			}
+		}
+
+		//Variables
+		$invoice_id = $_POST['invoice'];
+		$status = $_POST['payment_status'];
+		$payment_id = $_POST['payment_status'];
+		$total_paid_amount = $_POST['mc_gross1'];
+
+		//Test variables
+		// $invoice_id = 25;
+		// $status = 'approved';
+		// $payment_id = 555;
+		// $total_paid_amount = 999;
+
+		$invoice = $this->Reserve->Invoice->find('first', array(
+			'contain' => array('Reserve.id', 'Client'),
+			'conditions' => array(
+				'Invoice.id' => $invoice_id,
+			),
+		));
+
+		$ids = [];
+		foreach ($invoice['Reserve'] as $reserve) {
+			$ids[] = $reserve['id'];
+		}
+
+		$this->Reserve->Invoice->id = $invoice['Invoice']['id'];
+		$this->Reserve->Invoice->saveField('status', $status);
+
+		//Set language
+		if ($invoice['Invoice']['language_id'] == 1) {
+			Configure::write('Config.language', 'es');
+			$language = __('Spanish');
+			//Convert date Y-m-d to d/m/Y format to show in frontend
+			$formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('d/m/Y');
+		}elseif($invoice['Invoice']['language_id'] == 2){
+			Configure::write('Config.language', 'eng');
+			$language = __('English');
+			//Convert date Y-m-d to d/m/Y format to show in frontend
+			$formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('m/d/Y');
+		}elseif($invoice['Invoice']['language_id'] == 3){
+			Configure::write('Config.language', 'pt');
+			$language = __('Portuguese');
+			//Convert date Y-m-d to d/m/Y format to show in frontend
+			$formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('d/m/Y');
+		}
+		//Spanish format date
+		$spanish_formated_date = DateTime::createFromFormat('Y-m-d', $invoice['Invoice']['date'])->format('d/m/Y');
+		$spanish_formated_birth_date = DateTime::createFromFormat('Y-m-d', $invoice['Client']['birth_date'])->format('d/m/Y');
+
+
+		foreach ($ids as &$id) {
+			$reserve = $this->Reserve->find('first',array(
+				'conditions' => array('Reserve.id' => $id),
+			));
+			$reserve['Reserve']['mp_status'] = $status;
+			if($status == "Completed"){
+				$reserve['Reserve']['paid'] = 1;
+			}
+			$this->Reserve->save($reserve);
+
+			// Canceled_Reversal: A reversal has been canceled. For example, you won a dispute with the customer, and the funds for the transaction that was reversed have been returned to you.
+			// Completed: The payment has been completed, and the funds have been added successfully to your account balance.
+			// Created: A German ELV payment is made using Express Checkout.
+			// Denied: You denied the payment. This happens only if the payment was previously pending because of possible reasons described for the pending_reason variable or the Fraud_Management_Filters_x variable.
+			// Expired: This authorization has expired and cannot be captured.
+			// Failed: The payment has failed. This happens only if the payment was made from your customer’s bank account.
+			// Pending: The payment is pending. See pending_reason for more information.
+			// Refunded: You refunded the payment.
+			// Reversed: A payment was reversed due to a chargeback or other type of reversal. The funds have been removed from your account balance and returned to the buyer. The reason for the reversal is specified in the ReasonCode element.
+			// Processed: A payment has been accepted.
+			// Voided: This authorization has been voided.
+		}
+
+		$reserves = $this->Reserve->find('all', array(
+			'fields' => array(
+				'id',
+				'time',
+			),
+			'contain' => array(
+				'Tour' => array(
+					'Winery' => array(
+						'fields' => array(
+							'id',
+							'name',
+							'email',
+							'address',
+							'latitude',
+							'longitude',
+						),
+					),
+					'fields' => array(
+						'id',
+						'name',
+						'length',
+					),
+				),
+			),
+			'conditions' => array(
+				'Reserve.id' => $ids
+			),
+		));
+
+		// file_put_contents(APP.'/reserves.txt', json_encode($reserves), FILE_APPEND);
+
+		//Client Email
+		$clientEmail = new CakeEmail();
+		$clientEmail->config('smtp'); //read settings from config/email.php
+		$clientEmail->emailFormat('html');
+		$clientEmail->to($invoice['Client']['email']);
+
+		$clientEmail->viewVars(array('reserves' => $reserves));
+		$clientEmail->viewVars(array('client_name' => $invoice['Client']['full_name']));
+		$clientEmail->viewVars(array('payment_id' => $payment_id));
+		$clientEmail->viewVars(array('date' => $formated_date));
+		$clientEmail->viewVars(array('language' => $language));
+		$clientEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
+		$clientEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
+		$clientEmail->viewVars(array('total' => $total_paid_amount));
+		$clientEmail->viewVars(array('encoded_data' => $invoice['Invoice']['encoded_data_for_cancel_reservations']));
+
+
+		//Winery Email
+		$wineryEmail = new CakeEmail();
+		$wineryEmail->config('smtp'); //read settings from config/email.php
+		$wineryEmail->emailFormat('html');
+
+		$wineryEmail->viewVars(array('reserves' => $reserves));
+		$wineryEmail->viewVars(array('client_name' => $invoice['Client']['full_name']));
+		$wineryEmail->viewVars(array('client_email' => $invoice['Client']['email']));
+		$wineryEmail->viewVars(array('client_country' => $invoice['Client']['country']));
+		$wineryEmail->viewVars(array('client_phone' => $invoice['Client']['phone']));
+		$wineryEmail->viewVars(array('client_birth_date' => $spanish_formated_birth_date));
+		$wineryEmail->viewVars(array('payment_id' => $payment_id));
+		$wineryEmail->viewVars(array('date' => $spanish_formated_date));
+		$wineryEmail->viewVars(array('language' => $language));
+		$wineryEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
+		$wineryEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
+		$wineryEmail->viewVars(array('total' => $total_paid_amount));
+
+		switch ($status) {
+			case "Completed":
+				//Client Email
+				$clientEmail->template('wineobs_user_reserve_confirmation', 'wineobs');
+				$clientEmail->subject(__('WineObs - Booking confirmation'));
+				//Wineries Emails
+				$wineryEmail->template('wineobs_winery_reserve_confirmation', 'wineobs');
+				$wineryEmail->subject('Nueva Reserva: '.$invoice['Client']['full_name']);
+				foreach ($reserves as $reserve) {
+					$wineryEmail->to($reserve['Tour']['Winery']['email']);
+					$wineryEmail->viewVars(array('winery_name' => $reserve['Tour']['Winery']['name']));
+					$wineryEmail->viewVars(array('tour_name' => $reserve['Tour']['name']));
+					$wineryEmail->viewVars(array('time' => $reserve['Reserve']['time']));
+
+					$wineryEmail->send();
+				}
+				break;
+			case "Denied":
+				//Enviar mail
+				$clientEmail->template('wineobs_user_reserve_payment_canceled', 'wineobs');
+				$clientEmail->subject(__('WineObs - Your Booking could not be confirmed'));
+				break;
+		}
+
+		$clientEmail->send();
+
+		echo 'ok';
 
 	}
 
@@ -1091,7 +1298,6 @@ class ReservesController extends AppController {
 		}
 
 	}
-
 
 
 }
