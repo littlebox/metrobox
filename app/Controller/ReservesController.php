@@ -20,7 +20,7 @@ class ReservesController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('api_add','mp_notification', 'pp_notification', 'cancel');
+		$this->Auth->allow('api_add','mp_notification', 'pp_notification', 'cancel', 'clean_non_paid_reserves');
 	}
 
 
@@ -1296,6 +1296,62 @@ class ReservesController extends AppController {
 		if ((AuthComponent::user('Group.id') != 1) && !in_array($reserveToModify['Reserve']['tour_id'], $toursAllowedIds)) {
 			throw new ForbiddenException(__('Not allowed to touch this reserve.'));
 		}
+
+	}
+
+	public function clean_non_paid_reserves() {
+
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		$today = date('Y-m-j');
+		$threedaysbeforetoday = strtotime('-3 day', strtotime($today));
+		$threedaysbeforetoday = date('Y-m-j', $threedaysbeforetoday);
+
+		$invoices = $this->Reserve->Invoice->find('all', array(
+			'conditions' => array(
+				'created <' => $threedaysbeforetoday,
+				'status' => 'pending',
+			),
+			'fields' => array(
+				'id',
+			),
+			'contain' => array(
+				'Reserve' => array(
+					'fields' => array(
+						'id',
+					),
+				)
+			),
+		));
+
+		if(empty($invoices)){
+			throw new NotFoundException(__('No reserves to delete'));
+		}
+
+		$invoicesIds = [];
+		$reservesIds = [];
+		foreach ($invoices as $invoice) {
+			$invoicesIds[] = $invoice['Invoice']['id'];
+			foreach ($invoice['Reserve'] as $reserve) {
+				$reservesIds[] = $reserve['id'];
+			}
+		}
+
+		$this->Reserve->deleteAll(array(
+			'Reserve.id' => $reservesIds,
+		));
+
+		$this->Reserve->Invoice->deleteAll(array(
+			'Invoice.id' => $invoicesIds,
+		));
+
+		//TODO: SEND NOTIFICATION MAIL
+
+		$data = 'Ok';
+
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 
 	}
 
