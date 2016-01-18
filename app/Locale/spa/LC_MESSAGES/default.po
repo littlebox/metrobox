@@ -1570,3 +1570,6 @@ msgstr "Enviado con"
 msgid "from WineObs offices"
 msgstr "desde las oficinas de WineObs"
 
+msgid "Wineobs Reserve"
+msgstr "Reserva Wineobs"
+

@@ -7,6 +7,9 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
+use PayPal\Auth\OAuthTokenCredential;
+use PayPal\Rest\ApiContext;
+
 App::uses('AppController', 'Controller');
 /**
  * Reserves Controller
@@ -239,6 +242,7 @@ class ReservesController extends AppController {
 
 			$items = [];
 			$items_pp = [];
+			$total_pp = 0.00;
 			$newIds = [];
 			require_once(APP.'Vendor/mercadopago-sdk/lib/mercadopago.php');
 			require_once(APP.'Vendor/paypal-sdk/autoload.php');
@@ -250,10 +254,28 @@ class ReservesController extends AppController {
 			// cancel($items);
 			// https://developer.paypal.com/webapps/developer/applications/myapps
 
-			$apiContext = new \PayPal\Rest\ApiContext(
-				new \PayPal\Auth\OAuthTokenCredential(
-					'Aej6N4FTTOW0jNaK_S23ipWPrSdgyluZL09oVpGuYl0VbAm5wk8ypY5h76VHv9R8kcWQ0aLnwJDOLX1h',	// ClientID
-					'EELXHrny_38jlDZqwd78pZqA6Lsge85bqkh7N5uM_hd0M1xeMZcr0NcJqJBSEKln_JDY6_jI64nNqd74'	// ClientSecret
+			//papal credentials
+			//DONT PUT IN GITHUB!!!!
+			$clientId = 'Aej6N4FTTOW0jNaK_S23ipWPrSdgyluZL09oVpGuYl0VbAm5wk8ypY5h76VHv9R8kcWQ0aLnwJDOLX1h';
+			$clientSecret = 'EELXHrny_38jlDZqwd78pZqA6Lsge85bqkh7N5uM_hd0M1xeMZcr0NcJqJBSEKln_JDY6_jI64nNqd74';
+
+			$apiContext = new ApiContext(
+				new OAuthTokenCredential(
+					$clientId,
+					$clientSecret
+				)
+			);
+
+			$apiContext->setConfig(
+				array(
+					// 'mode' => 'live',
+					'mode' => 'sandbox',
+					'log.LogEnabled' => true,
+					'log.FileName' => '/PayPal.log',
+					// 'log.LogLevel' => 'FINE', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
+					'log.LogLevel' => 'DEBUG', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
+					'cache.enabled' => true,
+					// 'http.CURLOPT_CONNECTTIMEOUT' => 30
 				)
 			);
 
@@ -326,8 +348,9 @@ class ReservesController extends AppController {
 					->setCurrency('USD')
 					->setQuantity(1)
 					// ->setSku('sku-'.$item['id']) // Similar to `item_number` in Classic API
-					->setPrice($price * $currencyRate);
+					->setPrice(round($price * $currencyRate, 2));
 
+				$total_pp += round($price * $currencyRate, 2);
 
 				$items_pp[] = $item_pp;
 
@@ -378,13 +401,13 @@ class ReservesController extends AppController {
 
 			$amount = new Amount();
 			$amount->setCurrency("USD")
-				->setTotal($totalPrice*$currencyRate);
+				->setTotal($total_pp);
 				// ->setDetails($details);
 
 			$transaction = new Transaction();
 			$transaction->setAmount($amount)
 				->setItemList($itemList)
-				->setDescription("Reserva Wineobs")
+				->setDescription(__("Wineobs Reserve"))
 				->setInvoiceNumber($invoice['Invoice']['id']);
 
 			$redirectUrls = new RedirectUrls();
@@ -403,8 +426,10 @@ class ReservesController extends AppController {
 			try {
 				$payment->create($apiContext);
 			} catch (Exception $e) {
-					$data['error'] = $e;
+				$data['error'] = $e;
 			}
+
+			// print_r($payment);
 
 
 			$data['mp_url'] = $preference['response']['init_point'];
