@@ -489,8 +489,10 @@
 							note: response.reserve.note,
 							referer: response.reserve.referer,
 							backgroundColor: response.reserve.backgroundColor,
+							isNew: true,
 
 						};
+						// console.log(newReserve);
 						$('#calendar').fullCalendar('renderEvent', newReserve);
 						//Show sweetalert
 						swal({
@@ -773,13 +775,18 @@
 			reserveId = $('#id-modal').val();
 			//Bring the modified reserve
 			modReserve = $('#calendar').fullCalendar('clientEvents', reserveId)[0];
+			console.log(modReserve);
 			//Save previous value
 			prevVal = modReserve.attended;
 			//Update the content
 			modReserve.attended = $('#attended-modal')[0].checked;
 			//Rerender event
-			$('#calendar').fullCalendar('removeEvents', modReserve._id);
-			$('#calendar').fullCalendar('renderEvent', modReserve);
+			if(modReserve.isNew){
+				$('#calendar').fullCalendar('removeEvents', modReserve._id);
+				$('#calendar').fullCalendar('renderEvent', modReserve);
+			}else{
+				$('#calendar').fullCalendar('renderEvent', modReserve);
+			}
 
 			var formData = $('#attended-modal-div input').serializeArray();
 			$.ajax({
@@ -800,8 +807,12 @@
 						//Load previous value
 						modReserve.attended = prevVal;
 						//Rerender event
-						$('#calendar').fullCalendar('removeEvents', modReserve._id);
-						$('#calendar').fullCalendar('renderEvent', modReserve);
+						if(modReserve.isNew){
+							$('#calendar').fullCalendar('removeEvents', modReserve._id);
+							$('#calendar').fullCalendar('renderEvent', modReserve);
+						}else{
+							$('#calendar').fullCalendar('renderEvent', modReserve);
+						}
 						//Hide modal to view swal
 						$('#reserve-details').modal('hide');
 						swal("<?= __('Error') ?>", "<?= __('Hasn\'t been change attended state: ') ?>"+response.error, "error");
@@ -811,8 +822,12 @@
 					//Load previous value
 					modReserve.attended = prevVal;
 					//Rerender event
-					$('#calendar').fullCalendar('removeEvents', modReserve._id);
-					$('#calendar').fullCalendar('renderEvent', modReserve);
+					if(modReserve.isNew){
+						$('#calendar').fullCalendar('removeEvents', modReserve._id);
+						$('#calendar').fullCalendar('renderEvent', modReserve);
+					}else{
+						$('#calendar').fullCalendar('renderEvent', modReserve);
+					}
 					//Hide modal to view swal
 					$('#reserve-details').modal('hide');
 					swal("<?= __('Error') ?>", "<?= __('Hasn\'t been change attended state.') ?>", "error");
@@ -820,8 +835,12 @@
 				},
 				complete: function() {
 					//Rerender event
-					$('#calendar').fullCalendar('removeEvents', modReserve._id);
-					$('#calendar').fullCalendar('renderEvent', modReserve);
+					if(modReserve.isNew){
+						$('#calendar').fullCalendar('removeEvents', modReserve._id);
+						$('#calendar').fullCalendar('renderEvent', modReserve);
+					}else{
+						$('#calendar').fullCalendar('renderEvent', modReserve);
+					}
 				}
 			});
 		}

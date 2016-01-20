@@ -263,7 +263,7 @@ var reserves = {
 					xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest'); //Porque algunos navegadores no lo setean y no se reconoce la petición como ajax
 				},
 				success: function(response) {
-					console.log(response);
+					// console.log(response);
 					//SET TIMES
 					var tourSelector = document.getElementById("tour-selector");
 					//Empty actual Times Selector
