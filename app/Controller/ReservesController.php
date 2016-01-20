@@ -256,8 +256,12 @@ class ReservesController extends AppController {
 
 			//papal credentials
 			//DONT PUT IN GITHUB!!!!
-			$clientId = 'Aej6N4FTTOW0jNaK_S23ipWPrSdgyluZL09oVpGuYl0VbAm5wk8ypY5h76VHv9R8kcWQ0aLnwJDOLX1h';
-			$clientSecret = 'EELXHrny_38jlDZqwd78pZqA6Lsge85bqkh7N5uM_hd0M1xeMZcr0NcJqJBSEKln_JDY6_jI64nNqd74';
+			//Sandbox
+			// $clientId = 'Aej6N4FTTOW0jNaK_S23ipWPrSdgyluZL09oVpGuYl0VbAm5wk8ypY5h76VHv9R8kcWQ0aLnwJDOLX1h';
+			// $clientSecret = 'EELXHrny_38jlDZqwd78pZqA6Lsge85bqkh7N5uM_hd0M1xeMZcr0NcJqJBSEKln_JDY6_jI64nNqd74';
+			//Live
+			$clientId = Configure::read('Metrobox.paypalClientId');
+			$clientSecret = Configure::read('Metrobox.paypalClientSecret');
 
 			$apiContext = new ApiContext(
 				new OAuthTokenCredential(
@@ -268,10 +272,10 @@ class ReservesController extends AppController {
 
 			$apiContext->setConfig(
 				array(
-					// 'mode' => 'live',
-					'mode' => 'sandbox',
+					'mode' => 'live',
+					// 'mode' => 'sandbox',
 					'log.LogEnabled' => true,
-					'log.FileName' => '/PayPal.log',
+					'log.FileName' => WWW_ROOT.'/PayPal.log',
 					// 'log.LogLevel' => 'FINE', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
 					'log.LogLevel' => 'DEBUG', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
 					'cache.enabled' => true,
