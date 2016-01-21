@@ -660,6 +660,7 @@ class ReservesController extends AppController {
 		$clientEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
 		$clientEmail->viewVars(array('total' => $total_paid_amount));
 		$clientEmail->viewVars(array('encoded_data' => $invoice['Invoice']['encoded_data_for_cancel_reservations']));
+		$clientEmail->viewVars(array('payment_method' => 'MercadoPago'));
 
 
 		//Winery Email
@@ -679,6 +680,7 @@ class ReservesController extends AppController {
 		$wineryEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
 		$wineryEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
 		$wineryEmail->viewVars(array('total' => $total_paid_amount));
+		$wineryEmail->viewVars(array('payment_method' => 'MercadoPago'));
 
 		switch ($status) {
 			case "approved":
@@ -969,6 +971,7 @@ class ReservesController extends AppController {
 		$clientEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
 		$clientEmail->viewVars(array('total' => $total_paid_amount));
 		$clientEmail->viewVars(array('encoded_data' => $invoice['Invoice']['encoded_data_for_cancel_reservations']));
+		$clientEmail->viewVars(array('payment_method' => 'PayPal'));
 
 
 		//Winery Email
@@ -988,6 +991,7 @@ class ReservesController extends AppController {
 		$wineryEmail->viewVars(array('number_of_adults' => $invoice['Invoice']['number_of_adults']));
 		$wineryEmail->viewVars(array('number_of_minors' => $invoice['Invoice']['number_of_minors']));
 		$wineryEmail->viewVars(array('total' => $total_paid_amount));
+		$wineryEmail->viewVars(array('payment_method' => 'PayPal'));
 
 		switch ($status) {
 			case "Completed":
