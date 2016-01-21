@@ -454,6 +454,8 @@ class ReservesController extends AppController {
 
 		if (isset($_GET['success']) && $_GET['success'] == 'true') {
 
+			require_once(APP.'Vendor/paypal-sdk/autoload.php');
+
 			// Set apiContext
 			$clientId = Configure::read('Metrobox.paypalClientId');
 			$clientSecret = Configure::read('Metrobox.paypalClientSecret');
