@@ -843,6 +843,8 @@ class ReservesController extends AppController {
 			//$receiver_email = $_POST['receiver_email'];
 			//$payer_email = $_POST['payer_email'];
 
+			//TODO: ACÁ DEBERÍA IR EL ENVÍO DE MAILS Y LA CONFIRMACIÓN DE LA RESERVA, PERO POR ALGUNA EXTRAÑA RAZÓN EL IPN DE PAYPAL SIEMPRE DEVUELVE "INVALID"
+
 			if(DEBUG == true) {
 				error_log(date('[Y-m-d H:i e] '). "Verified IPN: $req ". PHP_EOL, 3, LOG_FILE);
 			}
@@ -855,11 +857,13 @@ class ReservesController extends AppController {
 			}
 		}
 
+		//TODO, SACAR EL CÓDIGO DE ACÁ Y COLOCARLO DENTRO DEL IF QUE CKEQUEA QUE EL SERVIDOR DE PAYPAL RESPONDIÓ "VERIFIED"
+
 		//Variables
 		$invoice_id = $_POST['invoice'];
 		$status = $_POST['payment_status'];
 		$payment_id = $_POST['payment_status'];
-		$total_paid_amount = $_POST['mc_gross1'];
+		// $total_paid_amount = $_POST['mc_gross'];
 
 		//Test variables
 		// $invoice_id = 25;
@@ -873,6 +877,8 @@ class ReservesController extends AppController {
 				'Invoice.id' => $invoice_id,
 			),
 		));
+
+		$total_paid_amount = $invoice['Invoice']['total'];
 
 		$ids = [];
 		foreach ($invoice['Reserve'] as $reserve) {
@@ -1020,6 +1026,7 @@ class ReservesController extends AppController {
 		}
 
 		$clientEmail->send();
+
 
 		echo 'ok';
 
