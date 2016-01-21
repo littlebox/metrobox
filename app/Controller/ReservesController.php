@@ -9,6 +9,8 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Rest\ApiContext;
+use PayPal\Api\ExecutePayment;
+use PayPal\Api\PaymentExecution;
 
 App::uses('AppController', 'Controller');
 /**
@@ -23,7 +25,7 @@ class ReservesController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('api_add','mp_notification', 'pp_notification', 'cancel', 'clean_non_paid_reserves');
+		$this->Auth->allow('api_add','mp_notification', 'pp_notification', 'execute_pp_payment', 'cancel', 'clean_non_paid_reserves');
 	}
 
 
@@ -415,8 +417,8 @@ class ReservesController extends AppController {
 				->setInvoiceNumber($invoice['Invoice']['id']);
 
 			$redirectUrls = new RedirectUrls();
-			$redirectUrls->setReturnUrl("http://wineobs.com/payment_success")
-				->setCancelUrl("http://wineobs.com/payment_failure");
+			$redirectUrls->setReturnUrl("http://reservas.wineobs.com/reserves/execute_pp_payment?success=true")
+				->setCancelUrl("http://reservas.wineobs.com/reserves/execute_pp_payment?success=false");
 
 
 			$payment = new Payment();
@@ -444,6 +446,88 @@ class ReservesController extends AppController {
 			$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 		}else{
 			throw new MethodNotAllowedException(__('Only POST or PUT'));
+		}
+
+	}
+
+	public function execute_pp_payment(){
+
+		if (isset($_GET['success']) && $_GET['success'] == 'true') {
+
+			// Set apiContext
+			$clientId = Configure::read('Metrobox.paypalClientId');
+			$clientSecret = Configure::read('Metrobox.paypalClientSecret');
+
+			$apiContext = new ApiContext(
+				new OAuthTokenCredential(
+					$clientId,
+					$clientSecret
+				)
+			);
+
+			$apiContext->setConfig(
+				array(
+					'mode' => 'live',
+					// 'mode' => 'sandbox',
+					'log.LogEnabled' => true,
+					'log.FileName' => WWW_ROOT.'/PayPal.log',
+					// 'log.LogLevel' => 'FINE', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
+					'log.LogLevel' => 'DEBUG', // PLEASE USE `FINE` LEVEL FOR LOGGING IN LIVE ENVIRONMENTS
+					'cache.enabled' => true,
+					// 'http.CURLOPT_CONNECTTIMEOUT' => 30
+				)
+			);
+
+			// Get the payment Object by passing paymentId
+			// payment id was previously stored in session in
+			// CreatePaymentUsingPayPal.php
+			$paymentId = $_GET['paymentId'];
+			$payment = Payment::get($paymentId, $apiContext);
+
+			// ### Payment Execute
+			// PaymentExecution object includes information necessary
+			// to execute a PayPal account payment.
+			// The payer_id is added to the request query parameters
+			// when the user is redirected from paypal back to your site
+			$execution = new PaymentExecution();
+			$execution->setPayerId($_GET['PayerID']);
+
+			try {
+				// Execute the payment
+				$result = $payment->execute($execution, $apiContext);
+
+				// debug('Intento');
+
+				// NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+				// ResultPrinter::printResult("Executed Payment", "Payment", $payment->getId(), $execution, $result);
+
+				// try {
+				// 	$payment = Payment::get($paymentId, $apiContext);
+				// } catch (Exception $ex) {
+				// 	// NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+				// 	ResultPrinter::printError("Get Payment", "Payment", null, null, $ex);
+				// 	exit(1);
+				// }
+			} catch (Exception $ex) {
+
+				// NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+				// ResultPrinter::printError("Executed Payment", "Payment", null, null, $ex);
+				return $this->redirect('http://wineobs.com/payment_failure');
+				exit(1);
+			}
+
+			// NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+			// ResultPrinter::printResult("Get Payment", "Payment", $payment->getId(), null, $payment);
+			return $this->redirect('http://wineobs.com/payment_success');
+			exit;
+			// return $payment;
+
+
+		} else {
+			// NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
+			// ResultPrinter::printResult("User Cancelled the Approval", null);
+			return $this->redirect('http://wineobs.com/payment_failure');
+			exit;
 		}
 
 	}
