@@ -574,7 +574,7 @@ var reserves = {
 					required: false
 				},
 				'data[Client][email]': {
-					required: true
+					required: false
 				},
 				'data[Client][phone]': {
 					required: false
@@ -661,6 +661,7 @@ var reserves = {
 				//console.log(reserve);
 				//Set data on reserves details modal popup form
 				$('#id-modal').val(reserve.id);
+				$('#client-id-modal').val(reserve.clientId);
 				$('#tour-selector-modal').val(reserve.tour);
 				$('#tour-selector-modal').trigger('change');
 				$('#language-selector-modal').val(reserve.language);

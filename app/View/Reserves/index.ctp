@@ -362,6 +362,7 @@
 							echo $this->Form->input('note', array('id' => 'note-modal', 'disabled' => 'disabled'));
 							echo $this->Form->input('referer',array('id' => 'referer-modal', 'type' => 'select', 'options' => $refererList, 'empty' => __('Select a referer...'), 'disabled' => 'disabled'));
 							echo $this->Form->hidden('id', array('id' => 'id-modal'));
+							echo $this->Form->hidden('Client.id', array('id' => 'client-id-modal'));
 						?>
 					<?php echo $this->Form->end(); ?>
 				</div>
@@ -419,7 +420,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('reserves.js?20151008');?>
+	<?= $this->Html->script('reserves.js?20160225');?>
 	<script>
 		var toursData = <?= json_encode($toursData) ?>;
 		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
@@ -484,6 +485,7 @@
 							clientBirthDate: response.reserve.clientBirthDate,
 							clientCountry: response.reserve.clientCountry,
 							clientPhone: response.reserve.clientPhone,
+							clientId: response.reserve.clientId,
 							numberOfAdults: response.reserve.numberOfAdults,
 							numberOfMinors: response.reserve.numberOfMinors,
 							note: response.reserve.note,
@@ -565,6 +567,7 @@
 						modReserve.clientBirthDate = response.reserve.clientBirthDate;
 						modReserve.clientCountry = response.reserve.clientCountry;
 						modReserve.clientPhone = response.reserve.clientPhone;
+						modReserve.clientId = response.reserve.clientId;
 						modReserve.numberOfAdults = response.reserve.numberOfAdults;
 						modReserve.numberOfMinors = response.reserve.numberOfMinors;
 						modReserve.note = response.reserve.note;

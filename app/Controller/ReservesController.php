@@ -148,6 +148,7 @@ class ReservesController extends AppController {
 				$data['reserve']['clientBirthDate'] = $this->request->data['Client']['birth_date'];
 				$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
+				$data['reserve']['clientId'] = $this->Reserve->Client->id;
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
 				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
@@ -1051,15 +1052,16 @@ class ReservesController extends AppController {
 			'error' => '',
 		);
 
+		//To tell apart a modal form send from drang and drop event (change date)
 		$hasClientData = !empty($this->request->data['Client']);
 
 		//if the client exist, put the id in the request data array
-		if($hasClientData){
-			if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
-				//WARING!! All Client data will be overwritten!!
-				$this->request->data['Client']['id'] = $client['Client']['id'];
-			}
-		}
+		// if($hasClientData){
+		// 	if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
+		// 		//WARING!! All Client data will be overwritten!!
+		// 		$this->request->data['Client']['id'] = $client['Client']['id'];
+		// 	}
+		// }
 
 		//Convert date d/m/Y to Y-m-d format tosave in DB
 		$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
@@ -1099,6 +1101,7 @@ class ReservesController extends AppController {
 				$data['reserve']['clientBirthDate'] = $this->request->data['Client']['birth_date'];
 				$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
+				$data['reserve']['clientId'] = $this->request->data['Client']['id'];
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
 				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
@@ -1182,6 +1185,7 @@ class ReservesController extends AppController {
 				'clientBirthDate' => $reserve['Client']['birth_date'],
 				'clientCountry' => $reserve['Client']['country'],
 				'clientPhone' => $reserve['Client']['phone'],
+				'clientId' => $reserve['Client']['id'],
 				'numberOfAdults' => $reserve['Reserve']['number_of_adults'],
 				'numberOfMinors' => $reserve['Reserve']['number_of_minors'],
 				'note' => $reserve['Reserve']['note'],
