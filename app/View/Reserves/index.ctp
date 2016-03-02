@@ -260,6 +260,38 @@
 			<div class="col-md-9 col-md-push-3 col-sm-12">
 				<div id="calendar" class="has-toolbar">
 				</div>
+
+				<div class="row" style="margin-top: 20px;">
+					<div class="col-md-2">
+						<div class="btn-group">
+							<?php //echo $this->Html->link('<i class="fa fa-plus"></i> '.__('Add New'), array('action' => 'add'), array('class' => 'btn green-haze', 'escape' => false)); ?>
+						</div>
+					</div>
+					<div class="col-md-10">
+						<div class="btn-group pull-right">
+							<div class="col-md-5" style="padding-right: 0px;">
+								<div class="input-group date donwload-date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+									<input type="text" class="form-control form-filter input-sm" id="date_from_picker" name="date_from" placeholder="Desde: dd/mm/yyyy" value="<?= $dates['from']; ?>">
+									<span class="input-group-btn">
+										<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+									</span>
+								</div>
+							</div>
+							<div class="col-md-5" style="padding-right: 0px;">
+								<div class="input-group date donwload-date-picker" data-date-format="dd/mm/yyyy">
+									<input type="text" class="form-control form-filter input-sm" id="date_to_picker" name="date_to" placeholder="Hasta: dd/mm/yyyy" value="<?= $dates['to']; ?>">
+									<span class="input-group-btn">
+										<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
+									</span>
+								</div>
+							</div>
+							<div class="col-md-2" style="padding-right: 0px;">
+								<button onclick="downloadCsv();" class="btn btn-sm green-haze table-group-action-submit" style="width: 100%;">Descargar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 			<!-- END CALENDAR -->
 
@@ -846,6 +878,15 @@
 					}
 				}
 			});
+		}
+
+		function downloadCsv(){
+			var url = '<?= $this->Html->url(array('controller'=>'reserves', 'action' => 'download_csv')) ?>';
+			url += "?from="+$('#date_from_picker').val()+"&to="+$('#date_to_picker').val();
+			if (!!$('#tour-filter').val()){ //if not empty
+				url += "&tour="+$('#tour-filter').val();
+			}
+			window.location.href = url;
 		}
 
 		jQuery(document).ready(function() {

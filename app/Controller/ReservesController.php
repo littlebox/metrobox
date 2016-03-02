@@ -22,6 +22,7 @@ App::uses('AppController', 'Controller');
 class ReservesController extends AppController {
 
 	public $components = array('Paginator');
+	public $helpers = array('Html', 'Form', 'Csv');
 
 	public function beforeFilter() {
 		parent::beforeFilter();
@@ -47,6 +48,18 @@ class ReservesController extends AppController {
 		$toursData = $this->Winery->Tour->find('all', array('contain' => array('Language', 'Reserve', 'Time', 'Day'), 'conditions' => array('winery_id' => $wineryId)));
 		$this->set('toursData', $toursData);
 		//debug($toursData);die();
+		//Set default dates for download CSV
+		$from = new DateTime('first day of this month');
+		$from = $from->format('Y-m-d');
+		$to = new DateTime('last day of this month');
+		$to = $to->format('Y-m-d');
+		//Convert date Y-m-d to d/m/Y format to show in frontend
+		$dates = array(
+			'from' => DateTime::createFromFormat('Y-m-d', $from)->format('d/m/Y'),
+			'to' => DateTime::createFromFormat('Y-m-d', $to)->format('d/m/Y'),
+		);
+		$this->set('dates', $dates); // send variable to view
+
 	}
 
 	public function getQuotaAvailable($date, $tourId){
@@ -1132,6 +1145,7 @@ class ReservesController extends AppController {
 
 		//If tour filter is seted
 		if(!empty($this->params['url']['tour'])){
+			$this->reserveSecurityCheck($this->params['url']['tour']);
 			//Bring only reserves of those tours
 			$conditions = array(
 				'Reserve.tour_id' => $this->params['url']['tour']
@@ -1376,6 +1390,118 @@ class ReservesController extends AppController {
 			throw new MethodNotAllowedException(__('Only POST or PUT'));
 		}
 
+	}
+
+	public function download_csv (){
+
+		//Set dates
+		if(empty($this->params->query['from'])){
+			$from = new DateTime('first day of this month');
+			$from = $from->format('Y-m-d');
+		}else{
+			$from = DateTime::createFromFormat('d/m/Y', $this->params->query['from'])->format('Y-m-d');
+		}
+
+		if(empty($this->params->query['to'])){
+			$to = new DateTime('last day of this month');
+			$to = $to->format('Y-m-d');
+		}else{
+			$to = DateTime::createFromFormat('d/m/Y', $this->params->query['to'])->format('Y-m-d');
+		}
+
+		//Bring al IDs of user winery's tour
+		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
+		$toursIds = [];
+
+		foreach ($tours as $tour) {
+			$toursIds[] = $tour['Tour']['id'];
+		}
+
+		//If tour filter is seted
+		if(!empty($this->params->query['tour'])){
+			$this->reserveSecurityCheck($this->params->query['tour']);
+			//Bring only reserves of those tours
+			$conditions = array(
+				'Reserve.tour_id' => $this->params->query['tour']
+			);
+		} else{
+			//Bring only reserves of winery's tours
+			$conditions = array(
+				'Reserve.tour_id' => $toursIds,
+				'Reserve.tour_id IS NOT NULL',
+			);
+		}
+
+		//If start and end exist in the request, set between dates conditions
+		$startEndConditions = array(
+			'Reserve.date BETWEEN ? AND ?' => array(
+				$from,
+				$to,
+			)
+		);
+		$conditions = array_merge($conditions, $startEndConditions);
+
+		//Bring reserves from DB
+		$reserves = $this->Reserve->find('all', array('conditions' => $conditions, 'contain' => array('Client','Tour.name')));
+
+		$output = [];
+		foreach ($reserves as $reserve) {
+			unset($row);
+			$row = [];
+			$row['Tour'] = $reserve['Tour']['name'];
+			$row['Dia'] = DateTime::createFromFormat('Y-m-d', $reserve['Reserve']['date'])->format('d/m/Y');
+			$row['Hora'] = $reserve['Reserve']['time'];
+			$row['Nombre'] = $reserve['Client']['full_name'];
+			$row['Pais'] = $reserve['Client']['country'];
+			switch ($reserve['Reserve']['language_id']) {
+				case 1:
+					$row['Idioma'] = 'Español';
+					break;
+				case 2:
+					$row['Idioma'] = 'Inglés';
+					break;
+				case 3:
+					$row['Idioma'] = 'Portugués';
+					break;
+				default:
+					$row['Idioma'] = 'No Definido';
+					break;
+			}
+			$row['Email'] = $reserve['Client']['email'];
+			$row['Tel'] = $reserve['Client']['phone'];
+			$row['FechaNac'] = $reserve['Client']['birth_date'];
+			$row['Referido'] = $reserve['Reserve']['referer'];
+			$row['Adultos'] = $reserve['Reserve']['number_of_adults'];
+			$row['Menores'] = $reserve['Reserve']['number_of_minors'];
+			$row['Nota'] = $reserve['Reserve']['note'];
+			if ($reserve['Reserve']['attended']) {
+				$row['Asistio'] = 'Si';
+			}else{
+				$row['Asistio'] = 'No';
+			}
+			if ($reserve['Reserve']['from_web']) {
+				$row['DesdeWeb'] = 'Si';
+			}else{
+				$row['DesdeWeb'] = 'No';
+			}
+			$row['FechaSolicitud'] = $reserve['Reserve']['created'];
+
+			$output[] = $row;
+		}
+		// debug($output);die();
+		$this->set('output', $output);
+
+		//Set dates for CSV name
+		//Convert date Y-m-d to d/m/Y format to show in frontend
+		$dates = array(
+			'from' => DateTime::createFromFormat('Y-m-d', $from)->format('d-m-Y'),
+			'to' => DateTime::createFromFormat('Y-m-d', $to)->format('d-m-Y'),
+		);
+		$this->set('dates', $dates); // send variable to view
+
+		$this->layout = null;
+		$this->autoLayout = false;
+		Configure::write('debug', '0');
 	}
 
 	private function encrypt_decrypt($action, $string) {

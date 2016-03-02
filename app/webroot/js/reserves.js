@@ -328,6 +328,15 @@ var reserves = {
 				weekStart: 1,
 				autoclose: true,
 			});
+
+			$('.donwload-date-picker').datepicker({
+				language: 'es',
+				format: 'dd/mm/yyyy',
+				orientation: "left",
+				weekStart: 1,
+				autoclose: true,
+				todayHighlight: true,
+			});
 			//$('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
 		}
 
