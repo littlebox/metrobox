@@ -354,6 +354,7 @@ class WineriesController extends AppController {
 						//Rezize and crop image at 300x150
 						$imagickImage = new Imagick($file['tmp_name']);
 						$imagickImage->cropThumbnailImage(300, 150);
+						$imagickImage->setInterlaceScheme(Imagick::INTERLACE_PLANE);
 						unlink($file['tmp_name']);
 						$imagickImage->writeImage($file['tmp_name']);
 
@@ -412,11 +413,13 @@ class WineriesController extends AppController {
 					unlink($file['tmp_name']);
 					$imagickImage->setImageFormat("jpg");
 					$imagickImage->cropThumbnailImage(800, 600);
+					$imagickImage->setInterlaceScheme(Imagick::INTERLACE_PLANE);
 					$imagickImage->writeImage($file['tmp_name']);
 					//Save image on disk
 					copy($file['tmp_name'], $imagesPath.$this->Winery->Image->id.'.jpg');
 
 					$imagickImage->cropThumbnailImage(120, 120);
+					$imagickImage->setInterlaceScheme(Imagick::INTERLACE_PLANE);
 					$imagickImage->writeImage($file['tmp_name']);
 					move_uploaded_file($file['tmp_name'], $imagesPath.$this->Winery->Image->id.'-120x120.jpg');
 
@@ -470,6 +473,7 @@ class WineriesController extends AppController {
 						//Rezize and crop image at 300x150
 						$imagickImage = new Imagick($file['tmp_name']);
 						$imagickImage->cropThumbnailImage(300, 150);
+						$imagickImage->setInterlaceScheme(Imagick::INTERLACE_PLANE);
 						unlink($file['tmp_name']);
 						$imagickImage->writeImage($file['tmp_name']);
 
