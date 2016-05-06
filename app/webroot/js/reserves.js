@@ -329,13 +329,25 @@ var reserves = {
 				autoclose: true,
 			});
 
-			$('.donwload-date-picker').datepicker({
+			$('.donwload-date-picker-from').datepicker({
 				language: 'es',
 				format: 'dd/mm/yyyy',
 				orientation: "left",
 				weekStart: 1,
 				autoclose: true,
 				todayHighlight: true,
+				startDate: new Date(),
+				endDate: new Date(new Date().getTime() + 3*24*60*60*1000),
+			});
+			$('.donwload-date-picker-to').datepicker({
+				language: 'es',
+				format: 'dd/mm/yyyy',
+				orientation: "left",
+				weekStart: 1,
+				autoclose: true,
+				todayHighlight: true,
+				startDate: new Date(),
+				endDate: new Date(new Date().getTime() + 3*24*60*60*1000),
 			});
 			//$('body').removeClass("modal-open"); // fix bug when inline picker is used in modal
 		}

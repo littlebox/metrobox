@@ -49,9 +49,11 @@ class ReservesController extends AppController {
 		$this->set('toursData', $toursData);
 		//debug($toursData);die();
 		//Set default dates for download CSV
-		$from = new DateTime('first day of this month');
+		// $from = new DateTime('first day of this month');
+		$from = new DateTime();
 		$from = $from->format('Y-m-d');
-		$to = new DateTime('last day of this month');
+		// $to = new DateTime('last day of this month');
+		$to = new DateTime('+1 days');
 		$to = $to->format('Y-m-d');
 		//Convert date Y-m-d to d/m/Y format to show in frontend
 		$dates = array(

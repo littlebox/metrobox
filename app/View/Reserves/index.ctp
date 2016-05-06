@@ -270,7 +270,7 @@
 					<div class="col-md-10">
 						<div class="btn-group pull-right">
 							<div class="col-md-5" style="padding-right: 0px;">
-								<div class="input-group date donwload-date-picker margin-bottom-5" data-date-format="dd/mm/yyyy">
+								<div class="input-group date donwload-date-picker-from margin-bottom-5" data-date-format="dd/mm/yyyy">
 									<input type="text" class="form-control form-filter input-sm" id="date_from_picker" name="date_from" placeholder="Desde: dd/mm/yyyy" value="<?= $dates['from']; ?>">
 									<span class="input-group-btn">
 										<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
@@ -278,7 +278,7 @@
 								</div>
 							</div>
 							<div class="col-md-5" style="padding-right: 0px;">
-								<div class="input-group date donwload-date-picker" data-date-format="dd/mm/yyyy">
+								<div class="input-group date donwload-date-picker-to" data-date-format="dd/mm/yyyy">
 									<input type="text" class="form-control form-filter input-sm" id="date_to_picker" name="date_to" placeholder="Hasta: dd/mm/yyyy" value="<?= $dates['to']; ?>">
 									<span class="input-group-btn">
 										<button class="btn btn-sm default" type="button"><i class="fa fa-calendar"></i></button>
@@ -452,7 +452,7 @@
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
-	<?= $this->Html->script('reserves.js?20160302');?>
+	<?= $this->Html->script('reserves.js?201600605');?>
 	<script>
 		var toursData = <?= json_encode($toursData) ?>;
 		var getReservesUrl = "<?= $this->Html->Url(array('controller' => 'reserves', 'action' => 'get')); ?>";
