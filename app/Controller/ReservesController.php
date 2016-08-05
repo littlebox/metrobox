@@ -1569,7 +1569,7 @@ class ReservesController extends AppController {
 		$invoices = $this->Reserve->Invoice->find('all', array(
 			'conditions' => array(
 				'created <' => $threedaysbeforetoday,
-				'status' => 'pending',
+				'status' => array('pending', 'rejected'),
 			),
 			'fields' => array(
 				'id',
