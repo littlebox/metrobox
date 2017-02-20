@@ -175,14 +175,14 @@
 	<?= $this->Html->script('/plugins/jquery-validation/js/additional-methods.min');?>
 	<?= $this->Html->script('/plugins/bootstrap-fileinput/bootstrap-fileinput');?>
 	<?= $this->Html->script('/plugins/jcrop/js/jquery.color.js');?>
-	<?= $this->Html->script('http://maps.google.com/maps/api/js?sensor=false&libraries=places'); //Para los mapas de google ?>
+	<?= $this->Html->script('http://maps.google.com/maps/api/js?key=AIzaSyDEDXVukpE4oEEhjfWmhaZctW3SobbJYV4&sensor=false&libraries=places'); //Para los mapas de google ?>
 	<?= $this->Html->script('/plugins/gmaps/gmaps'); //Para los mapas de google ?>
 	<?= $this->Html->script('/plugins/dropzone/dropzone'); //Dropzone para las imagesnes ?>
 <?php $this->end(); ?>
 
 <?php $this->append('pageScripts'); ?>
 	<?= $this->Html->script('global-setups');?>
-	<?= $this->Html->script('wineries-admin-add-edit.js?20151107');?>
+	<?= $this->Html->script('wineries-admin-add-edit.js?20172002');?>
 	<script>
 		//drop zone variables
 		imageCounter = 0;

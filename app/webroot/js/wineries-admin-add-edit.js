@@ -111,7 +111,7 @@ var WineryAdminAddEdit = {
 			lng: typeof(initialLongitude) != 'undefined' ? initialLongitude : -68.8444555,
 			zoom: 14,
 			panControl: false,
-			zoomControl: false,
+			zoomControl: true,
 			scaleControl: false,
 			streetViewControl: false,
 			mapTypeControl: true,
