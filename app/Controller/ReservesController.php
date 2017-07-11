@@ -26,7 +26,15 @@ class ReservesController extends AppController {
 
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$this->Auth->allow('api_add','mp_notification', 'pp_notification', 'execute_pp_payment', 'cancel', 'clean_non_paid_reserves');
+		$this->Auth->allow(
+			'api_add',
+			'mp_notification',
+			'pp_notification',
+			'execute_pp_payment',
+			'cancel',
+			'clean_non_paid_reserves',
+			'iframe_add'
+		);
 	}
 
 
@@ -464,6 +472,91 @@ class ReservesController extends AppController {
 			throw new MethodNotAllowedException(__('Only POST or PUT'));
 		}
 
+	}
+
+	public function iframe_add(){
+		header('Access-Control-Allow-Origin:*');
+		header('Access-Control-Allow-Methods:*');
+
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		//Check if request is post or put
+		if ($this->request->is('post') || $this->request->is('put')) {
+			$data = array(
+				'content' => '',
+				'reserve' => '',
+				'error' => '',
+			);
+
+			$json = json_decode(file_get_contents("php://input"), true);
+			$this->request->data = $json;
+
+			//Bring prices
+			$tour_prices = $this->Reserve->Tour->find('first', array(
+				'conditions' => array(
+					'Tour.id' => $this->request->data['Reserve']['tour_id'],
+				),
+				'fields' => array(
+					'id',
+					'price',
+					'minors_price',
+				)
+			));
+			//Set actual prices in reserve
+			$this->request->data['Reserve']['price'] = $tour_prices['Tour']['price'];
+			$this->request->data['Reserve']['minors_price'] = $tour_prices['Tour']['minors_price'];
+
+			//Generate token for review
+			$this->request->data['Reserve']['review_token'] = Security::hash(String::uuid(),'sha512',true);
+			$this->request->data['Reserve']['referer'] = "Iframe";
+			$this->request->data['Reserve']['from_iframe'] = 1;
+
+			/* debug($this->request->data); */
+			/* die(); */
+
+			$this->Reserve->create();
+			if ($this->Reserve->saveAssociated($this->request->data)) {
+				$data['content']['title'] = __('Good.');
+				$data['content']['text'] = __('The reserve has been saved.');
+
+				//Build the title for show reserve
+				$title = '';
+				$title = $title.$this->request->data['Client']['full_name'];
+				$title = $title.' ('.$this->request->data['Reserve']['number_of_adults'].'a';
+				if($this->request->data['Reserve']['number_of_minors'] > 0){
+					$title = $title.' '.$this->request->data['Reserve']['number_of_minors'].'m';
+				}
+				$title = $title.')';
+
+				//Bring tour for color
+				$tour = $this->Reserve->Tour->find('first', array('fields' => array('color'), 'conditions' => array('Tour.id' => $this->request->data['Reserve']['tour_id'])));
+				//Prepare array to show new reserve in view
+				$data['reserve']['id'] = $this->Reserve->id;
+				$data['reserve']['title'] = $title;
+				$data['reserve']['start'] = $this->request->data['Reserve']['date'].' '.$this->request->data['Reserve']['time'];
+				$data['reserve']['tour'] = $this->request->data['Reserve']['tour_id'];
+				$data['reserve']['language'] = $this->request->data['Reserve']['language_id'];
+				$data['reserve']['date'] = $this->request->data['Reserve']['date'];
+				$data['reserve']['time'] = $this->request->data['Reserve']['time'];
+				$data['reserve']['clientEmail'] = $this->request->data['Client']['email'];
+				$data['reserve']['clientName'] = $this->request->data['Client']['full_name'];
+				$data['reserve']['clientBirthDate'] = $this->request->data['Client']['birth_date'];
+				$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
+				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
+				$data['reserve']['clientId'] = $this->Reserve->Client->id;
+				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
+				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
+				$data['reserve']['note'] = '';
+				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
+				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
+			} else {
+				// debug($this->Reserve->validationErrors); die();
+				$data['error'] = __('The reserve could not be saved. Please, try again.');
+			}
+		}
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
 	}
 
 	public function execute_pp_payment(){
@@ -1209,6 +1302,7 @@ class ReservesController extends AppController {
 				'backgroundColor' => $reserve['Tour']['color'],
 				'attended' => $reserve['Reserve']['attended'],
 				'from_web' => $reserve['Reserve']['from_web'],
+				'from_iframe' => $reserve['Reserve']['from_iframe'],
 				'paid' => $reserve['Reserve']['paid'],
 			);
 			$response[] = $arrayToPush;
@@ -1533,9 +1627,6 @@ class ReservesController extends AppController {
 	/* SECURITY CHECK */
 	/* Verify if the logged user isn't admin and the reserve atempted to modify is inside a winery that he manages */
 	private function reserveSecurityCheck($reserveId){
-
-
-		//Bring al IDs of user winery's tour
 		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
 		$toursAllowedIds = [];
 
