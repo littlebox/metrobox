@@ -466,6 +466,28 @@ class ReservesController extends AppController {
 
 	}
 
+	public function iframe_add(){
+		// $this->request->allowMethod('ajax'); //Only Ajax
+		header('Access-Control-Allow-Origin:*');
+
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
+		//Prepare response array
+		$data = array(
+			'content' => '',
+			'error' => array(),
+		);
+		$hasError = false;
+
+		//Decode all data recived
+		$json = json_decode($this->request->data['json'], true);
+
+		$data['content']['test'] = "This is a test";
+		$this->set(compact('data')); // Pass $data to the view
+		$this->set('_serialize', 'data'); // Let the JsonView class know what variable to use
+	}
+
 	public function execute_pp_payment(){
 
 		if (isset($_GET['success']) && $_GET['success'] == 'true') {
