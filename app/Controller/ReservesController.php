@@ -1302,6 +1302,7 @@ class ReservesController extends AppController {
 				'backgroundColor' => $reserve['Tour']['color'],
 				'attended' => $reserve['Reserve']['attended'],
 				'from_web' => $reserve['Reserve']['from_web'],
+				'from_iframe' => $reserve['Reserve']['from_iframe'],
 				'paid' => $reserve['Reserve']['paid'],
 			);
 			$response[] = $arrayToPush;

@@ -720,6 +720,7 @@ var reserves = {
 				addLanguageFlag(reserve, element);
 				addCheckOnAttended(reserve, element);
 				addWineobsLogo(reserve, element);
+				addIsFromIframe(reserve, element);
 				addPaidMark(reserve, element);
 			},
 			loading: function( isLoading, view ) {
@@ -785,6 +786,12 @@ var reserves = {
 		function addWineobsLogo(reserve, element){
 			if(reserve.from_web){
 				element.find('.fc-time').append(" <img class='flag' src='/img/wineobs_mark.png'/>");
+			}
+		}
+
+		function addIsFromIframe(reserve, element){
+			if(reserve.from_iframe){
+				element.find('.fc-time').append("<i class=\"fa fa-exchange\" alt=\"Desde iframe\"></i>");
 			}
 		}
 
