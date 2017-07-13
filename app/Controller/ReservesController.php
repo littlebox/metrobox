@@ -476,18 +476,21 @@ class ReservesController extends AppController {
 
 	public function iframe_add(){
 		header('Access-Control-Allow-Origin:*');
-		$this->request->allowMethod('ajax'); //Call only with .json at end on url
+		header('Access-Control-Allow-Methods:*');
+
+		//Render always as json
+		$this->RequestHandler->renderAs($this, 'json');
+
 		//Check if request is post or put
 		if ($this->request->is('post') || $this->request->is('put')) {
-			if (!$this->Reserve->Tour->exists($this->request->data['Reserve']['tour_id'])) {
-				throw new NotFoundException(__('Invalid Tour'));
-			}
-
 			$data = array(
 				'content' => '',
 				'reserve' => '',
 				'error' => '',
 			);
+
+			$json = json_decode(file_get_contents("php://input"), true);
+			$this->request->data = $json;
 
 			//Bring prices
 			$tour_prices = $this->Reserve->Tour->find('first', array(
@@ -504,23 +507,14 @@ class ReservesController extends AppController {
 			$this->request->data['Reserve']['price'] = $tour_prices['Tour']['price'];
 			$this->request->data['Reserve']['minors_price'] = $tour_prices['Tour']['minors_price'];
 
-			//Convert date d/m/Y to Y-m-d format tosave in DB
-			$this->request->data['Reserve']['date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Reserve']['date'])->format('Y-m-d');
-
-			if(!empty($this->request->data['Client']['birth_date'])){
-				$this->request->data['Client']['birth_date'] = DateTime::createFromFormat('d/m/Y', $this->request->data['Client']['birth_date'])->format('Y-m-d');
-			}
-
 			//Generate token for review
 			$this->request->data['Reserve']['review_token'] = Security::hash(String::uuid(),'sha512',true);
+			$this->request->data['Reserve']['referer'] = "Iframe";
+			$this->request->data['Reserve']['from_iframe'] = 1;
 
-			//if the client exist, put the id in the request data array
-			// if(!empty($client = $this->Reserve->Client->find('first', array('conditions' => array('Client.email' => $this->request->data['Client']['email']), 'contain' => false)))){
-			// 	//WARING!! All Client data will be overwritten!!
-			// 	$this->request->data['Client']['id'] = $client['Client']['id'];
-			// }
+			/* debug($this->request->data); */
+			/* die(); */
 
-			//debug($this->request->data);debug($client);die();
 			$this->Reserve->create();
 			if ($this->Reserve->saveAssociated($this->request->data)) {
 				$data['content']['title'] = __('Good.');
@@ -553,7 +547,7 @@ class ReservesController extends AppController {
 				$data['reserve']['clientId'] = $this->Reserve->Client->id;
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
-				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
+				$data['reserve']['note'] = '';
 				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 			} else {
@@ -1632,9 +1626,6 @@ class ReservesController extends AppController {
 	/* SECURITY CHECK */
 	/* Verify if the logged user isn't admin and the reserve atempted to modify is inside a winery that he manages */
 	private function reserveSecurityCheck($reserveId){
-
-
-		//Bring al IDs of user winery's tour
 		$tours = $this->Reserve->Tour->find('all', array('conditions' => array('Tour.winery_id' => $this->Auth->user('winery_id')), 'fields' => array('id'), 'contain' => false));
 		$toursAllowedIds = [];
 
