@@ -475,6 +475,7 @@ class ReservesController extends AppController {
 	}
 
 	public function iframe_add(){
+		header('Access-Control-Allow-Origin:*');
 		$this->request->allowMethod('ajax'); //Call only with .json at end on url
 		//Check if request is post or put
 		if ($this->request->is('post') || $this->request->is('put')) {
