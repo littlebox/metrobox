@@ -50,11 +50,15 @@
 				<th>Bodegas</th>
 				<th>Reservas T.</th>
 				<th>Reservas W.</th>
+				<th>Reservas I.</th>
 				<th>Personas T.</th>
 				<th>Personas W.</th>
+				<th>Personas I.</th>
 				<th>% Pesonas W.</th>
+				<th>% Pesonas I.</th>
 				<th>Ingresos T.</th>
 				<th>Ingresos W.</th>
+				<th>Ingresos I.</th>
 				<th>Detalles</th>
 			</thead>
 			<tbody>
@@ -63,11 +67,15 @@
 					<td><?= $element['winery_name']; ?></td>
 					<td><?= $element['count_reserves']; ?></td>
 					<td><?= $element['count_reserves_web']; ?></td>
+					<td><?= $element['count_reserves_iframe']; ?></td>
 					<td><?= $element['count_persons']; ?></td>
 					<td><?= $element['count_persons_web']; ?></td>
 					<td><?= $element['percent_persons_web']; ?></td>
+					<td><?= $element['count_persons_iframe']; ?></td>
+					<td><?= $element['percent_persons_iframe']; ?></td>
 					<td><?= $element['total_reserves']; ?></td>
 					<td><?= $element['total_reserves_web']; ?></td>
+					<td><?= $element['total_reserves_iframe']; ?></td>
 					<td><?= $element['actions']; ?></td>
 				</tr>
 				<?php endforeach; ?>

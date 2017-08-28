@@ -600,6 +600,7 @@ class WineriesController extends AppController {
 							'price',
 							'minors_price',
 							'from_web',
+							'from_iframe',
 						),
 						'conditions' => array(
 							'Reserve.date >=' => $from,
@@ -623,9 +624,13 @@ class WineriesController extends AppController {
 			$count_minors = 0;
 			$total_reserves = 0;
 			$count_reserves_web = 0;
+			$count_reserves_iframe = 0;
 			$count_adults_web = 0;
 			$count_minors_web = 0;
+			$count_adults_iframe = 0;
+			$count_minors_iframe = 0;
 			$total_reserves_web = 0;
+			$total_reserves_iframe = 0;
 
 			foreach($winery['Tour'] as $tour){
 				foreach($tour['Reserve'] as $reserve){
@@ -639,27 +644,43 @@ class WineriesController extends AppController {
 						$count_minors_web += $reserve['number_of_minors'];
 						$total_reserves_web += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
 					}
+					if($reserve['from_iframe']){
+						$count_reserves_iframe++;
+						$count_adults_iframe += $reserve['number_of_adults'];
+						$count_minors_iframe += $reserve['number_of_minors'];
+						$total_reserves_iframe += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+					}
 				}
 			}
 			$winery['count_reserves'] = $count_reserves;
 			$winery['count_adults'] = $count_adults;
 			$winery['count_minors'] = $count_minors;
 			$winery['total_reserves'] = $total_reserves;
+
 			$winery['count_reserves_web'] = $count_reserves_web;
 			$winery['count_adults_web'] = $count_adults_web;
 			$winery['count_minors_web'] = $count_minors_web;
 			$winery['total_reserves_web'] = $total_reserves_web;
+
+			$winery['count_reserves_iframe'] = $count_reserves_iframe;
+			$winery['count_adults_iframe'] = $count_adults_iframe;
+			$winery['count_minors_iframe'] = $count_minors_iframe;
+			$winery['total_reserves_iframe'] = $total_reserves_iframe;
 
 			// $container->data[] = [
 			$data[] = array(
 				'winery_name' => $winery['Winery']['name'], //Bodega
 				'count_reserves' => $winery['count_reserves'], //Reservas Totales
 				'count_reserves_web' => $winery['count_reserves_web'], //Reservas Web
+				'count_reserves_iframe' => $winery['count_reserves_iframe'], //Reservas Iframe
 				'count_persons' => $winery['count_adults']+$winery['count_minors'], //Personas
 				'count_persons_web' => $winery['count_adults_web']+$winery['count_minors_web'], //Personas Web
 				'percent_persons_web' => (($winery['count_adults']+$winery['count_minors']) == 0) ? 0 : round(($winery['count_adults_web']+$winery['count_minors_web'])*100/($winery['count_adults']+$winery['count_minors']))."%", //% Web
+				'count_persons_iframe' => $winery['count_adults_iframe']+$winery['count_minors_iframe'], //Personas Iframe
+				'percent_persons_iframe' => (($winery['count_adults']+$winery['count_minors']) == 0) ? 0 : round(($winery['count_adults_iframe']+$winery['count_minors_iframe'])*100/($winery['count_adults']+$winery['count_minors']))."%", //% Iframe
 				'total_reserves' => $winery['total_reserves'], //Total Ingresos
 				'total_reserves_web' => $winery['total_reserves_web'], //Total Ingresos
+				'total_reserves_iframe' => $winery['total_reserves_iframe'], //Total Ingresos
 				'actions' => '<button onclick="showDetails('.$winery['Winery']['id'].')" href="javascript:;" class="btn btn-sm btn-outline grey-salsa"><i class="fa fa-search"></i> Detalles</button>', //Detalles
 			);
 
