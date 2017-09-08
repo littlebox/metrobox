@@ -493,19 +493,20 @@ class ReservesController extends AppController {
 			$this->request->data = $json;
 
 			//Bring prices
-			$tour_prices = $this->Reserve->Tour->find('first', array(
+			$tour = $this->Reserve->Tour->find('first', array(
 				'conditions' => array(
 					'Tour.id' => $this->request->data['Reserve']['tour_id'],
 				),
 				'fields' => array(
 					'id',
+					'name',
 					'price',
 					'minors_price',
 				)
 			));
 			//Set actual prices in reserve
-			$this->request->data['Reserve']['price'] = $tour_prices['Tour']['price'];
-			$this->request->data['Reserve']['minors_price'] = $tour_prices['Tour']['minors_price'];
+			$this->request->data['Reserve']['price'] = $tour['Tour']['price'];
+			$this->request->data['Reserve']['minors_price'] = $tour['Tour']['minors_price'];
 
 			//Generate token for review
 			$this->request->data['Reserve']['review_token'] = Security::hash(String::uuid(),'sha512',true);
@@ -514,6 +515,8 @@ class ReservesController extends AppController {
 
 			/* debug($this->request->data); */
 			/* die(); */
+
+			$tour_name = $tour['Tour']['name'];
 
 			$this->Reserve->create();
 			if ($this->Reserve->saveAssociated($this->request->data)) {
@@ -550,6 +553,28 @@ class ReservesController extends AppController {
 				$data['reserve']['note'] = '';
 				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
+
+
+				//Client Email
+				$clientEmail = new CakeEmail();
+				$clientEmail->config('smtp'); //read settings from config/email.php
+				$clientEmail->emailFormat('html');
+				$clientEmail->viewVars(array('id' => $data['reserve']['id']));
+				$clientEmail->viewVars(array('client_name' => $data['reserve']['clientName']));
+				$clientEmail->viewVars(array('title' => $tour_name));
+				$clientEmail->viewVars(array('date' => $this->request->data['Reserve']['date'].' - '.$this->request->data['Reserve']['time'] ));
+				$clientEmail->viewVars(array('email'=> $this->request->data['Client']['email'] ));
+				$clientEmail->viewVars(array('full_name'=> $this->request->data['Client']['full_name'] ));
+				$clientEmail->viewVars(array('birth_date' => $this->request->data['Client']['birth_date'] ));
+				$clientEmail->viewVars(array('country' => $this->request->data['Client']['country'] ));
+				$clientEmail->viewVars(array('phone' => $this->request->data['Client']['phone'] ));
+				$clientEmail->viewVars(array('adults' => $this->request->data['Reserve']['number_of_adults'] ));
+				$clientEmail->viewVars(array('minors' => $this->request->data['Reserve']['number_of_minors'] ));
+				//Just one winery with iframe for now
+				$clientEmail->template('iframe_susanabalbo_user_reserve_confirmation', 'sbalbo');
+				$clientEmail->subject(__('New Reserve'));
+				$clientEmail->to($data['reserve']['clientEmail']);
+				$clientEmail->send();
 			} else {
 				// debug($this->Reserve->validationErrors); die();
 				$data['error'] = __('The reserve could not be saved. Please, try again.');
