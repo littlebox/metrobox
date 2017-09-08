@@ -757,6 +757,7 @@ class WineriesController extends AppController {
 						'price',
 						'minors_price',
 						'from_web',
+						'from_iframe',
 					),
 					'conditions' => array(
 						'Reserve.date >=' => $from,
@@ -783,6 +784,10 @@ class WineriesController extends AppController {
 			$count_adults_web = 0;
 			$count_minors_web = 0;
 			$total_reserves_web = 0;
+			$count_reserves_iframe = 0;
+			$count_adults_iframe = 0;
+			$count_minors_iframe = 0;
+			$total_reserves_iframe = 0;
 
 			foreach($tour['Reserve'] as $reserve){
 				$count_reserves++;
@@ -795,6 +800,12 @@ class WineriesController extends AppController {
 					$count_minors_web += $reserve['number_of_minors'];
 					$total_reserves_web += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
 				}
+				if($reserve['from_iframe']){
+					$count_reserves_iframe++;
+					$count_adults_iframe += $reserve['number_of_adults'];
+					$count_minors_iframe += $reserve['number_of_minors'];
+					$total_reserves_iframe += (($reserve['number_of_adults']*$reserve['price'])+($reserve['number_of_minors']*$reserve['minors_price']));
+				}
 			}
 
 			$tour['count_reserves'] = $count_reserves;
@@ -805,18 +816,26 @@ class WineriesController extends AppController {
 			$tour['count_adults_web'] = $count_adults_web;
 			$tour['count_minors_web'] = $count_minors_web;
 			$tour['total_reserves_web'] = $total_reserves_web;
+			$tour['count_reserves_iframe'] = $count_reserves_iframe;
+			$tour['count_adults_iframe'] = $count_adults_iframe;
+			$tour['count_minors_iframe'] = $count_minors_iframe;
+			$tour['total_reserves_iframe'] = $total_reserves_iframe;
 
 			// $container->data[] = [
 			$data[] = array(
 				'tour_name' => $tour['Tour']['name'],
 				'count_reserves' => $tour['count_reserves'],
 				'count_reserves_web' => $tour['count_reserves_web'],
+				'count_reserves_iframe' => $tour['count_reserves_iframe'],
 				'count_adults' => $tour['count_adults'],
 				'count_adults_web' => $tour['count_adults_web'],
+				'count_adults_iframe' => $tour['count_adults_iframe'],
 				'count_minors' => $tour['count_minors'],
 				'count_minors_web' => $tour['count_minors_web'],
+				'count_minors_iframe' => $tour['count_minors_iframe'],
 				'total_reserves' => $tour['total_reserves'],
 				'total_reserves_web' => $tour['total_reserves_web'],
+				'total_reserves_iframe' => $tour['total_reserves_iframe'],
 				'actions' => '<button onclick="showDetails('.$tour['Tour']['id'].')" href="javascript:;" class="btn btn-sm btn-outline grey-salsa"><i class="fa fa-search"></i> Detalles</button>',
 			);
 

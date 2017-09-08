@@ -50,12 +50,16 @@
 				<th>Tour</th>
 				<th>Reservas T.</th>
 				<th>Reservas W.</th>
+				<th>Reservas I.</th>
 				<th>Adultos T.</th>
 				<th>Adultos W.</th>
+				<th>Adultos I.</th>
 				<th>Menores T.</th>
 				<th>Menores W.</th>
+				<th>Menores I.</th>
 				<th>Ingresos T.</th>
 				<th>Ingresos W.</th>
+				<th>Ingresos I.</th>
 				<th>Detalles</th>
 			</thead>
 			<tbody>
@@ -64,12 +68,16 @@
 					<td><?= $element['tour_name']; ?></td>
 					<td><?= $element['count_reserves']; ?></td>
 					<td><?= $element['count_reserves_web']; ?></td>
+					<td><?= $element['count_reserves_iframe']; ?></td>
 					<td><?= $element['count_adults']; ?></td>
 					<td><?= $element['count_adults_web']; ?></td>
+					<td><?= $element['count_adults_iframe']; ?></td>
 					<td><?= $element['count_minors']; ?></td>
 					<td><?= $element['count_minors_web']; ?></td>
+					<td><?= $element['count_minors_iframe']; ?></td>
 					<td><?= $element['total_reserves']; ?></td>
 					<td><?= $element['total_reserves_web']; ?></td>
+					<td><?= $element['total_reserves_iframe']; ?></td>
 					<td><?= $element['actions']; ?></td>
 				</tr>
 				<?php endforeach; ?>

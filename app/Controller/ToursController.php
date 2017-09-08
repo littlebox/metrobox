@@ -304,6 +304,7 @@ class ToursController extends AppController {
 				'price',
 				'minors_price',
 				'from_web',
+				'from_iframe',
 				'date',
 				'created',
 			),
@@ -342,6 +343,7 @@ class ToursController extends AppController {
 				'price_minors' => $reserve['Reserve']['minors_price'],
 				// 'from_web' => $reserve['Reserve']['from_web'] ? '<i class="fa fa-check font-green"></i>' : '<i class="fa fa-times font-red"></i>',
 				'from_web' => $reserve['Reserve']['from_web'] ? 'Si' : 'No',
+				'from_iframe' => $reserve['Reserve']['from_iframe'] ? 'Si' : 'No',
 				'total' => ($reserve['Reserve']['number_of_adults']*$reserve['Reserve']['price'])+($reserve['Reserve']['number_of_minors']*$reserve['Reserve']['minors_price']),
 			);
 		}

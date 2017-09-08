@@ -55,6 +55,7 @@
 				<th>Menores</th>
 				<th>Precio Menores</th>
 				<th>Web</th>
+				<th>Iframe</th>
 				<th>Total $</th>
 			</thead>
 			<tbody>
@@ -68,6 +69,7 @@
 					<td><?= $element['count_minors']; ?></td>
 					<td><?= $element['price_minors']; ?></td>
 					<td><?= $element['from_web']; ?></td>
+					<td><?= $element['from_iframe']; ?></td>
 					<td><?= $element['total']; ?></td>
 				</tr>
 				<?php endforeach; ?>
