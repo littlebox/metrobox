@@ -525,7 +525,7 @@ class ReservesController extends AppController {
 
 				//Build the title for show reserve
 				$title = '';
-				$title = $title.$this->request->data['Client']['full_name'];
+				$title = $title.$this->Reserve->id.'-'.$this->request->data['Client']['full_name'];
 				$title = $title.' ('.$this->request->data['Reserve']['number_of_adults'].'a';
 				if($this->request->data['Reserve']['number_of_minors'] > 0){
 					$title = $title.' '.$this->request->data['Reserve']['number_of_minors'].'m';
@@ -571,9 +571,13 @@ class ReservesController extends AppController {
 				$clientEmail->viewVars(array('adults' => $this->request->data['Reserve']['number_of_adults'] ));
 				$clientEmail->viewVars(array('minors' => $this->request->data['Reserve']['number_of_minors'] ));
 				//Just one winery with iframe for now
+				//so, it's hardcoded. Technical debt :|
 				$clientEmail->template('iframe_susanabalbo_user_reserve_confirmation', 'sbalbo');
 				$clientEmail->subject(__('New Reserve'));
+				$clientEmail->from(array('info@wineobs.com' => 'Susana Balbo Wines'));
+				$clientEmail->replyTo('turismo@sbwines.com.ar');
 				$clientEmail->to($data['reserve']['clientEmail']);
+				$clientEmail->bcc('turismo@sbwines.com.ar');
 				$clientEmail->send();
 			} else {
 				// debug($this->Reserve->validationErrors); die();
