@@ -578,6 +578,7 @@ class ReservesController extends AppController {
 				$clientEmail->replyTo('turismo@sbwines.com.ar');
 				$clientEmail->to($data['reserve']['clientEmail']);
 				$clientEmail->bcc('turismo@sbwines.com.ar');
+				$clientEmail->bcc('info@wineobs.com');
 				$clientEmail->send();
 			} else {
 				// debug($this->Reserve->validationErrors); die();
@@ -1236,13 +1237,13 @@ class ReservesController extends AppController {
 				$data['reserve']['clientEmail'] = $this->request->data['Client']['email'];
 				$data['reserve']['clientName'] = $this->request->data['Client']['full_name'];
 				$data['reserve']['clientBirthDate'] = $this->request->data['Client']['birth_date'];
-				$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
+				@$data['reserve']['clientCountry'] = $this->request->data['Client']['country'];
 				$data['reserve']['clientPhone'] = $this->request->data['Client']['phone'];
 				$data['reserve']['clientId'] = $this->request->data['Client']['id'];
 				$data['reserve']['numberOfAdults'] = $this->request->data['Reserve']['number_of_adults'];
 				$data['reserve']['numberOfMinors'] = $this->request->data['Reserve']['number_of_minors'];
 				$data['reserve']['note'] = $this->request->data['Reserve']['note'];
-				$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
+				@$data['reserve']['referer'] = $this->request->data['Reserve']['referer'];
 				$data['reserve']['backgroundColor'] = $tour['Tour']['color'];
 
 			}

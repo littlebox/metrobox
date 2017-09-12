@@ -791,6 +791,7 @@ var reserves = {
 
 		function addIsFromIframe(reserve, element){
 			if(reserve.from_iframe){
+				element.find('.fc-content').prepend("<span class=\"fc-reservation-code\" style=\"white-space:nowrap;font-weight:bold;\">Cód: SBALBO-"+reserve.id+"</span>");
 				element.find('.fc-time').append("<i class=\"fa fa-exchange\" alt=\"Desde iframe\"></i>");
 			}
 		}
