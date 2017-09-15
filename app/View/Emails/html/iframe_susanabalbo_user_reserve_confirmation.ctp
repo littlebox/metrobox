@@ -11,7 +11,7 @@
 		<tbody>
 			<tr style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
 				<td style="margin:0;padding:0;font-family:&quot;Helvetica Neue&quot;,&quot;Helvetica&quot;,Helvetica,Arial,sans-serif">
-				<?php echo __("New Reserve")?> <span>Cod: #SBALBO-<?php echo $id;?>#</span>:
+				<?php echo __("New Reserve")?>
 					<br>
 					<br>
 					<table>
