@@ -578,6 +578,7 @@ class ReservesController extends AppController {
 				$clientEmail->replyTo('turismo@sbwines.com.ar');
 				$clientEmail->to($data['reserve']['clientEmail']);
 				$clientEmail->bcc('turismo@sbwines.com.ar');
+				$clientEmail->bcc('turismo@dominiodelplata.com.ar');
 				$clientEmail->bcc('info@wineobs.com');
 				$clientEmail->send();
 			} else {
