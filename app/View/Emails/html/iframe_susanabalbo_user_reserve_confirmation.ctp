@@ -20,6 +20,7 @@
 						<tr><td style="font-weight:bold;"><?php echo __("Email")?></td><td> <?php echo __($email)?></td></tr>
 						<tr><td style="font-weight:bold;"><?php echo __("Adults")?></td><td> <?php echo __($adults)?></td></tr>
 						<tr><td style="font-weight:bold;"><?php echo __("Childs")?></td><td> <?php echo __($minors)?></td></tr>
+						<tr><td style="font-weight:bold;"><?php echo __("Price")?></td><td> <?php echo "$".__($adults*$price + $minors*$minors_price)?></td></tr>
 					</table>
 				</td>
 			</tr>

@@ -570,6 +570,8 @@ class ReservesController extends AppController {
 				$clientEmail->viewVars(array('phone' => $this->request->data['Client']['phone'] ));
 				$clientEmail->viewVars(array('adults' => $this->request->data['Reserve']['number_of_adults'] ));
 				$clientEmail->viewVars(array('minors' => $this->request->data['Reserve']['number_of_minors'] ));
+				$clientEmail->viewVars(array('price' => $this->request->data['Reserve']['price'] ));
+				$clientEmail->viewVars(array('minors_price' => $this->request->data['Reserve']['minors_price'] ));
 				//Just one winery with iframe for now
 				//so, it's hardcoded. Technical debt :|
 				$clientEmail->template('iframe_susanabalbo_user_reserve_confirmation', 'sbalbo');
@@ -578,8 +580,8 @@ class ReservesController extends AppController {
 				$clientEmail->replyTo('turismo@sbwines.com.ar');
 				$clientEmail->to($data['reserve']['clientEmail']);
 				$clientEmail->bcc('turismo@sbwines.com.ar');
-				$clientEmail->bcc('turismo@dominiodelplata.com.ar');
-				$clientEmail->bcc('info@wineobs.com');
+				$clientEmail->addBcc('turismo@dominiodelplata.com.ar');
+				$clientEmail->addBcc('info@wineobs.com');
 				$clientEmail->send();
 			} else {
 				// debug($this->Reserve->validationErrors); die();
